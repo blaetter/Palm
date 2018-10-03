@@ -1,0 +1,11 @@
+# palm.libraries.yml
+global-styling:
+  version: 1.x
+  css:
+    theme:
+      css/portal.css: {}
+      'https://use.typekit.net/ulf4ijs.css': {type: external}
+global-scripts:
+  version: 1.x
+  js:
+    js/portal.js: {}

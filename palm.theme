@@ -1,0 +1,89 @@
+<?php
+
+use Drupal\block\Entity\Block;
+use Drupal\Core\Render\Markup;
+
+/**
+ * Implements hook template_prepocess_page_title
+ *
+ * We use this to add a class to the page title, depending on the type of page
+ * that is displayed. Currently we set:
+ *
+ *  - heading--article on all nodes
+ *
+ * @param array $variables The Drupal render array that goes into the template
+ *
+ * @return void
+ */
+function palm_preprocess_page_title(&$variables)
+{
+  if ($node = \Drupal::request()->attributes->get('node')) {
+    $variables['title_attributes']['class'][] = 'heading--article';
+  }
+}
+
+/**
+ * Implements hook template_preprocess_field__node__body
+ *
+ * We use this to add an extra class to the first paragraph of the body field as we want to have an initial there for
+ * every configured node type.
+ * In order to do so, we need to recreate the complete markup for the body field.
+ * We only want to do that on the full node view_mode
+ *
+ * @param array $variables The Drupal render array that goes into the template
+ *
+ * @return void
+ */
+function palm_preprocess_field__node__body(&$variables)
+{
+  if ('full' == $variables['element']['#view_mode']) {
+    $palm_initial_nodetypes = theme_get_setting('palm_initial_nodetypes');
+    if (!empty($palm_initial_nodetypes) && in_array($variables['element']['#bundle'], $palm_initial_nodetypes)) {
+      $original_body = preg_replace(
+        '/<p>/i',
+        '<p class="initiale">',
+        $variables['items'][0]['content']['#text'],
+        1
+      );
+      $variables['items'][0]['content'] = Markup::create($original_body);
+    }
+  }
+}
+
+/**
+ * Implementation of hook_theme_suggestions_block_alter
+ *
+ * We use this to implement template suggestions based on the region of the page.
+ *
+ * @see https://www.drupal.org/node/2011434
+ *
+ * @param array $suggestions The referenced suggestions array
+ * @param array $variables   The variables that are coming along with the suggestsions
+ *
+ * @return array $suggestions The suggestsions
+ */
+function palm_theme_suggestions_block_alter(array &$suggestions, array $variables)
+{
+  if (!empty($variables['elements']['#id'])) {
+    $block = Block::load($variables['elements']['#id']);
+    $suggestions[] = 'block__' . $block->getRegion();
+    $suggestions[] = 'block__' . $block->getRegion() . '__' . $variables['elements']['#id'];
+  }
+  return $suggestions;
+}
+
+/**
+ * This method helps to debug the deeply nested drupal arrays.
+ *
+ * @param mixed $data       The data to be logged
+ * @param boolean $keysonly Falg to display keys of the given data only
+ *
+ * @return void
+ */
+function palm_debug($data, $keysonly = false)
+{
+  if ($keysonly) {
+    $data = array_keys($data);
+  }
+  error_log(print_r($data,1));
+}

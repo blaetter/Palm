@@ -1,0 +1,16 @@
+{
+    "name": "drupal/palm",
+    "type": "drupal-theme",
+    "description": "Palm is the Drupal Theme for the website www.blaetter.de",
+    "keywords": [
+        "Drupal"
+    ],
+    "license": "GPL-2.0+",
+    "homepage": "https://github.com/blaetter/blaetter-theme",
+    "minimum-stability": "dev",
+    "version": "0.1-dev",
+    "support": {
+        "issues": "https://github.com/blaetter/blaetter-theme/issues",
+        "source": "https://github.com/blaetter/palm.git"
+    }
+}
