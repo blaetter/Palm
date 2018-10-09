@@ -1,0 +1,40 @@
+{#
+/**
+ * @file
+ * Theme override to display a view of unformatted rows.
+ *
+ * Available variables:
+ * - title: The title of this group of rows. May be empty.
+ * - rows: A list of the view's row items.
+ *   - attributes: The row's HTML attributes.
+ *   - content: The row's content.
+ * - view: The view object.
+ * - default_row_class: A flag indicating whether default classes should be
+ *   used on rows.
+ *
+ * @see template_preprocess_views_view_unformatted()
+ */
+#}
+{% if title %}
+    <h3>{{ title }}</h3>
+{% endif %}
+{% for row in rows %}
+    {%
+    set row_classes = [
+      default_row_class ? 'views-row',
+      'block',
+      'teaser',
+      'teaser--marginal'
+    ]
+    %}
+    {% set teaser_title = row.content['#view'].style_plugin.render_tokens[loop.index0]['{{ title }}'] %}
+    {% set teaser_author = row.content['#view'].style_plugin.render_tokens[loop.index0]['{{ field_autoren }}'] %}
+    {% set teaser_image = row.content['#view'].style_plugin.render_tokens[loop.index0]['{{ field_primary_picture }}'] %}
+    <article{{ row.attributes.addClass(row_classes) }}>
+        {{ teaser_image }}
+        <div class="inner">
+          {{ teaser_title }}
+          {{ teaser_author }}
+        </div>
+    </article>
+{% endfor %}
