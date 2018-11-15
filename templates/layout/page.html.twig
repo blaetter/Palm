@@ -53,18 +53,9 @@
                     <img src="/themes/contrib/palm/images/logo-blaetter.png"/>
                 </a>
             </div>
-            <div class="meta">
-                <a href="{{ path('nodeshop.showCart') }}" class="portal-head__cart">
-                    <i class="fa fa-shopping-cart" aria-hidden="true"></i>
-                </a>
-                <a href="#" class="portal-head__search">
-                    <i class="fa fa-search" aria-hidden="true"></i>
-                </a>
-                <a href="#" class="portal-head__hamburger">
-                    <i class="fa fa-bars" aria-hidden="true"></i>
-                </a>
-            </div>
+            {{ page.navigation }}
         </div>
+        {{ page.flyout }}
     </div>
     {#{ page.header }#}
   </header>
@@ -99,11 +90,8 @@
           <!-- NO CONTENT HERE -->
       </div><!-- /grid__item -->
 
-      {% if page.sidebar_first %}
-        <aside class="marginal grid__item two-tenths content-right" role="complementary">
-          {{ page.sidebar_first }}
-        </aside>
-      {% endif %}
+      {{ page.sidebar_first }}
+
     </div>
   </div>
 </div>

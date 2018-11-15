@@ -10,6 +10,8 @@ logo: images/logo-blaetter.png
 version: 1.0.0
 regions:
   header: Header
+  navigation: Navigation
+  flyout: Flyout
   content: Content
   sidebar_first: 'Sidebar first'
   footer: Footer

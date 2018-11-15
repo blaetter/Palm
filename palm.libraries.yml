@@ -8,4 +8,4 @@ global-styling:
 global-scripts:
   version: 1.x
   js:
-    js/portal.js: {}
+    js/portal.js: {attributes: {id: 'echo-behavior-js'}}
