@@ -59,8 +59,6 @@ function palm_preprocess_field__node__body(&$variables)
  *
  * @param array $suggestions The referenced suggestions array
  * @param array $variables   The variables that are coming along with the suggestsions
- *
- * @return array $suggestions The suggestsions
  */
 function palm_theme_suggestions_block_alter(array &$suggestions, array $variables)
 {
@@ -71,6 +69,26 @@ function palm_theme_suggestions_block_alter(array &$suggestions, array $variable
   }
   return $suggestions;
 }
+
+/**
+ * Implementation of hook_theme_suggestions_field_alter
+ *
+ * We use this to implement template suggestions based on the display mode of the field.
+ *
+ * @see https://www.drupal.org/project/zurb_foundation/issues/2962578
+ *
+ * @param array $suggestions The referenced suggestions array
+ * @param array $variables   The variables that are coming along with the suggestsions
+ */
+function palm_theme_suggestions_field_alter(array &$suggestions, array $variables) {
+  $suggestion = 'field__' .
+    $variables['element']['#entity_type'] . '__' .
+    $variables['element']['#field_name'] . '__' .
+    $variables['element']['#view_mode'];
+  $suggestions[] = $suggestion;
+  return $suggestions;
+}
+
 
 /**
  * This method helps to debug the deeply nested drupal arrays.

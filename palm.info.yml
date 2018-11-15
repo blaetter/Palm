@@ -12,6 +12,7 @@ regions:
   header: Header
   navigation: Navigation
   flyout: Flyout
+  hero: Hero
   content: Content
   sidebar_first: 'Sidebar first'
   footer: Footer
