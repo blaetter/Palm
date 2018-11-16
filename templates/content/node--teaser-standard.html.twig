@@ -74,35 +74,13 @@
     <div{{ content_attributes.addclass('image') }}>
         {{ content.field_primary_picture }}
     </div>
-    <div class="body">
-        <h2{{ title_attributes.addclass('heading') }}>
+    <div class="inner">
+        <h3{{ title_attributes.addclass('heading') }}>
             <a href="{{ url }}" rel="bookmark">{{ label }}</a>
-        </h2>
+        </h3>
         {{ content.field_autoren }}
+        <p class="text">
+            {{ content.body }}
+        </p>
     </div>
 </article>
-
-
-
-<!--article class="block teaser teaser--vertical">
-
-    <div class="image">
-        <a href="#">
-            <img src="https://picsum.photos/300/169/?image=883" alt="Bildbeschreibung">
-        </a>
-        <p class="source">© picsum.photos</p>
-    </div>
-    <div class="inner">
-        <h3 class="heading">
-            <a href="">
-                Die Rückkehr der Grenzen
-            </a>
-        </h3>
-        <p class="author">von
-            <a href="#" class="author-name">Micha Brumlik</a>
-        </p>
-        <p class="text">
-            Es sind keineswegs nur rechte Bewegungen, die heute eine Rückkehr zum klassischen Nationalstaat betreiben. Auch in der Linken ...
-        </p>
-    </div>
-</article-->
