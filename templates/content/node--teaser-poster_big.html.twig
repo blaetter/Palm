@@ -70,14 +70,15 @@
  *   in different view modes.
  */
 #}
-<article{{ attributes.addClass('homepage-heroimage') }}>
-  <div{{ content_attributes.addClass('image') }}>
-      {{ content.field_primary_picture }}
-  </div>
-  <div class="body">
-    <h2{{ title_attributes.addClass('heading') }}>
-      <a href="{{ url }}" rel="bookmark">{{ label }}</a>
-    </h2>
-    {{ content.field_autoren }}
-  </div>
+<article{{ attributes.addclass(['block', 'teaser', 'teaser--poster']) }}>
+    <div{{ content_attributes.addclass('image') }}>
+        {{ content.field_primary_picture }}
+    </div>
+    <div class="inner">
+        <h3{{ title_attributes.addclass('heading') }}>
+            <a href="{{ url }}" rel="bookmark">{{ label }}</a>
+        </h3>
+        {{ content.field_autoren }}
+    </div>
 </article>
+
