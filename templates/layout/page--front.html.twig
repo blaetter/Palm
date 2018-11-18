@@ -69,10 +69,22 @@
     </main>
     <footer class="page-wrapper__inner" id="footer">
       {% if page.footer %}
-          <footer role="contentinfo">
-              {{ page.footer }}
-          </footer>
+        {{ page.footer }}
       {% endif %}
+        <img class="logo" src="/themes/contrib/palm/images/logo-blaetter-footer.png">
+        <p>
+            <span class="heading">
+                »Eine Insel der Vernuft
+                <br>
+                in einem Meer von Unsinn«
+            </span>
+            <span class="author">
+                Karl Barth
+            </span>
+            <span class="copyright">
+                © Blätter Gesellschaft mbH, {{ "now"|date("Y") }}
+            </span>
+        </p>
     </footer>
   </div>
 </div>
