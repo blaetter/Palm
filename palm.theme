@@ -89,6 +89,25 @@ function palm_theme_suggestions_field_alter(array &$suggestions, array $variable
   return $suggestions;
 }
 
+/**
+ * Implementation of template_preprocess_node
+ *
+ * @param array $variables The reference to the variable array
+ * @return void
+ */
+function palm_preprocess_node(&$variables)
+{
+    if ('teaser_dossier' == $variables['elements']['#view_mode']) {
+        $variables['dossier_articles'] = [
+            '#type' => 'view',
+            '#name' => 'blaetter_dossiers',
+            '#display_id' => 'block_1',
+            '#arguments' => [
+                $variables['node']->field_dossier->target_id,
+            ],
+        ];
+    }
+}
 
 /**
  * This method helps to debug the deeply nested drupal arrays.
