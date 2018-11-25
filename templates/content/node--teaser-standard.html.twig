@@ -78,9 +78,13 @@
         <h3{{ title_attributes.addclass('heading') }}>
             <a href="{{ url }}" rel="bookmark">{{ label }}</a>
         </h3>
-        {{ content.field_autoren }}
-        <p class="text">
+        {% if content.field_autoren|render %}
+          {{ content.field_autoren }}
+        {% endif %}
+        {% if content.body|render %}
+          <p class="text">
             {{ content.body }}
-        </p>
+          </p>
+        {% endif %}
     </div>
 </article>
