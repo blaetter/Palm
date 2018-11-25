@@ -2,6 +2,7 @@
 
 use Drupal\block\Entity\Block;
 use Drupal\Core\Render\Markup;
+use Drupal\taxonomy\Entity\Term;
 
 /**
  * Implements hook template_prepocess_page_title
@@ -47,6 +48,23 @@ function palm_preprocess_field__node__body(&$variables)
       );
       $variables['items'][0]['content'] = Markup::create($original_body);
     }
+  }
+}
+
+/**
+ * Implementation of hook_theme_suggestions_page_alter
+ *
+ * @param [type] $suggestions
+ * @param [type] $vars
+ * @return void
+ */
+function palm_theme_suggestions_page_alter(&$suggestions, &$vars) {
+  if (\Drupal::routeMatch()->getRouteName() == 'entity.taxonomy_term.canonical'
+    && $tid = \Drupal::routeMatch()->getRawParameter('taxonomy_term')
+  ) {
+      $term = Term::load($tid);
+      $suggestions[] = 'page__taxonomy';
+      $suggestions[] = 'page__taxonomy__' . $term->getVocabularyId();
   }
 }
 
