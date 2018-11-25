@@ -66,6 +66,10 @@ function palm_theme_suggestions_page_alter(&$suggestions, &$vars) {
       $suggestions[] = 'page__taxonomy';
       $suggestions[] = 'page__taxonomy__' . $term->getVocabularyId();
   }
+  if ($node = \Drupal::routeMatch()->getParameter('node')) {
+      $content_type = $node->bundle();
+      $suggestions[] = 'page__'.$content_type;
+  }
 }
 
 /**
