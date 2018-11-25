@@ -59,6 +59,8 @@ function palm_preprocess_field__node__body(&$variables)
  * @return void
  */
 function palm_theme_suggestions_page_alter(&$suggestions, &$vars) {
+
+  // create suggestions based on the taxonomy
   if (\Drupal::routeMatch()->getRouteName() == 'entity.taxonomy_term.canonical'
     && $tid = \Drupal::routeMatch()->getRawParameter('taxonomy_term')
   ) {
@@ -66,10 +68,19 @@ function palm_theme_suggestions_page_alter(&$suggestions, &$vars) {
       $suggestions[] = 'page__taxonomy';
       $suggestions[] = 'page__taxonomy__' . $term->getVocabularyId();
   }
+
+  // create suggestions based on the content type
   if ($node = \Drupal::routeMatch()->getParameter('node')) {
       $content_type = $node->bundle();
-      $suggestions[] = 'page__'.$content_type;
+      $suggestions[] = 'page__' . $content_type;
   }
+
+  // create suggestions based on the view_id
+  $view_id = \Drupal::routeMatch()->getParameter('view_id');
+  if (! empty($view_id)) {
+    $suggestions[] = 'page__' . $view_id;
+  }
+
 }
 
 /**
