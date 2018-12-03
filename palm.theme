@@ -11,6 +11,7 @@ use Drupal\taxonomy\Entity\Term;
  * that is displayed. Currently we set:
  *
  *  - heading--article on all nodes
+ *  - heading--bestellprozess on all cart routes and for users
  *
  * @param array $variables The Drupal render array that goes into the template
  *
@@ -20,6 +21,28 @@ function palm_preprocess_page_title(&$variables)
 {
   if ($node = \Drupal::request()->attributes->get('node')) {
     $variables['title_attributes']['class'][] = 'heading--article';
+  }
+  $cart_routes = [
+    'entity.user.cancel_form',
+    'entity.user.canonical',
+    'entity.user.canonical',
+    'entity.user.contact_form',
+    'entity.user.edit_form',
+    'nodeshop.finishedOrder',
+    'nodeshop.processOrder',
+    'nodeshop.showCart',
+    'user.login',
+    'user.page',
+    'user.password',
+    'user.register',
+    'user.reset.form',
+    'user.reset.login',
+    'user.reset',
+    'view.nodeshop_user_orders.page_1',
+    'view.nodeshop_user_orders.page_2',
+  ];
+  if (in_array(\Drupal::request()->get('_route'), $cart_routes)) {
+    $variables['title_attributes']['class'][] = 'heading--bestellprozess';
   }
 }
 
@@ -75,12 +98,16 @@ function palm_theme_suggestions_page_alter(&$suggestions, &$vars) {
       $suggestions[] = 'page__' . $content_type;
   }
 
+  // create suggestions for users
+  if ($node = \Drupal::routeMatch()->getParameter('user')) {
+      $suggestions[] = 'page__user';
+  }
+
   // create suggestions based on the view_id
   $view_id = \Drupal::routeMatch()->getParameter('view_id');
   if (! empty($view_id)) {
     $suggestions[] = 'page__' . $view_id;
   }
-
 }
 
 /**

@@ -16,3 +16,4 @@ regions:
   content: Content
   sidebar_first: 'Sidebar first'
   footer: Footer
+  user_left: 'User left'
