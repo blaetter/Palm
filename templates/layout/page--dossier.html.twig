@@ -1,7 +1,7 @@
 {#
 /**
  * @file
- * Theme override to display a single page.
+ * Theme override to display the page template for dossiers.
  *
  * The doctype, html, head and body tags are not in this template. Instead they
  * can be found in the html.html.twig template in this directory.
@@ -43,8 +43,7 @@
  * @see html.html.twig
  */
 #}
-<div class="layout-container page-wrapper">
-
+<div class="page-wrapper">
   <header role="banner" id="header">
     <div class="page-wrapper__inner">
         <div class="portal-head" role="banner">
@@ -57,44 +56,41 @@
         </div>
         {{ page.flyout }}
     </div>
-    {#{ page.header }#}
   </header>
   <div role="main" class="page-wrapper__inner" id="main">
-    <a id="main-content" tabindex="-1"></a>{# link is in html.html.twig #}
-
     <div class="grid content-wrapper-article">
       <div class="grid__item eight-tenths content-left">
-          <main class="content-left__inner">
-            {{ page.content }}
-          </main>
-          <footer class="page-wrapper__inner" id="footer">
-              {% if page.footer %}
-                  {{ page.footer }}
-              {% endif %}
-              <img class="logo" src="/themes/contrib/palm/images/logo-blaetter-footer.png">
-              <p>
-                  <span class="heading">
-                      »Eine Insel der Vernuft
-                      <br>
-                      in einem Meer von Unsinn«
-                  </span>
-                  <span class="author">
-                      Karl Barth
-                  </span>
-                  <span class="copyright">
-                      © Blätter Gesellschaft mbH,
-                      {{ "now"|date("Y") }}
-                  </span>
-              </p>
-          </footer>
+        <!-- DOSSIER HEADING: -->
+        <div class="heading--dossiercat">
+            <span class="text--red">Dossier</span> {{ node.field_dossier.entity.label }}
+        </div>
+        <main class="content content-left__inner">
+          {{ page.content }}
+        </main>
+        <footer class="page-wrapper__inner" id="footer">
+          {% if page.footer %}
+            {{ page.footer }}
+          {% endif %}
+          {% include 'themes/contrib/palm/templates/layout/_footer.html.twig' %}
+        </footer>
       </div>
       <!-- /grid__item -->
+      {% if page.sidebar_right %}
       <div class="grid__item two-tenths content-spacer">
           <!-- NO CONTENT HERE -->
-      </div><!-- /grid__item -->
-
-      {{ page.sidebar_right }}
-
+      </div>
+      <aside class="marginal grid__item two-tenths content-right">
+          {{ page.sidebar_right }}
+      </aside>
+      {% else %}
+      <div class="grid__item two-tenths content-spacer">
+          <!-- NO CONTENT HERE -->
+      </div>
+      <div class="grid__item two-tenths content-spacer">
+          <!-- NO CONTENT HERE -->
+      </div>
+      {% endif %}
+      <!-- /grid__item -->
     </div>
   </div>
 </div>

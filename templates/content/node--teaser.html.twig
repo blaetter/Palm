@@ -64,10 +64,6 @@
  *   is an administrator.
  *
  * @see template_preprocess_node()
- *
- * @todo Remove the id attribute (or make it a class), because if that gets
- *   rendered twice on a page this is invalid CSS for example: two lists
- *   in different view modes.
  */
 #}
 <article{{ attributes.addclass(['block', 'teaser', 'teaser--marginal']) }}>
@@ -78,9 +74,30 @@
         <h3{{ title_attributes.addclass('heading') }}>
             <a href="{{ url }}" rel="bookmark">{{ label }}</a>
         </h3>
-        {{ content.field_autoren }}
-        <p class="text">
+        {% if content.field_subtitle|render %}
+          <h4>{{ content.field_subtitle }}</h4>
+        {% endif %}
+        {% if content.field_autoren|render %}
+          {{ content.field_autoren }}
+        {% endif %}
+        {% if content.field_placeholder_issue|render %}
+            {{ content.field_placeholder_issue }}
+        {% endif %}
+        {% if content.field_themen | render %}
+          {{ content.field_themen }}
+        {% endif %}
+        {% if content.body|render %}
+          <p class="text">
             {{ content.body }}
-        </p>
+          </p>
+        {% endif %}
+        {{ content|without(
+          'field_primary_picture',
+          'field_subtitle',
+          'field_autoren',
+          'field_placeholder_issue',
+          'field_themen',
+          'body'
+        ) }}
     </div>
 </article>
