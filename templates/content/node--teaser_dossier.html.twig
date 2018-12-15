@@ -79,9 +79,6 @@
         <span class="text--red">Dossier</span>
         {{ dossier|striptags }}
     </div>
-    <div class="aside">
-        <a class="readmore" href="{{ url }}">Übersicht</a>
-    </div>
 </h2>
 
 <div class="block homepage-dosierteaser spaceless">
@@ -104,6 +101,7 @@
         </div>
         <div class="grid__item one-third">
             {{ dossier_articles }}
+            <p><a class="readmore" href="{{ url }}">Alle Texte</a></p>
         </div>
     </div>
 </div>
