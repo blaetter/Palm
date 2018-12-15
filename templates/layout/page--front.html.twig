@@ -47,15 +47,23 @@
       'flyout' : page.flyout
   } %}
 
-  <div role="main" class="page-wrapper__inner" id="main">
+  <main role="main" class="page-wrapper__inner" id="main">
     <a id="main-content" tabindex="-1"></a>
-    {{ page.hero }}
 
-    <main class="content-wrapper">
+    <div class="hero grid">
+        <div class="grid__item">
+            {{ page.hero }}
+        </div>
+    </div>
+
+    <div class="content-wrapper">
       {{ page.content }}
-    </main>
-    {% include 'themes/contrib/palm/templates/layout/_footer.html.twig' with {
-        'footer' : page.footer
-    } %}
-  </div>
+    </div>
+
+  </main>
+
+  {% include 'themes/contrib/palm/templates/layout/_footer.html.twig' with {
+      'footer' : page.footer
+  } %}
+
 </div>

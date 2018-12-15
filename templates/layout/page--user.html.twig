@@ -1,7 +1,7 @@
 {#
 /**
  * @file
- * Theme override to display the cart page.
+ * Theme override to display a single page.
  *
  * The doctype, html, head and body tags are not in this template. Instead they
  * can be found in the html.html.twig template in this directory.
@@ -27,7 +27,7 @@
  *   page's path (e.g. node/12345 and node/12345/revisions, but not
  *   comment/reply/12345).
  *
-* Regions:
+ * Regions:
  * - page.navigation: The Nsvigation region.
  * - page.flyout: The flyout region for the main navigation dropdown.
  * - page.hero: The hero region for the home page.
@@ -40,33 +40,40 @@
  * @see html.html.twig
  */
 #}
-<div class="page-wrapper">
+<div class="layout-container page-wrapper">
 
   {% include 'themes/contrib/palm/templates/layout/_header.html.twig' with {
       'navigation' : page.navigation,
       'flyout' : page.flyout
   } %}
 
-  <div role="main" class="page-wrapper__inner" id="main">
-    <div class="grid content-wrapper-bestellprozess">
-      <div class="grid__item">
-        <main class="content content__inner">
-          <div class="grid">
-            <div class="grid__item one-fourth">
-              {{ page.sidebar_left }}
-            </div>
-            <div class="grid__item three-fourths">
-              <div class="content__inner">
-                {{ page.content }}
-              </div>
-            </div>
-          </div>
+  <main role="main" class="page-wrapper__inner" id="main">
 
-        </main>
-        {% include 'themes/contrib/palm/templates/layout/_footer.html.twig' with {
-            'footer' : page.footer
-        } %}
+    <a id="main-content" tabindex="-1"></a>{# link is in html.html.twig #}
+
+    <div class="hero grid">
+      <div class="grid__item">
+      {{ page.hero }}
       </div>
     </div>
-  </div>
+
+    <div class="grid content-wrapper-article">
+      <div class="grid__item two-tenths content-spacer">
+        {{ page.sidebar_left }}
+      </div>
+      <!-- /grid__item -->
+      <div class="grid__item six-tenths content-left">
+            {{ page.content }}
+      </div>
+      <!-- /grid__item -->
+      <div class="grid__item two-tenths content-spacer">
+      </div>
+    </div>
+
+  </main>
+
+  {% include 'themes/contrib/palm/templates/layout/_footer.html.twig' with {
+      'footer' : page.footer
+  } %}
+
 </div>

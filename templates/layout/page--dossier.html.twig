@@ -1,3 +1,4 @@
+
 {#
 /**
  * @file
@@ -47,37 +48,36 @@
       'flyout' : page.flyout
   } %}
 
-  <div role="main" class="page-wrapper__inner" id="main">
-    <div class="grid content-wrapper-article">
-      <div class="grid__item eight-tenths content-left">
-        <!-- DOSSIER HEADING: -->
+  <main role="main" class="page-wrapper__inner" id="main">
+
+    <div class="hero grid">
+      <div class="grid__item">
         <div class="heading--dossiercat">
-            <span class="text--red">Dossier</span> {{ node.field_dossier.entity.label }}
+            <span class="text--red">Dossier</span>
+            {{ node.field_dossier.entity.label }}
         </div>
-        <main class="content content-left__inner">
+      </div>
+    </div>
+
+    <div class="grid content-wrapper-article">
+      <div class="grid__item two-tenths content-spacer">
+        {{ page.sidebar_left }}
+      </div>
+      <div class="grid__item six-tenths">
+        <main class="content">
           {{ page.content }}
         </main>
-        {% include 'themes/contrib/palm/templates/layout/_footer.html.twig' with {
-            'footer' : page.footer
-        } %}
       </div>
       <!-- /grid__item -->
-      {% if page.sidebar_right %}
       <div class="grid__item two-tenths content-spacer">
           <!-- NO CONTENT HERE -->
       </div>
-      <aside class="marginal grid__item two-tenths content-right">
-          {{ page.sidebar_right }}
-      </aside>
-      {% else %}
-      <div class="grid__item two-tenths content-spacer">
-          <!-- NO CONTENT HERE -->
-      </div>
-      <div class="grid__item two-tenths content-spacer">
-          <!-- NO CONTENT HERE -->
-      </div>
-      {% endif %}
-      <!-- /grid__item -->
     </div>
-  </div>
+
+  </main>
+
+  {% include 'themes/contrib/palm/templates/layout/_footer.html.twig' with {
+      'footer' : page.footer
+  } %}
+
 </div>

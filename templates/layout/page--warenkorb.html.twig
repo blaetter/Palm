@@ -40,23 +40,34 @@
  * @see html.html.twig
  */
 #}
-<div class="page-wrapper">
+<div class="layout-container page-wrapper">
 
-  {% include 'themes/contrib/palm/templates/layout/_header.html.twig' with {
-      'navigation' : page.navigation,
-      'flyout' : page.flyout
-  } %}
+    {% include 'themes/contrib/palm/templates/layout/_header.html.twig' with {
+        'navigation' : page.navigation,
+        'flyout' : page.flyout
+    } %}
 
-  <div role="main" class="page-wrapper__inner" id="main">
-    <div class="grid content-wrapper-bestellprozess">
-      <div class="grid__item">
-        <main class="content">
-          {{ page.content }}
-        </main>
-        {% include 'themes/contrib/palm/templates/layout/_footer.html.twig' with {
-            'footer' : page.footer
-        } %}
-      </div>
-    </div>
-  </div>
+    <main role="main" class="page-wrapper__inner" id="main">
+        <a id="main-content" tabindex="-1"></a>
+        {# link is in html.html.twig #}
+        <div class="hero grid">
+            <div class="grid__item">
+                {{ page.hero }}
+            </div>
+        </div>
+        <div class="grid content-wrapper-article">
+            <div class="grid__item two-tenths content-spacer"></div>
+            <!-- /grid__item -->
+            <div class="grid__item six-tenths content-left">
+                    {{ page.content }}
+            </div>
+            <!-- /grid__item -->
+            <div class="grid__item two-tenths content-spacer"></div>
+        </div>
+    </main>
+
+    {% include 'themes/contrib/palm/templates/layout/_footer.html.twig' with {
+        'footer' : page.footer
+    } %}
+
 </div>
