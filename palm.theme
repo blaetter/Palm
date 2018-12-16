@@ -19,10 +19,29 @@ use Drupal\taxonomy\Entity\Term;
  */
 function palm_preprocess_page_title(&$variables)
 {
+
+  $custom_headline_class = 'heading--bestellprozess';
+
+  // Title overrides for nodes goes here:
   if ($node = \Drupal::request()->attributes->get('node')) {
-    $variables['title_attributes']['class'][] = 'heading--article';
+    if ('ausgabe' == $node->getType()) {
+      $variables['title_prefix'] = t('Edition');
+      $variables['title_attributes']['class'][] = $custom_headline_class;
+    } else {
+      $variables['title_attributes']['class'][] = 'heading--article';
+    }
   }
-  $cart_routes = [
+  // Title overrides for taxonomies or vocabularies goes here:
+  if (\Drupal::routeMatch()->getRouteName() == 'entity.taxonomy_term.canonical') {
+    $term = Term::load(\Drupal::routeMatch()->getRawParameter('taxonomy_term'));
+    if ('themen' == $term->bundle()) {
+      $variables['title_prefix'] = t('Topic');
+      $variables['title_attributes']['class'][] = $custom_headline_class;
+    }
+  }
+  // We define routes, where we need a special class for the title
+  $routes = [
+    //'entity.taxonomy_term.canonical',
     'entity.user.cancel_form',
     'entity.user.canonical',
     'entity.user.canonical',
@@ -41,8 +60,8 @@ function palm_preprocess_page_title(&$variables)
     'view.nodeshop_user_orders.page_1',
     'view.nodeshop_user_orders.page_2',
   ];
-  if (in_array(\Drupal::request()->get('_route'), $cart_routes)) {
-    $variables['title_attributes']['class'][] = 'heading--bestellprozess';
+  if (in_array(\Drupal::request()->get('_route'), $routes)) {
+    $variables['title_attributes']['class'][] = $custom_headline_class;
   }
 }
 
