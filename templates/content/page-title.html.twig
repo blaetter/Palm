@@ -12,8 +12,15 @@
  *   displayed after the main title tag that appears in the template.
  */
 #}
-{{ title_prefix }}
 {% if title %}
-  <h1{{ title_attributes }}>{{ title }}</h1>
+  <h1{{ title_attributes }}>
+    {% if title_prefix %}
+      <span class="text--red">{{ title_prefix }}</span>
+    {% endif %}
+    {{ title }}
+    {% if title_suffix %}
+      {{ title_suffix }}
+    {% endif %}
+  </h1>
 {% endif %}
-{{ title_suffix }}
+
