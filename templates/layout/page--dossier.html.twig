@@ -1,4 +1,3 @@
-
 {#
 /**
  * @file
@@ -31,11 +30,12 @@
  * Regions:
  * - page.navigation: The Nsvigation region.
  * - page.flyout: The flyout region for the main navigation dropdown.
- * - page.hero: The hero region for the home page.
+ * - page.hero: The hero region for the home page and the page title on certain pages.
  * - page.content: The main content region.
  * - page.footer: The footer region.
  * - page.sidebar_left: The region for the left sidebar.
  * - page.sidebar_right: The region for the right sidebar.
+
  *
  * @see template_preprocess_page()
  * @see html.html.twig
@@ -43,41 +43,39 @@
 #}
 <div class="page-wrapper">
 
-  {% include 'themes/contrib/palm/templates/layout/_header.html.twig' with {
-      'navigation' : page.navigation,
-      'flyout' : page.flyout
-  } %}
+    {% include 'themes/contrib/palm/templates/layout/_header.html.twig' with {
+        'navigation' : page.navigation,
+        'flyout' : page.flyout
+    } %}
 
-  <main role="main" class="page-wrapper__inner" id="main">
+    <main role="main" class="page-wrapper__inner" id="main">
 
-    <div class="hero grid">
-      <div class="grid__item">
-        <div class="heading--dossiercat">
-            <span class="text--red">Dossier</span>
-            {{ node.field_dossier.entity.label }}
+        <div class="hero grid">
+            <div class="grid__item">
+                <div class="heading--dossiercat">
+                    <span class="text--red">Dossier</span>
+                    {{ node.field_dossier.entity.label }}
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
 
-    <div class="grid content-wrapper-article">
-      <div class="grid__item two-tenths content-spacer">
-        {{ page.sidebar_left }}
-      </div>
-      <div class="grid__item six-tenths">
-        <main class="content">
-          {{ page.content }}
-        </main>
-      </div>
-      <!-- /grid__item -->
-      <div class="grid__item two-tenths content-spacer">
-          <!-- NO CONTENT HERE -->
-      </div>
-    </div>
+        <div class="grid content-wrapper-article">
+            <div class="grid__item two-tenths">
+                {{ page.sidebar_left }}
+            </div>
+            <div class="grid__item six-tenths">
+                <main class="content">
+                    {{ page.content }}
+                </main>
+            </div>
+            <!-- /grid__item -->
+            <div class="grid__item two-tenths"></div>
+        </div>
 
-  </main>
+    </main>
 
-  {% include 'themes/contrib/palm/templates/layout/_footer.html.twig' with {
-      'footer' : page.footer
-  } %}
+    {% include 'themes/contrib/palm/templates/layout/_footer.html.twig' with {
+        'footer' : page.footer
+    } %}
 
 </div>

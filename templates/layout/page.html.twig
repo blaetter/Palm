@@ -30,7 +30,7 @@
  * Regions:
  * - page.navigation: The Nsvigation region.
  * - page.flyout: The flyout region for the main navigation dropdown.
- * - page.hero: The hero region for the home page.
+ * - page.hero: The hero region for the home page and the page title on certain pages.
  * - page.content: The main content region.
  * - page.footer: The footer region.
  * - page.sidebar_left: The region for the left sidebar.
@@ -42,39 +42,40 @@
 #}
 <div class="layout-container page-wrapper">
 
-  {% include 'themes/contrib/palm/templates/layout/_header.html.twig' with {
-      'navigation' : page.navigation,
-      'flyout' : page.flyout
-  } %}
+    {% include 'themes/contrib/palm/templates/layout/_header.html.twig' with {
+        'navigation' : page.navigation,
+        'flyout' : page.flyout
+    } %}
 
-  <main role="main" class="page-wrapper__inner" id="main">
+    <main role="main" class="page-wrapper__inner" id="main">
 
-    <a id="main-content" tabindex="-1"></a>{# link is in html.html.twig #}
+        <a id="main-content" tabindex="-1"></a>
+        {# link is in html.html.twig #}
 
-    <div class="hero grid">
-      <div class="grid__item">
-      {{ page.hero }}
-      </div>
-    </div>
+        <div class="hero grid">
+            <div class="grid__item">
+                {{ page.hero }}
+            </div>
+        </div>
 
-    <div class="grid content-wrapper-article">
-      <div class="grid__item two-tenths content-spacer">
-        {{ page.sidebar_left }}
-      </div>
-      <!-- /grid__item -->
-      <div class="grid__item six-tenths content-left">
-            {{ page.content }}
-      </div>
-      <!-- /grid__item -->
-      <div class="grid__item two-tenths content-spacer">
-          {{ page.sidebar_right }}
-      </div>
-    </div>
+        <div class="grid content-wrapper-article">
+            <div class="grid__item two-tenths">
+                {{ page.sidebar_left }}
+            </div>
+            <!-- /grid__item -->
+            <div class="grid__item six-tenths">
+                {{ page.content }}
+            </div>
+            <!-- /grid__item -->
+            <div class="grid__item two-tenths">
+                {{ page.sidebar_right }}
+            </div>
+        </div>
 
-  </main>
+    </main>
 
-  {% include 'themes/contrib/palm/templates/layout/_footer.html.twig' with {
-      'footer' : page.footer
-  } %}
+    {% include 'themes/contrib/palm/templates/layout/_footer.html.twig' with {
+        'footer' : page.footer
+    } %}
 
 </div>
