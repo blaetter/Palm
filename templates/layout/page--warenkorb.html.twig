@@ -47,24 +47,13 @@
         'flyout' : page.flyout
     } %}
 
-    <main role="main" class="page-wrapper__inner" id="main">
+    <main id="main" class="content-wrapper-full-width" role="main">
 
         <a id="main-content" tabindex="-1"></a>
 
-        <div class="hero grid">
-          <div class="grid__item">
-            {{ page.hero }}
-          </div>
-        </div>
+        {{ page.hero }}
 
-        <div class="grid content-wrapper-article">
-          <div class="grid__item two-tenths"></div>
-            <div class="grid__item six-tenths">
-              {{ page.content }}
-            </div>
-            <!-- /grid__item -->
-            <div class="grid__item two-tenths"></div>
-        </div>
+        {{ page.content }}
 
     </main>
 

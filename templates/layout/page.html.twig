@@ -40,39 +40,36 @@
  * @see html.html.twig
  */
 #}
-<div class="layout-container page-wrapper">
+<div class="page-wrapper">
 
     {% include 'themes/contrib/palm/templates/layout/_header.html.twig' with {
         'navigation' : page.navigation,
         'flyout' : page.flyout
     } %}
 
-    <main role="main" class="page-wrapper__inner" id="main">
+    <div id="main" class="content-wrapper-three-columns" role="main">
 
         <a id="main-content" tabindex="-1"></a>
-        {# link is in html.html.twig #}
 
-        <div class="hero grid">
-            <div class="grid__item">
-                {{ page.hero }}
-            </div>
-        </div>
+        {{ page.hero }}
 
-        <div class="grid content-wrapper-article">
+        <div class="grid">
+
             <div class="grid__item two-tenths">
                 {{ page.sidebar_left }}
             </div>
-            <!-- /grid__item -->
+
             <div class="grid__item six-tenths">
                 {{ page.content }}
             </div>
-            <!-- /grid__item -->
+
             <div class="grid__item two-tenths">
                 {{ page.sidebar_right }}
             </div>
+
         </div>
 
-    </main>
+    </div>
 
     {% include 'themes/contrib/palm/templates/layout/_footer.html.twig' with {
         'footer' : page.footer
