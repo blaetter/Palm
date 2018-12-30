@@ -11,7 +11,7 @@ use Drupal\taxonomy\Entity\Term;
  * that is displayed. Currently we set:
  *
  *  - heading--article on all nodes
- *  - heading--bestellprozess on all cart routes and for users
+ *  - heading--pagecategory on all cart routes and for users
  *
  * @param array $variables The Drupal render array that goes into the template
  *
@@ -20,7 +20,7 @@ use Drupal\taxonomy\Entity\Term;
 function palm_preprocess_page_title(&$variables)
 {
 
-  $custom_headline_class = 'heading--bestellprozess';
+  $custom_headline_class = 'heading--pagecategory';
 
   // Title overrides for nodes goes here:
   if ($node = \Drupal::request()->attributes->get('node')) {
@@ -50,6 +50,9 @@ function palm_preprocess_page_title(&$variables)
     'nodeshop.finishedOrder',
     'nodeshop.processOrder',
     'nodeshop.showCart',
+    'nodeshop.addBonus',
+    'nodeshop.changeBonus',
+    'nodeshop.removeBonus',
     'user.login',
     'user.page',
     'user.password',
@@ -96,8 +99,8 @@ function palm_preprocess_field__node__body(&$variables)
 /**
  * Implementation of hook_theme_suggestions_page_alter
  *
- * @param [type] $suggestions
- * @param [type] $vars
+ * @param array $suggestions
+ * @param array $vars
  * @return void
  */
 function palm_theme_suggestions_page_alter(&$suggestions, &$vars) {
@@ -170,6 +173,44 @@ function palm_theme_suggestions_field_alter(array &$suggestions, array $variable
 
 function palm_theme_suggestions_taxonomy_term_alter(&$suggestions, $vars, $hook) {
   $suggestions[] = 'taxonomy_term__' . $vars['elements']['#view_mode'];
+}
+
+/**
+ * Implememntation of hook_preprocess_page
+ *
+ * @param array $variables
+ * @return void
+ */
+function palm_preprocess_page(&$variables) {
+
+  // check for taxonomy pages
+  if (\Drupal::routeMatch()->getRouteName() == 'entity.taxonomy_term.canonical'
+    && $term = Term::load(\Drupal::routeMatch()->getRawParameter('taxonomy_term'))
+  ) {
+      // special header for themen
+      if ('autoren' == $term->bundle()) {
+        $variables['page']['hero']['category_title'] = [
+          '#type' => 'markup',
+          '#markup' => '<div class="heading--pagecategory"><a href="/autoren" class="back">Autorinnen und Autoren</a></div>',
+        ];
+      }
+  }
+  if ($node = \Drupal::request()->attributes->get('node')) {
+    if ('dossier' == $node->getType()) {
+      $dossier = '';
+      if ($node->hasField('field_dossier')) {
+        $dossier = $node->field_dossier->entity->getName();
+      }
+      $variables['page']['hero']['category_title'] = [
+        '#type' => 'markup',
+        '#markup' => sprintf(
+          '<div class="heading--pagecategory"><span class="text--red">%s</span> %s</div>',
+          'Dossier',
+          $dossier
+        ),
+      ];
+    }
+  }
 }
 
 /**
