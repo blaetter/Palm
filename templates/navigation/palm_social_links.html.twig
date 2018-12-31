@@ -1,0 +1,14 @@
+<ul class="social">
+    {% if link_facebook %}
+    <li><a class="ic facebook" href="http://www.facebook.com/sharer.php?u={{ node_url|url_encode }}&amp;t={{ node_title|url_encode }}" title="{{ 'Share via facebook'|t }}"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+    {% endif %}
+    {% if link_twitter %}
+    <li><a class="ic twitter" href="http://twitter.com/home?status={{ link_twitter|url_encode }}" title="{{ 'Share via twitter'|t }}"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+    {% endif %}
+    {% if link_mail %}
+    <li><a class="ic email" href="{{ link_mail }}" title="{{ 'Share via mail'|t }}"><i class="fa fa-envelope-o" aria-hidden="true"></i></a></li>
+    {% endif %}
+    {% if link_download %}
+    <li><a class="ic download" href="{{ link_download }}" title="{{ 'Download PDF'|t }}"><i class="fa fa-download" aria-hidden="true"></i></a></li>
+    {% endif %}
+</ul>

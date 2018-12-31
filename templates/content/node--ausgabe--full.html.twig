@@ -1,7 +1,7 @@
 {#
 /**
  * @file
- * Theme override to display a node.
+ * Theme override to display a node of the type ausgabe.
  *
  * Available variables:
  * - node: The node entity with limited access to object properties and methods.
@@ -70,7 +70,7 @@
  *   in different view modes.
  */
 #}
-<article{{ attributes }}>
+<article{{ attributes.addClass('block teaser teaser--aktuelle-ausgabe') }}>
 
   {{ title_prefix }}
   {% if not page %}
@@ -90,13 +90,32 @@
     </footer>
   {% endif %}
 
-  <div{{ content_attributes }}>
-    {{ content }}
+  <div class="image">
+    {{ content.field_primary_picture }}
   </div>
+  <div class="inner">
+    {{ content.body }}
+    {% if button_buy_print %}
+    {{ button_buy_print }}
+    {% endif %}
+    {% if button_buy_online %}
+    {{ button_buy_online }}
+    {% endif %}
+  </div>
+</article>
+<div{{ content_attributes }}>
+  {% if edition_articles %}
+      <h2 class="heading--sectiontitle">{% trans %}All articles in this edition{% endtrans %}</h2>
+      {{ edition_articles }}
+  {% endif %}
+  {{ content|without(
+        'field_primary_picture',
+        'body'
+    ) }}
 
   {% if social %}
     {{ social }}
   {% endif %}
 
+</div>
 
-</article>

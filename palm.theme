@@ -3,6 +3,34 @@
 use Drupal\block\Entity\Block;
 use Drupal\Core\Render\Markup;
 use Drupal\taxonomy\Entity\Term;
+use Drupal\Core\Url;
+use Drupal\nodeshop\NodeShop;
+
+function palm_theme() {
+  return [
+        'palm_buy_button' => [
+            'template' => 'navigation/palm_buy_button',
+            'variables' => [
+                'product_node_id' => '',
+                'destination' => '',
+                'product_price' => '',
+                'label' => '',
+                'title' => '',
+            ],
+        ],
+        'palm_social_links' => [
+            'template' => 'navigation/palm_social_links',
+            'variables' => [
+                'link_facebook' => '',
+                'link_twitter' => '',
+                'link_mail' => '',
+                'link_download' => '',
+                'node_url' => '',
+                'node_title' => '',
+            ]
+        ],
+      ];
+}
 
 /**
  * Implements hook template_prepocess_page_title
@@ -17,55 +45,54 @@ use Drupal\taxonomy\Entity\Term;
  *
  * @return void
  */
-function palm_preprocess_page_title(&$variables)
-{
+function palm_preprocess_page_title(&$variables) {
 
-  $custom_headline_class = 'heading--pagecategory';
+    $custom_headline_class = 'heading--pagecategory';
 
-  // Title overrides for nodes goes here:
-  if ($node = \Drupal::request()->attributes->get('node')) {
-    if ('ausgabe' == $node->getType()) {
-      $variables['title_prefix'] = t('Edition');
-      $variables['title_attributes']['class'][] = $custom_headline_class;
-    } else {
-      $variables['title_attributes']['class'][] = 'heading--article';
+    // Title overrides for nodes goes here:
+    if ($node = \Drupal::request()->attributes->get('node')) {
+        if ('ausgabe' == $node->getType()) {
+            $variables['title_prefix'] = t('Edition');
+            $variables['title_attributes']['class'][] = $custom_headline_class;
+        } else {
+            $variables['title_attributes']['class'][] = 'heading--article';
+        }
     }
-  }
-  // Title overrides for taxonomies or vocabularies goes here:
-  if (\Drupal::routeMatch()->getRouteName() == 'entity.taxonomy_term.canonical') {
-    $term = Term::load(\Drupal::routeMatch()->getRawParameter('taxonomy_term'));
-    if ('themen' == $term->bundle()) {
-      $variables['title_prefix'] = t('Topic');
-      $variables['title_attributes']['class'][] = $custom_headline_class;
+    // Title overrides for taxonomies or vocabularies goes here:
+    if (\Drupal::routeMatch()->getRouteName() == 'entity.taxonomy_term.canonical') {
+        $term = Term::load(\Drupal::routeMatch()->getRawParameter('taxonomy_term'));
+        if ('themen' == $term->bundle()) {
+            $variables['title_prefix'] = t('Topic');
+            $variables['title_attributes']['class'][] = $custom_headline_class;
+        }
     }
-  }
-  // We define routes, where we need a special class for the title
-  $routes = [
-    //'entity.taxonomy_term.canonical',
-    'entity.user.cancel_form',
-    'entity.user.canonical',
-    'entity.user.canonical',
-    'entity.user.contact_form',
-    'entity.user.edit_form',
-    'nodeshop.finishedOrder',
-    'nodeshop.processOrder',
-    'nodeshop.showCart',
-    'nodeshop.addBonus',
-    'nodeshop.changeBonus',
-    'nodeshop.removeBonus',
-    'user.login',
-    'user.page',
-    'user.password',
-    'user.register',
-    'user.reset.form',
-    'user.reset.login',
-    'user.reset',
-    'view.nodeshop_user_orders.page_1',
-    'view.nodeshop_user_orders.page_2',
-  ];
-  if (in_array(\Drupal::request()->get('_route'), $routes)) {
-    $variables['title_attributes']['class'][] = $custom_headline_class;
-  }
+    // We define routes, where we need a special class for the title
+    $routes = [
+        //'entity.taxonomy_term.canonical',
+        'entity.user.cancel_form',
+        'entity.user.canonical',
+        'entity.user.canonical',
+        'entity.user.contact_form',
+        'entity.user.edit_form',
+        'nodeshop.finishedOrder',
+        'nodeshop.processOrder',
+        'nodeshop.showCart',
+        'nodeshop.addBonus',
+        'nodeshop.changeBonus',
+        'nodeshop.removeBonus',
+        'user.login',
+        'user.page',
+        'user.password',
+        'user.register',
+        'user.reset.form',
+        'user.reset.login',
+        'user.reset',
+        'view.nodeshop_user_orders.page_1',
+        'view.nodeshop_user_orders.page_2',
+    ];
+    if (in_array(\Drupal::request()->get('_route'), $routes)) {
+        $variables['title_attributes']['class'][] = $custom_headline_class;
+    }
 }
 
 /**
@@ -221,6 +248,8 @@ function palm_preprocess_page(&$variables) {
  */
 function palm_preprocess_node(&$variables)
 {
+    $current_user = \Drupal\user\Entity\User::load($variables['user']->id());
+    // add dossier articles to the dossier teaser
     if ('teaser_dossier' == $variables['elements']['#view_mode']) {
         $variables['dossier_articles'] = [
             '#type' => 'view',
@@ -230,6 +259,89 @@ function palm_preprocess_node(&$variables)
                 $variables['node']->field_dossier->target_id,
             ],
         ];
+    }
+
+    // add social block for all full node views
+    if ('full' == $variables['elements']['#view_mode'] && isset($variables['node'])) {
+        $node_url = $variables['node']->toUrl()->setAbsolute()->toString();
+        $node_title = $variables['node']->getTitle();
+        $variables['social'] = [
+            '#theme' => 'palm_social_links',
+            '#link_facebook' => true, // is set from node_title and node_url in the template
+            '#link_twitter' => t('Read on @blaetter: @title @url', ['@title' => $node_title, '@url' => $node_url]),
+            '#link_mail' => 'mailto:?subject=' . t(
+                'Read @blaetter: @title',
+                [
+                    '@title' => $node_title
+                ]
+            ) . '&body=' . t(
+                'Hello,%0D%0A%0D%0AI found this interesting article on the website www.blaetter.de:%0D%0A%0D%0A@title%0D%0A%0D%0A@teaser%0D%0A%0D%0A@link%0D%0A',
+                [
+                    '@title' => $node_title,
+                    '@teaser' => $variables['node']->body->view('teaser'),
+                    '@link' => $node_url,
+                ]
+            ),
+            '#node_url' => $node_url,
+            '#node_title' => $node_title,
+        ];
+        if (NodeShop::grantUserAccess($variables['node'], $current_user)) {
+            try {
+                \Drupal::service('router.route_provider')->getRouteByName(
+                    'nodeshop.product_features.product_feature_access_to_attachment.download'
+                );
+                $variables['social']['#link_download'] = Url::fromRoute(
+                    'nodeshop.product_features.product_feature_access_to_attachment.download',
+                    [
+                        'node' => $variables['node']->id()
+                    ]
+                );
+            } catch (\Exception $e) {
+                // nothing to do here, just catch exception...
+            }
+        }
+    }
+
+    if (isset($variables['node']) && 'ausgabe' == $variables['node']->bundle()) {
+        // unset download link in the social menu here because we might set it ourselves...
+        if (isset($variables['social']) && isset($variables['social']['#link_download'])) {
+            unset($variables['social']['#link_download']);
+        }
+
+        // add the articles for an edition (aka ausgabe) as a block.
+        $variables['edition_articles'] = [
+            '#type' => 'view',
+            '#name' => 'blaetter_ausgabe',
+            '#display_id' => 'block_2',
+            '#arguments' => [
+                $variables['node']->id(),
+            ],
+        ];
+        // prepare buttons to buy print and digital issues or download them if already bought:
+        if ($variables['node']->hasField('field_ip') && !empty($variables['node']->get('field_ip')->value)) {
+            $print_issue = \Drupal::entityTypeManager()->getStorage('node')->load(
+                $variables['node']->get('field_ip')->value
+            );
+            $variables['button_buy_print'] = [
+                '#theme' => 'palm_buy_button',
+                '#product_node_id' => $print_issue->id(),
+                '#destination' => Url::fromRoute('entity.node.canonical', ['node' => $variables['node']->id()]),
+                '#product_price' => NodeShop::getPrice($print_issue),
+                '#label' => t('Buy print issue'),
+                '#title' => t('Puts @title (print) into the cart.', ['@title' => $print_issue->getTitle()]),
+            ];
+            if (!NodeShop::grantUserAccess($variables['node'], $current_user)) {
+                // only display this button if the user not already bought this online issue
+                $variables['button_buy_online'] = [
+                    '#theme' => 'palm_buy_button',
+                    '#product_node_id' => $variables['node']->id(),
+                    '#destination' => Url::fromRoute('entity.node.canonical', ['node' => $variables['node']->id()]),
+                    '#product_price' => NodeShop::getPrice($variables['node']),
+                    '#label' => t('Buy online issue'),
+                    '#title' => t('Puts @title (online) into the cart.', ['@title' => $variables['node']->getTitle()]),
+                ];
+            }
+        }
     }
 }
 

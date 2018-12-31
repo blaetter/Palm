@@ -1,0 +1,27 @@
+{#
+/**
+ * @file palm_buy_button.html.twig
+ * Template for the buy button.
+ *
+ * Available variables:
+ * - product_node_id: The node id of the product that should be put into the cart
+ * - destination: The destination to redirect the user after the item has been put into the cart
+ * - product_price: The price that should be displayed
+ * - label: The button label
+ * - title: The title for the link
+ *
+ */
+#}
+
+<a class="button button--buy" href="{{
+    path('nodeshop.addToCart',
+    {'node': product_node_id },
+    {'query': [
+    {'destination': destination}
+    ]}
+) }}" rel="nofollow" title="{{ title }}">
+    {{ label }}
+    <span class="right">
+    ({{ product_price }}€) <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+    </span>
+</a>
