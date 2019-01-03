@@ -124,6 +124,21 @@ function palm_preprocess_field__node__body(&$variables)
 }
 
 /**
+ * Implmentation of hook_preprocess_menu
+ * We use it to make the current path_alias available in the menu theme so we can
+ * identify menu structures that needs to be opened
+ *
+ * @param array $variables
+ * @return void
+ */
+function palm_preprocess_menu(&$variables)
+{
+    if ('navigation' == $variables['menu_name']) {
+        $variables['current_path'] = \Drupal::request()->getRequestUri();
+    }
+}
+
+/**
  * Implementation of hook_theme_suggestions_page_alter
  *
  * @param array $suggestions
