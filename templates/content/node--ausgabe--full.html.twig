@@ -96,10 +96,19 @@
   <div class="inner">
     {{ content.body }}
     {% if button_buy_print %}
-    {{ button_buy_print }}
+        {{ button_buy_print }}<br />
     {% endif %}
     {% if button_buy_online %}
-    {{ button_buy_online }}
+        {{ button_buy_online }}<br/>
+    {% endif %}
+    {% if button_download_pdf %}
+        {{ button_download_pdf }}<br/>
+    {% endif %}
+    {% if button_download_epub %}
+        {{ button_download_epub }}<br/>
+    {% endif %}
+    {% if button_download_mobi %}
+        {{ button_download_mobi }}<br/>
     {% endif %}
   </div>
 </article>

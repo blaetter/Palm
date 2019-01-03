@@ -1,0 +1,19 @@
+{#
+/**
+ * @file
+ * TEmplate for the page category displayed as a headline
+ *
+ * Available variables:
+ * - category_prefix: The optional prefix to display in red letters
+ * - headline: The optional headline to display
+ *
+ */
+#}
+{% if headline or category_prefix %}
+<div class="heading--pagecategory">
+    {% if category_prefix %}
+    <span class="text--red">{{ category_prefix }}</span>
+    {% endif %}
+    {{ headline }}
+</div>
+{% endif %}

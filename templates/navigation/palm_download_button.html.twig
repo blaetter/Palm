@@ -1,0 +1,20 @@
+{#
+/**
+ * @file palm_buy_button.html.twig
+ * Template for the buy button.
+ *
+ * Available variables:
+ * - download_url: The download url
+ * - download_type: The type of the downlaod
+ * - label: The button label
+ * - title: The title for the link
+ *
+ */
+#}
+
+<a class="button--reversed button--buy" href="{{ download_url }}" rel="nofollow" title="{{ title }}">
+    {{ label }}
+    <span class="right">
+        <i class="fa fa-download" aria-hidden="true"></i>
+    </span>
+</a>

@@ -18,6 +18,14 @@ function palm_theme() {
                 'title' => '',
             ],
         ],
+        'palm_download_button' => [
+            'template' => 'navigation/palm_download_button',
+            'variables' => [
+                'download_url' => '',
+                'label' => '',
+                'title' => '',
+            ],
+        ],
         'palm_social_links' => [
             'template' => 'navigation/palm_social_links',
             'variables' => [
@@ -27,6 +35,13 @@ function palm_theme() {
                 'link_download' => '',
                 'node_url' => '',
                 'node_title' => '',
+            ]
+        ],
+        'palm_heading_pagecategory' => [
+            'template' => 'content/palm_heading_pagecategory',
+            'variables' => [
+                'category_prefix' => '',
+                'headline' => '',
             ]
         ],
       ];
@@ -65,6 +80,12 @@ function palm_preprocess_page_title(&$variables) {
             $variables['title_prefix'] = t('Topic');
             $variables['title_attributes']['class'][] = $custom_headline_class;
         }
+    }
+
+    // Add title prefix for all shop pages
+    if (false !== strpos(\Drupal::routeMatch()->getRouteName(), 'view.blaetter_shop')) {
+        $variables['title_prefix'] = t('Shop');
+        $variables['title_attributes']['class'][] = $custom_headline_class;
     }
     // We define routes, where we need a special class for the title
     $routes = [
@@ -224,35 +245,46 @@ function palm_theme_suggestions_taxonomy_term_alter(&$suggestions, $vars, $hook)
  * @return void
  */
 function palm_preprocess_page(&$variables) {
-
-  // check for taxonomy pages
-  if (\Drupal::routeMatch()->getRouteName() == 'entity.taxonomy_term.canonical'
-    && $term = Term::load(\Drupal::routeMatch()->getRawParameter('taxonomy_term'))
-  ) {
-      // special header for themen
-      if ('autoren' == $term->bundle()) {
-        $variables['page']['hero']['category_title'] = [
-          '#type' => 'markup',
-          '#markup' => '<div class="heading--pagecategory"><a href="/autoren" class="back">Autorinnen und Autoren</a></div>',
-        ];
-      }
-  }
-  if ($node = \Drupal::request()->attributes->get('node')) {
-    if ('dossier' == $node->getType()) {
-      $dossier = '';
-      if ($node->hasField('field_dossier')) {
-        $dossier = $node->field_dossier->entity->getName();
-      }
-      $variables['page']['hero']['category_title'] = [
-        '#type' => 'markup',
-        '#markup' => sprintf(
-          '<div class="heading--pagecategory"><span class="text--red">%s</span> %s</div>',
-          'Dossier',
-          $dossier
-        ),
-      ];
+    $current_user = \Drupal\user\Entity\User::load($variables['user']->id());
+    // check for taxonomy pages
+    if (\Drupal::routeMatch()->getRouteName() == 'entity.taxonomy_term.canonical'
+        && $term = Term::load(\Drupal::routeMatch()->getRawParameter('taxonomy_term'))
+    ) {
+        // special header for themen
+        if ('autoren' == $term->bundle()) {
+            $variables['page']['hero']['category_title'] = [
+                '#type' => 'markup',
+                '#markup' => '<div class="heading--pagecategory"><a href="/autoren" class="back">Autorinnen und Autoren</a></div>',
+            ];
+        }
     }
-  }
+    if ($node = \Drupal::request()->attributes->get('node')) {
+        // provide headings if in full node view
+        if ('full' == $variables['#view_mode']) {
+            if ('dossier' == $node->getType()) {
+                $dossier = '';
+                if ($node->hasField('field_dossier')) {
+                    $dossier = $node->field_dossier->entity->getName();
+                }
+                $variables['page']['hero']['category_title'] = [
+                    '#theme' => 'palm_heading_pagecategory',
+                    '#category_prefix' => t('Dossier'),
+                    '#headline' => $dossier
+                ];
+            }
+            if ('product' == $node->getType()) {
+                $rubric = '';
+                if ($node->hasField('field_rubrik')) {
+                    $rubric = $node->field_rubrik->entity->getName();
+                }
+                $variables['page']['hero']['category_title'] = [
+                    '#theme' => 'palm_heading_pagecategory',
+                    '#category_prefix' => t('Shop'),
+                    '#headline' => $rubric
+                ];
+            }
+        }
+    }
 }
 
 /**
@@ -355,6 +387,44 @@ function palm_preprocess_node(&$variables)
                     '#label' => t('Buy online issue'),
                     '#title' => t('Puts @title (online) into the cart.', ['@title' => $variables['node']->getTitle()]),
                 ];
+            } else {
+                // only display this button if the user not already bought this online issue
+                $variables['button_download_pdf'] = [
+                    '#theme' => 'palm_download_button',
+                    '#download_url' => Url::fromRoute(
+                        'nodeshop.product_features.product_feature_access_to_attachment.download',
+                        [
+                            'node' => $variables['node']->id()
+                        ]
+                    ),
+                    '#label' => t('Download digital issue'),
+                    '#title' => t('Download @title as pdf file.', ['@title' => $variables['node']->getTitle()]),
+                ];
+                // Downlaod of epub and mobi only for nodes newer than 25756
+                if (25756 <= $variables['node']->id()) {
+                    $variables['button_download_epub'] = [
+                        '#theme' => 'palm_download_button',
+                        '#download_url' => Url::fromRoute(
+                            'blaetter_export_epub.epub.download',
+                            [
+                                'node' => $variables['node']->id()
+                            ]
+                        ),
+                        '#label' => t('Download ePub for eReader'),
+                        '#title' => t('Download @title as ePub file.', ['@title' => $variables['node']->getTitle()]),
+                    ];
+                    $variables['button_download_mobi'] = [
+                        '#theme' => 'palm_download_button',
+                        '#download_url' => Url::fromRoute(
+                            'blaetter_export_epub.mobi.download',
+                            [
+                                'node' => $variables['node']->id()
+                            ]
+                        ),
+                        '#label' => t('Download mobi for Kindle'),
+                        '#title' => t('Download @title as mobi file.', ['@title' => $variables['node']->getTitle()]),
+                    ];
+                }
             }
         }
     }
