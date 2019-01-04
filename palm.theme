@@ -80,6 +80,10 @@ function palm_preprocess_page_title(&$variables) {
             $variables['title_prefix'] = t('Topic');
             $variables['title_attributes']['class'][] = $custom_headline_class;
         }
+        if ('autoren' == $term->bundle()) {
+            $variables['title_prefix'] = t('Editors');
+            $variables['title_attributes']['class'][] = $custom_headline_class;
+        }
     }
 
     // Add title prefix for all shop pages
@@ -252,37 +256,35 @@ function palm_preprocess_page(&$variables) {
     ) {
         // special header for themen
         if ('autoren' == $term->bundle()) {
-            $variables['page']['hero']['category_title'] = [
-                '#type' => 'markup',
-                '#markup' => '<div class="heading--pagecategory"><a href="/autoren" class="back">Autorinnen und Autoren</a></div>',
-            ];
+            // $variables['page']['hero']['category_title'] = [
+            //     '#type' => 'markup',
+            //     '#markup' => '<div class="heading--pagecategory"><a href="/autoren" class="back">Autorinnen und Autoren</a></div>',
+            // ];
         }
     }
     if ($node = \Drupal::request()->attributes->get('node')) {
         // provide headings if in full node view
-        if ('full' == $variables['#view_mode']) {
-            if ('dossier' == $node->getType()) {
-                $dossier = '';
-                if ($node->hasField('field_dossier')) {
-                    $dossier = $node->field_dossier->entity->getName();
-                }
-                $variables['page']['hero']['category_title'] = [
-                    '#theme' => 'palm_heading_pagecategory',
-                    '#category_prefix' => t('Dossier'),
-                    '#headline' => $dossier
-                ];
+        if ('dossier' == $node->getType()) {
+            $dossier = '';
+            if ($node->hasField('field_dossier')) {
+                $dossier = $node->field_dossier->entity->getName();
             }
-            if ('product' == $node->getType()) {
-                $rubric = '';
-                if ($node->hasField('field_rubrik')) {
-                    $rubric = $node->field_rubrik->entity->getName();
-                }
-                $variables['page']['hero']['category_title'] = [
-                    '#theme' => 'palm_heading_pagecategory',
-                    '#category_prefix' => t('Shop'),
-                    '#headline' => $rubric
-                ];
+            $variables['page']['hero']['category_title'] = [
+                '#theme' => 'palm_heading_pagecategory',
+                '#category_prefix' => t('Dossier'),
+                '#headline' => $dossier
+            ];
+        }
+        if ('product' == $node->getType()) {
+            $rubric = '';
+            if ($node->hasField('field_rubrik')) {
+                $rubric = $node->field_rubrik->entity->getName();
             }
+            $variables['page']['hero']['category_title'] = [
+                '#theme' => 'palm_heading_pagecategory',
+                '#category_prefix' => t('Shop'),
+                '#headline' => $rubric
+            ];
         }
     }
 }
