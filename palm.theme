@@ -91,6 +91,10 @@ function palm_preprocess_page_title(&$variables) {
         $variables['title_prefix'] = t('Shop');
         $variables['title_attributes']['class'][] = $custom_headline_class;
     }
+    if (false !== strpos(\Drupal::routeMatch()->getRouteName(), 'view.blaetter_themen.page_1')) {
+        $variables['title_prefix'] = 'Blätter';
+    }
+
     // We define routes, where we need a special class for the title
     $routes = [
         //'entity.taxonomy_term.canonical',
@@ -112,6 +116,7 @@ function palm_preprocess_page_title(&$variables) {
         'user.reset.form',
         'user.reset.login',
         'user.reset',
+        'view.blaetter_themen.page_1',
         'view.nodeshop_user_orders.page_1',
         'view.nodeshop_user_orders.page_2',
     ];
@@ -263,6 +268,17 @@ function palm_preprocess_page(&$variables) {
         }
     }
     if ($node = \Drupal::request()->attributes->get('node')) {
+        if ('story' == $node->getType()) {
+            $issue = _palm_get_issue($node);
+            if (!empty($issue['year']) && !empty($issue['edition'])) {
+                $edition = $issue['edition'] . ' ' . $issue['year'];
+            }
+            $variables['page']['hero']['category_title'] = [
+                '#theme' => 'palm_heading_pagecategory',
+                '#category_prefix' => t('Edition'),
+                '#headline' => $edition,
+            ];
+        }
         // provide headings if in full node view
         if ('dossier' == $node->getType()) {
             $dossier = '';
@@ -379,57 +395,75 @@ function palm_preprocess_node(&$variables)
                 '#label' => t('Buy print issue'),
                 '#title' => t('Puts @title (print) into the cart.', ['@title' => $print_issue->getTitle()]),
             ];
-            if (!NodeShop::grantUserAccess($variables['node'], $current_user)) {
-                // only display this button if the user not already bought this online issue
-                $variables['button_buy_online'] = [
-                    '#theme' => 'palm_buy_button',
-                    '#product_node_id' => $variables['node']->id(),
-                    '#destination' => Url::fromRoute('entity.node.canonical', ['node' => $variables['node']->id()]),
-                    '#product_price' => NodeShop::getPrice($variables['node']),
-                    '#label' => t('Buy online issue'),
-                    '#title' => t('Puts @title (online) into the cart.', ['@title' => $variables['node']->getTitle()]),
-                ];
-            } else {
-                // only display this button if the user not already bought this online issue
-                $variables['button_download_pdf'] = [
+        }
+        if (!NodeShop::grantUserAccess($variables['node'], $current_user)) {
+            // only display this button if the user not already bought this online issue
+            $variables['button_buy_online'] = [
+                '#theme' => 'palm_buy_button',
+                '#product_node_id' => $variables['node']->id(),
+                '#destination' => Url::fromRoute('entity.node.canonical', ['node' => $variables['node']->id()]),
+                '#product_price' => NodeShop::getPrice($variables['node']),
+                '#label' => t('Buy online issue'),
+                '#title' => t('Puts @title (online) into the cart.', ['@title' => $variables['node']->getTitle()]),
+            ];
+        } else {
+            // only display this button if the user not already bought this online issue
+            $variables['button_download_pdf'] = [
+                '#theme' => 'palm_download_button',
+                '#download_url' => Url::fromRoute(
+                    'nodeshop.product_features.product_feature_access_to_attachment.download',
+                    [
+                        'node' => $variables['node']->id()
+                    ]
+                ),
+                '#label' => t('Download digital issue'),
+                '#title' => t('Download @title as pdf file.', ['@title' => $variables['node']->getTitle()]),
+            ];
+            // Downlaod of epub and mobi only for nodes newer than 25756
+            if (25756 <= $variables['node']->id()) {
+                $variables['button_download_epub'] = [
                     '#theme' => 'palm_download_button',
                     '#download_url' => Url::fromRoute(
-                        'nodeshop.product_features.product_feature_access_to_attachment.download',
+                        'blaetter_export_epub.epub.download',
                         [
                             'node' => $variables['node']->id()
                         ]
                     ),
-                    '#label' => t('Download digital issue'),
-                    '#title' => t('Download @title as pdf file.', ['@title' => $variables['node']->getTitle()]),
+                    '#label' => t('Download ePub for eReader'),
+                    '#title' => t('Download @title as ePub file.', ['@title' => $variables['node']->getTitle()]),
                 ];
-                // Downlaod of epub and mobi only for nodes newer than 25756
-                if (25756 <= $variables['node']->id()) {
-                    $variables['button_download_epub'] = [
-                        '#theme' => 'palm_download_button',
-                        '#download_url' => Url::fromRoute(
-                            'blaetter_export_epub.epub.download',
-                            [
-                                'node' => $variables['node']->id()
-                            ]
-                        ),
-                        '#label' => t('Download ePub for eReader'),
-                        '#title' => t('Download @title as ePub file.', ['@title' => $variables['node']->getTitle()]),
-                    ];
-                    $variables['button_download_mobi'] = [
-                        '#theme' => 'palm_download_button',
-                        '#download_url' => Url::fromRoute(
-                            'blaetter_export_epub.mobi.download',
-                            [
-                                'node' => $variables['node']->id()
-                            ]
-                        ),
-                        '#label' => t('Download mobi for Kindle'),
-                        '#title' => t('Download @title as mobi file.', ['@title' => $variables['node']->getTitle()]),
-                    ];
-                }
+                $variables['button_download_mobi'] = [
+                    '#theme' => 'palm_download_button',
+                    '#download_url' => Url::fromRoute(
+                        'blaetter_export_epub.mobi.download',
+                        [
+                            'node' => $variables['node']->id()
+                        ]
+                    ),
+                    '#label' => t('Download mobi for Kindle'),
+                    '#title' => t('Download @title as mobi file.', ['@title' => $variables['node']->getTitle()]),
+                ];
             }
         }
     }
+}
+
+function _palm_get_issue($node) {
+    if ($node && !empty($node->book) && $node->id !== $node->book['bid']) {
+        $book = \Drupal::entityTypeManager()->getStorage('node')->load($node->book['bid']);
+        if ($book && $book->hasField('field_ausgabe') && $book->hasField('field_jahr')) {
+            // get the edition
+            $edition = $book->get('field_ausgabe')->entity->getName();
+            $year = $book->get('field_jahr')->entity->getName();
+        }
+        return [
+            'year' => $year,
+            'edition' => $edition,
+        ];
+    }
+
+    return [];
+
 }
 
 /**
