@@ -37,7 +37,7 @@
                     {% if item.url|render in current_path %}
                         {% set is_expanded = true %}
                     {% else %}
-                        {% set is_expanded = false %}
+                        {# {% set is_expanded = false %} #}
                     {% endif %}
                     {%
         set classes = [
