@@ -1,0 +1,92 @@
+{#
+/**
+ * @file
+ * Theme override to present all user data.
+ *
+ * This template is used when viewing a registered user's page,
+ * e.g., example.com/user/123. 123 being the user's ID.
+ *
+ * Available variables:
+ * - content: A list of content items. Use 'content' to print all content, or
+ *   print a subset such as 'content.field_example'. Fields attached to a user
+ *   such as 'user_picture' are available as 'content.user_picture'.
+ * - attributes: HTML attributes for the container element.
+ * - user: A Drupal User entity.
+ *
+ * @see template_preprocess_user()
+ */
+#}
+<article{{ attributes.addClass('palm_user_profile') }}>
+    <section class="palm_online_batch">
+        <div class="grid">
+        {% if 'onlineabonnent' in user.getroles %}
+            <div class="grid__item two-tenths">
+                <p class="align-center">
+                    <img src="/themes/contrib/palm/images/logo.svg" alt="{{'logo for an active online subscription' | t}}" width="80" height="80" />
+                </p>
+            </div>
+            <div class="grid__item eight-tenths">
+                <p>
+                    {{ 'Thanks, you have a valid online subscription.' | t }}
+                </p>
+            </div>
+        {% else %}
+            <div class="grid__item two-tenths">
+                <p class="align-center">
+                    <img src="/themes/contrib/palm/images/logo.svg" alt="{{'logo for an active online subscription' | t}}" width="80" height="80" style="opacity:.1" />
+                </p>
+            </div>
+            <div class="grid__item eight-tenths">
+                <p>
+                    {% trans %}
+                        Currantly you have no active online subscription. You can purchase one <a href="/shop/abonnieren" rel="nofollow">at our shop</a>.
+                    {% endtrans %}
+                </p>
+            </div>
+        {% endif %}
+        </div>
+    </section>
+    <section class="">
+        <p>{{ 'This is your user profile page. Here you can view and edit all your data, review your orders and access all of your purchased online articles.' | t }}</p>
+    </section>
+    <h2>{{ 'account details' | t }}<a href="{{ path('entity.user.edit_form', {'user': user.id}) }}" rel="nofollow">{{ 'edit' |t }}</a></h2>
+    <section class="palm_user_profile_block">
+        <h3>{{ 'username' | t }}</h3>
+        <p>{{ user.username }}</p>
+        <h3>{{ 'mail address' | t }}</h3>
+        <p>{{ user.mail.value }}</p>
+    </section>
+    <h2>{{ 'my details' | t }}<a href="{{ path('entity.user.edit_form', {'user': user.id}) }}" rel="nofollow">{{ 'edit' |t }}</a></h2>
+    <section class="palm_user_profile_block">
+        <h3>{{ 'address' | t }}</h3>
+        <p>
+            {% if user.field_first_name.value and user.field_last_name.value and user.field_street.value %}
+                {{ user.field_first_name.value }}
+                {{ user.field_last_name.value }},
+                {{ user.field_street.value }}...
+            {% else %}
+                {{ 'not set yet' | t }}
+            {% endif %}
+        </p>
+        <h3>{{ 'phone' | t }}</h3>
+        {% if user.field_phone.value %}
+            <p>{{ user.field_phone.value }}</p>
+        {% else %}
+            <p>{{ 'not set yet' | t}}</p>
+        {% endif %}
+    </section>
+    <h2>{{ 'my kindle settings' | t }}<a href="{{ path('entity.user.edit_form', {'user': user.id}) }}" rel="nofollow">{{ 'edit' |t }}</a></h2>
+    <section class="palm_user_profile_block">
+        <h3>{{ 'kindle mail' | t }}</h3>
+        <p>
+            {% if user.field_kindle_email.value %}
+                {{user.field_kindle_email.value }}@{{user.field_kindle_domain.value }}
+            {% else %}
+                {{ 'not set yet' | t}}
+            {% endif %}
+        </p>
+    </section>
+  {% if content %}
+    {{- content -}}
+  {% endif %}
+</article>

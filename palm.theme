@@ -387,14 +387,16 @@ function palm_preprocess_node(&$variables)
             $print_issue = \Drupal::entityTypeManager()->getStorage('node')->load(
                 $variables['node']->get('field_ip')->value
             );
-            $variables['button_buy_print'] = [
-                '#theme' => 'palm_buy_button',
-                '#product_node_id' => $print_issue->id(),
-                '#destination' => Url::fromRoute('entity.node.canonical', ['node' => $variables['node']->id()]),
-                '#product_price' => NodeShop::getPrice($print_issue),
-                '#label' => t('Buy print issue'),
-                '#title' => t('Puts @title (print) into the cart.', ['@title' => $print_issue->getTitle()]),
-            ];
+            if ($print_issue) {
+                $variables['button_buy_print'] = [
+                    '#theme' => 'palm_buy_button',
+                    '#product_node_id' => $print_issue->id(),
+                    '#destination' => Url::fromRoute('entity.node.canonical', ['node' => $variables['node']->id()]),
+                    '#product_price' => NodeShop::getPrice($print_issue),
+                    '#label' => t('Buy print issue'),
+                    '#title' => t('Puts @title (print) into the cart.', ['@title' => $print_issue->getTitle()]),
+                ];
+            }
         }
         if (!NodeShop::grantUserAccess($variables['node'], $current_user)) {
             // only display this button if the user not already bought this online issue
