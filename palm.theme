@@ -95,11 +95,19 @@ function palm_preprocess_page_title(&$variables) {
         $variables['title_prefix'] = 'Blätter';
     }
 
+    // add special prefixes for special routes
+    $prefix_routes_user = [
+        'entity.user.canonical',
+        'entity.user.edit_form',
+    ];
+    if (in_array(\Drupal::request()->get('_route'), $prefix_routes_user)) {
+        $variables['title_prefix'] = t('User account');
+    }
+
     // We define routes, where we need a special class for the title
     $routes = [
         //'entity.taxonomy_term.canonical',
         'entity.user.cancel_form',
-        'entity.user.canonical',
         'entity.user.canonical',
         'entity.user.contact_form',
         'entity.user.edit_form',
