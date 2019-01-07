@@ -1,10 +1,11 @@
 <?php
 
 use Drupal\block\Entity\Block;
+use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Render\Markup;
-use Drupal\taxonomy\Entity\Term;
 use Drupal\Core\Url;
 use Drupal\nodeshop\NodeShop;
+use Drupal\taxonomy\Entity\Term;
 
 function palm_theme() {
   return [
@@ -455,6 +456,51 @@ function palm_preprocess_node(&$variables)
                 ];
             }
         }
+    }
+}
+
+/**
+ * Implementation of hook_form_alter
+ *
+ * @param array $form The drupal form array as a reference
+ * @param FormStateInterface $form_state
+ * @param string $form_id The Drupal form id
+ * @return void
+ */
+function palm_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+    if ('nodeshop_order_address_form' == $form_id) {
+        // kint($form['personal_information']);
+        $form['personal_information']['#attributes']['class'][] = 'grid';
+        $form['personal_information']['customer_title']['#wrapper_attributes']['class'][] = 'grid__item';
+        $form['personal_information']['customer_title']['#wrapper_attributes']['class'][] = 'two-thirds';
+        $form['personal_information']['customer_first_name']['#wrapper_attributes']['class'][] = 'grid__item';
+        $form['personal_information']['customer_first_name']['#wrapper_attributes']['class'][] = 'one-half';
+        $form['personal_information']['customer_last_name']['#wrapper_attributes']['class'][] = 'grid__item';
+        $form['personal_information']['customer_last_name']['#wrapper_attributes']['class'][] = 'one-half';
+        $form['personal_information']['customer_email']['#wrapper_attributes']['class'][] = 'grid__item';
+        $form['personal_information']['customer_phone']['#wrapper_attributes']['class'][] = 'grid__item';
+        $form['customer_address_information']['#attributes']['class'][] = 'grid';
+        $form['customer_address_information']['customer_street']['#wrapper_attributes']['class'][] = 'grid__item';
+        $form['customer_address_information']['customer_street_addon']['#wrapper_attributes']['class'][] = 'grid__item';
+        $form['customer_address_information']['customer_postal_code']['#wrapper_attributes']['class'][] = 'grid__item';
+        $form['customer_address_information']['customer_postal_code']['#wrapper_attributes']['class'][] = 'one-half';
+        $form['customer_address_information']['customer_city']['#wrapper_attributes']['class'][] = 'grid__item';
+        $form['customer_address_information']['customer_city']['#wrapper_attributes']['class'][] = 'one-half';
+        $form['customer_address_information']['customer_country']['#wrapper_attributes']['class'][] = 'grid__item';
+        $form['deliver_information']['#attributes']['class'][] = 'grid';
+        $form['deliver_information']['delivery_title']['#wrapper_attributes']['class'][] = 'grid__item';
+        $form['deliver_information']['delivery_title']['#wrapper_attributes']['class'][] = 'two-thirds';
+        $form['deliver_information']['delivery_first_name']['#wrapper_attributes']['class'][] = 'grid__item';
+        $form['deliver_information']['delivery_first_name']['#wrapper_attributes']['class'][] = 'one-half';
+        $form['deliver_information']['delivery_last_name']['#wrapper_attributes']['class'][] = 'grid__item';
+        $form['deliver_information']['delivery_last_name']['#wrapper_attributes']['class'][] = 'one-half';
+        $form['deliver_information']['delivery_street']['#wrapper_attributes']['class'][] = 'grid__item';
+        $form['deliver_information']['delivery_street_addon']['#wrapper_attributes']['class'][] = 'grid__item';
+        $form['deliver_information']['delivery_postal_code']['#wrapper_attributes']['class'][] = 'grid__item';
+        $form['deliver_information']['delivery_postal_code']['#wrapper_attributes']['class'][] = 'one-half';
+        $form['deliver_information']['delivery_city']['#wrapper_attributes']['class'][] = 'grid__item';
+        $form['deliver_information']['delivery_city']['#wrapper_attributes']['class'][] = 'one-half';
+        $form['deliver_information']['delivery_country']['#wrapper_attributes']['class'][] = 'grid__item';
     }
 }
 
