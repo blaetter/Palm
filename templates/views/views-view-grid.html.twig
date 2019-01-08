@@ -51,7 +51,8 @@
 <div class="grid grid--stretch">
 {% for row in items %}
   {% for column in row.content %}
-    <div{{ column.attributes.addclass(['grid__item', column_class]) }}>
+    {# hide inline styles coming from the drupal grid system as we do it all via css classes #}
+    <div{{ column.attributes.addclass(['grid__item', column_class])|without('style') }}>
       {{- column.content -}}
     </div>
   {% endfor %}
