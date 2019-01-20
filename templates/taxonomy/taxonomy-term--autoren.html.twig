@@ -34,20 +34,20 @@
 {% endset %}
 
 <div{{ attributes.addClass(classes) }}>
-  {% if content.field_image | render %}
-  <div class="image">
-      {{ content.field_image }}
-      <span class="heading">{{ name_raw|striptags }}</span>
-  </div>
-  {% endif %}
-  {% if content.field_bio | render %}
-  <h2 class="visually-hidden">Biographie von {{ name_raw }}</h2>
-  <p class="text">{{ content.field_bio }}</p>
-  {% endif %}
-  {% if content|without('field_image', 'field_bio') %}
-  <div class="content">
-    {{ content|without('field_image', 'field_bio') }}
-  </div>
-  {% endif %}
-<h2>{{ name_raw|striptags }} in den »Blättern«</h2>
+    {% if content.field_image | render %}
+    <div class="image">
+        {{ content.field_image }}
+        <span class="heading">{{ name_raw|striptags }}</span>
+    </div>
+    {% endif %}
+    {% if content.field_bio | render %}
+    <h2 class="visually-hidden">Biographie von {{ name_raw }}</h2>
+    <p class="text">{{ content.field_bio }}</p>
+    {% endif %}
+    {% if content|without('field_image', 'field_bio') %}
+    <div class="content">
+        {{ content|without('field_image', 'field_bio') }}
+    </div>
+    {% endif %}
+    <h2 class="heading--sectiontitle">{{ name_raw|striptags }} in den »Blättern«</h2>
 </div>
