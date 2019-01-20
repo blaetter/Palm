@@ -95,6 +95,9 @@ function palm_preprocess_page_title(&$variables) {
     if (false !== strpos(\Drupal::routeMatch()->getRouteName(), 'view.blaetter_themen.page_1')) {
         $variables['title_prefix'] = 'Blätter';
     }
+    if (false !== strpos(\Drupal::routeMatch()->getRouteName(), 'view.blaetter_ausgabe.page_1')) {
+        $variables['title_prefix'] = 'archive';
+    }
 
     // add special prefixes for special routes
     $prefix_routes_user = [
@@ -112,12 +115,12 @@ function palm_preprocess_page_title(&$variables) {
         'entity.user.canonical',
         'entity.user.contact_form',
         'entity.user.edit_form',
-        'nodeshop.finishedOrder',
-        'nodeshop.processOrder',
-        'nodeshop.showCart',
         'nodeshop.addBonus',
         'nodeshop.changeBonus',
+        'nodeshop.finishedOrder',
+        'nodeshop.processOrder',
         'nodeshop.removeBonus',
+        'nodeshop.showCart',
         'user.login',
         'user.page',
         'user.password',
@@ -125,6 +128,7 @@ function palm_preprocess_page_title(&$variables) {
         'user.reset.form',
         'user.reset.login',
         'user.reset',
+        'view.blaetter_ausgabe.page_1',
         'view.blaetter_themen.page_1',
         'view.nodeshop_user_orders.page_1',
         'view.nodeshop_user_orders.page_2',
