@@ -1,0 +1,81 @@
+{#
+/**
+ * @file nodeshop_order.html.twig
+ * Default theme implementation to present Order data.
+ *
+ * This template is used when viewing Order pages.
+ *
+ *
+ * Available variables:
+ * - content: A list of content items. Use 'content' to print all content, or
+ * - attributes: HTML attributes for the container element.
+ *
+ * @see template_preprocess_order()
+ *
+ * @ingroup themeable
+ */
+#}
+<div{{ attributes.addClass('order') }}>
+  <h2>{{ label }}</h2>
+  <p>{{ 'ordered on'|t }} {{ created|format_date('short') }} | {{ 'order id'|t }} {{ order_id }} </p>
+  <div class="grid nodeshop_order_items">
+    <div class="grid__item one-third">
+        <h3>{{ 'billing address'|t }}</h3>
+        {{ address }}
+    </div>
+    <div class="grid__item one-third">
+        <h3>{{ 'delivery address'|t }}</h3>
+        {{ delivery_address }}
+    </div>
+    <div class="grid__item one-third">
+        <h3>{{ 'payment details'|t }}</h3>
+        <p><strong>{{ 'payment method'|t }}:</strong> {{ payment_method }}</p>
+        <table>
+            <tr>
+            <td>{{ 'subtotal'|t }}</td>
+            <td>{{ order_net }}</td>
+            </tr>
+            <tr>
+            <td>{{ 'delivery'|t }}</td>
+            <td>0,00€</td>
+            </tr>
+            <tr>
+            <td>{{ 'tax'|t }}</td>
+            <td>{{ order_tax }}</td>
+            </tr>
+            <tr>
+            <td><strong>{{ 'total'|t }}</strong></td>
+            <td>{{ order_total }}</td>
+            </tr>
+        </table>
+    </div>
+  </div>
+  {% if order_products %}
+  <div class="nodeshop_order_items">
+    <h3>{{ 'order products'|t }}</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>{{ 'product'|t }}</th>
+                <th>{{ 'quantity'|t }}</th>
+                <th>{{ 'price (including tax)'|t }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order_product in order_products %}
+                <tr>
+                    <td>
+                        <a href="{{ path('entity.node.canonical', {'node': order_product.getNodeId }) }}" rel="nofollow">{{ order_product.getTitle }}</a>
+                    </td>
+                    <td>{{ order_product.getQuantity }}</td>
+                    <td>{{ order_product.getThemedPriceTotal }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+  </div>
+  {% endif %}
+  {% if content %}
+    {{- content -}}
+  {% endif %}
+</div>
