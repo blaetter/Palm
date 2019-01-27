@@ -38,6 +38,12 @@ function palm_theme() {
                 'node_title' => '',
             ]
         ],
+        'palm_edition' => [
+            'template' => 'navigation/palm_edition',
+            'variables' => [
+                'edition' => [],
+            ]
+        ],
         'palm_heading_pagecategory' => [
             'template' => 'content/palm_heading_pagecategory',
             'variables' => [
@@ -326,9 +332,13 @@ function palm_preprocess_page(&$variables) {
  */
 function palm_preprocess_node(&$variables)
 {
+    // get current user
     $current_user = \Drupal\user\Entity\User::load($variables['user']->id());
+    // get view mode (e.g. full or teaser)
+    $view_mode = $variables['elements']['#view_mode'];
+
     // add dossier articles to the dossier teaser
-    if ('teaser_dossier' == $variables['elements']['#view_mode']) {
+    if ('teaser_dossier' == $view_mode) {
         $variables['dossier_articles'] = [
             '#type' => 'view',
             '#name' => 'blaetter_dossiers',
@@ -339,8 +349,100 @@ function palm_preprocess_node(&$variables)
         ];
     }
 
+    // add edition preview and purchase buttons to stories that are not available to the end user
+    if ('full' == $view_mode
+        && isset($variables['node'])
+        && 'story' == $variables['node']->getType()
+        && !NodeShop::grantUserAccess($variables['node'], $current_user)
+    ) {
+        if (isset($variables['node']->book) && !empty($variables['node']->book['bid'])) {
+            $book = \Drupal::entityTypeManager()->getStorage('node')->load($variables['node']->book['bid']);
+            if ($book && 'ausgabe' == $book->getType()) {
+                $edition = [
+                    '#weight' => 3, // set it directly prior to links, which have #weight => 5
+                    '#theme' => 'palm_edition',
+                    '#edition' => [
+                        'image' => $book->field_primary_picture->view('full'),
+                        'buttons' => [
+                            'buy_article' => [
+                                '#theme' => 'palm_buy_button',
+                                '#product_node_id' => $variables['node']->id(),
+                                '#destination' => \Drupal::service('path.current')->getPath(),
+                                '#product_price' => NodeShop::getPrice($variables['node']),
+                                '#label' => t('Buy article'),
+                                '#title' => t('Puts @title (print) into the cart.', ['@title' => $variables['node']->getTitle()]),
+                            ],
+                            'buy_online' => [
+                                '#theme' => 'palm_buy_button',
+                                '#product_node_id' => $book->id(),
+                                '#destination' => \Drupal::service('path.current')->getPath(),
+                                '#product_price' => NodeShop::getPrice($book),
+                                '#label' => t('Buy online issue'),
+                                '#title' => t('Puts @title (online) into the cart.', ['@title' => $book->getTitle()]),
+                            ]
+                        ]
+                    ]
+                ];
+                if ($book->hasField('field_ip') && !empty($book->get('field_ip')->value)) {
+                    $print_issue = \Drupal::entityTypeManager()->getStorage('node')->load(
+                        $book->get('field_ip')->value
+                    );
+                    if ($print_issue) {
+                        $edition['#edition']['buttons']['buy_print'] = [
+                            '#theme' => 'palm_buy_button',
+                            '#product_node_id' => $print_issue->id(),
+                            '#destination' => \Drupal::service('path.current')->getPath(),
+                            '#product_price' => NodeShop::getPrice($print_issue),
+                            '#label' => t('Buy print issue'),
+                            '#title' => t('Puts @title (print) into the cart.', ['@title' => $print_issue->getTitle()]),
+                        ];
+                    }
+                }
+                if ($current_user->isAnonymous()) {
+                    $edition['#edition']['buttons']['login'] = [
+                        '#theme' => 'link',
+                        '#title' => t('login to read full article'),
+                        '#type' => 'link',
+                        '#url' => Url::fromRoute(
+                            'user.login',
+                            [],
+                            [
+                                'query' => [
+                                    'destination' => \Drupal::service('path.current')->getPath()
+                                ]
+                            ]
+                        ),
+                        '#attributes' => [
+                            'rel'   => 'nofollow',
+                            'class' => ['button', 'button--reversed']
+                        ]
+                    ];
+                    // $edition['#edition']['buttons']['register'] = [
+                    //     '#theme' => 'link',
+                    //     '#title' => t('register'),
+                    //     '#type' => 'link',
+                    //     '#url' => Url::fromRoute(
+                    //         'user.register',
+                    //         [],
+                    //         [
+                    //             'query' => [
+                    //                 'destination' => \Drupal::service('path.current')->getPath()
+                    //             ]
+                    //         ]
+                    //     ),
+                    //     '#attributes' => [
+                    //         'rel'   => 'nofollow',
+                    //         'class' => ['button', 'button--reversed'],
+                    //     ]
+                    // ];
+                }
+                $variables['content']['edition'] = $edition;
+            }
+        }
+    }
+
     // add social block for all full node views
-    if ('full' == $variables['elements']['#view_mode'] && isset($variables['node'])) {
+    if ('full' == $view_mode && isset($variables['node'])) {
         $node_url = $variables['node']->toUrl()->setAbsolute()->toString();
         $node_title = $variables['node']->getTitle();
         $variables['social'] = [
@@ -404,7 +506,7 @@ function palm_preprocess_node(&$variables)
                 $variables['button_buy_print'] = [
                     '#theme' => 'palm_buy_button',
                     '#product_node_id' => $print_issue->id(),
-                    '#destination' => Url::fromRoute('entity.node.canonical', ['node' => $variables['node']->id()]),
+                    '#destination' => \Drupal::service('path.current')->getPath(),
                     '#product_price' => NodeShop::getPrice($print_issue),
                     '#label' => t('Buy print issue'),
                     '#title' => t('Puts @title (print) into the cart.', ['@title' => $print_issue->getTitle()]),
@@ -416,7 +518,7 @@ function palm_preprocess_node(&$variables)
             $variables['button_buy_online'] = [
                 '#theme' => 'palm_buy_button',
                 '#product_node_id' => $variables['node']->id(),
-                '#destination' => Url::fromRoute('entity.node.canonical', ['node' => $variables['node']->id()]),
+                '#destination' => \Drupal::service('path.current')->getPath(),
                 '#product_price' => NodeShop::getPrice($variables['node']),
                 '#label' => t('Buy online issue'),
                 '#title' => t('Puts @title (online) into the cart.', ['@title' => $variables['node']->getTitle()]),

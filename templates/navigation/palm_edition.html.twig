@@ -1,0 +1,24 @@
+{#
+/**
+ * @file palm_edition.html.twig
+ * Template for the edition view on closed articles.
+ *
+ * Available variables:
+ * - edition: The content for this block:
+ *    - edition.image - The image of the edition
+ *    - edition.buttons - Buttons to either buy or login
+ *
+ */
+#}
+{% if edition %}
+  <div class="block teaser teaser--aktuelle-ausgabe">
+    <div class="image">
+      {{ edition.image }}
+    </div>
+    <div class="inner">
+    {% for button in edition.buttons %}
+      {{ button }}<br />
+    {% endfor %}
+    </div>
+  </div>
+{% endif %}
