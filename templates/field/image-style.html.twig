@@ -18,7 +18,13 @@
 {% import _self as image_style %}
 {% macro credit(title) %}
   {{'Image'|t}}:
-  {% if "\n" in title %}
+  {% if "__BREAK__" in title %}
+    {% set lines = title | split("__BREAK__") %}
+    {% for line in lines %}
+      {% set credits = line | split('|') %}
+      <a href="{{credits[1]}}" target="_blank" title="{{ 'credit and/or license information'|t }}">{{credits[0]}}</a>
+      {% endfor %}
+  {% elseif "\n" in title %}
     {% set lines = title | split("\n") %}
     {% for line in lines %}
       {% set credits = line | split('|') %}
