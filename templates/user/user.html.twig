@@ -80,7 +80,7 @@
         <h3>{{ 'kindle mail' | t }}</h3>
         <p>
             {% if user.field_kindle_email.value %}
-                {{user.field_kindle_email.value }}@{{user.field_kindle_domain.value }}
+                {{user.field_kindle_email.value }}{{user.field_kindle_domain.value }}
             {% else %}
                 {{ 'not set yet' | t}}
             {% endif %}
