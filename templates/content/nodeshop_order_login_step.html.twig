@@ -1,0 +1,42 @@
+{#
+/**
+ * @file nodeshop_order_login_step.html.twig
+ * Default theme implementation of the order process login step
+ *
+ * Available variables:
+ * - attributes: HTML attributes for the container element.
+ * - login_form: The Drupal login form
+ * - force_account: A flag if the order can be processed as guest or not
+ *
+ *
+ * @ingroup themeable
+ */
+#}
+<div{{ attributes.addClass(['nodeshop_order_process_login']) }}>
+  <div{{ attributes.addClass(['grid', 'grid--strech']) }}>
+    <div class="grid__item one-half">
+      <div class="block--white">
+        <p><strong>{{ 'I already have an account'|t }}</strong></p>
+        <p>{{ 'If you already have an account, you might want to login.'|t }}</p>
+          {{ login_form }}
+      </div>
+    </div>
+    <div class="grid__item one-half">
+      <div class="block--white">
+        <p><strong>{{ 'I do not have an account and want to register.'|t }}</strong></p>
+        <p>{{ 'With an account you\'re able to always access your orders. If you want to purchase online products, creating an account is nesseccary.'|t }}</p>
+        <p><a href="{{ path('nodeshop.processCustomer', {'customer_action': 'register'}) }}" class="button">Registrieren</a></p>
+      </div>
+      <div class="block--white">
+      {% if force_account %}
+        <p><strong>{{ 'Why do I need to register?'|t }}</strong></p>
+        <p>{{ 'Your Order contains online products. In order to use them, you will need an account. We will create an account for you if you follow the registration link above.'|t }}</p>
+      {% else %}
+        <p><strong>{{ 'I do not want to register.'|t }}</strong></p>
+        <p>{{ 'If you only want to purchase print products, you do not need an account.'|t }}</p>
+        <p><a href="{{ path('nodeshop.processCustomer', {'customer_action': 'guest'}) }}" class="button">{{ 'Checkout as guest'|t }}</a></p>
+      {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
