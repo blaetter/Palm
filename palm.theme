@@ -513,7 +513,7 @@ function palm_preprocess_node(&$variables)
                 ];
             }
         }
-        if (!NodeShop::grantUserAccess($variables['node'], $current_user)) {
+        if (!NodeShop::isUserNode($variables['node'], $current_user)) {
             // only display this button if the user not already bought this online issue
             $variables['button_buy_online'] = [
                 '#theme' => 'palm_buy_button',
