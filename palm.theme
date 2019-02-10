@@ -608,6 +608,22 @@ function palm_form_alter(&$form, FormStateInterface $form_state, $form_id) {
         $form['deliver_information']['delivery_city']['#wrapper_attributes']['class'][] = 'one-half';
         $form['deliver_information']['delivery_country']['#wrapper_attributes']['class'][] = 'grid__item';
     }
+
+    // Nodeshop checkout form
+    if ('nodeshop_order_checkout_form' == $form_id) {
+        if (isset($form['register'])) {
+            $form['register']['#wrapper_attributes']['class'][] = 'block--white';
+        }
+        $form['customer_address']['#prefix'] = '<div class="grid grid--strech"><div class="grid__item one-third">';
+        $form['customer_address']['#suffix'] = '</div>';
+        $form['delivery_address']['#prefix'] = '<div class="grid__item one-third">';
+        $form['delivery_address']['#suffix'] = '</div>';
+        $form['payment_method']['#prefix'] = '<div class="grid__item one-third">';
+        $form['payment_method']['#attributes']['class'][] = 'block--white';
+        $form['payment_method']['#suffix'] = '</div></div>';
+        $form['customer_information']['#wrapper_attributes']['class'][] = 'block--white';
+    }
+    // kint($form);
 }
 
 function _palm_get_issue($node) {
