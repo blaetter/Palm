@@ -2614,6 +2614,8 @@ body {
 
 .grid.grid--stretch {
   align-items: stretch; }
+  .grid.grid--stretch > .grid__item {
+    margin-bottom: 1.25rem; }
   .grid.grid--stretch .teaser {
     height: 100%; }
 
@@ -7790,4 +7792,4 @@ select > option {
     text-decoration: none; }
 
 
-/*# sourceMappingURL=portal.css-f719a225d0a07a73ebc6.map*/
+/*# sourceMappingURL=portal.css-30241c900b4bb33cea46.map*/

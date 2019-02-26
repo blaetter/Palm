@@ -625,7 +625,6 @@ function palm_form_alter(&$form, FormStateInterface $form_state, $form_id) {
         $form['payment_method']['#attributes']['class'][] = 'block--white';
         $form['payment_method']['#suffix'] = '</div></div>';
         $form['customer_information']['#wrapper_attributes']['class'][] = 'block--white';
-        $form['items']['#attributes']['class'][] = 'form-item';
     }
     // kint($form);
 }
