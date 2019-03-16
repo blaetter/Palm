@@ -7110,7 +7110,7 @@ select > option {
 /* DESKTOP NAVIGATION */
 #page-search {
   display: none;
-  padding: 1.25rem;
+  padding: 40px;
   display: none;
   background-color: #f2f2f2;
   position: relative;
@@ -7822,4 +7822,4 @@ select > option {
     text-decoration: none; }
 
 
-/*# sourceMappingURL=portal.css-7fb7b1566539706b7c76.map*/
+/*# sourceMappingURL=portal.css-b13de9bc03f314166e96.map*/
