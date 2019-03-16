@@ -23,6 +23,14 @@ function palm_form_system_theme_settings_alter(
         '#open'   => true,
     ];
 
+    $form['palm_settings']['palm_footer_link'] = [
+        '#type'           => 'textfield',
+        '#title'          => t('Node ID for footer link'),
+        '#description'    => t('Please provide a Node ID for the link at the bottom of the page around "Karl Barth".'),
+        '#default_value'  => theme_get_setting('palm_footer_link'),
+        '#size'           => 10,
+    ];
+
     $form['palm_settings']['palm_initial_nodetypes'] = [
         '#type'           => 'select',
         '#title'          => t('Initial letter'),

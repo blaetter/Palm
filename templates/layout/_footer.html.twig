@@ -9,9 +9,17 @@
             <br>
             in einem Meer von Unsinn«
         </span>
+        {% if footer_link %}
+        <a href="{{ path('entity.node.canonical', {'node': footer_link }) }}" class="author">
+        {% else %}
         <span class="author">
+        {% endif %}
             Karl Barth
+        {% if footer_link %}
+        </a>
+        {% else %}
         </span>
+        {% endif %}
         <span class="copyright">
             © Blätter Gesellschaft mbH,
             {{ "now"|date("Y") }}
