@@ -49,6 +49,8 @@ function palm_theme() {
             'variables' => [
                 'category_prefix' => '',
                 'headline' => '',
+                'url' => '',
+                'link_title' => '',
             ]
         ],
       ];
@@ -296,6 +298,13 @@ function palm_preprocess_page(&$variables) {
                 '#theme' => 'palm_heading_pagecategory',
                 '#category_prefix' => t('Edition'),
                 '#headline' => $edition,
+                '#url' => Url::fromRoute(
+                            'entity.node.canonical',
+                            [
+                              'node' => $issue['nid'],
+                            ]
+                        ),
+                '#link_title' => t('back to the issue @edition', ['@edition' => $edition]),
             ];
         }
         // provide headings if in full node view
@@ -303,12 +312,12 @@ function palm_preprocess_page(&$variables) {
             $dossier = '';
             if ($node->hasField('field_dossier')) {
                 $dossier = $node->field_dossier->entity->getName();
+                $variables['page']['hero']['category_title'] = [
+                    '#theme' => 'palm_heading_pagecategory',
+                    '#category_prefix' => t('Dossier'),
+                    '#headline' => $dossier,
+                ];
             }
-            $variables['page']['hero']['category_title'] = [
-                '#theme' => 'palm_heading_pagecategory',
-                '#category_prefix' => t('Dossier'),
-                '#headline' => $dossier
-            ];
         }
         if ('product' == $node->getType()) {
             $rubric = '';
@@ -638,6 +647,7 @@ function _palm_get_issue($node) {
             $year = $book->get('field_jahr')->entity->getName();
         }
         return [
+            'nid' => $book->id(),
             'year' => $year,
             'edition' => $edition,
         ];

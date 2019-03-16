@@ -6,14 +6,24 @@
  * Available variables:
  * - category_prefix: The optional prefix to display in red letters
  * - headline: The optional headline to display
- *
+ * - url: optional url added as a link to the headline
+ * - link_title: optional link title for the optional link
  */
 #}
 {% if headline or category_prefix %}
 <div class="heading--pagecategory">
+  {% if url %}
+  <a href="{{ url }}"{% if link_title %}title="{{ link_title }}"{% endif %}>
+  {% endif %}
+
     {% if category_prefix %}
     <span class="text--red">{{ category_prefix }}</span>
     {% endif %}
     {{ headline }}
+
+  {% if url %}
+    </a>
+  {% endif %}
+
 </div>
 {% endif %}
