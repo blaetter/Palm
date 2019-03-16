@@ -6312,6 +6312,8 @@ select > option {
       display: block; } }
   .nodeshop-cart-form table tbody td:nth-child(2) {
     width: 100%; }
+  .nodeshop-cart-form table tbody td:nth-child(4) {
+    position: relative; }
   .nodeshop-cart-form table tbody h2 {
     font-size: 18px;
     margin-top: 0; }
@@ -6322,7 +6324,7 @@ select > option {
       .nodeshop-cart-form table tbody img {
         max-width: 100%; } }
   .nodeshop-cart-form table .form-number {
-    max-width: 4em; }
+    width: 4em; }
   .nodeshop-cart-form table .price,
   .nodeshop-cart-form table .total-title {
     font-weight: bold; }
@@ -6336,6 +6338,30 @@ select > option {
     .nodeshop-cart-form #paypal-button {
       margin-top: 1em;
       text-align: center; } }
+
+.nodeshop-cart-form .form-item-cart-fields-0-quantity {
+  padding-right: 40px; }
+
+.nodeshop-cart-form .nodeshop_cart_remove_item {
+  background: #CCCCCC;
+  color: #FFFFFF;
+  border: 1px solid #CCCCCC;
+  border-radius: 24px;
+  width: 24px;
+  height: 24px;
+  font-size: 24px;
+  font-weight: bold;
+  display: block;
+  line-height: 23px;
+  text-align: center;
+  text-transform: uppercase;
+  position: absolute;
+  top: 20px;
+  left: 4em; }
+  .nodeshop-cart-form .nodeshop_cart_remove_item:hover {
+    text-decoration: none;
+    background: #e3e3e3;
+    border-color: #e3e3e3; }
 
 .nodeshop__form h2 {
   font-size: 1em;
@@ -7822,4 +7848,4 @@ select > option {
     text-decoration: none; }
 
 
-/*# sourceMappingURL=portal.css-b13de9bc03f314166e96.map*/
+/*# sourceMappingURL=portal.css-63ef67eb035f3c6bb515.map*/
