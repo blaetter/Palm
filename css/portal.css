@@ -1,8 +1,8 @@
 @charset "UTF-8";
 /***************************************************
- * OUR PAGE SETTINGS 
+ * OUR PAGE SETTINGS
  */
-/* We can use a wrapperclass to make unique rules and 
+/* We can use a wrapperclass to make unique rules and
  * avoid conflicts with existing older css classes.
  *
  *   <div class="our-namespace-to-isolate-the-rules">
@@ -6237,33 +6237,37 @@ select > option {
 
 .form--navigationsearch {
   position: relative;
-  height: 40px; }
+  height: 60px;
+  margin-bottom: 0;
+  font-size: 20px; }
   .form--navigationsearch .searchicon {
     position: absolute;
     left: 10px;
-    font-size: 20px;
-    line-height: 40px;
-    color: rgba(100, 100, 100, 0.3); }
+    line-height: 60px;
+    color: #086D9A;
+    z-index: 3; }
   .form--navigationsearch .searchtext {
     position: absolute;
     width: 100%;
     left: 0;
-    background: transparent;
+    background: #FFFFFF;
     border: 2px solid #086D9A;
-    height: 40px;
-    color: #FFFFFF;
-    font-family: inherit;
-    min-height: auto; }
+    height: 60px;
+    color: #000000;
+    min-height: auto;
+    padding: 16px;
+    padding-left: 32px; }
   .form--navigationsearch .submit {
     position: absolute;
     right: 0;
-    height: 40px;
+    height: 60px;
     background: #086D9A;
-    color: #000000;
+    color: #FFFFFF;
     text-transform: uppercase;
     border: 1px solid #086D9A;
-    font-family: inherit;
-    font-weight: 700; }
+    font-weight: 700;
+    font-size: 18px;
+    padding: 16px; }
 
 .nodeshop-cart-form .nodeshop_cart_header,
 .nodeshop-cart-form .nodeshop_cart_footer {
@@ -7103,6 +7107,32 @@ select > option {
         border-top-right-radius: 4px;
         border-bottom-right-radius: 4px; }
 
+/* DESKTOP NAVIGATION */
+#page-search {
+  display: none;
+  padding: 1.25rem;
+  display: none;
+  background-color: #f2f2f2;
+  position: relative;
+  z-index: 2;
+  left: 0;
+  top: auto;
+  height: auto;
+  visibility: visible;
+  overflow: hidden;
+  width: 100%;
+  font-family: droid-sans,Arial,sans-serif;
+  font-size: 15px; }
+  #page-search:after {
+    content: "";
+    display: table;
+    clear: both; }
+  #page-search.opened {
+    display: block; }
+  @media print {
+    #page-search {
+      display: none !important; } }
+
 .swiper-articleimage {
   margin-bottom: 0.75rem;
   position: relative;
@@ -7792,4 +7822,4 @@ select > option {
     text-decoration: none; }
 
 
-/*# sourceMappingURL=portal.css-30241c900b4bb33cea46.map*/
+/*# sourceMappingURL=portal.css-7fb7b1566539706b7c76.map*/

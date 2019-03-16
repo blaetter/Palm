@@ -11,6 +11,7 @@ version: 1.0.0
 regions:
   header: Header
   navigation: Navigation
+  search: Search
   flyout: Flyout
   hero: Hero
   sidebar_left: 'Sidebar left'
