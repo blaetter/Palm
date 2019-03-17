@@ -319,7 +319,11 @@ function palm_preprocess_page(&$variables) {
                 ];
             }
         }
-        if ('product' == $node->getType()) {
+        if ('product' == $node->getType()
+        && \Drupal::routeMatch()->getRouteName() != 'nodeshop.addBonus'
+        && \Drupal::routeMatch()->getRouteName() != 'nodeshop.changeBonus'
+        && \Drupal::routeMatch()->getRouteName() != 'nodeshop.removeBonus'
+        ) {
             $rubric = '';
             if ($node->hasField('field_rubrik')) {
                 $rubric = $node->field_rubrik->entity->getName();

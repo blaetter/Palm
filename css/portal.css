@@ -4296,6 +4296,30 @@ table {
   .block--white > *:last-child {
     margin-bottom: 0; }
 
+.nodeshop-bonus .nodeshop-bonus-node {
+  margin: 1.25rem 0; }
+  .nodeshop-bonus .nodeshop-bonus-node:after {
+    content: "";
+    display: table;
+    clear: both; }
+  .nodeshop-bonus .nodeshop-bonus-node article {
+    margin-bottom: 1.25rem; }
+    .nodeshop-bonus .nodeshop-bonus-node article h2 {
+      margin-top: 0; }
+    .nodeshop-bonus .nodeshop-bonus-node article div {
+      display: flex; }
+    .nodeshop-bonus .nodeshop-bonus-node article .field--name-field-primary-picture {
+      max-width: 200px;
+      margin-right: 1.25rem; }
+
+.nodeshop-bonus .btn, .nodeshop-bonus .button, .nodeshop-bonus .button-submit, .nodeshop-bonus .button--spaced, .nodeshop-bonus .button--ghost, .nodeshop-bonus .button--footer, .nodeshop-bonus .button--reversed, .nodeshop-bonus .button--disabled, .nodeshop-bonus .button--white, .nodeshop-bonus .button--buy {
+  width: 100%;
+  height: auto; }
+
+@media print, (min-width: 45.001rem) {
+  .nodeshop-bonus .nodeshop-bonus-footer .btn, .nodeshop-bonus .nodeshop-bonus-footer .button, .nodeshop-bonus .nodeshop-bonus-footer .button-submit, .nodeshop-bonus .nodeshop-bonus-footer .button--spaced, .nodeshop-bonus .nodeshop-bonus-footer .button--ghost, .nodeshop-bonus .nodeshop-bonus-footer .button--footer, .nodeshop-bonus .nodeshop-bonus-footer .button--reversed, .nodeshop-bonus .nodeshop-bonus-footer .button--disabled, .nodeshop-bonus .nodeshop-bonus-footer .button--white, .nodeshop-bonus .nodeshop-bonus-footer .button--buy {
+    width: auto; } }
+
 .comment .meta {
   color: #777777;
   font-size: 12px; }
@@ -6328,7 +6352,12 @@ select > option {
   .nodeshop-cart-form table tbody td:nth-child(4) {
     position: relative; }
   .nodeshop-cart-form table tbody h2 {
-    font-size: 18px;
+    font-size: 1.125rem;
+    line-height: 1.66667;
+    margin-top: 0; }
+  .nodeshop-cart-form table tbody h3 {
+    font-size: 1.125rem;
+    line-height: 1.66667;
     margin-top: 0; }
   .nodeshop-cart-form table tbody img {
     display: block;
@@ -7861,4 +7890,4 @@ select > option {
     text-decoration: none; }
 
 
-/*# sourceMappingURL=portal.css-747040d499663e9e97cb.map*/
+/*# sourceMappingURL=portal.css-91f2a5ad76cc6bced8b0.map*/
