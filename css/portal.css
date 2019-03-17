@@ -4307,6 +4307,9 @@ table {
   width: 100%;
   height: auto; }
 
+.content-wrapper-homepage .system-messages {
+  padding-bottom: 60px; }
+
 /* video container (EMS/Befi) */
 .embed-container {
   position: relative;
@@ -7855,4 +7858,4 @@ select > option {
     text-decoration: none; }
 
 
-/*# sourceMappingURL=portal.css-1a38c66eb8699678a533.map*/
+/*# sourceMappingURL=portal.css-69adb12a51eb5b20d1a9.map*/
