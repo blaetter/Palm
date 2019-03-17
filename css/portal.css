@@ -4300,6 +4300,13 @@ table {
   color: #777777;
   font-size: 12px; }
 
+/* drupal messages container */
+.system-messages {
+  position: relative;
+  padding: 20px 0;
+  width: 100%;
+  height: auto; }
+
 /* video container (EMS/Befi) */
 .embed-container {
   position: relative;
@@ -7848,4 +7855,4 @@ select > option {
     text-decoration: none; }
 
 
-/*# sourceMappingURL=portal.css-63ef67eb035f3c6bb515.map*/
+/*# sourceMappingURL=portal.css-1a38c66eb8699678a533.map*/

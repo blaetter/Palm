@@ -13,6 +13,7 @@ regions:
   navigation: Navigation
   search: Search
   flyout: Flyout
+  messages: Messages
   hero: Hero
   sidebar_left: 'Sidebar left'
   content: Content
