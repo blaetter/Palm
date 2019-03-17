@@ -13,12 +13,12 @@
  */
 #}
 {% if content %}
-  {# if we're in the sidebar, we do not need the separating div element #}
-  {% if 'sidebar_first' != region %}
+  {# if we have no attributes, we do not need the surrounding container #}
+  {% if attributes is not empty %}
   <div{{ attributes }}>
   {% endif %}
     {{ content }}
-  {% if 'sidebar_first' != region %}
+  {% if attributes is not empty %}
   </div>
   {% endif %}
 {% endif %}
