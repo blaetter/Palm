@@ -78,7 +78,7 @@ function palm_preprocess_page_title(&$variables) {
         if ('ausgabe' == $node->getType()) {
             $variables['title_prefix'] = t('Edition');
             $variables['title_attributes']['class'][] = $custom_headline_class;
-        } else {
+        } elseif (false === strpos(\Drupal::routeMatch()->getRouteName(), 'Bonus')) {
             $variables['title_attributes']['class'][] = 'heading--article';
         }
     }
