@@ -4303,12 +4303,15 @@ table {
 /* drupal messages container */
 .system-messages {
   position: relative;
-  padding: 20px 0;
   width: 100%;
   height: auto; }
+  .system-messages .messages:first-child {
+    margin-top: 20px; }
+  .system-messages .messages:last-child {
+    margin-bottom: 20px; }
 
-.content-wrapper-homepage .system-messages {
-  padding-bottom: 60px; }
+.content-wrapper-homepage .system-messages .messages:last-child {
+  margin-bottom: 60px; }
 
 /* video container (EMS/Befi) */
 .embed-container {
@@ -7858,4 +7861,4 @@ select > option {
     text-decoration: none; }
 
 
-/*# sourceMappingURL=portal.css-69adb12a51eb5b20d1a9.map*/
+/*# sourceMappingURL=portal.css-747040d499663e9e97cb.map*/
