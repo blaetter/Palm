@@ -121,10 +121,6 @@ body {
   background-color: #FFFFFF;
   font-size: 1.125rem;
   line-height: 1.66667; }
-  body.fixed,
-  body.fixed,
-  body.fixed {
-    padding-top: 60px; }
 
 .js-easypopup {
   position: relative;
@@ -7828,7 +7824,6 @@ select > option {
     transition: line-height 0.5s ease-out;
     transition: font-size 0.5s ease-out;
     position: fixed;
-    top: 0;
     z-index: 1000;
     width: 100%;
     max-width: 88.75rem;
@@ -7918,4 +7913,4 @@ select > option {
     text-decoration: none; }
 
 
-/*# sourceMappingURL=portal.css-12b9879b560376e4160f.map*/
+/*# sourceMappingURL=portal.css-71114e47099c7ff814db.map*/
