@@ -121,6 +121,10 @@ body {
   background-color: #FFFFFF;
   font-size: 1.125rem;
   line-height: 1.66667; }
+  body.fixed,
+  body.fixed,
+  body.fixed {
+    padding-top: 60px; }
 
 .js-easypopup {
   position: relative;
@@ -2788,17 +2792,17 @@ a:hover {
     padding:            0;
     @include media-query(palm) {
         width:          100%;
-        margin:         0;   
+        margin:         0;
         &.hide {
             display:    none;
         }
     }
-    @include media-query(lap-and-up) { 
+    @include media-query(lap-and-up) {
         width:          $contentWidthDeskPx;
         max-width:      100%;
         margin:         0 auto;
 	}
-   
+
 }
 */
 .content-wrapper-homepage {
@@ -7798,23 +7802,47 @@ select > option {
 #header {
   position: relative;
   background-color: #FFFFFF; }
-  @media screen and (max-width: 45rem) {
-    #header.fixed,
-    #header.fixed {
-      position: absolute;
-      top: 0;
-      left: 0;
-      z-index: 1000;
-      width: 100vw;
-      height: 105vh;
-      overflow-y: scroll; } }
-
-.page-anzeige {
-  font-size: 0.6875rem;
-  color: #777777;
-  float: right;
-  margin: 0.6em 0;
-  text-transform: uppercase; }
+  #header .logo,
+  #header .logo {
+    display: flex; }
+    #header .logo .palm,
+    #header .logo .palm {
+      width: 40px; }
+    #header .logo .claim,
+    #header .logo .claim {
+      margin-left: 13.33333px;
+      width: 120px; }
+      @media screen and (max-width: 45rem) {
+        #header .logo .claim,
+        #header .logo .claim {
+          display: none; } }
+    #header .logo .tongue,
+    #header .logo .tongue {
+      display: none; }
+  #header.fixed,
+  #header.fixed {
+    height: 60px;
+    font-size: 0.9rem;
+    line-height: 1.33333;
+    transition: height 0.5s ease-out;
+    transition: line-height 0.5s ease-out;
+    transition: font-size 0.5s ease-out;
+    position: fixed;
+    top: 0;
+    z-index: 1000;
+    width: 100%;
+    max-width: 88.75rem;
+    margin: 0 auto; }
+    #header.fixed .logo .palm,
+    #header.fixed .logo .palm {
+      transition: width 0.5s ease-out;
+      width: 30px; }
+    #header.fixed .logo .claim,
+    #header.fixed .logo .claim {
+      display: none; }
+    #header.fixed .logo .tongue,
+    #header.fixed .logo .tongue {
+      display: none; }
 
 .portal-head {
   padding-top: 0.625rem;
@@ -7890,4 +7918,4 @@ select > option {
     text-decoration: none; }
 
 
-/*# sourceMappingURL=portal.css-91f2a5ad76cc6bced8b0.map*/
+/*# sourceMappingURL=portal.css-12b9879b560376e4160f.map*/

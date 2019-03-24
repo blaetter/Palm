@@ -2,7 +2,7 @@
 /*!************************************!*\
   !*** ./source-bundle/js/global.js ***!
   \************************************/
-/*! no exports provided */function(e,t,n){"use strict";n.r(t);var r=n(/*! swiper-init */"./source-bundle/js/modules/swiper-init.js"),o=n(/*! collapse */"./source-bundle/js/modules/collapse.js"),s=n(/*! nav-menu-flyout */"./source-bundle/js/modules/nav-menu-flyout.js"),a=n(/*! search-flyout */"./source-bundle/js/modules/search-flyout.js");window._paq="object"==typeof window._paq?window._paq:[],window._gaq="object"==typeof window._gaq?window._gaq:[],document.addEventListener("DOMContentLoaded",function(e){Object(o.default)(),r.init(r.apply),Object(s.default)(),Object(a.default)()})},"./source-bundle/js/modules/blaetter.js":
+/*! no exports provided */function(e,t,n){"use strict";n.r(t);var r=n(/*! swiper-init */"./source-bundle/js/modules/swiper-init.js"),o=n(/*! collapse */"./source-bundle/js/modules/collapse.js"),s=n(/*! nav-menu-flyout */"./source-bundle/js/modules/nav-menu-flyout.js"),a=n(/*! search-flyout */"./source-bundle/js/modules/search-flyout.js"),i=n(/*! header-fix */"./source-bundle/js/modules/header-fix.js");window._paq="object"==typeof window._paq?window._paq:[],window._gaq="object"==typeof window._gaq?window._gaq:[],document.addEventListener("DOMContentLoaded",function(e){Object(o.default)(),r.init(r.apply),Object(s.default)(),Object(a.default)(),Object(i.default)()})},"./source-bundle/js/modules/blaetter.js":
 /*!**********************************************!*\
   !*** ./source-bundle/js/modules/blaetter.js ***!
   \**********************************************/
@@ -10,7 +10,11 @@
 /*!**********************************************!*\
   !*** ./source-bundle/js/modules/collapse.js ***!
   \**********************************************/
-/*! exports provided: default */function(e,t,n){"use strict";n.r(t),function(s){t.default=function(){s(".js-collapse-me").each(function(){var e=s(this),t=s(this).data("opentext")||"Öffnen",n=s(this).data("closetext")||"Schließen";e.wrapInner('<span class="js-collapse-me-inner"></span> '),e.prepend('<span class="js-collapse-me-toggler" title="">'+t+"</span>"),e.show(),s(".js-collapse-me-toggler",this).click(function(){e.toggleClass("opened"),e.hasClass("opened")?s(".js-collapse-me-toggler",e).html(n):s(".js-collapse-me-toggler",e).html(t)})}),s(".js-simple-toggler").each(function(){var e=s(this),t=s(this).data("target"),n=s(this).data("opentext"),r=s(this).data("closetext"),o=s(this).data("allowtoggle");s(t).hasClass("display-block")?r&&e.html(r):(s(t).addClass("display-none"),n&&e.html(n)),e.click(function(){s(t).hasClass("display-block")?(s(t).removeClass("display-block"),s(t).addClass("display-none"),e.html(n)):(s(t).removeClass("display-none"),s(t).addClass("display-block"),e.html(r)),0==o&&e.remove()})})}}.call(this,n(/*! jquery */"jquery"))},"./source-bundle/js/modules/nav-menu-flyout.js":
+/*! exports provided: default */function(e,t,n){"use strict";n.r(t),function(s){t.default=function(){s(".js-collapse-me").each(function(){var e=s(this),t=s(this).data("opentext")||"Öffnen",n=s(this).data("closetext")||"Schließen";e.wrapInner('<span class="js-collapse-me-inner"></span> '),e.prepend('<span class="js-collapse-me-toggler" title="">'+t+"</span>"),e.show(),s(".js-collapse-me-toggler",this).click(function(){e.toggleClass("opened"),e.hasClass("opened")?s(".js-collapse-me-toggler",e).html(n):s(".js-collapse-me-toggler",e).html(t)})}),s(".js-simple-toggler").each(function(){var e=s(this),t=s(this).data("target"),n=s(this).data("opentext"),r=s(this).data("closetext"),o=s(this).data("allowtoggle");s(t).hasClass("display-block")?r&&e.html(r):(s(t).addClass("display-none"),n&&e.html(n)),e.click(function(){s(t).hasClass("display-block")?(s(t).removeClass("display-block"),s(t).addClass("display-none"),e.html(n)):(s(t).removeClass("display-none"),s(t).addClass("display-block"),e.html(r)),0==o&&e.remove()})})}}.call(this,n(/*! jquery */"jquery"))},"./source-bundle/js/modules/header-fix.js":
+/*!************************************************!*\
+  !*** ./source-bundle/js/modules/header-fix.js ***!
+  \************************************************/
+/*! exports provided: default */function(e,t,n){"use strict";n.r(t),function(r){n.d(t,"default",function(){return e});n(/*! blaetter */"./source-bundle/js/modules/blaetter.js");function e(){var t=r("#header"),n=r("body");function e(){var e=r(window).scrollTop();n.offset().top<e?(t.addClass("fixed"),n.addClass("fixed")):(t.removeClass("fixed"),n.removeClass("fixed"))}r(window).scroll(e),e()}}.call(this,n(/*! jquery */"jquery"))},"./source-bundle/js/modules/nav-menu-flyout.js":
 /*!*****************************************************!*\
   !*** ./source-bundle/js/modules/nav-menu-flyout.js ***!
   \*****************************************************/
@@ -35,4 +39,4 @@
   !*** external "jQuery" ***!
   \*************************/
 /*! no static exports found */function(e,t){e.exports=jQuery}});
-//# sourceMappingURL=portal.js-91f2a5ad76cc6bced8b0.map
+//# sourceMappingURL=portal.js-12b9879b560376e4160f.map
