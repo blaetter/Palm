@@ -14,7 +14,7 @@
 /*!************************************************!*\
   !*** ./source-bundle/js/modules/header-fix.js ***!
   \************************************************/
-/*! exports provided: default */function(e,t,n){"use strict";n.r(t),function(r){n.d(t,"default",function(){return e});n(/*! blaetter */"./source-bundle/js/modules/blaetter.js");function e(){var t=r("#header"),n=r("body");function e(){var e=r(window).scrollTop();n.offset().top<e?(t.addClass("fixed"),n.addClass("fixed")):(t.removeClass("fixed"),n.removeClass("fixed"))}r(window).scroll(e),e()}}.call(this,n(/*! jquery */"jquery"))},"./source-bundle/js/modules/nav-menu-flyout.js":
+/*! exports provided: default */function(e,t,n){"use strict";n.r(t),function(o){n.d(t,"default",function(){return e});n(/*! blaetter */"./source-bundle/js/modules/blaetter.js");function e(){var t=o("#header"),n=o("body"),r=o(".page-wrapper");function e(){var e=o(window).scrollTop();n.offset().top<e?(t.addClass("fixed"),r.addClass("fixed")):(t.removeClass("fixed"),r.removeClass("fixed"))}o(window).scroll(e),e()}}.call(this,n(/*! jquery */"jquery"))},"./source-bundle/js/modules/nav-menu-flyout.js":
 /*!*****************************************************!*\
   !*** ./source-bundle/js/modules/nav-menu-flyout.js ***!
   \*****************************************************/
@@ -39,4 +39,4 @@
   !*** external "jQuery" ***!
   \*************************/
 /*! no static exports found */function(e,t){e.exports=jQuery}});
-//# sourceMappingURL=portal.js-71114e47099c7ff814db.map
+//# sourceMappingURL=portal.js-2a64b3621ce111d9b2d6.map
