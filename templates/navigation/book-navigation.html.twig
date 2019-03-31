@@ -32,16 +32,11 @@
 {% if has_links %}
   <nav id="book-navigation-{{ book_id }}" class="book-navigation" role="navigation" aria-labelledby="book-label-{{ book_id }}">
     {% if has_links %}
-      <h2 class="visually-hidden" id="book-label-{{ book_id }}">{{ 'Book traversal links for'|t }} {{ book_title }}</h2>
+    <h2 class="heading--sectiontitle" id="book-label-{{ book_id }}">{{ 'Book traversal links for'|t }} {{ parent_title }}</h2>
       <ul class="book-pager">
       {% if prev_url %}
         <li class="book-pager__item book-pager__item--previous">
           <a href="{{ prev_url }}" rel="prev" title="{{ 'Go to previous page'|t }}"><b>{{ '‹'|t }}</b> {{ prev_title }}</a>
-        </li>
-      {% endif %}
-      {% if parent_url %}
-        <li class="book-pager__item book-pager__item--center">
-          <a href="{{ parent_url }}" title="{{ 'Go to parent page'|t }}">{{ 'Up'|t }}</a>
         </li>
       {% endif %}
       {% if next_url %}

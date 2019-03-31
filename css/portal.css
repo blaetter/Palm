@@ -6607,6 +6607,19 @@ select > option {
   .archive-index .swiper-button-disabled {
     display: none !important; }
 
+.node__links ul.inline,
+.node__links ul.links.inline {
+  display: inline;
+  padding-left: 0; }
+  .node__links ul.inline li,
+  .node__links ul.links.inline li {
+    display: inline;
+    list-style-type: none;
+    padding: 0 0.5em; }
+    .node__links ul.inline li:first-child,
+    .node__links ul.links.inline li:first-child {
+      padding-left: 0; }
+
 .az {
   margin-bottom: 1.25rem;
   /*
@@ -6691,9 +6704,8 @@ select > option {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  padding: 20px 0 0 0;
-  margin: 20px 0 20px 0;
-  border-top: 1px solid #CCCCCC; }
+  padding: 0;
+  margin: 0; }
   .book-pager .book-pager__item {
     display: inline-block;
     list-style-type: none;
@@ -7942,4 +7954,4 @@ select > option {
     text-decoration: none; }
 
 
-/*# sourceMappingURL=portal.css-2a64b3621ce111d9b2d6.map*/
+/*# sourceMappingURL=portal.css-0dff96f6b137721d3d4e.map*/
