@@ -91,6 +91,13 @@ function palm_preprocess_page_title(&$variables) {
         }
         if ('autoren' == $term->bundle()) {
             $variables['title_prefix'] = t('Editors');
+            $variables['title_prefix_link'] = Url::fromRoute(
+                            'view.blaetter_autoren.page_1',
+                            [
+                              'sort_character' => 'a'
+                            ]
+                        );
+            $variables['title_prefix_link_title'] = t('back to all editors');
             $variables['title_attributes']['class'][] = $custom_headline_class;
         }
     }
@@ -137,6 +144,7 @@ function palm_preprocess_page_title(&$variables) {
         'user.reset.login',
         'user.reset',
         'view.blaetter_ausgabe.page_1',
+        'view.blaetter_autoren.page_1',
         'view.blaetter_themen.page_1',
         'view.nodeshop_user_orders.page_1',
         'view.nodeshop_user_orders.page_2',

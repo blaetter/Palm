@@ -6,6 +6,8 @@
  * Available variables:
  * - title_attributes: HTML attributes for the page title element.
  * - title_prefix: Additional output populated by modules, intended to be
+ * - title_prefix_link: optional link for the page title prefix
+ * - title_prefix_link_title: optional link title for the page title prefix link
  *   displayed in front of the main title tag that appears in the template.
  * - title: The page title, for use in the actual content.
  * - title_suffix: Additional output populated by modules, intended to be
@@ -15,7 +17,13 @@
 {% if title %}
   <h1{{ title_attributes }}>
     {% if title_prefix %}
+      {% if title_prefix_link %}
+      <a href="{{ title_prefix_link }}" {% if title_prefix_link_title %} title="{{title_prefix_link_title}}" {% endif %} class="text--red">
+        {{ title_prefix }}
+      </a>
+      {% else %}
       <span class="text--red">{{ title_prefix }}</span>
+      {% endif %}
     {% endif %}
     {{ title }}
     {% if title_suffix %}
