@@ -108,10 +108,13 @@ function palm_preprocess_page_title(&$variables) {
         $variables['title_attributes']['class'][] = $custom_headline_class;
     }
     if (false !== strpos(\Drupal::routeMatch()->getRouteName(), 'view.blaetter_themen.page_1')) {
-        $variables['title_prefix'] = 'Blätter';
+        $variables['title_prefix'] = '»Blätter«';
     }
     if (false !== strpos(\Drupal::routeMatch()->getRouteName(), 'view.blaetter_ausgabe.page_1')) {
-        $variables['title_prefix'] = 'archive';
+        $variables['title_prefix'] = t('archive');
+    }
+    if (false !== strpos(\Drupal::routeMatch()->getRouteName(), 'view.blaetter_dossiers.page_1')) {
+        $variables['title_prefix'] = 'Dossier';
     }
 
     // add special prefixes for special routes
@@ -136,6 +139,10 @@ function palm_preprocess_page_title(&$variables) {
         'nodeshop.processOrder',
         'nodeshop.removeBonus',
         'nodeshop.showCart',
+        'search.help_suche',
+        'search.view',
+        'search.view_node_search',
+        'search.view_suche',
         'user.login',
         'user.page',
         'user.password',
@@ -145,6 +152,9 @@ function palm_preprocess_page_title(&$variables) {
         'user.reset',
         'view.blaetter_ausgabe.page_1',
         'view.blaetter_autoren.page_1',
+        'view.blaetter_autoren.page_2',
+        'view.blaetter_autoren.page_3',
+        'view.blaetter_dossiers.page_1',
         'view.blaetter_themen.page_1',
         'view.nodeshop_user_orders.page_1',
         'view.nodeshop_user_orders.page_2',
@@ -340,6 +350,14 @@ function palm_preprocess_page(&$variables) {
                 '#theme' => 'palm_heading_pagecategory',
                 '#category_prefix' => t('Shop'),
                 '#headline' => $rubric
+            ];
+        }
+        // default page category on all page type nodes
+        if ('page' == $node->getType()) {
+            $variables['page']['hero']['category_title'] = [
+                '#theme' => 'palm_heading_pagecategory',
+                '#category_prefix' => t('About'),
+                '#headline' => t('the »Blätter«'),
             ];
         }
     }

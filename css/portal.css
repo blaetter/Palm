@@ -3255,8 +3255,7 @@ h4 {
 .heading--article {
   font-size: 60px;
   line-height: 1.3em;
-  margin-bottom: 0.2em;
-  margin-top: 0.4em; }
+  margin-bottom: 0.2em; }
   @media screen and (max-width: 45rem) {
     .heading--article {
       font-size: 2em;
@@ -3314,7 +3313,7 @@ h4 {
   border-bottom: 4px solid #CCCCCC;
   padding: 0.8em 0 0.7em 0;
   width: auto;
-  margin-bottom: 1.5em; }
+  margin-bottom: 2em; }
 
 .heading--dossiercat {
   font-family: 'droid-sans', Arial, sans-serif;
@@ -6683,9 +6682,6 @@ select > option {
 
 #block-palm-local-tasks .tabs {
   margin-top: 0; }
-  @media print, (min-width: 45.001rem) {
-    #block-palm-local-tasks .tabs {
-      margin-top: 0.75em; } }
   #block-palm-local-tasks .tabs.primary {
     padding: 0; }
     @media print, (min-width: 45.001rem) {
@@ -7954,4 +7950,4 @@ select > option {
     text-decoration: none; }
 
 
-/*# sourceMappingURL=portal.css-0dff96f6b137721d3d4e.map*/
+/*# sourceMappingURL=portal.css-72cfbad51b69e9ee56c8.map*/
