@@ -6307,6 +6307,33 @@ select > option {
     font-size: 18px;
     padding: 16px; }
 
+.search-form .form-wrapper {
+  display: flex; }
+  .search-form .form-wrapper label {
+    display: none; }
+  .search-form .form-wrapper .form-item {
+    display: block;
+    width: 100%;
+    background: #FFFFFF;
+    border: 2px solid #086D9A;
+    height: 60px;
+    color: #000000;
+    min-height: auto;
+    overflow: hidden; }
+    .search-form .form-wrapper .form-item input {
+      padding: 8px 16px;
+      border: none; }
+  .search-form .form-wrapper .form-submit {
+    height: 60px;
+    background: #086D9A;
+    color: #FFFFFF;
+    text-transform: uppercase;
+    border: 1px solid #086D9A;
+    font-weight: 700;
+    font-size: 18px;
+    padding: 8px 16px;
+    border-radius: 0; }
+
 .nodeshop-cart-form .nodeshop_cart_header,
 .nodeshop-cart-form .nodeshop_cart_footer {
   margin-bottom: 0.5em;
@@ -7192,7 +7219,7 @@ select > option {
   display: none;
   background-color: #f2f2f2;
   position: relative;
-  z-index: 2;
+  z-index: 1002;
   left: 0;
   top: auto;
   height: auto;
@@ -7950,4 +7977,4 @@ select > option {
     text-decoration: none; }
 
 
-/*# sourceMappingURL=portal.css-72cfbad51b69e9ee56c8.map*/
+/*# sourceMappingURL=portal.css-7395b17b0714530ce15e.map*/

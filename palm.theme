@@ -671,7 +671,11 @@ function palm_form_alter(&$form, FormStateInterface $form_state, $form_id) {
         $form['payment_method']['#suffix'] = '</div></div>';
         $form['customer_information']['#wrapper_attributes']['class'][] = 'block--white';
     }
-    // kint($form);
+
+    // Search form alter
+    if ('search_form' == $form_id) {
+        $form['basic']['keys']['#placeholder'] = t('Search this website...');
+    }
 }
 
 function _palm_get_issue($node) {
