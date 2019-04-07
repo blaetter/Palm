@@ -58,14 +58,14 @@
  * @ingroup themeable
  */
 #}
-<article class="teaser">
+<article class="teaser block">
   {{ title_prefix }}
   <h3{{ title_attributes }}>
     <a href="{{ url }}">{{ title }}</a>
   </h3>
   {{ title_suffix }}
   {% if snippet %}
-  <p{{content_attributes}}>{{ snippet }} <a href="{{ url }}" class="readmore">{{ 'read more' | t }}</a></p>
+  <p{{content_attributes}}>{{ snippet }} <a href="{{ url }}">{{ 'read more' | t }}</a></p>
   {% endif %}
   {% if info %}
     <p>{{ info }}</p>
