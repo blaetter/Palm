@@ -5445,6 +5445,8 @@ span.flatpickr-weekday {
       border-radius: 100%;
       overflow: hidden;
       margin: 0 auto; }
+    .profilehead .image .source {
+      display: none !important; }
     .profilehead .image .heading {
       font-size: 18px;
       line-height: 1.4;
@@ -7983,4 +7985,4 @@ select > option {
     text-decoration: none; }
 
 
-/*# sourceMappingURL=palm.css-e08750b854ae9d6989c2.map*/
+/*# sourceMappingURL=palm.css-85c936269c2ee8e0905f.map*/
