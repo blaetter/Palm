@@ -7840,10 +7840,12 @@ select > option {
   background-color: #FFFFFF; }
   #header .logo,
   #header .logo {
-    display: flex; }
+    display: flex;
+    align-items: center; }
     #header .logo .palm,
     #header .logo .palm {
-      width: 40px; }
+      width: 40px;
+      height: 40px; }
     #header .logo .claim,
     #header .logo .claim {
       margin-left: 13.33333px;
@@ -7872,7 +7874,8 @@ select > option {
     #header.fixed .logo .palm {
       transition: width 0.25s ease-out;
       display: block;
-      width: 30px; }
+      width: 30px;
+      height: 30px; }
     #header.fixed .logo .claim,
     #header.fixed .logo .claim {
       display: none; }
@@ -7961,10 +7964,11 @@ select > option {
     right: 0;
     border-radius: 50%;
     min-width: 1.8em;
-    min-height: 1.5em;
+    min-height: 1.8em;
     text-align: center;
     vertical-align: middle;
-    font-size: 0.7em; }
+    font-size: 0.7em;
+    padding: 2px; }
 
 .portal-head__hamburger {
   min-width: 2.2em;
@@ -7980,4 +7984,4 @@ select > option {
     text-decoration: none; }
 
 
-/*# sourceMappingURL=palm.css-7e41163d2527b573aaf9.map*/
+/*# sourceMappingURL=palm.css-84b62ef4932e71252a0d.map*/
