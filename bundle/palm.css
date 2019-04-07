@@ -154,8 +154,8 @@ body {
  * -------------------------- */
 @font-face {
   font-family: 'FontAwesome';
-  src: url(/bundle/674f50d287a8c48dc19ba404d20fe713.eot);
-  src: url(/bundle/674f50d287a8c48dc19ba404d20fe713.eot?#iefix&v=4.7.0) format("embedded-opentype"), url(/bundle/af7ae505a9eed503f8b8e6982036873e.woff2) format("woff2"), url(/bundle/fee66e712a8a08eef5805a46892932ad.woff) format("woff"), url(/bundle/b06871f281fee6b241d60582ae9369b9.ttf) format("truetype"), url(/bundle/912ec66d7572ff821749319396470bde.svg#fontawesomeregular) format("svg");
+  src: url(/themes/contrib/palm/bundle/674f50d287a8c48dc19ba404d20fe713.eot);
+  src: url(/themes/contrib/palm/bundle/674f50d287a8c48dc19ba404d20fe713.eot?#iefix&v=4.7.0) format("embedded-opentype"), url(/themes/contrib/palm/bundle/af7ae505a9eed503f8b8e6982036873e.woff2) format("woff2"), url(/themes/contrib/palm/bundle/fee66e712a8a08eef5805a46892932ad.woff) format("woff"), url(/themes/contrib/palm/bundle/b06871f281fee6b241d60582ae9369b9.ttf) format("truetype"), url(/themes/contrib/palm/bundle/912ec66d7572ff821749319396470bde.svg#fontawesomeregular) format("svg");
   font-weight: normal;
   font-style: normal; }
 
@@ -6614,7 +6614,8 @@ select > option {
   margin-bottom: 30px;
   overflow: hidden;
   white-space: nowrap;
-  position: relative; }
+  position: relative;
+  padding: 12px; }
   .archive-index a {
     margin-right: 1em; }
     .archive-index a.is-active {
@@ -6625,11 +6626,13 @@ select > option {
   .archive-index .swiper-button-next {
     position: absolute;
     right: 0;
-    background: rgba(240, 240, 240, 0.9); }
+    background: rgba(240, 240, 240, 0.9);
+    padding: 12px; }
   .archive-index .swiper-button-prev {
     position: absolute;
     left: 0;
-    background: rgba(240, 240, 240, 0.9); }
+    background: rgba(240, 240, 240, 0.9);
+    padding: 12px; }
   .archive-index .swiper-button-disabled {
     display: none !important; }
 
@@ -7977,4 +7980,4 @@ select > option {
     text-decoration: none; }
 
 
-/*# sourceMappingURL=portal.css-7395b17b0714530ce15e.map*/
+/*# sourceMappingURL=palm.css-7e41163d2527b573aaf9.map*/
