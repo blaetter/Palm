@@ -316,6 +316,7 @@ function palm_preprocess_page(&$variables) {
                 '#theme' => 'palm_heading_pagecategory',
                 '#category_prefix' => t('Edition'),
                 '#headline' => $edition,
+                '#weight' => -11,
                 '#url' => Url::fromRoute(
                             'entity.node.canonical',
                             [
@@ -324,6 +325,7 @@ function palm_preprocess_page(&$variables) {
                         ),
                 '#link_title' => t('back to the issue @edition', ['@edition' => $edition]),
             ];
+            $variables['page']['hero']['#sorted'] = false;
         }
         // provide headings if in full node view
         if ('dossier' == $node->getType()) {
@@ -334,7 +336,10 @@ function palm_preprocess_page(&$variables) {
                     '#theme' => 'palm_heading_pagecategory',
                     '#category_prefix' => t('Dossier'),
                     '#headline' => $dossier,
+                    '#weight' => -11,
                 ];
+                // force Drupal to resort the blocks in the region
+                $variables['page']['hero']['#sorted'] = false;
             }
         }
         if ('product' == $node->getType()
@@ -349,8 +354,11 @@ function palm_preprocess_page(&$variables) {
             $variables['page']['hero']['category_title'] = [
                 '#theme' => 'palm_heading_pagecategory',
                 '#category_prefix' => t('Shop'),
-                '#headline' => $rubric
+                '#headline' => $rubric,
+                '#weight' => -11,
             ];
+            // force Drupal to resort the blocks in the region
+            $variables['page']['hero']['#sorted'] = false;
         }
         // default page category on all page type nodes
         if ('page' == $node->getType()) {
@@ -358,7 +366,40 @@ function palm_preprocess_page(&$variables) {
                 '#theme' => 'palm_heading_pagecategory',
                 '#category_prefix' => t('About'),
                 '#headline' => t('the »Blätter«'),
+                '#weight' => -11,
             ];
+            // force Drupal to resort the blocks in the region
+            $variables['page']['hero']['#sorted'] = false;
+        }
+        // default page category on all aktuell type nodes
+        if ('aktuell' == $node->getType()) {
+            $variables['page']['hero']['category_title'] = [
+                '#theme' => 'palm_heading_pagecategory',
+                '#headline' => 'Außer der Reihe',
+                '#weight' => -11,
+            ];
+            // force Drupal to resort the blocks in the region
+            $variables['page']['hero']['#sorted'] = false;
+        }
+        // default page category on all zurückgeblaettert type nodes
+        if ('zurueckgeblaettert' == $node->getType()) {
+            $variables['page']['hero']['category_title'] = [
+                '#theme' => 'palm_heading_pagecategory',
+                '#headline' => 'Zurückgeblättert',
+                '#weight' => -11,
+            ];
+            // force Drupal to resort the blocks in the region
+            $variables['page']['hero']['#sorted'] = false;
+        }
+        // default page category on all document type nodes
+        if ('document' == $node->getType()) {
+            $variables['page']['hero']['category_title'] = [
+                '#theme' => 'palm_heading_pagecategory',
+                '#headline' => 'Dokumente des Zeitgeschehens',
+                '#weight' => -11,
+            ];
+            // force Drupal to resort the blocks in the region
+            $variables['page']['hero']['#sorted'] = false;
         }
     }
 
@@ -608,6 +649,10 @@ function palm_preprocess_node(&$variables)
             }
         }
     }
+}
+
+function palm_preprocess_views_view(&$variables) {
+    //kint($variables);
 }
 
 /**
