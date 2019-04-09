@@ -1,7 +1,7 @@
 {#
 /**
  * @file
- * Theme override to display a node in the teaser hero display format.
+ * Theme override to display a node in the teaser vertical display format.
  *
  * Available variables:
  * - node: The node entity with limited access to object properties and methods.
@@ -70,7 +70,7 @@
  *   in different view modes.
  */
 #}
-<article{{ attributes.addclass(['block', 'teaser', 'block--white']) }}>
+<article{{ attributes.addclass(['block', 'teaser', 'teaser--vertical']) }}>
     <div{{ content_attributes.addclass('image') }}>
         {{ content.field_primary_picture }}
     </div>
