@@ -111,7 +111,7 @@ function palm_preprocess_page_title(&$variables) {
         $variables['title_prefix'] = '»Blätter«';
     }
     if (false !== strpos(\Drupal::routeMatch()->getRouteName(), 'view.blaetter_ausgabe.page_1')) {
-        $variables['title_prefix'] = t('archive');
+        $variables['title_prefix'] = t('editions');
     }
     if (false !== strpos(\Drupal::routeMatch()->getRouteName(), 'view.blaetter_dossiers.page_1')) {
         $variables['title_prefix'] = 'Dossier';
@@ -317,13 +317,6 @@ function palm_preprocess_page(&$variables) {
                 '#category_prefix' => t('Edition'),
                 '#headline' => $edition,
                 '#weight' => -11,
-                '#url' => Url::fromRoute(
-                            'entity.node.canonical',
-                            [
-                              'node' => $issue['nid'],
-                            ]
-                        ),
-                '#link_title' => t('back to the issue @edition', ['@edition' => $edition]),
             ];
             $variables['page']['hero']['#sorted'] = false;
         }
@@ -395,7 +388,7 @@ function palm_preprocess_page(&$variables) {
         if ('document' == $node->getType()) {
             $variables['page']['hero']['category_title'] = [
                 '#theme' => 'palm_heading_pagecategory',
-                '#headline' => 'Dokumente des Zeitgeschehens',
+                '#headline' => 'Dokumente',
                 '#weight' => -11,
             ];
             // force Drupal to resort the blocks in the region
