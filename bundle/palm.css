@@ -5411,6 +5411,7 @@ span.flatpickr-weekday {
   opacity: .9; }
 
 .nodeshop-closed .field--name-body {
+  margin-bottom: 4em;
   position: relative; }
   .nodeshop-closed .field--name-body:before {
     content: '';
@@ -5756,6 +5757,8 @@ span.flatpickr-weekday {
       font-size: 1.2em; }
     .teaser.teaser--profile .inner {
       padding: 20px; }
+  .teaser.teaser--aktuelle-ausgabe img {
+    border: 1px solid #CCCCCC; }
   .teaser.teaser--aktuelle-ausgabe .inner {
     display: table; }
   .teaser .field--name-body {
@@ -7998,4 +8001,4 @@ select > option {
     text-decoration: none; }
 
 
-/*# sourceMappingURL=palm.css-5174f9a386fd160cb1da.map*/
+/*# sourceMappingURL=palm.css-3660f0a6f2991b36e788.map*/
