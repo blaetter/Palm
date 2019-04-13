@@ -40,14 +40,14 @@
  *
  */
 /***************************************************
- * 
+ *
  *  Source / Copyright
- * 
+ *
  */
 /***************************************************
- * 
+ *
  *  List mixins
- * 
+ *
  */
 /***************************************************
  * A simple mixin to quickly generate whole media queries from the aliases and
@@ -67,26 +67,26 @@
 /***************************************************
  *
  *   FORM
- *   
+ *
  */
 /***************************************************
  *
  *   BUTTON
- *   
+ *
  */
 /*
  * Twitter Follow Button
- * 
+ *
  **/
 /***************************************************
  *
  *   Links
- *   
+ *
  */
 /***************************************************
  *
  *   Icons
- *   
+ *
  */
 .breadcrumb ol > li .home:before {
   display: inline-block;
@@ -100,7 +100,7 @@
 /***************************************************
  *
  *   Widget
- *   
+ *
  */
 .appendix {
   margin-top: 2rem; }
@@ -3149,6 +3149,8 @@ input.link {
 .field--name-body {
   font-family: "droid-serif", serif;
   margin-bottom: 40px; }
+  .field--name-body h2 {
+    font-size: 26px; }
 
 h1,
 h2,
@@ -3223,6 +3225,9 @@ h2 {
     h2 {
       page-break-before: auto;
       page-break-after: avoid !important; } }
+  h2.subtitle {
+    font-weight: normal;
+    margin-top: 0.5em; }
 
 h3 {
   font-size: 1.2em;
@@ -7863,9 +7868,9 @@ select > option {
     height: 60px;
     font-size: 0.9rem;
     line-height: 1.33333;
-    transition: height 0.25s ease-out;
-    transition: line-height 0 0.25s ease-out;
-    transition: font-size 0.25s ease-out;
+    transition: height 0.4s ease-out;
+    transition: line-height 0 0.4s ease-out;
+    transition: font-size 0.4s ease-out;
     position: fixed;
     z-index: 1000;
     width: 100%;
@@ -7873,17 +7878,18 @@ select > option {
     margin: 0 auto; }
     #header.fixed .logo .palm,
     #header.fixed .logo .palm {
-      transition: width 0.25s ease-out;
+      transition: width 0.4s ease-out;
       display: block;
       width: 30px;
       height: 30px; }
     #header.fixed .logo .claim,
     #header.fixed .logo .claim {
-      display: none; }
+      width: 100px;
+      transition: width 0.4s ease-out; }
     #header.fixed .logo .tongue,
     #header.fixed .logo .tongue {
       height: 0;
-      transition: visibility 0.25s ease-out; }
+      transition: visibility 0.4s ease-out; }
 
 @media print, (min-width: 45.001rem) {
   .path-frontpage #header .logo .palm,
@@ -7905,10 +7911,16 @@ select > option {
 .path-frontpage #header.fixed .logo .palm {
   display: block; }
 
+.path-frontpage #header.fixed .logo .claim,
+.path-frontpage #header.fixed .logo .claim {
+  display: block;
+  width: 100px;
+  transition: width 0.4s ease-out; }
+
 .path-frontpage #header.fixed .logo .tongue,
 .path-frontpage #header.fixed .logo .tongue {
-  top: -250px;
-  transition: top 0.5s linear; }
+  top: -400px;
+  transition: top 0.8s linear; }
 
 .portal-head {
   padding-top: 0.625rem;
@@ -7985,4 +7997,4 @@ select > option {
     text-decoration: none; }
 
 
-/*# sourceMappingURL=palm.css-85c936269c2ee8e0905f.map*/
+/*# sourceMappingURL=palm.css-e4e0001eed41b6282a1c.map*/
