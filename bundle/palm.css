@@ -88,15 +88,6 @@
  *   Icons
  *
  */
-.breadcrumb ol > li .home:before {
-  display: inline-block;
-  font-family: FontAwesome;
-  line-height: 1;
-  font-size: inherit; }
-
-.breadcrumb ol > li .home:before {
-  content: "\f015"; }
-
 /***************************************************
  *
  *   Widget
@@ -5282,7 +5273,7 @@ span.flatpickr-weekday {
     width: 30%;
     margin-left: 0;
     margin-right: 20px;
-    border: 1px solid #f2f2f2; }
+    border: 1px solid #CCCCCC; }
     @media print, (min-width: 45.001rem) {
       .homepage-probeabo .image {
         float: right;
@@ -6758,7 +6749,8 @@ select > option {
     text-align: right; }
 
 .breadcrumb {
-  margin-bottom: 1em; }
+  margin-bottom: 2em;
+  margin-top: -1em; }
   .breadcrumb ol {
     display: flex;
     flex-wrap: wrap;
@@ -6768,17 +6760,7 @@ select > option {
     .breadcrumb ol > li {
       margin: 0 0.7em 0 0;
       padding: 0; }
-      .breadcrumb ol > li .home {
-        font-size: 1.5em;
-        display: inline-block;
-        height: 1em;
-        overflow: hidden;
-        padding: 0 1em 0 0;
-        margin-top: -0.1em;
-        width: 0;
-        line-height: 1em;
-        min-height: 0; }
-      .breadcrumb ol > li::before {
+      .breadcrumb ol > li:before {
         color: #086D9A;
         content: "\f054";
         font-family: FontAwesome;
@@ -6935,6 +6917,8 @@ select > option {
     justify-content: space-evenly;
     width: 100%;
     margin-bottom: 1em; }
+    #navigation-primary .meta a {
+      color: #4ac6ff; }
   @media print {
     #navigation-primary {
       display: none !important; } }
@@ -8001,4 +7985,4 @@ select > option {
     text-decoration: none; }
 
 
-/*# sourceMappingURL=palm.css-3660f0a6f2991b36e788.map*/
+/*# sourceMappingURL=palm.css-e4ee864f4fcccca3ab1b.map*/
