@@ -6869,7 +6869,7 @@ select > option {
   top: auto;
   height: auto;
   visibility: visible;
-  overflow: hidden;
+  overflow: scroll;
   min-width: 300px;
   font-family: droid-sans,Arial,sans-serif;
   font-size: 15px; }
@@ -7843,7 +7843,8 @@ select > option {
 #header,
 #header {
   position: relative;
-  background-color: #FFFFFF; }
+  background-color: #FFFFFF;
+  z-index: 1000; }
   #header .logo,
   #header .logo {
     display: flex;
@@ -7997,4 +7998,4 @@ select > option {
     text-decoration: none; }
 
 
-/*# sourceMappingURL=palm.css-e4e0001eed41b6282a1c.map*/
+/*# sourceMappingURL=palm.css-5174f9a386fd160cb1da.map*/
