@@ -516,6 +516,9 @@ function palm_preprocess_node(&$variables)
                     // ];
                 }
                 $variables['content']['edition'] = $edition;
+                unset($variables['content']['field_themen']);
+                unset($variables['content']['field_placeholder_issue']);
+                unset($variables['content']['links']);
             }
         }
     }
