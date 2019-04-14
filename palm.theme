@@ -394,6 +394,16 @@ function palm_preprocess_page(&$variables) {
             // force Drupal to resort the blocks in the region
             $variables['page']['hero']['#sorted'] = false;
         }
+        // default page category on all eurozine type nodes
+        if ('eurozine' == $node->getType()) {
+            $variables['page']['hero']['category_title'] = [
+                '#theme' => 'palm_heading_pagecategory',
+                '#headline' => 'Eurozine',
+                '#weight' => -11,
+            ];
+            // force Drupal to resort the blocks in the region
+            $variables['page']['hero']['#sorted'] = false;
+        }
     }
 
     // add footer link node id if exists
