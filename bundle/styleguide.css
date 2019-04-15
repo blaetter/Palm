@@ -196,10 +196,10 @@ form + .sg-collapse {
   background-color: #e3e3e3; }
 
 .styelguide-colors .sg-color-greysource {
-  background-color: #777777; }
+  background-color: #808080; }
 
 .styelguide-colors .sg-color-lightestTextGrey {
-  background-color: #777777; }
+  background-color: #808080; }
   .styelguide-colors .sg-color-lightestTextGrey::after {
     content: " " !important; }
 
@@ -229,7 +229,7 @@ form + .sg-collapse {
   content: "#CCCCCC"; }
 
 .styleguide .sg-color-lightestTextGrey::after {
-  content: "#777777"; }
+  content: "#808080"; }
 
 .styleguide label {
   font-weight: bold; }
@@ -308,4 +308,4 @@ body .sg-layout-content {
   margin-bottom: 0.7em; }
 
 
-/*# sourceMappingURL=styleguide.css-88807dd6cbc6f78139fc.map*/
+/*# sourceMappingURL=styleguide.css-b7276a593001a64cb3a2.map*/

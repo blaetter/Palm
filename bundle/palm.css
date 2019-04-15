@@ -2885,7 +2885,7 @@ a:hover {
     display: inline-block !important; } }
 
 .articleinfo {
-  color: #aaaaaa;
+  color: #808080;
   margin-bottom: 0.2em; }
   .articleinfo a {
     display: inline;
@@ -3018,7 +3018,7 @@ a.button {
 
 .button--reversed {
   background-color: #FFFFFF !important;
-  border: 1px solid #999999 !important;
+  border: 1px solid #CCCCCC !important;
   color: #086D9A !important;
   font-weight: normal !important;
   opacity: 1 !important; }
@@ -3026,12 +3026,12 @@ a.button {
     background-color: #FFFFFF !important;
     color: #086D9A !important;
     text-decoration: none !important;
-    border-color: #666666 !important; }
+    border-color: #e3e3e3 !important; }
 
 .button--disabled {
   background-color: #f2f2f2;
-  border: 1px solid #D5D5D5;
-  color: #D5D5D5;
+  border: 1px solid #808080;
+  color: #808080;
   font-weight: normal;
   opacity: 1;
   cursor: not-allowed; }
@@ -3127,7 +3127,7 @@ input.link {
   .formfilter--checkbox input[type=checkbox]:disabled + label + .close {
     cursor: not-allowed; }
     .formfilter--checkbox input[type=checkbox]:disabled + label + .close:after {
-      color: #D5D5D5; }
+      color: #808080; }
   .formfilter--checkbox input.hide {
     opacity: 0;
     position: absolute;
@@ -3402,7 +3402,7 @@ a {
   display: inline-block;
   margin-right: 0.5em; }
   .link--download::before {
-    color: #777777;
+    color: #808080;
     content: "\f016";
     display: inline-block;
     font-family: FontAwesome;
@@ -3796,7 +3796,7 @@ p {
   font-weight: 400;
   line-height: 70px;
   display: flex;
-  color: #777777;
+  color: #808080;
   margin: 0.7em 0; }
   .quote:before,
   .content-wrapper-article blockquote:before,
@@ -3818,7 +3818,7 @@ p a,
   word-wrap: break-word; }
 
 .text-light {
-  color: #777777; }
+  color: #808080; }
 
 .text-small {
   font-size: 0.75rem; }
@@ -3839,13 +3839,13 @@ p a,
   text-align: center; }
 
 .disclaimer {
-  color: #777777;
+  color: #808080;
   font-size: 0.75rem;
   margin-top: 0.9375rem;
   margin-bottom: 1.875rem; }
 
 p.keywords {
-  color: #777777;
+  color: #808080;
   font-size: 0.75rem;
   margin-top: 0.9375rem;
   margin-bottom: 1.875rem; }
@@ -3869,20 +3869,20 @@ p.keywords {
   line-height: 0.95; }
 
 .source {
-  color: #777777;
+  color: #808080;
   display: inline-block; }
   .source a {
     color: inherit; }
 
 .sources-text {
-  color: #777777;
+  color: #808080;
   display: inline-block;
   font-size: 0.6875rem; }
   .sources-text a {
     color: inherit; }
 
 .sources-images {
-  color: #777777;
+  color: #808080;
   display: inline-block;
   font-size: 0.6875rem; }
   .sources-images a {
@@ -3896,10 +3896,10 @@ table {
     background-color: transparent; }
   table th {
     font-weight: bold;
-    color: #777777; }
+    color: #808080; }
     table th a {
       font-weight: bold;
-      color: #777777; }
+      color: #808080; }
   table td, table th {
     text-align: left;
     padding: 0.5em;
@@ -4044,7 +4044,7 @@ table {
  *      SOURCE
  */
 /*
- *      IMAGE 
+ *      IMAGE
  */
 /*
  *      Our Teaser Images are floating (can be cleared by clearimagefloat)
@@ -4053,10 +4053,10 @@ table {
  *     CLEAR IMAGE FLOATING
  */
 /*
- *     STYLE: SPECIAL / HERVORGEHOBEN 
+ *     STYLE: SPECIAL / HERVORGEHOBEN
  */
 /*  VERTICAL FLOATING RULES
- *  Normally teaser image and text are floating horizontal. 
+ *  Normally teaser image and text are floating horizontal.
  *  But not in: DESKTOP view in a TWO or THREE COLUMNED layout!
  *  Here we can set our exceptions
  */
@@ -4150,7 +4150,7 @@ table {
   .article-mainimage .source {
     font-size: 14px;
     font-family: 'drois-sans', sans-serif, Arial;
-    color: #777777;
+    color: #808080;
     display: block;
     line-height: 1.2em;
     margin-top: 0.2em;
@@ -4270,7 +4270,7 @@ table {
       display: inline-block;
       margin: 0;
       padding: 1px 3px 1px 3px;
-      color: #777777;
+      color: #808080;
       font-size: 12px;
       line-height: 1.2;
       text-align: right;
@@ -4318,7 +4318,7 @@ table {
     width: auto; } }
 
 .comment .meta {
-  color: #777777;
+  color: #808080;
   font-size: 12px; }
 
 /* drupal messages container */
@@ -5255,7 +5255,7 @@ span.flatpickr-weekday {
       .homepage-heroimage .body .heading a {
         color: #FFFFFF; }
     .homepage-heroimage .body .author {
-      color: #aaaaaa;
+      color: #808080;
       font-size: 3vw;
       line-height: 1.2;
       font-family: 'droid-sans', sans-serif, Arial; }
@@ -5291,7 +5291,7 @@ span.flatpickr-weekday {
   .image--paragraph .source {
     font-size: 14px;
     font-family: 'drois-sans', sans-serif, Arial;
-    color: #777777;
+    color: #808080;
     display: block;
     line-height: 1.2em;
     margin-top: 0.2em;
@@ -5312,7 +5312,7 @@ span.flatpickr-weekday {
     display: inline-block;
     margin: 0;
     padding: 1px 3px 1px 3px;
-    color: #777777;
+    color: #808080;
     font-size: 12px;
     line-height: 1.2;
     text-align: right;
@@ -5418,7 +5418,7 @@ span.flatpickr-weekday {
   content: "\f023";
   font-family: "FontAwesome";
   display: inline-block;
-  color: #aaaaaa;
+  color: #808080;
   font-size: 1rem; }
 
 .nodeshop-closed.teaser .field--name-body:before {
@@ -5472,7 +5472,7 @@ span.flatpickr-weekday {
     display: inline-block;
     border: 1px solid transparent;
     background-color: #f2f2f2;
-    color: #777777;
+    color: #808080;
     padding: 0.5em;
     border-radius: 2.3em;
     width: 2.3em;
@@ -5606,7 +5606,7 @@ span.flatpickr-weekday {
       height: auto; }
   .teaser .author,
   .teaser .author--article {
-    color: #aaaaaa;
+    color: #808080;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -5794,7 +5794,7 @@ span.flatpickr-weekday {
   .palm_user_profile_block h3,
   .user-profile-block h3 {
     font-size: 0.9em;
-    color: #777777;
+    color: #808080;
     font-weight: normal; }
     .palm_user_profile_block h3 + p,
     .user-profile-block h3 + p {
@@ -5836,7 +5836,7 @@ form {
   form .form-item .description {
     font-size: 0.75rem;
     display: block;
-    color: #777777;
+    color: #808080;
     margin-bottom: 0; }
   form label,
   form .legend,
@@ -5874,7 +5874,7 @@ form {
     cursor: not-allowed;
     background-color: #f2f2f2;
     opacity: 1;
-    color: #777777; }
+    color: #808080; }
   form input[readonly],
   form input[readonly="readonly"],
   form select[readonly],
@@ -5884,7 +5884,7 @@ form {
     cursor: default;
     background-color: #f2f2f2;
     opacity: 1;
-    color: #777777; }
+    color: #808080; }
     form input[readonly].input-plaintext,
     form input[readonly="readonly"].input-plaintext,
     form select[readonly].input-plaintext,
@@ -6028,7 +6028,7 @@ form {
     display: inline;
     font-weight: normal; }
   form details {
-    border: 1px solid #ccc;
+    border: 1px solid #CCCCCC;
     margin-top: 1em;
     margin-bottom: 1em; }
     form details > .details-wrapper {
@@ -6065,7 +6065,7 @@ form {
     width: 6px;
     height: 6px;
     margin: 0 0.3em;
-    color: red; }
+    color: #E71835; }
 
 @media print, (min-width: 45.001rem) {
   .form--prependlabel div.form-group {
@@ -6399,7 +6399,7 @@ select > option {
   .nodeshop-cart-form table .total-title {
     font-weight: bold; }
   .nodeshop-cart-form table .total-tax {
-    color: #777777;
+    color: #808080;
     font-size: 12px; }
 
 .nodeshop-cart-form #paypal-button {
@@ -6619,7 +6619,7 @@ select > option {
   .archive-index a {
     margin-right: 1em; }
     .archive-index a.is-active {
-      color: #777777; }
+      color: #808080; }
       .archive-index a.is-active:hover {
         text-decoration: none;
         cursor: default; }
@@ -6683,12 +6683,12 @@ select > option {
       background-color: #f2f2f2;
       color: #086D9A; }
     .az li .disabled {
-      color: #D5D5D5;
+      color: #808080;
       background-color: #FFFFFF;
       pointer-events: none; }
       .az li .disabled:hover, .az li .disabled:focus {
         background-color: #FFFFFF;
-        color: #D5D5D5; }
+        color: #808080; }
     .az li .active {
       color: #FFFFFF;
       background-color: #086D9A;
@@ -6750,7 +6750,8 @@ select > option {
 
 .breadcrumb {
   margin-bottom: 2em;
-  margin-top: -1em; }
+  margin-top: -1.5em;
+  font-size: 14px; }
   .breadcrumb ol {
     display: flex;
     flex-wrap: wrap;
@@ -6760,8 +6761,12 @@ select > option {
     .breadcrumb ol > li {
       margin: 0 0.7em 0 0;
       padding: 0; }
+      .breadcrumb ol > li a {
+        color: #808080; }
+        .breadcrumb ol > li a:hover {
+          color: #086D9A; }
       .breadcrumb ol > li:before {
-        color: #086D9A;
+        color: #808080;
         content: "\f054";
         font-family: FontAwesome;
         font-size: 0.625rem;
@@ -7187,12 +7192,12 @@ select > option {
         background-color: #f2f2f2;
         color: #086D9A; }
       .pagination ul li .disabled {
-        color: #D5D5D5;
+        color: #808080;
         background-color: #FFFFFF;
         pointer-events: none; }
         .pagination ul li .disabled:hover, .pagination ul li .disabled:focus {
           background-color: #FFFFFF;
-          color: #D5D5D5; }
+          color: #808080; }
       .pagination ul li .active {
         color: #FFFFFF;
         background-color: #086D9A;
@@ -7243,7 +7248,7 @@ select > option {
     display: inline-block;
     margin: 0;
     padding: 1px 3px 1px 3px;
-    color: #777777;
+    color: #808080;
     font-size: 12px;
     line-height: 1.2;
     text-align: right;
@@ -7820,7 +7825,7 @@ select > option {
     display: block;
     margin-bottom: 0.6em; }
   #footer .copyright {
-    color: #aaaaaa;
+    color: #808080;
     display: block;
     margin-bottom: 0.6em; }
   @media screen and (max-width: 45rem) {
@@ -7985,4 +7990,4 @@ select > option {
     text-decoration: none; }
 
 
-/*# sourceMappingURL=palm.css-e4ee864f4fcccca3ab1b.map*/
+/*# sourceMappingURL=palm.css-853a5ca2f0ca43c96c1d.map*/
