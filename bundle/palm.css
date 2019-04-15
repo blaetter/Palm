@@ -113,30 +113,6 @@ body {
   font-size: 1.125rem;
   line-height: 1.66667; }
 
-.js-easypopup {
-  position: relative;
-  z-index: auto; }
-  .js-easypopup .js-easypopup__toggler {
-    cursor: pointer; }
-  .js-easypopup .js-easypopup__content {
-    display: none;
-    position: absolute;
-    z-index: 1;
-    max-width: 90vw;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.4);
-    padding: 0.75rem;
-    background-color: #f2f2f2;
-    border: 1px solid #CCCCCC; }
-    .js-easypopup .js-easypopup__content form {
-      background: transparent;
-      padding: 0; }
-  .js-easypopup .js-easypopup__close {
-    position: absolute;
-    top: 0.5em;
-    right: 0.5em; }
-  .js-easypopup.opened .js-easypopup__content {
-    display: block; }
-
 /*!
  *  Font Awesome 4.7.0 by @davegandy - http://fontawesome.io - @fontawesome
  *  License - http://fontawesome.io/license (Font: SIL OFL 1.1, CSS: MIT License)
@@ -2893,6 +2869,9 @@ a:hover {
 
 .author--article {
   font-size: 2em; }
+  @media screen and (max-width: 45rem) {
+    .author--article {
+      font-size: 1.5em; } }
 
 blockquote {
   background-color: #f2f2f2;
@@ -3142,6 +3121,9 @@ input.link {
   margin-bottom: 40px; }
   .field--name-body h2 {
     font-size: 26px; }
+    @media screen and (max-width: 45rem) {
+      .field--name-body h2 {
+        font-size: 1.5em; } }
 
 h1,
 h2,
@@ -3219,6 +3201,9 @@ h2 {
   h2.subtitle {
     font-weight: normal;
     margin-top: 0.5em; }
+    @media screen and (max-width: 45rem) {
+      h2.subtitle {
+        font-size: 1.5em; } }
 
 h3 {
   font-size: 1.2em;
@@ -3806,6 +3791,16 @@ p {
     margin-right: 30px;
     font-size: 1.5em;
     line-height: 0.75; }
+  @media screen and (max-width: 45rem) {
+    .quote,
+    .content-wrapper-article blockquote,
+    .content-wrapper-three-columns blockquote {
+      font-size: 28px;
+      line-height: 42px; }
+      .quote:before,
+      .content-wrapper-article blockquote:before,
+      .content-wrapper-three-columns blockquote:before {
+        margin-right: 15px; } }
 
 small {
   display: inline-block;
@@ -7990,4 +7985,4 @@ select > option {
     text-decoration: none; }
 
 
-/*# sourceMappingURL=palm.css-853a5ca2f0ca43c96c1d.map*/
+/*# sourceMappingURL=palm.css-67650b96f28d289c5f32.map*/
