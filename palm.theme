@@ -115,6 +115,7 @@ function palm_preprocess_page_title(&$variables) {
     }
     if (false !== strpos(\Drupal::routeMatch()->getRouteName(), 'view.blaetter_dossiers.page_1')) {
         $variables['title_prefix'] = 'Dossier';
+        $variables['title'] = t('overview');
     }
 
     // add special prefixes for special routes
