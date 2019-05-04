@@ -223,7 +223,7 @@ function palm_theme_suggestions_page_alter(&$suggestions, &$vars) {
   ) {
       $term = Term::load($tid);
       $suggestions[] = 'page__taxonomy';
-      $suggestions[] = 'page__taxonomy__' . $term->getVocabularyId();
+      $suggestions[] = 'page__taxonomy__' . $term->bundle();
   }
 
   // create suggestions based on the content type
