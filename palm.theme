@@ -371,10 +371,14 @@ function palm_preprocess_page(&$variables) {
         }
     }
 
-    // add footer link node id if exists
+    // add footer link node id and title if exists
     $footer_link_nid = theme_get_setting('palm_footer_link');
     if (!empty($footer_link_nid)) {
         $variables['page']['footer_link'] = $footer_link_nid;
+    }
+    $footer_link_title = theme_get_setting('palm_footer_link_title');
+    if (!empty($footer_link_title)) {
+        $variables['page']['footer_link_title'] = $footer_link_title;
     }
 }
 
