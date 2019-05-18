@@ -16,7 +16,7 @@
  * @see template_preprocess_user()
  */
 #}
-<article{{ attributes.addClass('palm_user_profile') }}>
+<article{{ attributes.addClass('palm_user_profile')|without('role') }}>
     <section class="palm_online_batch">
         <div class="grid">
         {% if 'onlineabonnent' in user.getroles %}

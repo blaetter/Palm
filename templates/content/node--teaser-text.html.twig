@@ -70,7 +70,7 @@
  *   in different view modes.
  */
 #}
-<article{{ attributes.addclass(['block', 'teaser', 'teaser--text']) }}>
+<article{{ attributes.addclass(['block', 'teaser', 'teaser--text'])|without('role') }}>
     <div class="inner">
         <h3{{ title_attributes.addclass('heading') }}>
             <a href="{{ url }}" rel="bookmark">{{ label }}</a>

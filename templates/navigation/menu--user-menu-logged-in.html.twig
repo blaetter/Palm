@@ -31,7 +31,7 @@
   {% if items %}
   <div class="meta">
     {% for item in items %}
-        <a href="{{ item.url }}" {{ item.attributes|without('href', 'title') }}>
+        <a href="{{ item.url }}" {{ item.attributes|without('href') }}>
           {% if (item.url.toString ends with 'logout') %}
             <i class="fa fa-sign-out" area-hidden="true"></i>
           {% elseif (item.url.toString ends with 'user') %}

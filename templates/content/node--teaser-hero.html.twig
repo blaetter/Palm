@@ -70,7 +70,7 @@
  *   in different view modes.
  */
 #}
-<article{{ attributes.addClass('homepage-heroimage') }}>
+<article{{ attributes.addClass('homepage-heroimage')|without('role') }}>
   <div{{ content_attributes.addClass('image') }}>
       {{ content.field_primary_picture }}
   </div>

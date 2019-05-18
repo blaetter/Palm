@@ -30,7 +30,7 @@
 #}
 {{ attach_library('classy/book-navigation') }}
 {% if has_links %}
-  <nav id="book-navigation-{{ book_id }}" class="book-navigation" role="navigation" aria-labelledby="book-label-{{ book_id }}">
+  <nav id="book-navigation-{{ book_id }}" class="book-navigation" aria-labelledby="book-label-{{ book_id }}">
     {% if has_links %}
     <h2 class="heading--sectiontitle" id="book-label-{{ book_id }}">{{ 'Book traversal links for'|t }} {{ parent_title }}</h2>
       <ul class="book-pager">

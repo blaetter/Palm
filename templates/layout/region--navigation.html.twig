@@ -14,16 +14,16 @@
 #}
 <div class="meta">
   {#{ content }#}
-  <a href="/user" class="portal-head__user" title="{{ 'Account'|t }}">
-      <i class="fa fa-user" aria-hidden="true"></i>
+  <a class="portal-head__user" href="/user" title="{{ 'Account' | t }}">
+    <i class="fa fa-user" aria-hidden="true"></i>
   </a>
-  <a href="{{ path('nodeshop.showCart') }}" class="portal-head__cart">
-      <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+  <a class="portal-head__cart" href="{{ path('nodeshop.showCart') }}" title="{{ 'Shopping cart' | t }}">
+    <i class="fa fa-shopping-cart" aria-hidden="true"></i>
   </a>
-  <a href="/search/bing" class="portal-head__search js-search">
-      <i class="fa fa-search" aria-hidden="true"></i>
+  <a class="portal-head__searchjs-search" href="/search/bing" title="{{ 'search website' | t }}">
+    <i class="fa fa-search" aria-hidden="true"></i>
   </a>
-  <a href="#" class="portal-head__hamburger js-hamburger" title="{{ 'open navigation'|t }}" aria-label="{{ 'open navigation'|t }}">
-      <i class="fa fa-bars hamburger__icon" aria-hidden="true"></i>
+  <a class="portal-head__hamburger js-hamburger" href="#" title="{{ 'open navigation' | t }}">
+    <i class="fa fa-bars hamburger__icon" aria-hidden="true"></i>
   </a>
 </div>

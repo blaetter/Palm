@@ -49,8 +49,7 @@
 
     {{ page.flyout }}
 
-    <div id="main" class="content-wrapper-three-columns" role="main">
-
+    <main class="content-wrapper-three-columns" id="main">
         <a id="main-content" tabindex="-1"></a>
 
         {% if page.messages %}
@@ -76,7 +75,7 @@
 
         </div>
 
-    </div>
+    </main>
 
     {% include 'themes/contrib/palm/templates/layout/_footer.html.twig' with {
         'footer' : page.footer,

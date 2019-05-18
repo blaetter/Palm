@@ -30,7 +30,7 @@
     {% set teaser_title = row.content['#view'].style_plugin.render_tokens[loop.index0]['{{ title }}'] %}
     {% set teaser_author = row.content['#view'].style_plugin.render_tokens[loop.index0]['{{ field_autoren }}'] %}
     {% set teaser_image = row.content['#view'].style_plugin.render_tokens[loop.index0]['{{ field_primary_picture }}'] %}
-    <article{{ row.attributes.addClass(row_classes) }}>
+    <article{{ row.attributes.addClass(row_classes)|without('role') }}>
         {{ teaser_image }}
         <div class="inner">
           {{ teaser_title }}

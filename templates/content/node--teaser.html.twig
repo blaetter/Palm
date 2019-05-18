@@ -66,7 +66,7 @@
  * @see template_preprocess_node()
  */
 #}
-<article{{ attributes.addclass(['block', 'teaser', 'teaser--marginal']) }}>
+<article{{ attributes.addclass(['block', 'teaser', 'teaser--marginal'])|without('role') }}>
     <div{{ content_attributes.addclass('image') }}>
         {{ content.field_primary_picture }}
     </div>

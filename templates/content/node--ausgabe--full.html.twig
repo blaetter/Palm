@@ -70,7 +70,7 @@
  *   in different view modes.
  */
 #}
-<article{{ attributes.addClass('block teaser teaser--aktuelle-ausgabe') }}>
+<article{{ attributes.addClass('block teaser teaser--aktuelle-ausgabe')|without('role') }}>
 
   {{ title_prefix }}
   {% if not page %}
