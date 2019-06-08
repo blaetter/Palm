@@ -29,7 +29,8 @@
  */
 #}
 {{ attach_library('classy/book-navigation') }}
-{% if has_links %}
+
+{% if has_links and 2 == current_depth %}
   <nav id="book-navigation-{{ book_id }}" class="book-navigation" aria-labelledby="book-label-{{ book_id }}">
     {% if has_links %}
     <h2 class="heading--sectiontitle" id="book-label-{{ book_id }}">{{ 'Book traversal links for'|t }} {{ parent_title }}</h2>
