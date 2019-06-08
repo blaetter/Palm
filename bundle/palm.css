@@ -3366,14 +3366,6 @@ a {
     color: #086D9A;
     display: inline;
     white-space: nowrap; }
-    a.readmore::after {
-      content: "\f061";
-      font-family: "FontAwesome";
-      display: inline-block;
-      margin-left: 0.2em;
-      text-decoration: underline; }
-    a.readmore:after, a.readmore:hover:after {
-      text-decoration: none; }
   a.fa:hover, a.fa:focus {
     text-decoration: none; }
   a.right {
@@ -4225,14 +4217,6 @@ table {
     white-space: nowrap;
     float: right;
     margin-top: 0.5em; }
-    .block .readall::after {
-      content: "\f061";
-      font-family: "FontAwesome";
-      display: inline-block;
-      margin-left: 0.2em;
-      text-decoration: underline; }
-    .block .readall:after, .block .readall:hover:after {
-      text-decoration: none; }
   .block.special {
     border-top: 1px solid #086D9A;
     border-bottom: 1px solid #086D9A;
@@ -7985,4 +7969,4 @@ select > option {
     text-decoration: none; }
 
 
-/*# sourceMappingURL=palm.css-67650b96f28d289c5f32.map*/
+/*# sourceMappingURL=palm.css-441bffc30f053afa9659.map*/
