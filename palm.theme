@@ -90,7 +90,7 @@ function palm_preprocess_page_title(&$variables) {
             $variables['title_attributes']['class'][] = $custom_headline_class;
         }
         if ('autoren' == $term->bundle()) {
-            $variables['title_prefix'] = t('Editors');
+            $variables['title_prefix'] = t('Authors');
             $variables['title_prefix_link'] = Url::fromRoute(
                             'view.blaetter_autoren.page_1',
                             [
