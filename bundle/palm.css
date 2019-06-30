@@ -6105,9 +6105,6 @@ form {
     margin-top: 0.71429rem; }
   .form-actions .quicklinks {
     display: inline-block; }
-  .form-actions > button:last-child,
-  .form-actions > .button:last-child {
-    margin-left: 0; }
 
 @media print, (min-width: 45.001rem) {
   form .grid + .form-actions {
@@ -7969,4 +7966,4 @@ select > option {
     text-decoration: none; }
 
 
-/*# sourceMappingURL=palm.css-441bffc30f053afa9659.map*/
+/*# sourceMappingURL=palm.css-523ccf76cf0fe1e2492c.map*/

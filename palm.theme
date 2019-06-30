@@ -130,6 +130,7 @@ function palm_preprocess_page_title(&$variables) {
     // We define routes, where we need a special class for the title
     $routes = [
         //'entity.taxonomy_term.canonical',
+        'contact.site_page',
         'entity.user.cancel_form',
         'entity.user.canonical',
         'entity.user.contact_form',
@@ -690,6 +691,13 @@ function palm_form_alter(&$form, FormStateInterface $form_state, $form_id) {
         $form['payment_method']['#attributes']['class'][] = 'block--white';
         $form['payment_method']['#suffix'] = '</div></div>';
         $form['customer_information']['#wrapper_attributes']['class'][] = 'block--white';
+    }
+
+    // Contact form
+    if ('contact_message_feedback_form' == $form_id) {
+        // Submit
+        $form['actions']['preview']['#attributes']['class'][] = 'button--reversed';
+        $form['actions']['preview']['#weight'] = -10;
     }
 
     // Search form alter
