@@ -52,7 +52,8 @@
 {% for row in items %}
   {% for column in row.content %}
     {# hide inline styles coming from the drupal grid system as we do it all via css classes #}
-    <div{{ column.attributes.addclass(['grid__item', 'block', column_class])|without('style') }}>
+    <div{{ column.attributes.addclass(['grid__item', column_class])|without('style') }}>
+    test
       {{- column.content -}}
     </div>
   {% endfor %}
