@@ -7832,6 +7832,9 @@ select > option {
     #header .logo .tongue,
     #header .logo .tongue {
       display: none; }
+  #header .scroll-indicator,
+  #header .scroll-indicator {
+    display: none; }
   #header.fixed,
   #header.fixed {
     height: 60px;
@@ -7859,6 +7862,15 @@ select > option {
     #header.fixed .logo .tongue {
       height: 0;
       transition: visibility 0.4s ease-out; }
+    #header.fixed .scroll-indicator,
+    #header.fixed .scroll-indicator {
+      display: block;
+      height: 2px;
+      background-color: #E71835;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 1%; }
 
 @media print, (min-width: 45.001rem) {
   .path-frontpage #header .logo .palm,
@@ -7966,4 +7978,4 @@ select > option {
     text-decoration: none; }
 
 
-/*# sourceMappingURL=palm.css-523ccf76cf0fe1e2492c.map*/
+/*# sourceMappingURL=palm.css-ff4004e7106323a399be.map*/
