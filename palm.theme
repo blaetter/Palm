@@ -75,7 +75,7 @@ function palm_preprocess_page_title(&$variables) {
 
     // Title overrides for nodes goes here:
     if ($node = \Drupal::request()->attributes->get('node')) {
-        if ('ausgabe' == $node->getType()) {
+        if ('ausgabe' == $node->bundle()) {
             $variables['title_prefix'] = t('Edition');
             $variables['title_attributes']['class'][] = $custom_headline_class;
         } elseif (false === strpos(\Drupal::routeMatch()->getRouteName(), 'Bonus')) {
@@ -366,6 +366,17 @@ function palm_preprocess_page(&$variables) {
             $variables['page']['hero']['category_title'] = [
                 '#theme' => 'palm_heading_pagecategory',
                 '#headline' => 'Eurozine',
+                '#weight' => -11,
+            ];
+            // force Drupal to resort the blocks in the region
+            $variables['page']['hero']['#sorted'] = false;
+        }
+        // add page category on all blog type nodes
+        if ('blog' == $node->getType()) {
+            $variables['page']['hero']['category_title'] = [
+                '#theme' => 'palm_heading_pagecategory',
+                '#category_prefix' => '»Blätter«',
+                '#headline' => t('Blog'),
                 '#weight' => -11,
             ];
             // force Drupal to resort the blocks in the region
