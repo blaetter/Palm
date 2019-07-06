@@ -158,6 +158,7 @@ function palm_preprocess_page_title(&$variables) {
         'view.blaetter_autoren.page_3',
         'view.blaetter_dossiers.page_1',
         'view.blaetter_themen.page_1',
+        'view.blaetter_zurueckgeblaettert.page_1',
         'view.nodeshop_user_orders.page_1',
         'view.nodeshop_user_orders.page_2',
     ];
