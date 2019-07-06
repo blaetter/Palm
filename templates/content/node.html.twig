@@ -70,7 +70,8 @@
  *   in different view modes.
  */
 #}
-<article{{ attributes|without('role') }}>
+
+<article{{attributes.addClass(('node-type--' ~ node.bundle()))|without('role')}}>
 
   {{ title_prefix }}
   {% if not page %}
