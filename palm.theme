@@ -110,6 +110,9 @@ function palm_preprocess_page_title(&$variables) {
     if (false !== strpos(\Drupal::routeMatch()->getRouteName(), 'view.blaetter_themen.page_1')) {
         $variables['title_prefix'] = '»Blätter«';
     }
+    if (false !== strpos(\Drupal::routeMatch()->getRouteName(), 'view.blaetter_blog.page_1')) {
+        $variables['title_prefix'] = '»Blätter«';
+    }
     if (false !== strpos(\Drupal::routeMatch()->getRouteName(), 'view.blaetter_ausgabe.page_1')) {
         $variables['title_prefix'] = t('editions');
     }
@@ -156,6 +159,7 @@ function palm_preprocess_page_title(&$variables) {
         'view.blaetter_autoren.page_1',
         'view.blaetter_autoren.page_2',
         'view.blaetter_autoren.page_3',
+        'view.blaetter_blog.page_1',
         'view.blaetter_dossiers.page_1',
         'view.blaetter_themen.page_1',
         'view.blaetter_zurueckgeblaettert.page_1',
