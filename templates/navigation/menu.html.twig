@@ -37,7 +37,8 @@
                     {% if item.url|render in current_path %}
                         {% set is_expanded = true %}
                     {% else %}
-                        {# {% set is_expanded = false %} #}
+                        {# Always set expanded to true, change this back to false to get the default drupal behaviour #}
+                        {% set is_expanded = true %}
                     {% endif %}
                     {%
         set classes = [
