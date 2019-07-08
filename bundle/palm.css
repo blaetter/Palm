@@ -6914,10 +6914,8 @@ select > option {
   @media screen and (max-width: 45rem) {
     #navigation-primary {
       background-color: rgba(0, 0, 0, 0.9);
-      width: 100%;
-      position: fixed; }
+      width: 100%; }
       #navigation-primary .navigation-wrapper {
-        position: relative;
         width: 100%; } }
 
 @media screen and (max-width: 45rem) {
@@ -7991,4 +7989,4 @@ select > option {
     text-decoration: none; }
 
 
-/*# sourceMappingURL=palm.css-2e845fed123dfe15140f.map*/
+/*# sourceMappingURL=palm.css-28c78914d7a66ff0de2e.map*/
