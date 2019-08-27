@@ -76,32 +76,25 @@
 
 <h2 class="heading--sectiontitle ">
     <div class="text">
+      <a href="{{ url }}" title="{{ 'show dossier'|t }}">
         <span class="text--red">Dossier</span>
         {{ dossier|striptags }}
+      </a>
     </div>
 </h2>
 
 <div class="block homepage-dosierteaser spaceless">
-    <div class="grid">
-        <div class="grid__item two-thirds">
-            <article class="block teaser teaser--poster">
-
-                <div class="image">
-                    {{ content.field_primary_picture }}
-                </div>
-                <div class="inner">
-                    <h3 class="heading">
-                        <a href="{{ url }}" title="{{ 'show dossier'|t }}">{{ label}}</a>
-                    </h3>
-                    <p class="text">
-                        {{ content.body }}
-                    </p>
-                </div>
-            </article>
-        </div>
-        <div class="grid__item one-third">
-            {{ dossier_articles }}
-            <p><a class="readmore" href="{{ url }}">Alle Texte</a></p>
-        </div>
+  <article class="block teaser teaser--poster">
+    <div class="image">
+        {{ content.field_primary_picture }}
     </div>
+    <div class="inner">
+        <h3 class="heading">
+            <a href="{{ url }}" title="{{ 'show dossier'|t }}">{{ label}}</a>
+        </h3>
+        <p class="text">
+            {{ content.body }}
+        </p>
+    </div>
+  </article>
 </div>

@@ -412,17 +412,17 @@ function palm_preprocess_node(&$variables)
     // get view mode (e.g. full or teaser)
     $view_mode = $variables['elements']['#view_mode'];
 
-    // add dossier articles to the dossier teaser
-    if ('teaser_dossier' == $view_mode) {
-        $variables['dossier_articles'] = [
-            '#type' => 'view',
-            '#name' => 'blaetter_dossiers',
-            '#display_id' => 'block_1',
-            '#arguments' => [
-                $variables['node']->field_dossier->target_id,
-            ],
-        ];
-    }
+    // // add dossier articles to the dossier teaser
+    // if ('teaser_dossier' == $view_mode) {
+    //     $variables['dossier_articles'] = [
+    //         '#type' => 'view',
+    //         '#name' => 'blaetter_dossiers',
+    //         '#display_id' => 'block_1',
+    //         '#arguments' => [
+    //             $variables['node']->field_dossier->target_id,
+    //         ],
+    //     ];
+    // }
 
     // add edition preview and purchase buttons to stories that are not available to the end user
     if ('full' == $view_mode
@@ -639,6 +639,14 @@ function palm_preprocess_node(&$variables)
                     '#title' => t('Download @title as mobi file.', ['@title' => $variables['node']->getTitle()]),
                 ];
             }
+        }
+
+        if ('cart_item_node' == $view_mode) {
+          //$variables['node']->title->setValue(' (Digitalausgabe)');
+          dsm($variables['node']->getTitle());
+          $variables['node']->setTitle('bla');
+          dsm($variables['node']->getTitle());
+          kint($variables);
         }
     }
 }
