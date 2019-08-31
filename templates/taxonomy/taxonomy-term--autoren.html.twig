@@ -34,8 +34,6 @@
 {% endset %}
 
 <div{{ attributes.addClass(classes) }}>
-    <p class="text">Im Folgenden finden Sie sämtliche »Blätter«-Beiträge von {{ name_raw|striptags }}.</p>
-
     {% if content.field_image | render %}
     <div class="image">
         {{ content.field_image }}
@@ -51,5 +49,9 @@
         {{ content|without('field_image', 'field_bio') }}
     </div>
     {% endif %}
+
+    <p class="text">Im Folgenden finden Sie sämtliche »Blätter«-Beiträge von {{ name_raw|striptags }}.</p>
+
     <h2 class="heading--sectiontitle">{{ name_raw|striptags }} in den »Blättern«</h2>
+
 </div>
