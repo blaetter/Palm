@@ -172,6 +172,30 @@ function palm_preprocess_page_title(&$variables) {
 }
 
 /**
+ * Implements hook_preprocess_HOOK().
+ */
+function palm_preprocess_breadcrumb(&$variables) {
+    $request = \Drupal::request();
+
+    // add link to author page on taxonomy term pages from the author vocabulary
+    if ('entity.taxonomy_term.canonical' == $request->get('_route')) {
+        $term = Term::load(\Drupal::routeMatch()->getRawParameter('taxonomy_term'));
+        if ('autoren' == $term->bundle()) {
+            $variables['#cache']['contexts'][] = 'url';
+            $author_index = [
+                ['text' => t('Authors'), 'url' => '/autoren']
+            ];
+            array_splice($variables['breadcrumb'], 1, 0, $author_index);
+        }
+    }
+
+    // Change text for last breadcrumb part for user edit form
+    if ('entity.user.edit_form' == \Drupal::request()->get('_route')) {
+        $variables['breadcrumb'][2]['text'] = t('Edit user account');
+    }
+}
+
+/**
  * Implements hook template_preprocess_field__node__body
  *
  * We use this to add an extra class to the first paragraph of the body field as we want to have an initial there for
@@ -433,11 +457,30 @@ function palm_preprocess_node(&$variables)
         if (isset($variables['node']->book) && !empty($variables['node']->book['bid'])) {
             $book = \Drupal::entityTypeManager()->getStorage('node')->load($variables['node']->book['bid']);
             if ($book && 'ausgabe' == $book->getType()) {
+                // calculate length of snippet if original body is set
+                $text_count_summary = '';
+                $original_body_length = strlen($variables['node']->get('body')->value);
+                $teaser_body_length = strlen(
+                    nodeshop_trim_text(
+                        $variables['node']->get('body')->value, 1500, false
+                    )
+                );
+
+                $teaser_body_percentage = round($teaser_body_length * 100 / $original_body_length);
+
+                $text_count_summary = t(
+                    'You\'ve read @countlow% of the text, to read the remaining @counthigh%, you might want to: ',
+                    [
+                        '@countlow' => $teaser_body_percentage,
+                        '@counthigh'=> (100 - $teaser_body_percentage)
+                    ]
+                );
                 $edition = [
                     '#weight' => 3, // set it directly prior to links, which have #weight => 5
                     '#theme' => 'palm_edition',
                     '#edition' => [
                         'image' => $book->field_primary_picture->view('full'),
+                        'text_count_summary' => $text_count_summary,
                         'buttons' => [
                             'buy_article' => [
                                 '#theme' => 'palm_buy_button',
@@ -543,7 +586,11 @@ function palm_preprocess_node(&$variables)
             '#node_url' => $node_url,
             '#node_title' => $node_title,
         ];
-        if (NodeShop::grantUserAccess($variables['node'], $current_user)) {
+
+        // set download links only for nodes of type story. There might be additional
+        // node types configured via nodeshop, but there is currently no way to access
+        // this check from this point.
+        if (NodeShop::grantUserAccess($variables['node'], $current_user) && 'story' == $variables['node']->bundle()) {
             try {
                 \Drupal::service('router.route_provider')->getRouteByName(
                     'nodeshop.product_features.product_feature_access_to_attachment.download'
@@ -591,7 +638,7 @@ function palm_preprocess_node(&$variables)
                 ];
             }
         }
-        if (!NodeShop::isUserNode($variables['node'], $current_user)) {
+        if (!NodeShop::isUserNode($variables['node'], $current_user) && !$current_user->hasRole('onlineabonnent')) {
             // only display this button if the user not already bought this online issue
             $variables['button_buy_online'] = [
                 '#theme' => 'palm_buy_button',
@@ -641,12 +688,15 @@ function palm_preprocess_node(&$variables)
             }
         }
 
+        // This is made to add an extra to the node title if a node from type
+        // ausgabe is put into the cart.
+        // The following way seems a bit dirty, but it's the only working way I
+        // could found.
         if ('cart_item_node' == $view_mode) {
-          //$variables['node']->title->setValue(' (Digitalausgabe)');
-          dsm($variables['node']->getTitle());
-          $variables['node']->setTitle('bla');
-          dsm($variables['node']->getTitle());
-          kint($variables);
+            if ('ausgabe' == $variables['node']->bundle()) {
+                $variables['label'][0]['#context']['value'] = $variables['label'][0]['#context']['value'] .
+                ' (' . t('digital issue') . ')';
+            }
         }
     }
 }
