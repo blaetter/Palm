@@ -6,6 +6,7 @@
  * Available variables:
  * - edition: The content for this block:
  *    - edition.image - The image of the edition
+ *    - edition.text_count_summary - An optional text to display
  *    - edition.buttons - Buttons to either buy or login
  *
  */
@@ -16,6 +17,9 @@
       {{ edition.image }}
     </div>
     <div class="inner">
+    {% if edition.text_count_summary %}
+      <p>{{ edition.text_count_summary }}</p>
+    {% endif %}
     {% for button in edition.buttons %}
       {{ button }}<br />
     {% endfor %}
