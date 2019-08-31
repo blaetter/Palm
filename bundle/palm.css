@@ -5395,14 +5395,14 @@ span.flatpickr-weekday {
     background: -webkit-linear-gradient(top, transparent 0%, transparent 55%, #f2f2f2 100%);
     background: linear-gradient(to bottom, transparent 0%, transparent 55%, #f2f2f2 100%); }
 
-.nodeshop-closed.teaser .heading:after {
+.nodeshop-closed.teaser .heading:after, .nodeshop-closed.homepage-heroimage .heading:after {
   content: "\f023";
   font-family: "FontAwesome";
   display: inline-block;
   color: #808080;
-  font-size: 1rem; }
+  font-size: 70%; }
 
-.nodeshop-closed.teaser .field--name-body:before {
+.nodeshop-closed.teaser .field--name-body:before, .nodeshop-closed.homepage-heroimage .field--name-body:before {
   background: transparent; }
 
 .profilehead {
@@ -7989,4 +7989,4 @@ select > option {
     text-decoration: none; }
 
 
-/*# sourceMappingURL=palm.css-28c78914d7a66ff0de2e.map*/
+/*# sourceMappingURL=palm.css-8f623584f1384659c7e4.map*/
