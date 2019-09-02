@@ -1,0 +1,58 @@
+{#
+/**
+ * @file nodeshop_order_finished.html.twig
+ * Default theme implementation to present the order finished page to the end user..
+ *
+ * This template is used when viewing Order finished pages.
+ *
+ *
+ * Available variables:
+ * - order: The NodeShop order Object
+ * - attributes: HTML attributes for the container element.
+ *
+ * @see template_preprocess_order()
+ *
+ * @ingroup themeable
+ */
+#}
+<div{{ attributes.addClass(['order', 'content__inner']) }}>
+
+    <p>Vielen Dank für Ihre Bestellung. Sofern Sie Onlineprodukte bestellt haben, können Sie diese bereits nutzen.</p>
+
+    <p>Sie erhalten darüber hinaus auch eine E-Mail mit allen Daten und der Rechnung.</p>
+
+    <p>Sie haben bestellt:</p>
+
+    <ul>
+    {% for product in order.getOrderProducts %}
+      {% if 'ausgabe' == product.getType %}
+          {% set title %}
+            {{ product.getTitle }} {{ '(digital issue)' | t }}
+          {% endset %}
+      {% else %}
+          {% set title = product.getTitle %}
+      {% endif %}
+          <li>
+            <a href="{{ path('entity.node.canonical', {'node': product.getNodeId }) }}">
+                {{ title }}
+            </a>
+            {% if product.getData and product.getData.bonus %}
+                {% if product.getData.bonus.nid and product.getData.bonus.title %}
+                    {% set nid = product.getData.bonus.nid %}
+                    {% set prefix %}{{ 'bonus: '|t }}{% endset %}
+                    {% set title = product.getData.bonus.title %}
+                {% else %}
+                    {% set nid = product.getData.bonus %}
+                    {% set title %}{{ 'bonus'|t }}{% endset %}
+                {% endif %}
+                <span {{ attributes.addClass('bonus') }}>
+                    {{ prefix }}&nbsp;
+                    <a href="{{ path('entity.node.canonical', {'node': nid }) }}">
+                        {{ title }}
+                    </a>
+                </span>
+            {% endif %}
+        </li>
+    {% endfor %}
+    </ul>
+</div>

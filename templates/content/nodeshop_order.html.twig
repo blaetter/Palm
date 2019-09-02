@@ -65,7 +65,14 @@
             {% for order_product in order_products %}
                 <tr>
                     <td>
-                        <a href="{{ path('entity.node.canonical', {'node': order_product.getNodeId }) }}" rel="nofollow">{{ order_product.getTitle }}</a>
+                        {% if 'ausgabe' == order_product.getType %}
+                            {% set link_title %}
+                              {{ order_product.getTitle }} {{ '(digital issue)' | t }}
+                            {% endset %}
+                        {% else %}
+                            {% set link_title = order_product.getTitle %}
+                        {% endif %}
+                        <a href="{{ path('entity.node.canonical', {'node': order_product.getNodeId }) }}" rel="nofollow">{{ link_title }}</a>
                     </td>
                     <td>{{ order_product.getQuantity }}</td>
                     <td>{{ order_product.getThemedPriceTotal }}</td>
