@@ -1,0 +1,76 @@
+{#
+/**
+ * @file nodeshop_mail_customer.html.twig
+ * Default theme implementation for the customer shop email.
+ *
+ * Available variables:
+ * - order: The NodeShop order object
+ *
+ * @ingroup themeable
+ */
+#}
+<p>
+    {% if 'Frau' in order.getCustomerTitle %}
+      <strong>Liebe {{ order.getCustomerTitle }} {{ order.getCustomerFirstName }} {{ order.getCustomerLastName }}</strong>,
+    {% else if 'Herr' in order.getCustomerTitle %}
+      <strong>Lieber {{ order.getCustomerTitle }} {{ order.getCustomerFirstName }} {{ order.getCustomerLastName }}</strong>,
+    {% else %}
+      {% trans %}<strong>Dear {{ order.getCustomerFirstName }} {{ order.getCustomerLastName }}</strong>{% endtrans %},
+    {% endif %}
+</p>
+<p>{% trans %}thanks for your order at {{ shopname }}. {% endtrans %}</p>
+<p>{% trans %}In this mail you'll find your order details. {% endtrans %}</p>
+
+<p>{{ 'billing address' | t }}</p>
+<address>
+    {{ order.getCustomerTitel }} {{ order.getCustomerFirstName }} {{ order.getCustomerLastName }}<br />
+    {{ order.getCustomerStreet }}<br />
+    {% if order.getCustomerStreetAddon %} {{ order.getCustomerStreetAddon }}<br />{% endif %}
+    {{ order.getCustomerPostalCode }} {{ order.getCustomerCity }}<br />
+    {{ order.getCustomerCountry }}
+</address>
+
+{% if order.hasDeliveryAddress %}
+<p>{{ 'delivery address' | t }}</p>
+<address>
+    {{ order.getDeliveryTitel }} {{ order.getDeliveryFirstName }} {{ order.getDeliveryLastName }}<br />
+    {{ order.getDeliveryStreet }}<br />
+    {% if order.getDeliveryStreetAddon %} {{ order.getDeliveryStreetAddon }}<br />{% endif %}
+    {{ order.getDeliveryPostalCode }} {{ order.getDeliveryCity }}<br />
+    {{ order.getDeliveryCountry }}
+</address>
+{% endif %}
+
+
+<table>
+    <thead>
+        <tr>
+            <th>{{ 'Description'|t }}</th>
+            <th>{{ 'Count'|t }}</th>
+            <th>{{ 'Price'|t }}</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for product in order.getOrderProducts %}
+        <tr>
+            <td><a href="{{ url('entity.node.canonical', {'node': product.getNodeId }) }} ">{{ product.getTitle }}</a></td>
+            <td>{{ product.getQuantity }}</td>
+            <td style="text-align:right;">{{ product.getThemedPriceTotal }}</td>
+        </tr>
+        {% endfor %}
+        <tr>
+            <td colspan="2" style="text-align:right;">{{ 'Total'|t }}</td>
+            <td style="text-align:right;">{{ order.getThemedOrderTotal }}<br />{{ 'including tax'|t }} {{ order.getThemedOrderTax }}</td>
+        </tr>
+    </tbody>
+</table>
+
+
+
+{% if extra_text %}
+<p>{{ extra_text | nl2br }}</p>
+{% endif %}
+
+{% if signature %}
+<p>{{ signature | nl2br }}</p>
+{% endif %}
