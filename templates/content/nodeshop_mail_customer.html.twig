@@ -12,7 +12,7 @@
 <p>
     {% if 'Frau' in order.getCustomerTitle %}
       <strong>Liebe {{ order.getCustomerTitle }} {{ order.getCustomerFirstName }} {{ order.getCustomerLastName }}</strong>,
-    {% else if 'Herr' in order.getCustomerTitle %}
+    {% elseif 'Herr' in order.getCustomerTitle %}
       <strong>Lieber {{ order.getCustomerTitle }} {{ order.getCustomerFirstName }} {{ order.getCustomerLastName }}</strong>,
     {% else %}
       {% trans %}<strong>Dear {{ order.getCustomerFirstName }} {{ order.getCustomerLastName }}</strong>{% endtrans %},

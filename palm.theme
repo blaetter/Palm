@@ -724,6 +724,7 @@ function palm_form_alter(&$form, FormStateInterface $form_state, $form_id) {
         $form['personal_information']['customer_last_name']['#wrapper_attributes']['class'][] = 'grid__item';
         $form['personal_information']['customer_last_name']['#wrapper_attributes']['class'][] = 'one-half';
         $form['personal_information']['customer_email']['#wrapper_attributes']['class'][] = 'grid__item';
+        $form['personal_information']['password']['#wrapper_attributes']['class'][] = 'grid__item';
         $form['personal_information']['customer_phone']['#wrapper_attributes']['class'][] = 'grid__item';
         $form['customer_address_information']['#attributes']['class'][] = 'grid';
         $form['customer_address_information']['customer_street']['#wrapper_attributes']['class'][] = 'grid__item';

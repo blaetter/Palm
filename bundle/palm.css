@@ -5826,6 +5826,11 @@ form {
     font-weight: bold;
     margin-bottom: 0.4em;
     margin-top: 0; }
+  form .password-confirm,
+  form .password-field,
+  form .password-strength,
+  form .password-confirm-match {
+    width: 100%; }
   form .form-check-label {
     font-weight: normal;
     display: flex;
@@ -7989,4 +7994,4 @@ select > option {
     text-decoration: none; }
 
 
-/*# sourceMappingURL=palm.css-c6ba4a84ee2b00d1e5f1.map*/
+/*# sourceMappingURL=palm.css-f7302dd71bdf1166e983.map*/
