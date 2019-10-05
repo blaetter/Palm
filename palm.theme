@@ -209,17 +209,70 @@ function palm_preprocess_breadcrumb(&$variables) {
  */
 function palm_preprocess_field__node__body(&$variables)
 {
+  // get current user
+  $current_user = \Drupal\user\Entity\User::load($variables['user']->id());
+  // get view mode (e.g. full or teaser)
+  $view_mode = $variables['element']['#view_mode'];
+  // get the node object
+  $node = $variables['element']['#object'];
+
   if ('full' == $variables['element']['#view_mode']) {
+    // prepare replacement body
+    $replaced_body = $variables['items'][0]['content']['#text'];
+    // get node types, that will get an initiale
     $palm_initial_nodetypes = theme_get_setting('palm_initial_nodetypes');
     if (!empty($palm_initial_nodetypes) && in_array($variables['element']['#bundle'], $palm_initial_nodetypes)) {
-      $original_body = preg_replace(
+      $replaced_body = preg_replace(
         '/<p>/i',
         '<p class="initiale">',
         $variables['items'][0]['content']['#text'],
         1
       );
-      $variables['items'][0]['content'] = Markup::create($original_body);
     }
+
+    // load ausgabe preview to node views of type story that:
+    //  - are free to view
+    //  - are viewed by an anonymous user
+    if ('story' === $variables['element']['#bundle']
+      && NodeShop::grantUserAccess($node, $current_user)
+      && isset($node)
+      && $current_user->isAnonymous()
+    ) {
+      $book = \Drupal::entityTypeManager()->getStorage('node')->load($node->book['bid']);
+      if ($book && 'ausgabe' == $book->getType()) {
+        $text_count_summary = t('This article is part of the @issue.', ['@issue' => $book->getTitle()]);
+        $edition = [
+          '#weight' => 3, // set it directly prior to links, which have #weight => 5
+          '#theme' => 'palm_edition',
+          '#edition' => [
+              'image' => $book->field_primary_picture->view('full'),
+              'text_count_summary' => $text_count_summary,
+              'buttons' => [
+                  'buy_online' => [
+                      '#theme' => 'palm_buy_button',
+                      '#product_node_id' => $book->id(),
+                      '#destination' => \Drupal::service('path.current')->getPath(),
+                      '#product_price' => NodeShop::getPrice($book),
+                      '#label' => t('Buy online issue'),
+                      '#title' => t('Puts @title (online) into the cart.', ['@title' => $book->getTitle()]),
+                  ]
+              ]
+          ]
+        ];
+        $renderer = \Drupal::service('renderer');
+        $markup = $renderer->render($edition);
+
+        $replaced_body = preg_replace(
+          '/(?s)((?:<p.*?>.*?<\/p>\s*){3})/',
+          '$1' . $markup,
+          $replaced_body,
+          1
+        );
+      }
+    }
+
+    // replace the body with all replacements that have been made
+    $variables['items'][0]['content'] = Markup::create($replaced_body);
   }
 }
 
