@@ -3422,6 +3422,8 @@ ul {
   ul.nav {
     list-style: none;
     padding-left: 0; }
+  ul .button {
+    line-height: 1.66667em; }
 
 ol {
   padding-inline-start: 0.5em;
@@ -7994,4 +7996,4 @@ select > option {
     text-decoration: none; }
 
 
-/*# sourceMappingURL=palm.css-be579dcf27f80124b354.map*/
+/*# sourceMappingURL=palm.css-d8cfb6f6448e7e3662c4.map*/
