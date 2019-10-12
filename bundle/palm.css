@@ -5353,6 +5353,18 @@ span.flatpickr-weekday {
       min-height: 100%;
       max-width: none; } }
 
+article.node-type--story .teaser--aktuelle-ausgabe {
+  margin: 20px 20px 20px -200px;
+  width: 400px;
+  border: 1px solid #CCCCCC;
+  padding: 20px;
+  float: left;
+  background: #FFFFFF; }
+  @media screen and (max-width: 45rem) {
+    article.node-type--story .teaser--aktuelle-ausgabe {
+      width: 100%;
+      margin: 20px 0; } }
+
 /* 
  * BASIC open/close layout. For more styling use a specific class. 
  * Use data-opentext and data-closetext attibutes to set button texts.
@@ -7996,4 +8008,4 @@ select > option {
     text-decoration: none; }
 
 
-/*# sourceMappingURL=palm.css-d8cfb6f6448e7e3662c4.map*/
+/*# sourceMappingURL=palm.css-fc1d540206e334e36807.map*/
