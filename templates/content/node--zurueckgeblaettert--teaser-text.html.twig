@@ -73,5 +73,5 @@
 #}
 <article{{ attributes.addclass(['block', 'teaser', 'teaser--text'])|without('role') }}>
   <p class="text--big">{{ content }}</p>
-  <a href="{{ url }}" title="" class="readmore">{{ 'to the articles'|t }}</a>
+  <a href="{{ url }}" title="{{ 'follow this link to view all articles for this topic' | t }}" class="readmore">{{ 'to the articles'|t }}</a>
 </article>
