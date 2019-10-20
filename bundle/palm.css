@@ -2487,9 +2487,6 @@ body {
   flex-wrap: wrap;
   align-items: flex-start; }
   @media print, (min-width: 45.001rem) {
-    .grid > .auto {
-      -webkit-flex: 1;
-      flex: 1; }
     .grid > .grid__item.one-half {
       padding-left: 1.25rem;
       width: 100%;
@@ -2498,10 +2495,6 @@ body {
       padding-left: 1.25rem;
       width: 100%;
       width: 33.333%; }
-    .grid > .grid__item.one-fourth {
-      padding-left: 1.25rem;
-      width: 100%;
-      width: 25%; }
     .grid > .grid__item.three-fourths {
       padding-left: 1.25rem;
       width: 100%;
@@ -2510,20 +2503,20 @@ body {
       padding-left: 1.25rem;
       width: 100%;
       width: 66.666%; }
+    .grid > .grid__item.one-fourth {
+      padding-left: 1.25rem;
+      width: 100%;
+      width: 25%; } }
+  @media print, (min-width: 75rem) {
+    .grid > .auto {
+      -webkit-flex: 1;
+      flex: 1; }
     .grid > .grid__item.one-sixth {
       padding-left: 1.25rem;
       width: 100%;
       padding-left: 1.25rem;
       width: 100%;
       width: 16.666%; }
-    .grid > .grid__item.four-sixths {
-      padding-left: 1.25rem;
-      width: 100%;
-      width: 66.666%; }
-    .grid > .grid__item.five-sixths {
-      padding-left: 1.25rem;
-      width: 100%;
-      width: 83.333%; }
     .grid > .grid__item.one-tenth {
       padding-left: 1.25rem;
       width: 100%;
@@ -2532,6 +2525,14 @@ body {
       padding-left: 1.25rem;
       width: 100%;
       width: 20%; }
+    .grid > .grid__item.four-sixths {
+      padding-left: 1.25rem;
+      width: 100%;
+      width: 66.666%; }
+    .grid > .grid__item.five-sixths {
+      padding-left: 1.25rem;
+      width: 100%;
+      width: 83.333%; }
     .grid > .grid__item.five-tenths {
       padding-left: 1.25rem;
       width: 100%;
@@ -5631,6 +5632,14 @@ article.node-type--story .teaser--aktuelle-ausgabe {
           height: 100%;
           width: auto;
           max-width: none; } }
+    @media print, (max-width: 26.25rem) {
+      .teaser.teaser--vertical .image {
+        width: 100%;
+        height: auto; }
+        .teaser.teaser--vertical .image img {
+          position: relative;
+          left: 0;
+          min-height: 180px; } }
   .teaser.teaser--archive {
     background-color: transparent;
     margin-bottom: 50px; }
@@ -8008,4 +8017,4 @@ select > option {
     text-decoration: none; }
 
 
-/*# sourceMappingURL=palm.css-689b27ef6ccf8941b98a.map*/
+/*# sourceMappingURL=palm.css-8686ccec348589b4f678.map*/
