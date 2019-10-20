@@ -3259,6 +3259,8 @@ h4 {
     margin-top: -2em; }
   .heading--sectiontitle.red {
     color: #E71835; }
+    .heading--sectiontitle.red a {
+      color: #E71835; }
   .heading--sectiontitle .text {
     flex-grow: 1; }
   .heading--sectiontitle .aside {
@@ -8008,4 +8010,4 @@ select > option {
     text-decoration: none; }
 
 
-/*# sourceMappingURL=palm.css-fc1d540206e334e36807.map*/
+/*# sourceMappingURL=palm.css-43f78b3e1fcec366db05.map*/
