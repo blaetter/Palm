@@ -2899,7 +2899,6 @@ button,
   margin: 0;
   margin-bottom: 0.9375rem;
   box-shadow: none;
-  /* margin:                 $buttonMargin; // not here */
   text-decoration: none;
   padding: 0.3em 1em;
   font-size: 18px;
@@ -2917,13 +2916,8 @@ button,
   min-height: 2.5em; }
   @media screen and (max-width: 45rem) {
     .btn, .button, .button-submit, .button--spaced, a.button, .button--ghost, .button--footer, .button--reversed, .button--disabled, .button--white, .button--buy {
-      width: 100%; } }
-  @media screen and (max-width: 45rem) {
-    .btn, .button, .button-submit, .button--spaced, a.button, .button--ghost, .button--footer, .button--reversed, .button--disabled, .button--white, .button--buy {
+      width: 100%;
       line-height: 2em; } }
-  .btn:hover, .button:hover, .button-submit:hover, .button--spaced:hover, .button--ghost:hover, .button--footer:hover, .button--reversed:hover, .button--disabled:hover, .button--white:hover, .button--buy:hover, .btn:active, .button:active, .button-submit:active, .button--spaced:active, .button--ghost:active, .button--footer:active, .button--reversed:active, .button--disabled:active, .button--white:active, .button--buy:active, .btn:focus, .button:focus, .button-submit:focus, .button--spaced:focus, .button--ghost:focus, .button--footer:focus, .button--reversed:focus, .button--disabled:focus, .button--white:focus, .button--buy:focus {
-    /* color:              $btn-font-color; // not here */
-    /* background-color:   $btn-background-hover; // not here */ }
   .btn:focus, .button:focus, .button-submit:focus, .button--spaced:focus, .button--ghost:focus, .button--footer:focus, .button--reversed:focus, .button--disabled:focus, .button--white:focus, .button--buy:focus {
     outline: 1px dotted black;
     outline-offset: 0; }
@@ -5597,6 +5591,7 @@ article.node-type--story .teaser--aktuelle-ausgabe {
     width: 30%;
     float: left;
     margin-right: 1em;
+    margin-bottom: 1em;
     height: auto; }
     .teaser .image img {
       width: 100%;
@@ -5748,7 +5743,10 @@ article.node-type--story .teaser--aktuelle-ausgabe {
   .teaser.teaser--aktuelle-ausgabe img {
     border: 1px solid #CCCCCC; }
   .teaser.teaser--aktuelle-ausgabe .inner {
-    display: table; }
+    display: block; }
+    @media print, (min-width: 45.001rem) {
+      .teaser.teaser--aktuelle-ausgabe .inner {
+        display: table; } }
   .teaser .field--name-body {
     margin-bottom: 0; }
 
@@ -8010,4 +8008,4 @@ select > option {
     text-decoration: none; }
 
 
-/*# sourceMappingURL=palm.css-43f78b3e1fcec366db05.map*/
+/*# sourceMappingURL=palm.css-689b27ef6ccf8941b98a.map*/
