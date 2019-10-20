@@ -5620,26 +5620,27 @@ article.node-type--story .teaser--aktuelle-ausgabe {
     @media screen and (max-width: 45rem) {
       .teaser.teaser--vertical .image {
         width: 30vw;
-        height: 30vw;
+        height: 17vw;
         float: left;
         margin: 20px;
         overflow: hidden;
         position: relative; }
         .teaser.teaser--vertical .image img {
           position: absolute;
-          left: -30%;
           top: 0;
-          height: 100%;
           width: auto;
-          max-width: none; } }
+          margin: auto; } }
     @media print, (max-width: 26.25rem) {
       .teaser.teaser--vertical .image {
         width: 100%;
-        height: auto; }
+        height: auto;
+        margin: 0;
+        padding: 20px 0 20px 0;
+        border-right: solid 20px #FFFFFF;
+        border-left: solid 20px #FFFFFF; }
         .teaser.teaser--vertical .image img {
           position: relative;
-          left: 0;
-          min-height: 180px; } }
+          width: 100%; } }
   .teaser.teaser--archive {
     background-color: transparent;
     margin-bottom: 50px; }
@@ -8017,4 +8018,4 @@ select > option {
     text-decoration: none; }
 
 
-/*# sourceMappingURL=palm.css-8686ccec348589b4f678.map*/
+/*# sourceMappingURL=palm.css-90e659d16ebb9fa9f20f.map*/
