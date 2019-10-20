@@ -81,11 +81,11 @@
 {% endset %}
 
 <h2 class="heading--sectiontitle ">
-    <div class="text">
+    <a href="{{ url }}" title="{{ 'follow this link to view the issue' | t }}" class="text">
         <span class="text--red">{{'current issue'|t }}</span>
           {{ issue|striptags }}
           {{ year|striptags }}
-    </div>
+    </a>
 </h2>
 
 <div class="block homepage-probeabo spaceless">
@@ -95,9 +95,9 @@
   <div class="text">
     <p class="text--big">
       {{ body|striptags }}
-      <a href="{{ url }}">Mehr...</a>
+      <a href="{{ url }}" title="{{ 'follow this link to view the issue' | t }}">Mehr...</a>
     </p>
-    <a class="button" href="{{ path('entity.node.canonical', {'node': '559'}) }}">
+    <a class="button" href="{{ path('entity.node.canonical', {'node': '559'}) }}" title="{{ 'follow this link to view the test subscription' | t }}">
     {{ 'test subscritption'|t }}</a>
   </div>
 </div>
