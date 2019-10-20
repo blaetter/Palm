@@ -2580,12 +2580,15 @@ body {
         .grid--searchpage > [class*="grid__item"]:nth-child(2n+0) {
           width: 33.333%; } }
 
-.grid.grid--stretch {
-  align-items: stretch; }
-  .grid.grid--stretch > .grid__item {
-    margin-bottom: 1.25rem; }
-  .grid.grid--stretch .teaser {
-    height: 100%; }
+@media print, (min-width: 45.001rem) {
+  .grid.grid--stretch {
+    align-items: stretch; } }
+
+.grid.grid--stretch > .grid__item {
+  margin-bottom: 1.25rem; }
+
+.grid.grid--stretch .teaser {
+  height: 100%; }
 
 .grid.grid--bordered > .grid__item {
   border-right: 1px solid #CCCCCC;
@@ -8018,4 +8021,4 @@ select > option {
     text-decoration: none; }
 
 
-/*# sourceMappingURL=palm.css-90e659d16ebb9fa9f20f.map*/
+/*# sourceMappingURL=palm.css-cd0ade58699039f26516.map*/
