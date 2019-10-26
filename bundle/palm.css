@@ -6736,27 +6736,32 @@ select > option {
   #block-palm-local-tasks .tabs li {
     margin: 0; }
 
-.book-pager {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  padding: 0;
-  margin: 0; }
-  .book-pager .book-pager__item {
-    display: inline-block;
-    list-style-type: none;
-    vertical-align: top;
-    float: none; }
-  .book-pager .book-pager__item--previous,
-  .book-pager .book-pager__item--next {
-    width: auto; }
-  .book-pager .book-pager__item--previous {
-    text-align: left; }
-  .book-pager .book-pager__item--center {
-    text-align: center;
-    margin: 0 2em; }
-  .book-pager .book-pager__item--next {
-    text-align: right; }
+.book-navigation {
+  display: none; }
+  @media print, (min-width: 45.001rem) {
+    .book-navigation {
+      display: block; } }
+  .book-navigation .book-pager {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 0;
+    margin: 0; }
+    .book-navigation .book-pager .book-pager__item {
+      display: inline-block;
+      list-style-type: none;
+      vertical-align: top;
+      float: none; }
+    .book-navigation .book-pager .book-pager__item--previous,
+    .book-navigation .book-pager .book-pager__item--next {
+      width: auto; }
+    .book-navigation .book-pager .book-pager__item--previous {
+      text-align: left; }
+    .book-navigation .book-pager .book-pager__item--center {
+      text-align: center;
+      margin: 0 2em; }
+    .book-navigation .book-pager .book-pager__item--next {
+      text-align: right; }
 
 .breadcrumb {
   margin-bottom: 2em;
@@ -8021,4 +8026,4 @@ select > option {
     text-decoration: none; }
 
 
-/*# sourceMappingURL=palm.css-cd0ade58699039f26516.map*/
+/*# sourceMappingURL=palm.css-3745a374586032987c61.map*/
