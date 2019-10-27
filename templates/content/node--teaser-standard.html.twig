@@ -70,7 +70,7 @@
  *   in different view modes.
  */
 #}
-<article{{ attributes.addclass(['block', 'teaser', 'block--white'])|without('role') }}>
+<article{{ attributes.addclass(['block', 'teaser', 'teaser--standard', 'block--white'])|without('role') }}>
     <div{{ content_attributes.addclass('image') }}>
         {{ content.field_primary_picture }}
     </div>

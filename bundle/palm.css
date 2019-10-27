@@ -5592,7 +5592,7 @@ article.node-type--story .teaser--aktuelle-ausgabe {
   .teaser .source {
     display: none !important; }
   .teaser .image {
-    width: 30%;
+    width: 30vw;
     float: left;
     margin-right: 1em;
     margin-bottom: 1em;
@@ -5612,6 +5612,30 @@ article.node-type--story .teaser--aktuelle-ausgabe {
     font-size: 1.2em; }
   .teaser .author-name {
     color: #086D9A; }
+  @media screen and (max-width: 45rem) {
+    .teaser.teaser--standard .image {
+      width: 30vw;
+      height: 17vw;
+      float: left;
+      margin: 20px;
+      overflow: hidden;
+      position: relative; }
+      .teaser.teaser--standard .image img {
+        position: absolute;
+        top: 0;
+        width: auto;
+        margin: auto; } }
+  @media print, (max-width: 26.25rem) {
+    .teaser.teaser--standard .image {
+      width: 100%;
+      height: auto;
+      margin: 0;
+      padding: 20px 0 20px 0;
+      border-right: solid 20px #FFFFFF;
+      border-left: solid 20px #FFFFFF; }
+      .teaser.teaser--standard .image img {
+        position: relative;
+        width: 100%; } }
   .teaser.teaser--vertical {
     background-color: #FFFFFF; }
     .teaser.teaser--vertical .image {
@@ -5762,6 +5786,14 @@ article.node-type--story .teaser--aktuelle-ausgabe {
         display: table; } }
   .teaser .field--name-body {
     margin-bottom: 0; }
+  .teaser.block--white .image {
+    padding: 0;
+    border-right: none;
+    border-left: none;
+    margin: 0 20px 20px 0; }
+    @media print, (max-width: 26.25rem) {
+      .teaser.block--white .image {
+        margin: 0 0 20px 0; } }
 
 @media print, (min-width: 45.001rem) {
   .one-fourth .teaser--poster .heading, .one-fourth .teaser--poster h2, .one-fourth .teaser--poster h3 {
@@ -8026,4 +8058,4 @@ select > option {
     text-decoration: none; }
 
 
-/*# sourceMappingURL=palm.css-3745a374586032987c61.map*/
+/*# sourceMappingURL=palm.css-a7c1b30b1444f3ac19cd.map*/
