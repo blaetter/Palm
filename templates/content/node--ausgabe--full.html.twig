@@ -90,9 +90,11 @@
     </footer>
   {% endif %}
 
-  <div class="image">
-    {{ content.field_primary_picture }}
+  {% if not content.field_primary_picture|render|trim is empty %}
+  <div{{ content_attributes.addclass('image') }}>
+      {{ content.field_primary_picture }}
   </div>
+  {% endif %}
   <div class="inner">
     {{ content.body }}
     {% if button_buy_print %}

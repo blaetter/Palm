@@ -89,9 +89,11 @@
 </h2>
 
 <div class="block homepage-probeabo spaceless">
-  <div{{ content_attributes.addClass('image') }}>
+  {% if not content.field_primary_picture|render|trim is empty %}
+  <div{{ content_attributes.addclass('image') }}>
       {{ content.field_primary_picture }}
   </div>
+  {% endif %}
   <div class="text">
     <p class="text--big">
       {{ body|striptags }}

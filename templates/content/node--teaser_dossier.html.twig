@@ -85,9 +85,11 @@
 
 <div class="block homepage-dosierteaser spaceless">
   <article class="block teaser teaser--poster">
-    <div class="image">
+    {% if not content.field_primary_picture|render|trim is empty %}
+    <div{{ content_attributes.addclass('image') }}>
         {{ content.field_primary_picture }}
     </div>
+    {% endif %}
     <div class="inner">
         <h3 class="heading">
             <a href="{{ url }}" title="{{ 'show dossier'|t }}">{{ label}}</a>

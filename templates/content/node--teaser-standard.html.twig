@@ -71,9 +71,11 @@
  */
 #}
 <article{{ attributes.addclass(['block', 'teaser', 'teaser--standard', 'block--white'])|without('role') }}>
+    {% if not content.field_primary_picture|render|trim is empty %}
     <div{{ content_attributes.addclass('image') }}>
         {{ content.field_primary_picture }}
     </div>
+    {% endif %}
     <div class="inner">
         <h3{{ title_attributes.addclass('heading') }}>
             <a href="{{ url }}" rel="bookmark">{{ label }}</a>
