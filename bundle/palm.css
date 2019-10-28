@@ -2770,6 +2770,8 @@ a:hover {
     margin-top: -20px;
     margin-left: -40px;
     margin-right: -40px; }
+  .content-wrapper-homepage #block-palm-page-title {
+    display: none; }
   @media screen and (max-width: 45rem) {
     .content-wrapper-homepage {
       padding: 20px 20px; }
@@ -7999,4 +8001,4 @@ select > option {
     text-decoration: none; }
 
 
-/*# sourceMappingURL=palm.css-43d9fca1b5512eafb8b1.map*/
+/*# sourceMappingURL=palm.css-d4f624fdf4502dace0da.map*/
