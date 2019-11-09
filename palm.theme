@@ -463,6 +463,17 @@ function palm_preprocess_page(&$variables) {
             // force Drupal to resort the blocks in the region
             $variables['page']['hero']['#sorted'] = false;
         }
+        // add page category on all blog type nodes
+        if ('praemie' == $node->getType()) {
+          $variables['page']['hero']['category_title'] = [
+              '#theme' => 'palm_heading_pagecategory',
+              '#category_prefix' => '»Blätter«',
+              '#headline' => t('bonus'),
+              '#weight' => -11,
+          ];
+          // force Drupal to resort the blocks in the region
+          $variables['page']['hero']['#sorted'] = false;
+      }
     }
 
     // add footer link node id and title if exists
