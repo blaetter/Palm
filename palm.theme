@@ -240,23 +240,20 @@ function palm_preprocess_field__node__body(&$variables)
     ) {
       $book = \Drupal::entityTypeManager()->getStorage('node')->load($node->book['bid']);
       if ($book && 'ausgabe' == $book->getType()) {
-        $text_count_summary = t('This article is part of the @issue.', ['@issue' => $book->getTitle()]);
+        $text_count_summary = t(
+          'This article is part of the issue @issue.<br />Click here to read the full issue.',
+          [
+            '@issue' => $book->getTitle()
+          ]
+        );
         $edition = [
           '#weight' => 3, // set it directly prior to links, which have #weight => 5
           '#theme' => 'palm_edition',
           '#edition' => [
+              'link' => $book->toUrl(),
+              'link_title' => t('Click here to read the full issue.'),
               'image' => $book->field_primary_picture->view('full'),
               'text_count_summary' => $text_count_summary,
-              'buttons' => [
-                  'buy_online' => [
-                      '#theme' => 'palm_buy_button',
-                      '#product_node_id' => $book->id(),
-                      '#destination' => \Drupal::service('path.current')->getPath(),
-                      '#product_price' => NodeShop::getPrice($book),
-                      '#label' => t('Buy online issue'),
-                      '#title' => t('Puts @title (online) into the cart.', ['@title' => $book->getTitle()]),
-                  ]
-              ]
           ]
         ];
         $renderer = \Drupal::service('renderer');

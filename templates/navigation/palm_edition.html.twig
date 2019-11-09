@@ -13,6 +13,9 @@
 #}
 {% if edition %}
   <div class="block teaser teaser--aktuelle-ausgabe">
+    {% if edition.link %}
+    <a href="{{ edition.link }}" title="{{ edition.link_title }}">
+    {% endif %}
     <div class="image">
       {{ edition.image }}
     </div>
@@ -24,5 +27,8 @@
       {{ button }}<br />
     {% endfor %}
     </div>
+    {% if edition.link %}
+    </a>
+    {% endif %}
   </div>
 {% endif %}
