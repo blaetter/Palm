@@ -31,7 +31,12 @@
   {% if items %}
   <div class="meta">
     {% for item in items %}
-        <a href="{{ item.url }}" {{ item.attributes|without('href') }}>
+        {% if 'login' in item.url|render %}
+          {% set url = item.url|render ~ '?destination=' ~ path('<current>') %}
+        {% else %}
+          {% set url = item.url %}
+        {% endif %}
+        <a href="{{ url }}" {{ item.attributes|without('href') }}>
             {% if (item.url.toString ends with 'login') %}
                 <i class="fa fa-user" area-hidden="true"></i>
             {% elseif (item.url.toString ends with 'register') %}
