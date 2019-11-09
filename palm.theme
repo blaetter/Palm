@@ -241,7 +241,7 @@ function palm_preprocess_field__node__body(&$variables)
       $book = \Drupal::entityTypeManager()->getStorage('node')->load($node->book['bid']);
       if ($book && 'ausgabe' == $book->getType()) {
         $text_count_summary = t(
-          'This article is part of the issue @issue.<br />Click here to read the full issue.',
+          'This article is part of the issue @issue. Click here to read the full issue.',
           [
             '@issue' => $book->getTitle()
           ]
