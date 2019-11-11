@@ -775,6 +775,7 @@ function palm_preprocess_views_view(&$variables) {
  * @return void
  */
 function palm_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  error_log($form_id);
     if ('nodeshop_order_address_form' == $form_id) {
         // kint($form['personal_information']);
         $form['personal_information']['#attributes']['class'][] = 'grid';
@@ -827,6 +828,35 @@ function palm_form_alter(&$form, FormStateInterface $form_state, $form_id) {
         $form['payment_method']['#attributes']['class'][] = 'block--white';
         $form['payment_method']['#suffix'] = '</div></div>';
         $form['customer_information']['#wrapper_attributes']['class'][] = 'block--white';
+    }
+
+    // User register form
+    if ('user_register_form' == $form_id) {
+
+        $form['account']['#attributes']['class'][] = 'grid';
+        $form['account']['mail']['#wrapper_attributes']['class'][] = 'grid__item';
+        $form['account']['name']['#wrapper_attributes']['class'][] = 'grid__item';
+        $form['account']['pass']['#wrapper_attributes']['class'][] = 'grid__item';
+
+
+        $form['field_title']['#attributes']['class'][] = 'grid__item';
+        $form['field_title']['#attributes']['class'][] = 'two-thirds';
+        $form['field_title']['#prefix'] = '<div class="grid">';
+
+        $form['field_first_name']['#attributes']['class'][] = 'grid__item';
+        $form['field_first_name']['#attributes']['class'][] = 'one-half';
+        $form['field_last_name']['#attributes']['class'][] = 'grid__item';
+        $form['field_last_name']['#attributes']['class'][] = 'one-half';
+        $form['field_street']['#attributes']['class'][] = 'grid__item';
+        $form['field_street_addon']['#attributes']['class'][] = 'grid__item';
+        $form['field_zip']['#attributes']['class'][] = 'grid__item';
+        $form['field_zip']['#attributes']['class'][] = 'one-half';
+        $form['field_city']['#attributes']['class'][] = 'grid__item';
+        $form['field_city']['#attributes']['class'][] = 'one-half';
+        $form['field_country']['#attributes']['class'][] = 'grid__item';
+        $form['field_phone']['#attributes']['class'][] = 'grid__item';
+        $form['field_woher']['#attributes']['class'][] = 'grid__item';
+        $form['field_woher']['#prefix'] = '</div>';
     }
 
     // Contact form
