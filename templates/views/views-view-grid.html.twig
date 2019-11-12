@@ -13,6 +13,7 @@
  *     used on rows.
  *   - col_class_default: A flag indicating whether default classes should be
  *     used on columns.
+*    - automatic_width: A flag to indicate automatic width by design - ATTENTION: USED HERE TO INDICATE AUTO HEIGHT!!!
  * - items: A list of grid items. Each item contains a list of rows or columns.
  *   The order in what comes first (row or column) depends on which alignment
  *   type is chosen (horizontal or vertical).
@@ -24,6 +25,13 @@
  * @see template_preprocess_views_view_grid()
  */
 #}
+
+{% if options.automatic_width %}
+  {% set wrapper_class = 'grid--stretch' %}
+{% else %}
+  {% set wrapper_class = '' %}
+{% endif %}
+
 {% if '1' == options.columns %}
   {% set column_class = '' %}
 {% elseif '2' == options.columns %}
@@ -48,7 +56,7 @@
 {% if title %}
   <h3>{{ title }}</h3>
 {% endif %}
-<div class="grid grid--stretch">
+<div{{ attributes.addClass(['grid', wrapper_class]) }}>
 {% for row in items %}
   {% for column in row.content %}
     {# hide inline styles coming from the drupal grid system as we do it all via css classes #}
