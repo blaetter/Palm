@@ -150,7 +150,7 @@ function palm_preprocess_page_title(&$variables) {
         'search.view_suche',
         'user.login',
         'user.page',
-        'user.password',
+        'user.pass',
         'user.register',
         'user.reset.form',
         'user.reset.login',
@@ -839,9 +839,9 @@ function palm_form_alter(&$form, FormStateInterface $form_state, $form_id) {
         $form['account']['pass']['#wrapper_attributes']['class'][] = 'grid__item';
 
 
-        $form['field_title']['#attributes']['class'][] = 'grid__item';
-        $form['field_title']['#attributes']['class'][] = 'two-thirds';
-        $form['field_title']['#prefix'] = '<div class="grid">';
+        $form['field_salutation']['#attributes']['class'][] = 'grid__item';
+        $form['field_salutation']['#attributes']['class'][] = 'two-thirds';
+        $form['field_salutation']['#prefix'] = '<div class="grid">';
 
         $form['field_first_name']['#attributes']['class'][] = 'grid__item';
         $form['field_first_name']['#attributes']['class'][] = 'one-half';
@@ -858,6 +858,36 @@ function palm_form_alter(&$form, FormStateInterface $form_state, $form_id) {
         $form['field_woher']['#attributes']['class'][] = 'grid__item';
         $form['field_woher']['#prefix'] = '</div>';
     }
+
+    // User edit form
+    if ('user_form' == $form_id) {
+
+      $form['account']['#attributes']['class'][] = 'grid';
+      $form['account']['mail']['#wrapper_attributes']['class'][] = 'grid__item';
+      $form['account']['name']['#wrapper_attributes']['class'][] = 'grid__item';
+      $form['account']['pass']['#wrapper_attributes']['class'][] = 'grid__item';
+      $form['account']['current_pass']['#wrapper_attributes']['class'][] = 'grid__item';
+
+
+      $form['field_salutation']['#attributes']['class'][] = 'grid__item';
+      $form['field_salutation']['#attributes']['class'][] = 'two-thirds';
+      $form['field_salutation']['#prefix'] = '<div class="grid">';
+
+      $form['field_first_name']['#attributes']['class'][] = 'grid__item';
+      $form['field_first_name']['#attributes']['class'][] = 'one-half';
+      $form['field_last_name']['#attributes']['class'][] = 'grid__item';
+      $form['field_last_name']['#attributes']['class'][] = 'one-half';
+      $form['field_street']['#attributes']['class'][] = 'grid__item';
+      $form['field_street_addon']['#attributes']['class'][] = 'grid__item';
+      $form['field_zip']['#attributes']['class'][] = 'grid__item';
+      $form['field_zip']['#attributes']['class'][] = 'one-half';
+      $form['field_city']['#attributes']['class'][] = 'grid__item';
+      $form['field_city']['#attributes']['class'][] = 'one-half';
+      $form['field_country']['#attributes']['class'][] = 'grid__item';
+      $form['field_phone']['#attributes']['class'][] = 'grid__item';
+      $form['field_woher']['#attributes']['class'][] = 'grid__item';
+      $form['field_woher']['#prefix'] = '</div>';
+  }
 
     // Contact form
     if ('contact_message_feedback_form' == $form_id) {
