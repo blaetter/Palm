@@ -338,7 +338,6 @@ function palm_theme_suggestions_taxonomy_term_alter(&$suggestions, $vars, $hook)
  * @return void
  */
 function palm_preprocess_page(&$variables) {
-    $current_user = \Drupal\user\Entity\User::load($variables['user']->id());
     // check for taxonomy pages
     if (\Drupal::routeMatch()->getRouteName() == 'entity.taxonomy_term.canonical'
         && $term = Term::load(\Drupal::routeMatch()->getRawParameter('taxonomy_term'))
