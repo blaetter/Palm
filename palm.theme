@@ -762,7 +762,6 @@ function palm_preprocess_views_view(&$variables) {
  * @return void
  */
 function palm_form_alter(&$form, FormStateInterface $form_state, $form_id) {
-  error_log($form_id);
     if ('nodeshop_order_address_form' == $form_id) {
         // kint($form['personal_information']);
         $form['personal_information']['#attributes']['class'][] = 'grid';
