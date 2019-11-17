@@ -338,6 +338,19 @@ function palm_theme_suggestions_taxonomy_term_alter(&$suggestions, $vars, $hook)
  * @return void
  */
 function palm_preprocess_page(&$variables) {
+    // get route name of current request
+    $route_name = \Drupal::routeMatch()->getRouteName();
+    // check for error pages
+    if ('system.401' == $route_name || 'system.403' == $route_name || 'system.404' == $route_name) {
+        $error_code = str_replace('system.', '', $route_name);
+        $variables['page']['hero']['category_title'] = [
+          '#theme' => 'palm_heading_pagecategory',
+          '#headline' => t('Error @code', ['@code' => $error_code]),
+          '#weight' => -11,
+        ];
+        // force Drupal to resort the blocks in the region
+        $variables['page']['hero']['#sorted'] = false;
+    }
     if ($node = \Drupal::request()->attributes->get('node')) {
         if ('story' == $node->getType()) {
             $issue = _palm_get_issue($node);
@@ -368,9 +381,9 @@ function palm_preprocess_page(&$variables) {
             }
         }
         if ('product' == $node->getType()
-        && \Drupal::routeMatch()->getRouteName() != 'nodeshop.addBonus'
-        && \Drupal::routeMatch()->getRouteName() != 'nodeshop.changeBonus'
-        && \Drupal::routeMatch()->getRouteName() != 'nodeshop.removeBonus'
+        && $route_name != 'nodeshop.addBonus'
+        && $route_name != 'nodeshop.changeBonus'
+        && $route_name != 'nodeshop.removeBonus'
         ) {
             $rubric = '';
             if ($node->hasField('field_rubrik')) {
