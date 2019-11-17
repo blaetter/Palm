@@ -338,18 +338,6 @@ function palm_theme_suggestions_taxonomy_term_alter(&$suggestions, $vars, $hook)
  * @return void
  */
 function palm_preprocess_page(&$variables) {
-    // check for taxonomy pages
-    if (\Drupal::routeMatch()->getRouteName() == 'entity.taxonomy_term.canonical'
-        && $term = Term::load(\Drupal::routeMatch()->getRawParameter('taxonomy_term'))
-    ) {
-        // special header for themen
-        if ('autoren' == $term->bundle()) {
-            // $variables['page']['hero']['category_title'] = [
-            //     '#type' => 'markup',
-            //     '#markup' => '<div class="heading--pagecategory"><a href="/autoren" class="back">Autorinnen und Autoren</a></div>',
-            // ];
-        }
-    }
     if ($node = \Drupal::request()->attributes->get('node')) {
         if ('story' == $node->getType()) {
             $issue = _palm_get_issue($node);
