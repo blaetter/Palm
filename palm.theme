@@ -211,9 +211,11 @@ function palm_preprocess_field__node__body(&$variables)
   // get the node object
   $node = $variables['element']['#object'];
 
-  if ('full' == $variables['element']['#view_mode']) {
+  if ('full' == $view_mode) {
     // prepare replacement body
     $replaced_body = $variables['items'][0]['content']['#text'];
+    // precreated render service
+    $renderer = \Drupal::service('renderer');
     // get node types, that will get an initiale
     $palm_initial_nodetypes = theme_get_setting('palm_initial_nodetypes');
     if (!empty($palm_initial_nodetypes) && in_array($variables['element']['#bundle'], $palm_initial_nodetypes)) {
@@ -251,7 +253,6 @@ function palm_preprocess_field__node__body(&$variables)
               'text_count_summary' => $text_count_summary,
           ]
         ];
-        $renderer = \Drupal::service('renderer');
         $markup = $renderer->render($edition);
 
         $replaced_body = preg_replace(
@@ -260,6 +261,26 @@ function palm_preprocess_field__node__body(&$variables)
           $replaced_body,
           1
         );
+      }
+    }
+
+    // check for blocks that needs to be inserted into the node body
+    if (false !== strpos($replaced_body, '[block:')) {
+      // first, check for all blocks, that needs to be inserted:
+      \preg_match_all('/\[block:([^\]]+)\]/i', $replaced_body, $matches, \PREG_SET_ORDER);
+
+      foreach ($matches as $match) {
+        //$block = \Drupal\block_content\Entity\BlockContent::load($match[2]);
+        $block = \Drupal\block\Entity\Block::load($match[1]);
+
+        if ($block instanceof \Drupal\Core\Entity\EntityInterface) {
+          $markup = $renderer->render(\Drupal::entityTypeManager()->getViewBuilder('block')->view($block));
+          $replaced_body = str_replace(
+            $match[0],
+            $markup,
+            $replaced_body
+          );
+        }
       }
     }
 
