@@ -523,6 +523,8 @@ function palm_preprocess_node(&$variables)
     $current_user = \Drupal\user\Entity\User::load($variables['user']->id());
     // get view mode (e.g. full or teaser)
     $view_mode = $variables['elements']['#view_mode'];
+    // get the renderer
+    $renderer = \Drupal::service('renderer');
 
     // // add dossier articles to the dossier teaser
     // if ('teaser_dossier' == $view_mode) {
@@ -654,6 +656,13 @@ function palm_preprocess_node(&$variables)
     if ('full' == $view_mode && isset($variables['node'])) {
         $node_url = $variables['node']->toUrl()->setAbsolute()->toString();
         $node_title = $variables['node']->getTitle();
+
+        $node_teaser = '';
+        if (!empty($variables['node']->body->view('teaser'))) {
+          // just get the plain teaser text for the mail, no html needed.
+          $node_teaser = $variables['node']->body->view('teaser');
+        }
+
         $variables['social'] = [
             '#theme' => 'palm_social_links',
             '#link_facebook' => true, // is set from node_title and node_url in the template
@@ -667,7 +676,7 @@ function palm_preprocess_node(&$variables)
                 'Hello,%0D%0A%0D%0AI found this interesting article on the website www.blaetter.de:%0D%0A%0D%0A@title%0D%0A%0D%0A@teaser%0D%0A%0D%0A@link%0D%0A',
                 [
                     '@title' => $node_title,
-                    '@teaser' => $variables['node']->body->view('teaser'),
+                    '@teaser' => strip_tags($renderer->render($node_teaser)),
                     '@link' => $node_url,
                 ]
             ),
