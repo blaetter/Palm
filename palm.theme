@@ -284,6 +284,29 @@ function palm_preprocess_field__node__body(&$variables)
       }
     }
 
+    // check for media elements that needs to be inserted into the node body
+    if (false !== strpos($replaced_body, '[media:')) {
+      // first, check for all blocks, that needs to be inserted:
+      \preg_match_all('/\[media:([^\]]+)\]/i', $replaced_body, $matches, \PREG_SET_ORDER);
+
+      foreach ($matches as $match) {
+        //$block = \Drupal\block_content\Entity\BlockContent::load($match[2]);
+        $media = \Drupal\media\Entity\Media::load($match[1]);
+
+        if ($media instanceof \Drupal\Core\Entity\EntityInterface) {
+          $markup = $renderer->render(\Drupal::entityTypeManager()->getViewBuilder('media')->view($media));
+          $replaced_body = str_replace(
+            $match[0],
+            $markup,
+            $replaced_body
+          );
+        }
+      }
+
+      // if we have embedded media, we might need to add the js for data privacy
+      $variables['#attached']['library'][] = 'blaetter_formatters/embed_block';
+    }
+
     // replace the body with all replacements that have been made
     $variables['items'][0]['content'] = Markup::create($replaced_body);
   }

@@ -1,0 +1,83 @@
+{#
+/**
+ * @file
+ * Default theme implementation to present a media item.
+ *
+ * Available variables:
+ * - media: The media item, with limited access to object properties and
+ *   methods. Only method names starting with "get", "has", or "is" and
+ *   a few common methods such as "id", "label", and "bundle" are available.
+ *   For example:
+ *   - entity.getEntityTypeId() will return the entity type ID.
+ *   - entity.hasField('field_example') returns TRUE if the entity includes
+ *     field_example. (This does not indicate the presence of a value in this
+ *     field.)
+ *   Calling other methods, such as entity.delete(), will result in
+ *   an exception.
+ *   See \Drupal\Core\Entity\EntityInterface for a full list of methods.
+ * - name: Name of the media item.
+ * - content: Media content.
+ * - title_prefix: Additional output populated by modules, intended to be
+ *   displayed in front of the main title tag that appears in the template.
+ * - title_suffix: Additional output populated by modules, intended to be
+ *   displayed after the main title tag that appears in the template.
+ * - view_mode: View mode; for example, "teaser" or "full".
+ * - attributes: HTML attributes for the containing element.
+ * - title_attributes: Same as attributes, except applied to the main title
+ *   tag that appears in the template.
+ *
+ * @see template_preprocess_media()
+ *
+ * @ingroup themeable
+ */
+<div{{ attributes }}>
+  {{ title_suffix.contextual_links }}
+  {{ content }}
+</div>
+#}
+
+{% set embed_name = media.get('name').value %}
+
+{% set embed_provider = media.get('field_provider').value %}
+{% set embed_provider_slug = media.get('field_provider').value |lower | replace({" ": "_", "." : "_"}) %}
+{% set embed_privacy = media.get('field_privacy').value %}
+{% set embed_styles = media.get('field_additional_styles').value %}
+{% set embed_url = media.get('field_media_generic_iframe').value %}
+
+{% if 'detektor_fm' == embed_provider_slug %}
+  {% set embed_styles = 'height:230px;' ~ embed_styles %}
+{% else %}
+
+{% endif %}
+
+{% if embed_url %}
+<div class="block">
+  {% if 'y' == embed_privacy %}
+    <div class="block--white blaetter-embed embed--{{ embed_provider_slug }}"
+      data-embedurl="{{ embed_url }}"
+      data-title="{{ embed_name }}"
+      data-provider="{{ embed_provider }}"
+      data-styles="{{ embed_styles }}"
+      aria-label="{{ 'Placeholder for embedding content from' |t }} {{ embed_provider }}"
+    >
+      <p class="text">
+    {% trans %}
+      This embed displays content from <strong>{{ embed_provider }}</strong> who might be processing your data.
+      If you agree with that, you can show the content by clicking on the button below.<br />
+      <strong>Hint:</strong> You need to have JavaScript enabled in order to access this content.
+    {% endtrans %}
+      </p>
+      <button class="button blaetter-embed-consent">{{ 'Click here to accept and view the content.' |t }}</button>
+    </div>
+  {% else %}
+    <iframe
+      frameborder="0"
+      height="auto"
+      scrolling="no"
+      src="{{ embed_url }}"
+      style="width:100%;{{ embed_styles }}"
+      title="{{ embed_name }}"
+    ></iframe>
+  {% endif %}
+</div>
+{% endif %}
