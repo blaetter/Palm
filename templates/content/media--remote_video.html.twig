@@ -48,6 +48,9 @@
 {% set embed_content = content | render | json_encode() %}
 
 {% if media.field_media_oembed_video %}
+{# Attach js library for user consent #}
+{{ attach_library('blaetter_formatters/embed_block') }}
+
 <div class="block video-container">
   {% if 'y' == embed_privacy %}
     <div class="block--white blaetter-embed embed--{{ embed_provider_slug }}"

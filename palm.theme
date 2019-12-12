@@ -302,9 +302,6 @@ function palm_preprocess_field__node__body(&$variables)
           );
         }
       }
-
-      // if we have embedded media, we might need to add the js for data privacy
-      $variables['#attached']['library'][] = 'blaetter_formatters/embed_block';
     }
 
     // replace the body with all replacements that have been made

@@ -51,6 +51,8 @@
 {% endif %}
 
 {% if embed_url %}
+{# Attach js library for user consent #}
+{{ attach_library('blaetter_formatters/embed_block') }}
 <div class="block">
   {% if 'y' == embed_privacy %}
     <div class="block--white blaetter-embed embed--{{ embed_provider_slug }}"
