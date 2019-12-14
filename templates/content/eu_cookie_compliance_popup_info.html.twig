@@ -44,7 +44,7 @@
 ] %}
 <div{{ attributes.addClass(classes) }}>
   <div class="popup-content info ">
-    <div class="eu-cookie-compliance-content">
+    <div class="eu-cookie-compliance-content eu-cookie-complience-container">
       <div id="popup-text" class="eu-cookie-compliance-message">
         {{ message }}
         {% if disagree_button %}
@@ -60,7 +60,7 @@
     </div>
 
   {% if cookie_categories %}
-    <div id="eu-cookie-compliance-categories" class="eu-cookie-compliance-categories">
+    <div id="eu-cookie-compliance-categories" class="eu-cookie-compliance-categories eu-cookie-complience-container">
       <div class="eu-cookie-compliance-category">
       {% for key, category in cookie_categories %}
         <label for="cookie-category-{{ key }}">
