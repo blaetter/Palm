@@ -47,8 +47,30 @@
     <div class="eu-cookie-compliance-content eu-cookie-complience-container">
       <div id="popup-text" class="eu-cookie-compliance-message">
         {{ message }}
-        {% if disagree_button %}
+        {# {% if disagree_button %}
           <button type="button" class="find-more-button button button--reversed eu-cookie-compliance-more-button">{{ disagree_button }}</button>
+        {% endif %} #}
+        {% if cookie_categories %}
+          <details id="eu-cookie-compliance-categories" class="eu-cookie-compliance-categories">
+            <summary>{{ 'advanced settings' | t }}</summary>
+            <div class="eu-cookie-compliance-category">
+            {% for key, category in cookie_categories %}
+              <label for="cookie-category-{{ key }}">
+                <input type="checkbox" name="cookie-categories" id="cookie-category-{{ key }}"
+                    value="{{ key }}" {% if fix_first_cookie_category and loop.first %} checked disabled{% endif %}>
+              {{ category.label }}
+              </label>
+              {% if category.description %}
+                <div class="eu-cookie-compliance-category-description">{{ category.description }}</div>
+              {% endif %}
+            {% endfor %}
+            </div>
+            {% if save_preferences_button_label %}
+            <div class="eu-cookie-compliance-categories-buttons eu-cookie-compliance-buttons">
+              <button type="button" class="eu-cookie-compliance-save-preferences-button button button--reversed">{{ save_preferences_button_label }}</button>
+            </div>
+            {% endif %}
+          </details>
         {% endif %}
       </div>
       <div id="popup-buttons" class="eu-cookie-compliance-buttons{% if cookie_categories %} eu-cookie-compliance-has-categories{% endif %}">
@@ -58,28 +80,5 @@
         {% endif %}
       </div>
     </div>
-
-  {% if cookie_categories %}
-    <div id="eu-cookie-compliance-categories" class="eu-cookie-compliance-categories eu-cookie-complience-container">
-      <div class="eu-cookie-compliance-category">
-      {% for key, category in cookie_categories %}
-        <label for="cookie-category-{{ key }}">
-          <input type="checkbox" name="cookie-categories" id="cookie-category-{{ key }}"
-              value="{{ key }}" {% if fix_first_cookie_category and loop.first %} checked disabled{% endif %}>
-        {{ category.label }}
-        </label>
-        {% if category.description %}
-          <div class="eu-cookie-compliance-category-description">{{ category.description }}</div>
-        {% endif %}
-      {% endfor %}
-      </div>
-      {% if save_preferences_button_label %}
-      <div class="eu-cookie-compliance-categories-buttons eu-cookie-compliance-buttons">
-        <button type="button" class="eu-cookie-compliance-save-preferences-button button button--reversed">{{ save_preferences_button_label }}</button>
-      </div>
-      {% endif %}
-    </div>
-  {% endif %}
-
   </div>
 </div>
