@@ -51,8 +51,8 @@
           <button type="button" class="find-more-button button button--reversed eu-cookie-compliance-more-button">{{ disagree_button }}</button>
         {% endif %} #}
         {% if cookie_categories %}
-          <details id="eu-cookie-compliance-categories" class="eu-cookie-compliance-categories">
-            <summary>{{ 'advanced settings' | t }}</summary>
+          <details id="eu-cookie-compliance-categories" class="eu-cookie-compliance-categories" open>
+            <summary>{{ 'cookie settings' | t }}</summary>
             <div class="eu-cookie-compliance-category">
             {% for key, category in cookie_categories %}
               <label for="cookie-category-{{ key }}">
