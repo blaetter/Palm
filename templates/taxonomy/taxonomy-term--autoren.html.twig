@@ -37,7 +37,7 @@
     {% if content.field_image | render %}
     <div class="image">
         {{ content.field_image }}
-        <span class="heading">{{ name_raw|striptags }}</span>
+        <span class="heading">{{ name_raw|striptags|trim }}</span>
     </div>
     {% endif %}
     {% if content.field_bio | render %}
@@ -50,8 +50,8 @@
     </div>
     {% endif %}
 
-    <p class="text">Im Folgenden finden Sie sämtliche »Blätter«-Beiträge von {{ name_raw|striptags }}.</p>
+    <p class="text">Im Folgenden finden Sie sämtliche »Blätter«-Beiträge von {{ name_raw|striptags|trim }}.</p>
 
-    <h2 class="heading--sectiontitle">{{ name_raw|striptags }} in den »Blättern«</h2>
+    <h2 class="heading--sectiontitle">{{ name_raw|striptags|trim }} in den »Blättern«</h2>
 
 </div>
