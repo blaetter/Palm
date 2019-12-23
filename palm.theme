@@ -115,6 +115,15 @@ function palm_preprocess_page_title(&$variables) {
         $variables['title_prefix'] = 'Dossier';
         $variables['title'] = t('overview');
     }
+    if (false !== strpos(\Drupal::routeMatch()->getRouteName(), 'view.blaetter_autoren.page_1')) {
+        $variables['title_prefix'] = 'Blätter';
+    }
+    if (false !== strpos(\Drupal::routeMatch()->getRouteName(), 'view.blaetter_autoren.page_2')) {
+      $variables['title_prefix'] = 'Blätter';
+    }
+    if (false !== strpos(\Drupal::routeMatch()->getRouteName(), 'view.blaetter_autoren.page_3')) {
+      $variables['title_prefix'] = 'Blätter';
+    }
 
     // add special prefixes for special routes
     $prefix_routes_user = [
