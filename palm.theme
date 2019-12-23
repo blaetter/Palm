@@ -447,7 +447,7 @@ function palm_preprocess_page(&$variables) {
             }
             $variables['page']['hero']['category_title'] = [
                 '#theme' => 'palm_heading_pagecategory',
-                '#category_prefix' => t('Blätter Shop'),
+                '#category_prefix' => t('Blätter Kiosk'),
                 '#headline' => $rubric,
                 '#weight' => -11,
             ];
