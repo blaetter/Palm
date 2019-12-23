@@ -13,7 +13,7 @@
 #}
 {% if order %}
     <section{{ attributes.addClass('nodeshop_order_items') }}>
-        <h2>{{ 'Your order contains the following items'|trans }} <a href="{{ path('nodeshop.showCart') }}">edit</a></h2>
+        <h2>{{ 'Your order contains the following items'|trans }} <a href="{{ path('nodeshop.showCart') }}" title="{{ 'edit' | t}}"></a></h2>
 
     {% for item in order.getOrderProducts %}
       {% if 'ausgabe' == item.getType %}
@@ -27,8 +27,9 @@
         <p>{{ item.getQuantity }} &times; {{ link_title }} {{ item.getThemedPriceSingle }}</p>
     {% endfor %}
 
+        <strong>{{ order.getThemedOrderTotal }}</strong>
         <h2>{{ 'Your orders total '|trans }}</h2>
-        <p>{{ order.getThemedOrderTotal }}<br />{{ 'including taxes of'|trans }} {{ order.getThemedOrderTax }}</p>
+        <p>{{ 'including taxes of'|trans }} {{ order.getThemedOrderTax }}</p>
 
     </section>
 {% endif %}
