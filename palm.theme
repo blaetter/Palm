@@ -391,7 +391,7 @@ function palm_preprocess_page(&$variables) {
     if (false !== strpos(\Drupal::routeMatch()->getRouteName(), 'view.blaetter_shop')) {
         $variables['page']['hero']['category_title'] = [
           '#theme' => 'palm_heading_pagecategory',
-          '#category_prefix' => '»Blätter«',
+          '#category_prefix' => 'Blätter',
           '#headline' => 'Kiosk',
           '#weight' => -11,
         ];
