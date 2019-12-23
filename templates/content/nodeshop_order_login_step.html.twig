@@ -14,6 +14,14 @@
 #}
 <div{{ attributes.addClass(['nodeshop_order_process_login']) }}>
   <div{{ attributes.addClass(['grid', 'grid--strech']) }}>
+  {% if force_account %}
+    <div class="grid__item">
+      <div class="block--white">
+        <p><strong>{{ 'Why do I need to register?'|t }}</strong></p>
+        <p>{{ 'Your Order contains online products. In order to use them, you will need an account. We will create an account for you if you follow the registration link above.'|t }}</p>
+      </div>
+    </div>
+  {% endif %}
     <div class="grid__item one-half">
       <div class="block--white">
         <p><strong>{{ 'I already have an account'|t }}</strong></p>
@@ -27,16 +35,13 @@
         <p>{{ 'With an account you\'re able to always access your orders. If you want to purchase online products, creating an account is nesseccary.'|t }}</p>
         <p><a href="{{ path('nodeshop.processCustomer', {'customer_action': 'register'}) }}" class="button">Registrieren</a></p>
       </div>
+      {% if not force_account %}
       <div class="block--white">
-      {% if force_account %}
-        <p><strong>{{ 'Why do I need to register?'|t }}</strong></p>
-        <p>{{ 'Your Order contains online products. In order to use them, you will need an account. We will create an account for you if you follow the registration link above.'|t }}</p>
-      {% else %}
         <p><strong>{{ 'I do not want to register.'|t }}</strong></p>
         <p>{{ 'If you only want to purchase print products, you do not need an account.'|t }}</p>
         <p><a href="{{ path('nodeshop.processCustomer', {'customer_action': 'guest'}) }}" class="button">{{ 'Checkout as guest'|t }}</a></p>
-      {% endif %}
       </div>
+      {% endif %}
     </div>
   </div>
 </div>
