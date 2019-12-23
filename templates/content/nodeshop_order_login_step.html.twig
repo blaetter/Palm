@@ -33,13 +33,13 @@
       <div class="block--white">
         <p><strong>{{ 'I do not have an account and want to register.'|t }}</strong></p>
         <p>{{ 'With an account you\'re able to always access your orders. If you want to purchase online products, creating an account is nesseccary.'|t }}</p>
-        <p><a href="{{ path('nodeshop.processCustomer', {'customer_action': 'register'}) }}" class="button">Registrieren</a></p>
+        <p class="form-actions"><a href="{{ path('nodeshop.processCustomer', {'customer_action': 'register'}) }}" class="button">Registrieren</a></p>
       </div>
       {% if not force_account %}
       <div class="block--white">
         <p><strong>{{ 'I do not want to register.'|t }}</strong></p>
         <p>{{ 'If you only want to purchase print products, you do not need an account.'|t }}</p>
-        <p><a href="{{ path('nodeshop.processCustomer', {'customer_action': 'guest'}) }}" class="button">{{ 'Checkout as guest'|t }}</a></p>
+        <p class="form-actions"><a href="{{ path('nodeshop.processCustomer', {'customer_action': 'guest'}) }}" class="button">{{ 'Checkout as guest'|t }}</a></p>
       </div>
       {% endif %}
     </div>
