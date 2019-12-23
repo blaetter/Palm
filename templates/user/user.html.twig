@@ -55,14 +55,14 @@
         {# </div> #}
     </section>
 
-    <h2>{{ 'account details' | t }}<a href="{{ path('entity.user.edit_form', {'user': user.id}) }}" rel="nofollow">{{ 'edit' |t }}</a></h2>
+    <h2>{{ 'account details' | t }}<a href="{{ path('entity.user.edit_form', {'user': user.id}) }}" rel="nofollow" title="{{ 'edit' |t }}"></a></h2>
     <section class="palm_user_profile_block">
         <h3>{{ 'username' | t }}</h3>
         <p>{{ user.username }}</p>
         <h3>{{ 'mail address' | t }}</h3>
         <p>{{ user.mail.value }}</p>
     </section>
-    <h2>{{ 'my details' | t }}<a href="{{ path('entity.user.edit_form', {'user': user.id}) }}" rel="nofollow">{{ 'edit' |t }}</a></h2>
+    <h2>{{ 'my details' | t }}<a href="{{ path('entity.user.edit_form', {'user': user.id}) }}" rel="nofollow" title="{{ 'edit' |t }}"></a></h2>
     <section class="palm_user_profile_block">
         <h3>{{ 'address' | t }}</h3>
         <p>
@@ -81,7 +81,7 @@
             <p>{{ 'not set yet' | t}}</p>
         {% endif %}
     </section>
-    <h2>{{ 'my kindle settings' | t }}<a href="{{ path('entity.user.edit_form', {'user': user.id}) }}" rel="nofollow">{{ 'edit' |t }}</a></h2>
+    <h2>{{ 'my kindle settings' | t }}<a href="{{ path('entity.user.edit_form', {'user': user.id}) }}" rel="nofollow" title="{{ 'edit' |t }}"></a></h2>
     <section class="palm_user_profile_block">
         <h3>{{ 'kindle mail' | t }}</h3>
         <p>
