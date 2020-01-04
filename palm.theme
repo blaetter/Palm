@@ -841,6 +841,15 @@ function palm_preprocess_views_view(&$variables) {
     //kint($variables);
 }
 
+function palm_preprocess_links(&$variables) {
+
+  if (isset($variables['links']['node-readmore'])) {
+    $variables['links']['node-readmore']['link']['#options']['attributes']['class'][] = 'button';
+    $variables['links']['node-readmore']['link']['#options']['attributes']['class'][] = 'button--reversed';
+  }
+
+}
+
 /**
  * Implementation of hook_form_alter
  *
