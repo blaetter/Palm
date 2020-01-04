@@ -456,10 +456,20 @@ function palm_preprocess_page(&$variables) {
         }
         // default page category on all page type nodes
         if ('page' == $node->getType()) {
+            $page_category_prefix = t('About');
+            $page_category_title = t('the »Blätter«');
+            if ($node->hasField('field_page_category_prefix')
+                && !empty($node->get('field_page_category_prefix')->value)) {
+                $page_category_prefix = $node->get('field_page_category_prefix')->value;
+            }
+            if ($node->hasField('field_page_category_title')
+                && !empty($node->get('field_page_category_title')->value)) {
+                $page_category_title = $node->get('field_page_category_title')->value;
+            }
             $variables['page']['hero']['category_title'] = [
                 '#theme' => 'palm_heading_pagecategory',
-                '#category_prefix' => t('About'),
-                '#headline' => t('the »Blätter«'),
+                '#category_prefix' => $page_category_prefix,
+                '#headline' => $page_category_title,
                 '#weight' => -11,
             ];
             // force Drupal to resort the blocks in the region
