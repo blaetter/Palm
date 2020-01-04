@@ -96,7 +96,7 @@
   {% endif %}
   <div class="text">
     <p class="text--big">
-      {{ body|striptags }}
+      {{ body }}
       <a href="{{ url }}" title="{{ 'follow this link to view the issue' | t }}">Mehr...</a>
     </p>
     <a class="button" href="{{ path('entity.node.canonical', {'node': '559'}) }}" title="{{ 'follow this link to view the test subscription' | t }}">
