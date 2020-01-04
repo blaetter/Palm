@@ -125,6 +125,10 @@ function palm_preprocess_page_title(&$variables) {
       $variables['title_prefix'] = 'Blätter';
     }
 
+    if (false !== strpos(\Drupal::routeMatch()->getRouteName(), 'contact.site_page')) {
+      $variables['title'] = t('Contact');
+    }
+
     // add special prefixes for special routes
     $prefix_routes_user = [
         'entity.user.canonical',
