@@ -297,6 +297,25 @@ function palm_preprocess_field__node__body(&$variables)
       }
     }
 
+    // check for blocks that needs to be inserted into the node body
+    if (false !== strpos($replaced_body, '[content:')) {
+      // first, check for all blocks, that needs to be inserted:
+      \preg_match_all('/\[content:([^\]]+)\]/i', $replaced_body, $matches, \PREG_SET_ORDER);
+
+      foreach ($matches as $match) {
+        $block = \Drupal\block_content\Entity\BlockContent::load($match[1]);
+
+        if ($block instanceof \Drupal\Core\Entity\EntityInterface) {
+          $markup = $renderer->render(\Drupal::entityTypeManager()->getViewBuilder('block_content')->view($block));
+          $replaced_body = str_replace(
+            $match[0],
+            $markup,
+            $replaced_body
+          );
+        }
+      }
+    }
+
     // check for media elements that needs to be inserted into the node body
     if (false !== strpos($replaced_body, '[media:')) {
       // first, check for all blocks, that needs to be inserted:
