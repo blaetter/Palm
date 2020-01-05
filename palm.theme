@@ -670,7 +670,6 @@ function palm_preprocess_node(&$variables)
                 }
                 if ($current_user->isAnonymous()) {
                     $edition['#edition']['buttons']['login'] = [
-                        '#theme' => 'link',
                         '#title' => t('login to read full article'),
                         '#type' => 'link',
                         '#url' => Url::fromRoute(
