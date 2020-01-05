@@ -217,7 +217,7 @@ function palm_preprocess_breadcrumb(&$variables) {
  */
 function palm_preprocess_field__node__body(&$variables)
 {
-  // get current user
+  // // get current user
   $current_user = \Drupal\user\Entity\User::load($variables['user']->id());
   // get view mode (e.g. full or teaser)
   $view_mode = $variables['element']['#view_mode'];
@@ -225,17 +225,17 @@ function palm_preprocess_field__node__body(&$variables)
   $node = $variables['element']['#object'];
 
   if ('full' == $view_mode) {
-    // prepare replacement body
-    $replaced_body = $variables['items'][0]['content']['#text'];
     // precreated render service
     $renderer = \Drupal::service('renderer');
+    // prepare replacement body
+    $replaced_body = $renderer->render($variables['items'][0]['content'])->__toString();
     // get node types, that will get an initiale
     $palm_initial_nodetypes = theme_get_setting('palm_initial_nodetypes');
     if (!empty($palm_initial_nodetypes) && in_array($variables['element']['#bundle'], $palm_initial_nodetypes)) {
       $replaced_body = preg_replace(
         '/<p>/i',
         '<p class="initiale">',
-        $variables['items'][0]['content']['#text'],
+        $replaced_body,
         1
       );
     }
