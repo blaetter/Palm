@@ -287,7 +287,8 @@ function palm_preprocess_field__node__body(&$variables)
         $block = \Drupal\block\Entity\Block::load($match[1]);
 
         if ($block instanceof \Drupal\Core\Entity\EntityInterface) {
-          $markup = $renderer->render(\Drupal::entityTypeManager()->getViewBuilder('block')->view($block));
+          $block_entity = \Drupal::entityTypeManager()->getViewBuilder('block')->view($block);
+          $markup = $renderer->render($block_entity);
           $replaced_body = str_replace(
             $match[0],
             $markup,
@@ -306,7 +307,8 @@ function palm_preprocess_field__node__body(&$variables)
         $block = \Drupal\block_content\Entity\BlockContent::load($match[1]);
 
         if ($block instanceof \Drupal\Core\Entity\EntityInterface) {
-          $markup = $renderer->render(\Drupal::entityTypeManager()->getViewBuilder('block_content')->view($block));
+          $block_entity = \Drupal::entityTypeManager()->getViewBuilder('block_content')->view($block);
+          $markup = $renderer->render($block_entity);
           $replaced_body = str_replace(
             $match[0],
             $markup,
@@ -326,7 +328,8 @@ function palm_preprocess_field__node__body(&$variables)
         $media = \Drupal\media\Entity\Media::load($match[1]);
 
         if ($media instanceof \Drupal\Core\Entity\EntityInterface) {
-          $markup = $renderer->render(\Drupal::entityTypeManager()->getViewBuilder('media')->view($media));
+          $media_entity = \Drupal::entityTypeManager()->getViewBuilder('media')->view($media);
+          $markup = $renderer->render($media_entity);
           $replaced_body = str_replace(
             $match[0],
             $markup,
