@@ -167,6 +167,7 @@ function palm_preprocess_page_title(&$variables) {
         'view.blaetter_autoren.page_1',
         'view.blaetter_autoren.page_2',
         'view.blaetter_autoren.page_3',
+	'view.blaetter_dokumente.page_1',
         'view.blaetter_blog.page_1',
         'view.blaetter_dossiers.page_1',
         'view.blaetter_themen.page_1',
@@ -228,7 +229,14 @@ function palm_preprocess_field__node__body(&$variables)
     // precreated render service
     $renderer = \Drupal::service('renderer');
     // prepare replacement body
-    $replaced_body = $renderer->render($variables['items'][0]['content'])->__toString();
+    $render_result = $renderer->render($variables['items'][0]['content']);
+    if (is_string($render_result)) {
+	$replaced_body = $render_result;
+    } else if (is_object($render_result) && method_exists($render_result, '__toString')) {
+	$replaced_body = $render_result->__toString();
+    } else {
+	$replaced_body = '';
+    }
     // get node types, that will get an initiale
     $palm_initial_nodetypes = theme_get_setting('palm_initial_nodetypes');
     if (!empty($palm_initial_nodetypes) && in_array($variables['element']['#bundle'], $palm_initial_nodetypes)) {
