@@ -53,7 +53,25 @@
     <tbody>
         {% for product in order.getOrderProducts %}
         <tr>
-            <td><a href="{{ url('entity.node.canonical', {'node': product.getNodeId }) }} ">{{ product.getTitle }}</a></td>
+            <td>
+              <a href="{{ url('entity.node.canonical', {'node': product.getNodeId }) }} ">{{ product.getTitle }}</a>
+              {% if product.getData and product.getData.bonus %}
+                  {% if product.getData.bonus.nid and product.getData.bonus.title %}
+                      {% set nid = product.getData.bonus.nid %}
+                      {% set prefix %}{{ 'bonus: '|t }}{% endset %}
+                      {% set title = product.getData.bonus.title %}
+                  {% else %}
+                      {% set nid = product.getData.bonus %}
+                      {% set title %}{{ 'bonus'|t }}{% endset %}
+                  {% endif %}
+                  <p {{ attributes.addClass('bonus') }}>
+                      {{ prefix }}&nbsp;
+                      <a href="{{ path('entity.node.canonical', {'node': nid }) }}">
+                          {{ title }}
+                      </a>
+                  </p>
+              {% endif %}
+            </td>
             <td>{{ product.getQuantity }}</td>
             <td style="text-align:right;">{{ product.getThemedPriceTotal }}</td>
         </tr>
