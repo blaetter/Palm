@@ -818,18 +818,20 @@ function palm_preprocess_node(&$variables)
                 '#title' => t('Puts @title (online) into the cart.', ['@title' => $variables['node']->getTitle()]),
             ];
         } else {
-            // only display this button if the user not already bought this online issue
-            $variables['button_download_pdf'] = [
-                '#theme' => 'palm_download_button',
-                '#download_url' => Url::fromRoute(
-                    'nodeshop.product_features.product_feature_access_to_attachment.download',
-                    [
-                        'node' => $variables['node']->id()
-                    ]
-                ),
-                '#label' => t('Download digital issue'),
-                '#title' => t('Download @title as pdf file.', ['@title' => $variables['node']->getTitle()]),
-            ];
+            // only display this button if issue is newer than janurary 2012 (with explicit exception for december 2011
+	    if (24911 <= $variables['node']->id() && 27086 != $variables['node']->id()) { 
+                $variables['button_download_pdf'] = [
+                    '#theme' => 'palm_download_button',
+                    '#download_url' => Url::fromRoute(
+                        'nodeshop.product_features.product_feature_access_to_attachment.download',
+                        [
+                            'node' => $variables['node']->id()
+                        ]
+                    ),
+                    '#label' => t('Download digital issue'),
+                    '#title' => t('Download @title as pdf file.', ['@title' => $variables['node']->getTitle()]),
+                ];
+	    }
             // Downlaod of epub and mobi only for nodes newer than 25756
             if (25756 <= $variables['node']->id()) {
                 $variables['button_download_epub'] = [
