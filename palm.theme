@@ -819,7 +819,7 @@ function palm_preprocess_node(&$variables)
             ];
         } else {
             // only display this button if issue is newer than janurary 2012 (with explicit exception for december 2011
-	    if (24911 <= $variables['node']->id() && 27086 != $variables['node']->id()) { 
+	    if (24911 <= $variables['node']->id() && 27086 != $variables['node']->id()) {
                 $variables['button_download_pdf'] = [
                     '#theme' => 'palm_download_button',
                     '#download_url' => Url::fromRoute(
@@ -1015,7 +1015,20 @@ function palm_form_alter(&$form, FormStateInterface $form_state, $form_id) {
       $form['field_kindle_domain']['#attributes']['class'][] = 'grid__item';
       $form['field_kindle_domain']['#attributes']['class'][] = 'one-third';
       $form['field_kindle_domain']['#suffix'] = '</div>';
-  }
+
+      if (isset($form['actions']['delete'])) {
+        $form['actions']['delete']['#attributes']['class'][] = 'button';
+        $form['actions']['delete']['#attributes']['class'][] = 'button--reversed';
+        $form['actions']['delete']['#weight'] = 0;
+      }
+    }
+
+    if ('user_cancel_form' == $form_id) {
+      $form['actions']['cancel']['#attributes']['class'][] = 'button';
+      $form['actions']['cancel']['#attributes']['class'][] = 'button--reversed';
+      $form['actions']['cancel']['#weight'] = 0;
+      $form['actions']['submit']['#value'] = t('delete account permanently');
+    }
 
     // Contact form
     if ('contact_message_feedback_form' == $form_id) {
