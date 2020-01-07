@@ -1017,14 +1017,12 @@ function palm_form_alter(&$form, FormStateInterface $form_state, $form_id) {
       $form['field_kindle_domain']['#suffix'] = '</div>';
 
       if (isset($form['actions']['delete'])) {
-        $form['actions']['delete']['#attributes']['class'][] = 'button';
-        $form['actions']['delete']['#attributes']['class'][] = 'button--reversed';
+        $form['actions']['delete']['#attributes']['class'][] = 'button--danger--reversed';
         $form['actions']['delete']['#weight'] = 0;
       }
     }
 
     if ('user_cancel_form' == $form_id) {
-      $form['actions']['cancel']['#attributes']['class'][] = 'button';
       $form['actions']['cancel']['#attributes']['class'][] = 'button--reversed';
       $form['actions']['cancel']['#weight'] = 0;
       $form['actions']['submit']['#value'] = t('delete account permanently');
