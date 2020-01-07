@@ -1025,6 +1025,7 @@ function palm_form_alter(&$form, FormStateInterface $form_state, $form_id) {
     if ('user_cancel_form' == $form_id) {
       $form['actions']['cancel']['#attributes']['class'][] = 'button--reversed';
       $form['actions']['cancel']['#weight'] = 0;
+      $form['actions']['submit']['#attributes']['class'][] = 'button--danger';
       $form['actions']['submit']['#value'] = t('delete account permanently');
     }
 
