@@ -82,9 +82,9 @@
         {% if content.field_autoren|render %}
           {{ content.field_autoren }}
         {% endif %}
-        {% if content.field_placeholder_issue|render %}
-            {{ content.field_placeholder_issue }}
-        {% endif %}
+        {# {% if content.issue|render %}
+            {{ content.issue }}
+        {% endif %} #}
         {% if content.field_themen | render %}
           {{ content.field_themen }}
         {% endif %}
@@ -97,7 +97,7 @@
           'field_primary_picture',
           'field_subtitle',
           'field_autoren',
-          'field_placeholder_issue',
+          'issue',
           'field_themen',
           'body'
         ) }}
