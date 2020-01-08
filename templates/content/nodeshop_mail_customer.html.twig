@@ -21,26 +21,27 @@
 <p>{% trans %}thanks for your order at {{ shopname }}. {% endtrans %}</p>
 <p>{% trans %}In this mail you'll find your order details. {% endtrans %}</p>
 
-<p>{{ 'billing address' | t }}</p>
-<address>
+<p>
+  <strong>{{ 'billing address' | t }}</strong><br />
     {{ order.getCustomerTitel }} {{ order.getCustomerFirstName }} {{ order.getCustomerLastName }}<br />
     {{ order.getCustomerStreet }}<br />
     {% if order.getCustomerStreetAddon %} {{ order.getCustomerStreetAddon }}<br />{% endif %}
     {{ order.getCustomerPostalCode }} {{ order.getCustomerCity }}<br />
     {{ order.getCustomerCountry }}
-</address>
+</p>
 
 {% if order.hasDeliveryAddress %}
-<p>{{ 'delivery address' | t }}</p>
-<address>
+<p>
+  <strong>{{ 'delivery address' | t }}</strong><br />
     {{ order.getDeliveryTitel }} {{ order.getDeliveryFirstName }} {{ order.getDeliveryLastName }}<br />
     {{ order.getDeliveryStreet }}<br />
     {% if order.getDeliveryStreetAddon %} {{ order.getDeliveryStreetAddon }}<br />{% endif %}
     {{ order.getDeliveryPostalCode }} {{ order.getDeliveryCity }}<br />
     {{ order.getDeliveryCountry }}
-</address>
+</p>
 {% endif %}
 
+<p>{{ 'Payment method' | t}}: {{ order.getPaymentMethodLabel | t}}</p>
 
 <table>
     <thead>
