@@ -624,19 +624,6 @@ function palm_preprocess_node(&$variables)
     //     ];
     // }
 
-    // add issue to article teaser
-    if ('teaser' == $view_mode && 'story' == $variables['node']->bundle()) {
-        $issue = _palm_get_issue($variables['node']);
-        if (isset($issue['nid']) && isset($issue['edition']) && isset($issue['year'])) {
-          $variables['content']['issue'] = [
-            '#theme' => 'blaetter_formatters_issue',
-            '#book_id' => $issue['nid'],
-            '#edition' => $issue['edition'],
-            '#year' => $issue['year']
-          ];
-        }
-    }
-
     // add edition preview and purchase buttons to stories that are not available to the end user
     if ('full' == $view_mode
         && isset($variables['node'])
