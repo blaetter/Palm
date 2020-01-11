@@ -181,6 +181,19 @@ function palm_preprocess_page_title(&$variables) {
 }
 
 /**
+ * Implementation of template_preprocess_block()
+ *
+ * @param array $variables
+ * @return void
+ */
+function palm_preprocess_block(&$variables) {
+    if ('grid_block' == $variables['plugin_id'] && 'visible' == $variables['configuration']['label_display']) {
+      // add class for red headlines to all grid blocks
+      $variables['title_attributes']['class'][] = 'red';
+    }
+}
+
+/**
  * Implements hook_preprocess_HOOK().
  */
 function palm_preprocess_breadcrumb(&$variables) {
