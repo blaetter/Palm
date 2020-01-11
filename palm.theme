@@ -471,7 +471,7 @@ function palm_preprocess_page(&$variables) {
         // provide headings if in full node view
         if ('dossier' == $node->getType()) {
             $dossier = '';
-            if ($node->hasField('field_dossier')) {
+            if ($node->hasField('field_dossier') && null !== $node->field_dossier->entity) {
                 $dossier = $node->field_dossier->entity->getName();
                 $variables['page']['hero']['category_title'] = [
                     '#theme' => 'palm_heading_pagecategory',
@@ -489,7 +489,7 @@ function palm_preprocess_page(&$variables) {
         && $route_name != 'nodeshop.removeBonus'
         ) {
             $rubric = '';
-            if ($node->hasField('field_rubrik')) {
+            if ($node->hasField('field_rubrik') && null !== $node->field_rubrik->entity) {
                 $rubric = $node->field_rubrik->entity->getName();
             }
             $variables['page']['hero']['category_title'] = [
@@ -1071,7 +1071,12 @@ function palm_form_alter(&$form, FormStateInterface $form_state, $form_id) {
 function _palm_get_issue($node) {
     if ($node && !empty($node->book) && $node->id !== $node->book['bid']) {
         $book = \Drupal::entityTypeManager()->getStorage('node')->load($node->book['bid']);
-        if ($book && $book->hasField('field_ausgabe') && $book->hasField('field_jahr')) {
+        if ($book
+          && $book->hasField('field_ausgabe')
+          && $book->hasField('field_jahr')
+          && null !== $book->get('field_ausgabe')->entity
+          && null !== $book->get('field_jahr')->entity
+        ) {
             // get the edition
             $edition = $book->get('field_ausgabe')->entity->getName();
             $year = $book->get('field_jahr')->entity->getName();
