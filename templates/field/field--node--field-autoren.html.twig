@@ -44,7 +44,7 @@
 
 {% if label_hidden %}
   {% if multiple %}
-    <div{{ attributes.addclass(['articleinfo', 'author--article']) }}>
+    <div{{ attributes.addclass(['articleinfo', 'info--big']) }}>
       {% for item in items %}
         <div{{ item.attributes }}>{{ item.content }}</div>
       {% endfor %}
@@ -55,7 +55,7 @@
     {% endfor %}
   {% endif %}
 {% else %}
-  <div{{ attributes.addclass(['articleinfo', 'author--article']) }}>
+  <div{{ attributes.addclass(['articleinfo', 'info--big']) }}>
     <div{{ title_attributes.addClass(title_classes) }}>{{ label }}</div>
     {% if multiple %}
       <div>

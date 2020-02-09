@@ -66,7 +66,7 @@
  * @see template_preprocess_node()
  */
 #}
-<article{{ attributes.addclass(['block', 'teaser'])|without('role') }}>
+<article{{ attributes.addclass(['block', 'teaser', 'teaser--standard'])|without('role') }}>
     {% if not content.field_primary_picture|render|trim is empty %}
     <div{{ content_attributes.addclass('image') }}>
         {{ content.field_primary_picture }}
