@@ -832,7 +832,7 @@ function palm_preprocess_node(&$variables)
             ];
         } else {
             // only display this button if issue is newer than janurary 2012 (with explicit exception for december 2011
-	    if (24911 <= $variables['node']->id() && 27086 != $variables['node']->id()) {
+	          if (24911 <= $variables['node']->id() && 27086 != $variables['node']->id()) {
                 $variables['button_download_pdf'] = [
                     '#theme' => 'palm_download_button',
                     '#download_url' => Url::fromRoute(
@@ -844,7 +844,7 @@ function palm_preprocess_node(&$variables)
                     '#label' => t('Download digital issue'),
                     '#title' => t('Download @title as pdf file.', ['@title' => $variables['node']->getTitle()]),
                 ];
-	    }
+	          }
             // Downlaod of epub and mobi only for nodes newer than 25756
             if (25756 <= $variables['node']->id()) {
                 $variables['button_download_epub'] = [
@@ -883,6 +883,14 @@ function palm_preprocess_node(&$variables)
             }
         }
     }
+
+    // // remove author field on author taxonomy pages
+    // if (\Drupal::routeMatch()->getRouteName() == 'entity.taxonomy_term.canonical') {
+    //   $term = Term::load(\Drupal::routeMatch()->getRawParameter('taxonomy_term'));
+    //   if ('autoren' == $term->bundle()) {
+    //     unset($variables['content']['field_autoren']);
+    //   }
+    // }
 }
 
 function palm_preprocess_views_view(&$variables) {
