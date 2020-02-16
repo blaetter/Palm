@@ -14,10 +14,16 @@
 #}
 <div class="meta">
   {#{ content }#}
+  {% if logged_in %}
   <a class="portal-head__user" href="/user" title="{{ 'Account' | t }}">
     <i class="fa fa-user" aria-hidden="true"></i>
-    {% if logged_in %}<span class="login-state">✓</span>{% endif %}
+    <span class="login-state">✓</span>
   </a>
+  {% else %}
+  <a class="portal-head__user" href="{{ path('user.login', {'destination': path('<current>')}) }}" title="{{ 'Account' | t }}">
+    <i class="fa fa-user" aria-hidden="true"></i>
+  </a>
+  {% endif %}
   <a class="portal-head__cart" href="{{ path('nodeshop.showCart') }}" title="{{ 'Shopping cart' | t }}">
     <i class="fa fa-shopping-cart" aria-hidden="true"></i>
   </a>
