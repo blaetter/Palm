@@ -43,6 +43,12 @@
 
 <p>{{ 'Payment method' | t}}: {{ order.getPaymentMethodLabel | t}}</p>
 
+{% if payment_info %}
+
+<p>{{ payment_info }}</p>
+
+{% endif %}
+
 <table>
     <thead>
         <tr>
