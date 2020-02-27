@@ -11,18 +11,18 @@
 #}
 <p>
     {% if 'Frau' in order.getCustomerTitle %}
-      <strong>Liebe {{ order.getCustomerTitle }} {{ order.getCustomerFirstName }} {{ order.getCustomerLastName }}</strong>,
+      Liebe {{ order.getCustomerTitle }} {{ order.getCustomerFirstName }} {{ order.getCustomerLastName }},
     {% elseif 'Herr' in order.getCustomerTitle %}
-      <strong>Lieber {{ order.getCustomerTitle }} {{ order.getCustomerFirstName }} {{ order.getCustomerLastName }}</strong>,
+      Lieber {{ order.getCustomerTitle }} {{ order.getCustomerFirstName }} {{ order.getCustomerLastName }},
     {% else %}
-      {% trans %}<strong>Dear {{ order.getCustomerFirstName }} {{ order.getCustomerLastName }}</strong>{% endtrans %},
+      {% trans %}Dear {{ order.getCustomerFirstName }} {{ order.getCustomerLastName }}{% endtrans %},
     {% endif %}
 </p>
 <p>{% trans %}thanks for your order at {{ shopname }}. {% endtrans %}</p>
 <p>{% trans %}In this mail you'll find your order details. {% endtrans %}</p>
 
 <p>
-  <strong>{{ 'billing address' | t }}</strong><br />
+  <strong>{{ 'billing address' | t }}:</strong><br />
     {{ order.getCustomerTitel }} {{ order.getCustomerFirstName }} {{ order.getCustomerLastName }}<br />
     {{ order.getCustomerStreet }}<br />
     {% if order.getCustomerStreetAddon %} {{ order.getCustomerStreetAddon }}<br />{% endif %}
@@ -32,7 +32,7 @@
 
 {% if order.hasDeliveryAddress %}
 <p>
-  <strong>{{ 'delivery address' | t }}</strong><br />
+  <strong>{{ 'delivery address' | t }}:</strong><br />
     {{ order.getDeliveryTitel }} {{ order.getDeliveryFirstName }} {{ order.getDeliveryLastName }}<br />
     {{ order.getDeliveryStreet }}<br />
     {% if order.getDeliveryStreetAddon %} {{ order.getDeliveryStreetAddon }}<br />{% endif %}
