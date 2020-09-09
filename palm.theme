@@ -124,10 +124,6 @@ function palm_preprocess_page_title(&$variables) {
     if (false !== strpos(\Drupal::routeMatch()->getRouteName(), 'view.blaetter_autoren.page_3')) {
         $variables['title_prefix'] = 'Blätter';
     }
-    if (false !== strpos(\Drupal::routeMatch()->getRouteName(), 'view.blaetter_eurozine.page_1')) {
-      $variables['title_prefix'] = 'Blätter';
-      $variables['title'] = 'International';
-    }
     if (false !== strpos(\Drupal::routeMatch()->getRouteName(), 'contact.site_page')) {
         $variables['title'] = t('Contact');
     }
@@ -173,7 +169,6 @@ function palm_preprocess_page_title(&$variables) {
 	      'view.blaetter_blog.page_1',
         'view.blaetter_dokumente.page_1',
         'view.blaetter_dossiers.page_1',
-        'view.blaetter_eurozine.page_1',
         'view.blaetter_themen.page_1',
         'view.blaetter_zurueckgeblaettert.page_1',
         'view.nodeshop_user_orders.page_1',
@@ -459,16 +454,16 @@ function palm_preprocess_page(&$variables) {
       $variables['page']['hero']['#sorted'] = false;
     }
     // Add title prefix for all eurozine pages
-    // if (false !== strpos(\Drupal::routeMatch()->getRouteName(), 'view.blaetter_eurozine')) {
-    //     $variables['page']['hero']['category_title'] = [
-    //       '#theme' => 'palm_heading_pagecategory',
-    //       '#category_prefix' => 'Blätter',
-    //       '#headline' => 'Eurozine',
-    //       '#weight' => -11,
-    //     ];
-    //     // force Drupal to resort the blocks in the region
-    //     $variables['page']['hero']['#sorted'] = false;
-    // }
+    if (false !== strpos(\Drupal::routeMatch()->getRouteName(), 'view.blaetter_eurozine')) {
+        $variables['page']['hero']['category_title'] = [
+          '#theme' => 'palm_heading_pagecategory',
+          '#category_prefix' => 'Blätter',
+          '#headline' => 'International',
+          '#weight' => -11,
+        ];
+        // force Drupal to resort the blocks in the region
+        $variables['page']['hero']['#sorted'] = false;
+    }
     if ($node = \Drupal::request()->attributes->get('node')) {
         if ('story' == $node->getType()) {
             $issue = _palm_get_issue($node);
