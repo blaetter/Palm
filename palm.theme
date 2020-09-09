@@ -126,7 +126,7 @@ function palm_preprocess_page_title(&$variables) {
     }
     if (false !== strpos(\Drupal::routeMatch()->getRouteName(), 'view.blaetter_eurozine.page_1')) {
       $variables['title_prefix'] = 'Blätter';
-      $variables['title'] = 'Eurozine';
+      $variables['title'] = 'International';
     }
     if (false !== strpos(\Drupal::routeMatch()->getRouteName(), 'contact.site_page')) {
         $variables['title'] = t('Contact');
@@ -572,7 +572,7 @@ function palm_preprocess_page(&$variables) {
             $variables['page']['hero']['category_title'] = [
                 '#theme' => 'palm_heading_pagecategory',
                 '#category_prefix' => 'Blätter',
-                '#headline' => 'Eurozine',
+                '#headline' => 'International',
                 '#weight' => -11,
             ];
             // force Drupal to resort the blocks in the region
