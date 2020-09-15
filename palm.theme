@@ -167,7 +167,6 @@ function palm_preprocess_page_title(&$variables) {
         'view.blaetter_autoren.page_2',
         'view.blaetter_autoren.page_3',
 	      'view.blaetter_blog.page_1',
-        'view.blaetter_dokumente.page_1',
         'view.blaetter_dossiers.page_1',
         'view.blaetter_themen.page_1',
         'view.blaetter_zurueckgeblaettert.page_1',
@@ -464,6 +463,17 @@ function palm_preprocess_page(&$variables) {
         // force Drupal to resort the blocks in the region
         $variables['page']['hero']['#sorted'] = false;
     }
+    // Add title prefix for all eurozine pages
+    if (false !== strpos(\Drupal::routeMatch()->getRouteName(), 'view.blaetter_dokumente')) {
+      $variables['page']['hero']['category_title'] = [
+        '#theme' => 'palm_heading_pagecategory',
+        '#category_prefix' => 'Dokumente',
+        '#headline' => 'zum Zeitgeschehen',
+        '#weight' => -11,
+      ];
+      // force Drupal to resort the blocks in the region
+      $variables['page']['hero']['#sorted'] = false;
+    }
     if ($node = \Drupal::request()->attributes->get('node')) {
         if ('story' == $node->getType()) {
             $issue = _palm_get_issue($node);
@@ -556,7 +566,8 @@ function palm_preprocess_page(&$variables) {
         if ('document' == $node->getType()) {
             $variables['page']['hero']['category_title'] = [
                 '#theme' => 'palm_heading_pagecategory',
-                '#headline' => 'Dokumente',
+                '#headline' => 'zum Zeitgeschehen',
+                '#category_prefix' => 'Dokumente',
                 '#weight' => -11,
             ];
             // force Drupal to resort the blocks in the region
