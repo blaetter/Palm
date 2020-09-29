@@ -89,9 +89,9 @@
           {{ content.field_themen }}
         {% endif %}
         {% if content.body|render %}
-          <p class="text">
+          <div class="text">
             {{ content.body }}
-          </p>
+          </div>
         {% endif %}
         {{ content|without(
           'field_primary_picture',
