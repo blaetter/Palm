@@ -60,7 +60,7 @@
         {% for key, category in cookie_categories %}
           <label for="cookie-category-{{ key }}">
             <input type="checkbox" name="cookie-categories" id="cookie-category-{{ key }}"
-                value="{{ key }}" {% if fix_first_cookie_category and loop.first %} checked disabled{% endif %}>
+                value="{{ key }}" {% if category.checkbox_default_state in ['checked', 'required'] %} checked {% endif %} {% if category.checkbox_default_state == 'required' %} disabled {% endif %}>
           {{ category.label }}
           </label>
           {% if category.description %}
