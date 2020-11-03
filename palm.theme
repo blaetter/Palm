@@ -262,10 +262,17 @@ function palm_preprocess_field__node__body(&$variables)
     // load ausgabe preview to node views of type story that:
     //  - are free to view
     //  - are viewed by an anonymous user
+    //  - if its not a "Kurzgefasst" (Term 1856) nor a "Chronik" (Term 1837)
     if ('story' === $variables['element']['#bundle']
-      && NodeShop::grantUserAccess($node, $current_user)
       && isset($node)
+      && NodeShop::grantUserAccess($node, $current_user)
       && $current_user->isAnonymous()
+      && (
+        $node->hasField('field_artikeltyp')
+        && isset($node->get('field_artikeltyp')->target_id)
+        && 1856 != $node->get('field_artikeltyp')->target_id
+        && 1837 != $node->get('field_artikeltyp')->target_id
+      )
     ) {
       $book = \Drupal::entityTypeManager()->getStorage('node')->load($node->book['bid']);
       if ($book && 'ausgabe' == $book->getType()) {
@@ -904,6 +911,20 @@ function palm_preprocess_node(&$variables)
                 ' (' . t('digital issue') . ')';
             }
         }
+    }
+
+    // add term based css class to article on full story nodes
+    if ('full' == $view_mode
+      && isset($variables['node'])
+      && 'story' == $variables['node']->getType()
+      && $variables['node']->hasField('field_artikeltyp')
+      && isset($variables['node']->get('field_artikeltyp')->target_id)
+    ) {
+
+      // we use the target_id as reference with a prefixed string to be able to change the name of the term
+      // without needing to change referenced styles that may be binded to that specific type.
+      $term_class = 'blaetter-type--' . $variables['node']->get('field_artikeltyp')->target_id;
+      $variables['attributes']['class'][] = $term_class;
     }
 
     // // remove author field on author taxonomy pages
