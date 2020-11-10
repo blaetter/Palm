@@ -72,12 +72,13 @@
         {{ content.field_primary_picture }}
     </div>
     {% endif %}
+
     <div class="inner">
         <h3{{ title_attributes.addclass('heading') }}>
             <a href="{{ url }}" rel="bookmark">{{ label }}</a>
         </h3>
-        {% if content.field_subtitle|render %}
-          <h4>{{ content.field_subtitle }}</h4>
+        {% if content.field_subtitle %}
+          {{ content.field_subtitle }}
         {% endif %}
         {% if content.field_autoren|render %}
           {{ content.field_autoren }}

@@ -37,5 +37,9 @@
  */
 #}
 {% for item in items %}
-  <h2{{ attributes.addClass('subtitle') }}>{{ item.content }}</h2>
+  {% if 'full' == element['#view_mode'] %}
+    <h2{{ attributes.addClass('subtitle') }}>{{ item.content }}</h2>
+  {% else %}
+    <h4{{ attributes.addClass('subtitle') }}>{{ item.content }}</h4>
+  {% endif %}
 {% endfor %}
