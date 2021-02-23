@@ -61,7 +61,7 @@
 <article class="teaser block">
   {{ title_prefix }}
   <h3{{ title_attributes }}>
-  {% if type %}[{{ type|upper }}]{% endif %}
+  {% if type %}<i class="fa fa-file-pdf-o" aria-hidden="true"></i>{% endif %}
     <a href="{{ url }}">{{ title }}</a>
   </h3>
   {{ title_suffix }}
