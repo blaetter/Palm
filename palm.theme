@@ -936,6 +936,12 @@ function palm_preprocess_node(&$variables)
     // }
 }
 
+function palm_preprocess_search_result(&$variables) {
+    if (preg_match('/(pdf|download)/i', $variables['result']['link'])) {
+        $variables['type'] = 'pdf';
+    }
+}
+
 function palm_preprocess_views_view(&$variables) {
     //kint($variables);
 }
