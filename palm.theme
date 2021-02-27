@@ -553,7 +553,7 @@ function palm_preprocess_page(&$variables) {
         if ('aktuell' == $node->getType()) {
             $variables['page']['hero']['category_title'] = [
                 '#theme' => 'palm_heading_pagecategory',
-                '#headline' => 'Außer der Reihe',
+                '#headline' => 'Aus der Redaktion',
                 '#weight' => -11,
             ];
             // force Drupal to resort the blocks in the region
