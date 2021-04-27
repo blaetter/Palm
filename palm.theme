@@ -1,8 +1,11 @@
 <?php
 
 use Drupal\block\Entity\Block;
+use Drupal\node\Entity\Node;
+use Drupal\Core\Field\EntityReferenceFieldItemList;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Render\Markup;
+use Drupal\Core\StringTranslation\TranslatableMarkup as Translation;
 use Drupal\Core\Url;
 use Drupal\nodeshop\NodeShop;
 use Drupal\taxonomy\Entity\Term;
@@ -76,7 +79,7 @@ function palm_preprocess_page_title(&$variables) {
     // Title overrides for nodes goes here:
     if ($node = \Drupal::request()->attributes->get('node')) {
         if ('ausgabe' == $node->bundle()) {
-            $variables['title_prefix'] = t('Edition');
+            $variables['title_prefix'] = new Translation('Edition');
             $variables['title_attributes']['class'][] = $custom_headline_class;
         } elseif (false === strpos(\Drupal::routeMatch()->getRouteName(), 'Bonus')) {
             $variables['title_attributes']['class'][] = 'heading--article';
@@ -86,18 +89,18 @@ function palm_preprocess_page_title(&$variables) {
     if (\Drupal::routeMatch()->getRouteName() == 'entity.taxonomy_term.canonical') {
         $term = Term::load(\Drupal::routeMatch()->getRawParameter('taxonomy_term'));
         if ('themen' == $term->bundle()) {
-            $variables['title_prefix'] = t('Topic');
+            $variables['title_prefix'] = new Translation('Topic');
             $variables['title_attributes']['class'][] = $custom_headline_class;
         }
         if ('autoren' == $term->bundle()) {
-            $variables['title_prefix'] = t('Authors');
+            $variables['title_prefix'] = new Translation('Authors');
             $variables['title_prefix_link'] = Url::fromRoute(
                             'view.blaetter_autoren.page_1',
                             [
                               'sort_character' => 'a'
                             ]
                         );
-            $variables['title_prefix_link_title'] = t('back to all editors');
+            $variables['title_prefix_link_title'] = new Translation('back to all editors');
             $variables['title_attributes']['class'][] = $custom_headline_class;
         }
     }
@@ -109,11 +112,11 @@ function palm_preprocess_page_title(&$variables) {
         $variables['title_prefix'] = 'Blätter';
     }
     if (false !== strpos(\Drupal::routeMatch()->getRouteName(), 'view.blaetter_ausgabe.page_1')) {
-        $variables['title_prefix'] = t('editions');
+        $variables['title_prefix'] = new Translation('editions');
     }
     if (false !== strpos(\Drupal::routeMatch()->getRouteName(), 'view.blaetter_dossiers.page_1')) {
         $variables['title_prefix'] = 'Dossier';
-        $variables['title'] = t('overview');
+        $variables['title'] = new Translation('overview');
     }
     if (false !== strpos(\Drupal::routeMatch()->getRouteName(), 'view.blaetter_autoren.page_1')) {
         $variables['title_prefix'] = 'Blätter';
@@ -125,7 +128,7 @@ function palm_preprocess_page_title(&$variables) {
         $variables['title_prefix'] = 'Blätter';
     }
     if (false !== strpos(\Drupal::routeMatch()->getRouteName(), 'contact.site_page')) {
-        $variables['title'] = t('Contact');
+        $variables['title'] = new Translation('Contact');
     }
 
     // add special prefixes for special routes
@@ -134,7 +137,7 @@ function palm_preprocess_page_title(&$variables) {
         'entity.user.edit_form',
     ];
     if (in_array(\Drupal::request()->get('_route'), $prefix_routes_user)) {
-        $variables['title_prefix'] = t('User account');
+        $variables['title_prefix'] = new Translation('User account');
     }
 
     // We define routes, where we need a special class for the title
@@ -203,7 +206,7 @@ function palm_preprocess_breadcrumb(&$variables) {
         if ('autoren' == $term->bundle()) {
             $variables['#cache']['contexts'][] = 'url';
             $author_index = [
-                ['text' => t('Authors'), 'url' => '/autoren']
+                ['text' => new Translation('Authors'), 'url' => '/autoren']
             ];
             array_splice($variables['breadcrumb'], 1, 0, $author_index);
         }
@@ -211,7 +214,7 @@ function palm_preprocess_breadcrumb(&$variables) {
 
     // Change text for last breadcrumb part for user edit form
     if ('entity.user.edit_form' == \Drupal::request()->get('_route')) {
-        $variables['breadcrumb'][2]['text'] = t('Edit user account');
+        $variables['breadcrumb'][2]['text'] = new Translation('Edit user account');
     }
 }
 
@@ -275,11 +278,11 @@ function palm_preprocess_field__node__body(&$variables)
       )
     ) {
       $book = \Drupal::entityTypeManager()->getStorage('node')->load($node->book['bid']);
-      if ($book && 'ausgabe' == $book->getType()) {
-        $text_count_summary = t(
+      if ($book instanceof Node && 'ausgabe' == $book->bundle()) {
+        $text_count_summary = new Translation(
           'This article is part of the issue @issue. Click here to read the full issue.',
           [
-            '@issue' => $book->getTitle()
+            '@issue' => $book->label()
           ]
         );
         $edition = [
@@ -287,7 +290,7 @@ function palm_preprocess_field__node__body(&$variables)
           '#theme' => 'palm_edition',
           '#edition' => [
               'link' => $book->toUrl(),
-              'link_title' => t('Click here to read the full issue.'),
+              'link_title' => new Translation('Click here to read the full issue.'),
               'image' => $book->field_primary_picture->view('full'),
               'text_count_summary' => $text_count_summary,
           ]
@@ -442,7 +445,7 @@ function palm_preprocess_page(&$variables) {
         $error_code = str_replace('system.', '', $route_name);
         $variables['page']['hero']['category_title'] = [
           '#theme' => 'palm_heading_pagecategory',
-          '#headline' => t('Error @code', ['@code' => $error_code]),
+          '#headline' => new Translation('Error @code', ['@code' => $error_code]),
           '#weight' => -11,
         ];
         // force Drupal to resort the blocks in the region
@@ -481,15 +484,16 @@ function palm_preprocess_page(&$variables) {
       // force Drupal to resort the blocks in the region
       $variables['page']['hero']['#sorted'] = false;
     }
-    if ($node = \Drupal::request()->attributes->get('node')) {
+    if (($node = \Drupal::request()->attributes->get('node')) && $node instanceof Node) {
         if ('story' == $node->getType()) {
             $issue = _palm_get_issue($node);
+            $edition = '';
             if (!empty($issue['year']) && !empty($issue['edition'])) {
                 $edition = $issue['edition'] . ' ' . $issue['year'];
             }
             $variables['page']['hero']['category_title'] = [
                 '#theme' => 'palm_heading_pagecategory',
-                '#category_prefix' => t('Edition'),
+                '#category_prefix' => new Translation('Edition'),
                 '#headline' => $edition,
                 '#weight' => -11,
             ];
@@ -497,13 +501,13 @@ function palm_preprocess_page(&$variables) {
         }
         // provide headings if in full node view
         if ('dossier' == $node->getType()) {
-            $dossier = '';
-            if ($node->hasField('field_dossier') && null !== $node->field_dossier->entity) {
-                $dossier = $node->field_dossier->entity->getName();
+            $dossier_name = '';
+            if ($node->hasField('field_dossier') && $node->get('field_dossier') instanceof EntityReferenceFieldItemList) {
+                $dossier_name = $node->get('field_dossier')->entity->label();
                 $variables['page']['hero']['category_title'] = [
                     '#theme' => 'palm_heading_pagecategory',
-                    '#category_prefix' => t('Dossier'),
-                    '#headline' => $dossier,
+                    '#category_prefix' => new Translation('Dossier'),
+                    '#headline' => $dossier_name,
                     '#weight' => -11,
                 ];
                 // force Drupal to resort the blocks in the region
@@ -515,14 +519,14 @@ function palm_preprocess_page(&$variables) {
         && $route_name != 'nodeshop.changeBonus'
         && $route_name != 'nodeshop.removeBonus'
         ) {
-            $rubric = '';
-            if ($node->hasField('field_rubrik') && null !== $node->field_rubrik->entity) {
-                $rubric = $node->field_rubrik->entity->getName();
+            $rubric_name = '';
+            if ($node->hasField('field_rubrik') && $node->get('field_rubrik') instanceof EntityReferenceFieldItemList) {
+              $rubric_name = $node->get('field_rubrik')->entity->label();
             }
             $variables['page']['hero']['category_title'] = [
                 '#theme' => 'palm_heading_pagecategory',
-                '#category_prefix' => t('Blätter Kiosk'),
-                '#headline' => $rubric,
+                '#category_prefix' => new Translation('Blätter Kiosk'),
+                '#headline' => $rubric_name,
                 '#weight' => -11,
             ];
             // force Drupal to resort the blocks in the region
@@ -530,8 +534,8 @@ function palm_preprocess_page(&$variables) {
         }
         // default page category on all page type nodes
         if ('page' == $node->getType()) {
-            $page_category_prefix = t('About');
-            $page_category_title = t('the »Blätter«');
+            $page_category_prefix = new Translation('About');
+            $page_category_title = new Translation('the »Blätter«');
             if ($node->hasField('field_page_category_prefix')
                 && !empty($node->get('field_page_category_prefix')->value)) {
                 $page_category_prefix = $node->get('field_page_category_prefix')->value;
@@ -596,7 +600,7 @@ function palm_preprocess_page(&$variables) {
             $variables['page']['hero']['category_title'] = [
                 '#theme' => 'palm_heading_pagecategory',
                 '#category_prefix' => 'Blätter',
-                '#headline' => t('Blog'),
+                '#headline' => new Translation('Blog'),
                 '#weight' => -11,
             ];
             // force Drupal to resort the blocks in the region
@@ -607,7 +611,7 @@ function palm_preprocess_page(&$variables) {
           $variables['page']['hero']['category_title'] = [
               '#theme' => 'palm_heading_pagecategory',
               '#category_prefix' => 'Blätter',
-              '#headline' => t('bonus'),
+              '#headline' => new Translation('bonus'),
               '#weight' => -11,
           ];
           // force Drupal to resort the blocks in the region
@@ -640,6 +644,10 @@ function palm_preprocess_node(&$variables)
     $view_mode = $variables['elements']['#view_mode'];
     // get the renderer
     $renderer = \Drupal::service('renderer');
+    /**
+     * @var Node|null $node
+     */
+    $node = $variables['node'] ?: null;
 
     // // add dossier articles to the dossier teaser
     // if ('teaser_dossier' == $view_mode) {
@@ -648,32 +656,32 @@ function palm_preprocess_node(&$variables)
     //         '#name' => 'blaetter_dossiers',
     //         '#display_id' => 'block_1',
     //         '#arguments' => [
-    //             $variables['node']->field_dossier->target_id,
+    //             $node->field_dossier->target_id,
     //         ],
     //     ];
     // }
 
     // add edition preview and purchase buttons to stories that are not available to the end user
     if ('full' == $view_mode
-        && isset($variables['node'])
-        && 'story' == $variables['node']->getType()
-        && !NodeShop::grantUserAccess($variables['node'], $current_user)
+        && isset($node)
+        && 'story' == $node->getType()
+        && !NodeShop::grantUserAccess($node, $current_user)
     ) {
-        if (isset($variables['node']->book) && !empty($variables['node']->book['bid'])) {
-            $book = \Drupal::entityTypeManager()->getStorage('node')->load($variables['node']->book['bid']);
-            if ($book && 'ausgabe' == $book->getType()) {
+        if (isset($node->book) && !empty($node->book['bid'])) {
+            $book = \Drupal::entityTypeManager()->getStorage('node')->load($node->book['bid']);
+            if ($book instanceof Node && 'ausgabe' == $book->getType()) {
                 // calculate length of snippet if original body is set
                 $text_count_summary = '';
-                $original_body_length = max(1, strlen($variables['node']->get('body')->value));
+                $original_body_length = max(1, strlen($node->get('body')->getValue()));
                 $teaser_body_length = max(1, strlen(
                     nodeshop_trim_text(
-                        $variables['node']->get('body')->value, 1500, false
+                      $node->get('body')->getValue(), 1500, false
                     )
                 ));
 
                 $teaser_body_percentage = round($teaser_body_length * 100 / $original_body_length);
 
-                $text_count_summary = t(
+                $text_count_summary = new Translation(
                     'You\'ve read @countlow% of the text, to read the remaining @counthigh%, you might want to: ',
                     [
                         '@countlow' => $teaser_body_percentage,
@@ -689,19 +697,19 @@ function palm_preprocess_node(&$variables)
                         'buttons' => [
                             'buy_article' => [
                                 '#theme' => 'palm_buy_button',
-                                '#product_node_id' => $variables['node']->id(),
+                                '#product_node_id' => $node->id(),
                                 '#destination' => \Drupal::service('path.current')->getPath(),
-                                '#product_price' => NodeShop::getPrice($variables['node']),
-                                '#label' => t('Buy article'),
-                                '#title' => t('Puts @title (print) into the cart.', ['@title' => $variables['node']->getTitle()]),
+                                '#product_price' => NodeShop::getPrice($node),
+                                '#label' => new Translation('Buy article'),
+                                '#title' => new Translation('Puts @title (print) into the cart.', ['@title' => $node->getTitle()]),
                             ],
                             'buy_online' => [
                                 '#theme' => 'palm_buy_button',
                                 '#product_node_id' => $book->id(),
                                 '#destination' => \Drupal::service('path.current')->getPath(),
                                 '#product_price' => NodeShop::getPrice($book),
-                                '#label' => t('Buy online issue'),
-                                '#title' => t('Puts @title (online) into the cart.', ['@title' => $book->getTitle()]),
+                                '#label' => new Translation('Buy online issue'),
+                                '#title' => new Translation('Puts @title (online) into the cart.', ['@title' => $book->getTitle()]),
                             ]
                         ]
                     ]
@@ -710,20 +718,20 @@ function palm_preprocess_node(&$variables)
                     $print_issue = \Drupal::entityTypeManager()->getStorage('node')->load(
                         $book->get('field_ip')->value
                     );
-                    if ($print_issue) {
+                    if ($print_issue instanceof Node) {
                         $edition['#edition']['buttons']['buy_print'] = [
                             '#theme' => 'palm_buy_button',
                             '#product_node_id' => $print_issue->id(),
                             '#destination' => \Drupal::service('path.current')->getPath(),
                             '#product_price' => NodeShop::getPrice($print_issue),
-                            '#label' => t('Buy print issue'),
-                            '#title' => t('Puts @title (print) into the cart.', ['@title' => $print_issue->getTitle()]),
+                            '#label' => new Translation('Buy print issue'),
+                            '#title' => new Translation('Puts @title (print) into the cart.', ['@title' => $print_issue->getTitle()]),
                         ];
                     }
                 }
                 if ($current_user->isAnonymous()) {
                     $edition['#edition']['buttons']['login'] = [
-                        '#title' => t('login to read full article'),
+                        '#title' => new Translation('login to read full article'),
                         '#type' => 'link',
                         '#url' => Url::fromRoute(
                             'user.login',
@@ -741,7 +749,7 @@ function palm_preprocess_node(&$variables)
                     ];
                     // $edition['#edition']['buttons']['register'] = [
                     //     '#theme' => 'link',
-                    //     '#title' => t('register'),
+                    //     '#title' => new Translation('register'),
                     //     '#type' => 'link',
                     //     '#url' => Url::fromRoute(
                     //         'user.register',
@@ -767,26 +775,26 @@ function palm_preprocess_node(&$variables)
     }
 
     // add social block for all full node views
-    if ('full' == $view_mode && isset($variables['node'])) {
-        $node_url = $variables['node']->toUrl()->setAbsolute()->toString();
-        $node_title = $variables['node']->getTitle();
+    if ('full' == $view_mode && isset($node)) {
+        $node_url = $node->toUrl()->setAbsolute()->toString();
+        $node_title = $node->getTitle();
 
         $node_teaser = '';
-        if (!empty($variables['node']->body->view('teaser'))) {
+        if (!empty($node->body->view('teaser'))) {
           // just get the plain teaser text for the mail, no html needed.
-          $node_teaser = $variables['node']->body->view('teaser');
+          $node_teaser = $node->body->view('teaser');
         }
 
         $variables['social'] = [
             '#theme' => 'palm_social_links',
             '#link_facebook' => true, // is set from node_title and node_url in the template
-            '#link_twitter' => t('Read on @blaetter: @title @url', ['@title' => $node_title, '@url' => $node_url]),
-            '#link_mail' => 'mailto:?subject=' . t(
+            '#link_twitter' => new Translation('Read on @blaetter: @title @url', ['@title' => $node_title, '@url' => $node_url]),
+            '#link_mail' => 'mailto:?subject=' . new Translation(
                 'Read @blaetter: @title',
                 [
                     '@title' => $node_title
                 ]
-            ) . '&body=' . t(
+            ) . '&body=' . new Translation(
                 'Hello,%0D%0A%0D%0AI found this interesting article on the website www.blaetter.de:%0D%0A%0D%0A@title%0D%0A%0D%0A@teaser%0D%0A%0D%0A@link%0D%0A',
                 [
                     '@title' => $node_title,
@@ -801,7 +809,7 @@ function palm_preprocess_node(&$variables)
         // set download links only for nodes of type story. There might be additional
         // node types configured via nodeshop, but there is currently no way to access
         // this check from this point.
-        if (NodeShop::grantUserAccess($variables['node'], $current_user) && 'story' == $variables['node']->bundle()) {
+        if (NodeShop::grantUserAccess($node, $current_user) && 'story' == $node->bundle()) {
             try {
                 \Drupal::service('router.route_provider')->getRouteByName(
                     'nodeshop.product_features.product_feature_access_to_attachment.download'
@@ -809,7 +817,7 @@ function palm_preprocess_node(&$variables)
                 $variables['social']['#link_download'] = Url::fromRoute(
                     'nodeshop.product_features.product_feature_access_to_attachment.download',
                     [
-                        'node' => $variables['node']->id()
+                        'node' => $node->id()
                     ]
                 );
             } catch (\Exception $e) {
@@ -818,7 +826,7 @@ function palm_preprocess_node(&$variables)
         }
     }
 
-    if (isset($variables['node']) && 'ausgabe' == $variables['node']->bundle()) {
+    if (isset($node) && 'ausgabe' == $node->bundle()) {
         // unset download link in the social menu here because we might set it ourselves...
         if (isset($variables['social']) && isset($variables['social']['#link_download'])) {
             unset($variables['social']['#link_download']);
@@ -830,73 +838,73 @@ function palm_preprocess_node(&$variables)
             '#name' => 'blaetter_ausgabe',
             '#display_id' => 'block_2',
             '#arguments' => [
-                $variables['node']->id(),
+              $node->id(),
             ],
         ];
         // prepare buttons to buy print and digital issues or download them if already bought:
-        if ($variables['node']->hasField('field_ip') && !empty($variables['node']->get('field_ip')->value)) {
+        if ($node->hasField('field_ip') && !empty($node->get('field_ip')->value)) {
             $print_issue = \Drupal::entityTypeManager()->getStorage('node')->load(
-                $variables['node']->get('field_ip')->value
+              $node->get('field_ip')->value
             );
-            if ($print_issue) {
+            if ($print_issue instanceof Node) {
                 $variables['button_buy_print'] = [
                     '#theme' => 'palm_buy_button',
                     '#product_node_id' => $print_issue->id(),
                     '#destination' => \Drupal::service('path.current')->getPath(),
                     '#product_price' => NodeShop::getPrice($print_issue),
-                    '#label' => t('Buy print issue'),
-                    '#title' => t('Puts @title (print) into the cart.', ['@title' => $print_issue->getTitle()]),
+                    '#label' => new Translation('Buy print issue'),
+                    '#title' => new Translation('Puts @title (print) into the cart.', ['@title' => $print_issue->getTitle()]),
                 ];
             }
         }
-        if (!NodeShop::isUserNode($variables['node'], $current_user) && !$current_user->hasRole('onlineabonnent')) {
+        if (!NodeShop::isUserNode($node, $current_user) && !$current_user->hasRole('onlineabonnent')) {
             // only display this button if the user not already bought this online issue
             $variables['button_buy_online'] = [
                 '#theme' => 'palm_buy_button',
-                '#product_node_id' => $variables['node']->id(),
+                '#product_node_id' => $node->id(),
                 '#destination' => \Drupal::service('path.current')->getPath(),
-                '#product_price' => NodeShop::getPrice($variables['node']),
-                '#label' => t('Buy online issue'),
-                '#title' => t('Puts @title (online) into the cart.', ['@title' => $variables['node']->getTitle()]),
+                '#product_price' => NodeShop::getPrice($node),
+                '#label' => new Translation('Buy online issue'),
+                '#title' => new Translation('Puts @title (online) into the cart.', ['@title' => $node->getTitle()]),
             ];
         } else {
             // only display this button if issue is newer than janurary 2012 (with explicit exception for december 2011
-	          if (24911 <= $variables['node']->id() && 27086 != $variables['node']->id()) {
+	          if (24911 <= $node->id() && 27086 != $node->id()) {
                 $variables['button_download_pdf'] = [
                     '#theme' => 'palm_download_button',
                     '#download_url' => Url::fromRoute(
                         'nodeshop.product_features.product_feature_access_to_attachment.download',
                         [
-                            'node' => $variables['node']->id()
+                            'node' => $node->id()
                         ]
                     ),
-                    '#label' => t('Download digital issue'),
-                    '#title' => t('Download @title as pdf file.', ['@title' => $variables['node']->getTitle()]),
+                    '#label' => new Translation('Download digital issue'),
+                    '#title' => new Translation('Download @title as pdf file.', ['@title' => $node->getTitle()]),
                 ];
 	          }
             // Downlaod of epub and mobi only for nodes newer than 25756
-            if (25756 <= $variables['node']->id()) {
+            if (25756 <= $node->id()) {
                 $variables['button_download_epub'] = [
                     '#theme' => 'palm_download_button',
                     '#download_url' => Url::fromRoute(
                         'blaetter_export_epub.epub.download',
                         [
-                            'node' => $variables['node']->id()
+                            'node' => $node->id()
                         ]
                     ),
-                    '#label' => t('Download ePub for eReader'),
-                    '#title' => t('Download @title as ePub file.', ['@title' => $variables['node']->getTitle()]),
+                    '#label' => new Translation('Download ePub for eReader'),
+                    '#title' => new Translation('Download @title as ePub file.', ['@title' => $node->getTitle()]),
                 ];
                 $variables['button_download_mobi'] = [
                     '#theme' => 'palm_download_button',
                     '#download_url' => Url::fromRoute(
                         'blaetter_export_epub.mobi.download',
                         [
-                            'node' => $variables['node']->id()
+                            'node' => $node->id()
                         ]
                     ),
-                    '#label' => t('Download mobi for Kindle'),
-                    '#title' => t('Download @title as mobi file.', ['@title' => $variables['node']->getTitle()]),
+                    '#label' => new Translation('Download mobi for Kindle'),
+                    '#title' => new Translation('Download @title as mobi file.', ['@title' => $node->getTitle()]),
                 ];
             }
         }
@@ -906,24 +914,24 @@ function palm_preprocess_node(&$variables)
         // The following way seems a bit dirty, but it's the only working way I
         // could found.
         if ('cart_item_node' == $view_mode) {
-            if ('ausgabe' == $variables['node']->bundle()) {
+            if ('ausgabe' == $node->bundle()) {
                 $variables['label'][0]['#context']['value'] = $variables['label'][0]['#context']['value'] .
-                ' (' . t('digital issue') . ')';
+                ' (' . new Translation('digital issue') . ')';
             }
         }
     }
 
     // add term based css class to article on full story nodes
     if ('full' == $view_mode
-      && isset($variables['node'])
-      && 'story' == $variables['node']->getType()
-      && $variables['node']->hasField('field_artikeltyp')
-      && isset($variables['node']->get('field_artikeltyp')->target_id)
+      && isset($node)
+      && 'story' == $node->getType()
+      && $node->hasField('field_artikeltyp')
+      && isset($node->get('field_artikeltyp')->target_id)
     ) {
 
       // we use the target_id as reference with a prefixed string to be able to change the name of the term
       // without needing to change referenced styles that may be binded to that specific type.
-      $term_class = 'blaetter-type--' . $variables['node']->get('field_artikeltyp')->target_id;
+      $term_class = 'blaetter-type--' . $node->get('field_artikeltyp')->target_id;
       $variables['attributes']['class'][] = $term_class;
     }
 
@@ -1096,7 +1104,7 @@ function palm_form_alter(&$form, FormStateInterface $form_state, $form_id) {
       $form['actions']['cancel']['#attributes']['class'][] = 'button--reversed';
       $form['actions']['cancel']['#weight'] = 0;
       $form['actions']['submit']['#attributes']['class'][] = 'button--danger';
-      $form['actions']['submit']['#value'] = t('delete account permanently');
+      $form['actions']['submit']['#value'] = new Translation('delete account permanently');
     }
 
     // Contact form
@@ -1108,22 +1116,29 @@ function palm_form_alter(&$form, FormStateInterface $form_state, $form_id) {
 
     // Search form alter
     if ('search_form' == $form_id) {
-        $form['basic']['keys']['#placeholder'] = t('Search this website...');
+        $form['basic']['keys']['#placeholder'] = new Translation('Search this website...');
     }
 }
 
+/**
+ * Calculates the issue for the given node
+ *
+ * @param Node $node
+ * @return array
+ */
 function _palm_get_issue($node) {
-    if ($node && !empty($node->book) && $node->id !== $node->book['bid']) {
+    if ($node instanceof Node && !empty($node->book) && $node->id !== $node->book['bid']) {
+        $year = $edition = '';
         $book = \Drupal::entityTypeManager()->getStorage('node')->load($node->book['bid']);
-        if ($book
+        if ($book instanceof $node
           && $book->hasField('field_ausgabe')
           && $book->hasField('field_jahr')
-          && null !== $book->get('field_ausgabe')->entity
-          && null !== $book->get('field_jahr')->entity
+          && $book->get('field_ausgabe') instanceof EntityReferenceFieldItemList
+          && $book->get('field_jahr') instanceof EntityReferenceFieldItemList
         ) {
             // get the edition
-            $edition = $book->get('field_ausgabe')->entity->getName();
-            $year = $book->get('field_jahr')->entity->getName();
+            $edition = $book->get('field_ausgabe')->entity->label();
+            $year = $book->get('field_jahr')->entity->label();
         }
         return [
             'nid' => $book->id(),
