@@ -1,7 +1,7 @@
 name: Palm
 type: theme
 description: 'The theme for www.blaetter.de'
-core: 8.x
+core_version_requirement: ^8.8 || ^9
 libraries:
   - palm/global-styling
   - palm/global-scripts
