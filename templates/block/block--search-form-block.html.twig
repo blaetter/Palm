@@ -29,7 +29,10 @@
   {% if label %}
     <h6{{ title_attributes.addClass('aural') }}>{{ label }}</h6>
   {% endif %}
-  <form class="form--navigationsearch" action="/search/bing">
+  {#
+    We use # as action here to prevent bots from submitting this form. Later the action is set via js.
+  #}
+  <form class="form--navigationsearch" action="#">
     <label class="visually-hidden" for="search_form_keys">{{ 'Search this website...' | t}}</label>
     <input class="searchtext" id="search_form_keys" type="text" name="keys" value="" placeholder="{{ 'Search this website...' | t }}">
     <button class="submit" type="submit">{{ 'search' | t }}</button>
