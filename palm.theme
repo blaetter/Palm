@@ -824,6 +824,22 @@ function palm_preprocess_node(&$variables)
                 // nothing to do here, just catch exception...
             }
         }
+
+        // Add link rel to Blätter Podcast RSS Feed on the podcast page (e.g. node id 28623)
+
+        if (28623 == $node->id()) {
+          $link = [
+            '#tag' => 'link',
+            '#attributes' => [
+              'rel' => 'alternate',
+              'type' => 'application/rss+xml',
+              'title' => 'Blätter Podcast',
+              'href' => 'https://blaetter.podigee.io/feed/mp3'
+            ],
+          ];
+
+          $variables['#attached']['html_head'][] = [$link, 'swiftype_course'];
+        }
     }
 
     if (isset($node) && 'ausgabe' == $node->bundle()) {
