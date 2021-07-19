@@ -672,13 +672,13 @@ function palm_preprocess_node(&$variables)
             if ($book instanceof Node && 'ausgabe' == $book->getType()) {
                 // calculate length of snippet if original body is set
                 $text_count_summary = '';
-                $original_body_length = max(1, strlen($node->get('body')->getValue()));
+                $original_body = $node->get('body')->getString();
+                $original_body_length = max(1, strlen($original_body));
                 $teaser_body_length = max(1, strlen(
                     nodeshop_trim_text(
-                      $node->get('body')->getValue(), 1500, false
+                        $original_body, 1500, false
                     )
                 ));
-
                 $teaser_body_percentage = round($teaser_body_length * 100 / $original_body_length);
 
                 $text_count_summary = new Translation(
