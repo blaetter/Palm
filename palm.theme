@@ -788,7 +788,7 @@ function palm_preprocess_node(&$variables)
         $variables['social'] = [
             '#theme' => 'palm_social_links',
             '#link_facebook' => true, // is set from node_title and node_url in the template
-            '#link_twitter' => new Translation('Read on @blaetter: @title @url', ['@title' => $node_title, '@url' => $node_url]),
+            '#link_twitter' => new Translation('Read on @blaetter: @title', ['@title' => $node_title]),
             '#link_mail' => 'mailto:?subject=' . new Translation(
                 'Read @blaetter: @title',
                 [
