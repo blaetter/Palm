@@ -158,6 +158,7 @@ function palm_preprocess_page_title(&$variables) {
         'search.view',
         'search.view_node_search',
         'search.view_suche',
+        'search.view_blaetter_suche',
         'user.login',
         'user.page',
         'user.pass',
