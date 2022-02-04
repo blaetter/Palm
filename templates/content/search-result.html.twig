@@ -59,6 +59,7 @@
  */
 #}
 <article class="teaser block">
+{% if title %}
   {{ title_prefix }}
   <h3{{ title_attributes }}>
   {% if type %}<i class="fa fa-file-pdf-o" aria-hidden="true"></i>{% endif %}
@@ -68,7 +69,7 @@
   {% if snippet %}
   <p{{content_attributes}}>{{ snippet }} <a href="{{ url }}">{{ 'read more' | t }}</a></p>
   {% endif %}
-  {% if info %}
-    <p>{{ info }}</p>
-  {% endif %}
+{% else %}
+    {{ snippet }}
+{% endif %}
 </article>
