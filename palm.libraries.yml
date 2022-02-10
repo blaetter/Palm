@@ -4,7 +4,6 @@ global-styling:
   css:
     theme:
       bundle/palm.css: {}
-      'https://use.typekit.net/ulf4ijs.css': {type: external}
 global-scripts:
   version: 1.x
   js:
