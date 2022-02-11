@@ -1,0 +1,86 @@
+{#
+/**
+ * @file
+ * Theme override to display a single page.
+ *
+ * The doctype, html, head and body tags are not in this template. Instead they
+ * can be found in the html.html.twig template in this directory.
+ *
+ * Available variables:
+ *
+ * General utility variables:
+ * - base_path: The base URL path of the Drupal installation. Will usually be
+ *   "/" unless you have installed Drupal in a sub-directory.
+ * - is_front: A flag indicating if the current page is the front page.
+ * - logged_in: A flag indicating if the user is registered and signed in.
+ * - is_admin: A flag indicating if the user has permission to access
+ *   administration pages.
+ *
+ * Site identity:
+ * - front_page: The URL of the front page. Use this instead of base_path when
+ *   linking to the front page. This includes the language domain or prefix.
+ *
+ * Page content (in order of occurrence in the default page.html.twig):
+ * - messages: Status and error messages. Should be displayed prominently.
+ * - node: Fully loaded node, if there is an automatically-loaded node
+ *   associated with the page and the node ID is the second argument in the
+ *   page's path (e.g. node/12345 and node/12345/revisions, but not
+ *   comment/reply/12345).
+ *
+ * Regions:
+ * - page.navigation: The Nsvigation region.
+ * - page.flyout: The flyout region for the main navigation dropdown.
+ * - page.hero: The hero region for the home page and the page title on certain pages.
+ * - page.content: The main content region.
+ * - page.footer: The footer region.
+ * - page.sidebar_left: The region for the left sidebar.
+ * - page.sidebar_right: The region for the right sidebar.
+ *
+ * @see template_preprocess_page()
+ * @see html.html.twig
+ */
+#}
+<div class="page-wrapper">
+
+    {% include 'themes/contrib/palm/templates/layout/_header.html.twig' with {
+        'navigation' : page.navigation,
+        'search' : page.search,
+    } %}
+
+    {{ page.flyout }}
+
+    <main class="content-wrapper-three-columns" id="main">
+        <a id="main-content" tabindex="-1"></a>
+
+        {% if page.messages %}
+          {{ page.messages }}
+        {% endif %}
+
+
+        {{ page.hero }}
+
+        <div class="grid">
+
+            <div class="grid__item two-tenths">
+                {{ page.sidebar_left }}
+            </div>
+
+            <div class="grid__item six-tenths">
+                {{ page.content }}
+            </div>
+
+            <div class="grid__item two-tenths">
+                {{ page.sidebar_right }}
+            </div>
+
+        </div>
+
+    </main>
+
+    {% include 'themes/contrib/palm/templates/layout/_footer.html.twig' with {
+        'footer' : page.footer,
+        'footer_link' : page.footer_link,
+        'footer_link_title' : page.footer_link_title
+    } %}
+
+</div>
