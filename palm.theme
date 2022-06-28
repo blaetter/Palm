@@ -148,6 +148,7 @@ function palm_preprocess_page_title(&$variables) {
         'entity.user.canonical',
         'entity.user.contact_form',
         'entity.user.edit_form',
+        'entity.contact_form.canonical',
         'nodeshop.addBonus',
         'nodeshop.changeBonus',
         'nodeshop.finishedOrder',
