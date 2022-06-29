@@ -25,4 +25,7 @@
     {% if footer %}
         {{ footer }}
     {% endif %}
+    {% if cancel_link_url %}
+      <p><a class="button" href="{{cancel_link_url}}">{{cancel_link_title}}</a></p>
+    {% endif %}
 </footer>

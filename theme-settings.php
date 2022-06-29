@@ -39,6 +39,21 @@ function palm_form_system_theme_settings_alter(
         '#size'           => 30,
     ];
 
+    $form['palm_settings']['palm_footer_cancellation_button_link'] = [
+      '#type'           => 'textfield',
+      '#title'          => t('URL for the link'),
+      '#description'    => t('Please provide the url of the cancellation form.'),
+      '#default_value'  => theme_get_setting('palm_footer_cancellation_button_link'),
+      '#size'           => 40,
+  ];
+    $form['palm_settings']['palm_footer_cancellation_button_link_title'] = [
+      '#type'           => 'textfield',
+      '#title'          => t('title for cancellation button link'),
+      '#description'    => t('Please provide a title for the cancellation button in the footer.'),
+      '#default_value'  => theme_get_setting('palm_footer_cancellation_button_link_title'),
+      '#size'           => 50,
+    ];
+
     $form['palm_settings']['palm_initial_nodetypes'] = [
         '#type'           => 'select',
         '#title'          => t('Initial letter'),

@@ -630,6 +630,16 @@ function palm_preprocess_page(&$variables) {
     if (!empty($footer_link_title)) {
         $variables['page']['footer_link_title'] = $footer_link_title;
     }
+
+    // add cancel button link and title if exists
+    $cancel_link_url = theme_get_setting('palm_footer_cancellation_button_link');
+    if (!empty($cancel_link_url)) {
+        $variables['page']['cancel_link_url'] = $cancel_link_url;
+    }
+    $cancel_link_title = theme_get_setting('palm_footer_cancellation_button_link_title');
+    if (!empty($cancel_link_title)) {
+        $variables['page']['cancel_link_title'] = $cancel_link_title;
+    }
 }
 
 /**
