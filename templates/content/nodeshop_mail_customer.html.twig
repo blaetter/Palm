@@ -61,7 +61,7 @@
         {% for product in order.getOrderProducts %}
         <tr>
             <td>
-              <a href="{{ url('entity.node.canonical', {'node': product.getNodeId }) }} ">{{ product.getTitle }}</a>
+              <a href="{{ url('entity.node.canonical', {'node': product.getNodeId }) }}">{{ product.getTitle }}</a>
               {% if product.getData and product.getData.bonus %}
                   {% if product.getData.bonus.nid and product.getData.bonus.title %}
                       {% set nid = product.getData.bonus.nid %}
