@@ -33,10 +33,12 @@
     {% for item in items %}
         {% if 'login' in item.url|render %}
           {% set url = item.url|render ~ '?destination=' ~ path('<current>') %}
+          {% set rel = ' rel="nofollow"' %}
         {% else %}
           {% set url = item.url %}
+          {% set rel = '' %}
         {% endif %}
-        <a href="{{ url }}" {{ item.attributes|without('href') }}>
+        <a href="{{ url }}" {{ item.attributes|without('href') }}{{ rel }}>
             {% if (item.url.toString ends with 'login') %}
                 <i class="fa fa-user" area-hidden="true"></i>
             {% elseif (item.url.toString ends with 'register') %}
