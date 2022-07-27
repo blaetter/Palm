@@ -20,11 +20,11 @@
     <span class="login-state">✓</span>
   </a>
   {% else %}
-  <a class="portal-head__user" href="{{ path('user.login', {'destination': path('<current>')}) }}" title="{{ 'Account' | t }}">
+  <a rel="nofollow" class="portal-head__user" href="{{ path('user.login', {'destination': path('<current>')}) }}" title="{{ 'Account' | t }}">
     <i class="fa fa-user" aria-hidden="true"></i>
   </a>
   {% endif %}
-  <a class="portal-head__cart" href="{{ path('nodeshop.showCart') }}" title="{{ 'Shopping cart' | t }}">
+  <a rel="nofollow" class="portal-head__cart" href="{{ path('nodeshop.showCart') }}" title="{{ 'Shopping cart' | t }}">
     <i class="fa fa-shopping-cart" aria-hidden="true"></i>
   </a>
   <a class="portal-head__search js-search" href="/search/bing" title="{{ 'search website' | t }}" aria-label="Suche aufklappen">
