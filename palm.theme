@@ -1104,13 +1104,6 @@ function palm_form_alter(&$form, FormStateInterface $form_state, $form_id) {
       $form['field_woher']['#attributes']['class'][] = 'grid__item';
       $form['field_woher']['#suffix'] = '</div>';
 
-      $form['field_kindle_email']['#prefix'] = '<div class="grid">';
-      $form['field_kindle_email']['#attributes']['class'][] = 'grid__item';
-      $form['field_kindle_email']['#attributes']['class'][] = 'two-thirds';
-      $form['field_kindle_domain']['#attributes']['class'][] = 'grid__item';
-      $form['field_kindle_domain']['#attributes']['class'][] = 'one-third';
-      $form['field_kindle_domain']['#suffix'] = '</div>';
-
       if (isset($form['actions']['delete'])) {
         $form['actions']['delete']['#attributes']['class'][] = 'button--danger--reversed';
         $form['actions']['delete']['#weight'] = 0;
