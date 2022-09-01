@@ -910,7 +910,7 @@ function palm_preprocess_node(&$variables)
                     '#title' => new Translation('Download @title as pdf file.', ['@title' => $node->getTitle()]),
                 ];
 	          }
-            // Downlaod of epub and mobi only for nodes newer than 25756
+            // Downlaod of epub only for nodes newer than 25756
             if (25756 <= $node->id()) {
                 $variables['button_download_epub'] = [
                     '#theme' => 'palm_download_button',
@@ -922,17 +922,6 @@ function palm_preprocess_node(&$variables)
                     ),
                     '#label' => new Translation('Download ePub for eReader'),
                     '#title' => new Translation('Download @title as ePub file.', ['@title' => $node->getTitle()]),
-                ];
-                $variables['button_download_mobi'] = [
-                    '#theme' => 'palm_download_button',
-                    '#download_url' => Url::fromRoute(
-                        'blaetter_export_epub.mobi.download',
-                        [
-                            'node' => $node->id()
-                        ]
-                    ),
-                    '#label' => new Translation('Download mobi for Kindle'),
-                    '#title' => new Translation('Download @title as mobi file.', ['@title' => $node->getTitle()]),
                 ];
             }
         }
