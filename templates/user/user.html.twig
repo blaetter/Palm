@@ -81,17 +81,6 @@
             <p>{{ 'not set yet' | t}}</p>
         {% endif %}
     </section>
-    <h2>{{ 'my kindle settings' | t }}<a href="{{ path('entity.user.edit_form', {'user': user.id}) }}" rel="nofollow" title="{{ 'edit' |t }}"></a></h2>
-    <section class="palm_user_profile_block">
-        <h3>{{ 'kindle mail' | t }}</h3>
-        <p>
-            {% if user.field_kindle_email.value %}
-                {{user.field_kindle_email.value }}{{user.field_kindle_domain.value }}
-            {% else %}
-                {{ 'not set yet' | t}}
-            {% endif %}
-        </p>
-    </section>
   {% if content %}
     {{- content -}}
   {% endif %}
