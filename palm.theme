@@ -156,6 +156,7 @@ function palm_preprocess_page_title(&$variables) {
         'nodeshop.removeBonus',
         'nodeshop.showCart',
         'search.help_suche',
+        'search.help_node',
         'search.view',
         'search.view_node_search',
         'search.view_suche',
