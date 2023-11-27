@@ -644,6 +644,26 @@ function palm_preprocess_page(&$variables) {
 }
 
 /**
+ * Implementation of hook_preprocess_region
+ *
+ * @param array $variables
+ * @return void
+ */
+function palm_preprocess_region (&$variables) {
+    if ('navigation' == $variables['region']) {
+        // add promo button link and title if exists
+        $header_promo_button_link = theme_get_setting('palm_header_promo_button_link');
+        if (!empty($header_promo_button_link)) {
+            $variables['header_promo_button_link'] = $header_promo_button_link;
+        }
+        $header_promo_button_link_title = theme_get_setting('palm_header_promo_button_link_title');
+        if (!empty($header_promo_button_link_title)) {
+            $variables['header_promo_button_link_title'] = $header_promo_button_link_title;
+        }
+    }
+}
+
+/**
  * Implementation of template_preprocess_node
  *
  * @param array $variables The reference to the variable array

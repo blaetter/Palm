@@ -36,22 +36,32 @@ function palm_form_system_theme_settings_alter(
         '#title'          => t('title for footer link'),
         '#description'    => t('Please provide a title for the link at the bottom of the page around "Karl Barth".'),
         '#default_value'  => theme_get_setting('palm_footer_link_title'),
-        '#size'           => 30,
     ];
 
     $form['palm_settings']['palm_footer_cancellation_button_link'] = [
       '#type'           => 'textfield',
-      '#title'          => t('URL for the link'),
+      '#title'          => t('URL for the cancellation button link'),
       '#description'    => t('Please provide the url of the cancellation form.'),
       '#default_value'  => theme_get_setting('palm_footer_cancellation_button_link'),
-      '#size'           => 40,
-  ];
+    ];
     $form['palm_settings']['palm_footer_cancellation_button_link_title'] = [
       '#type'           => 'textfield',
       '#title'          => t('title for cancellation button link'),
       '#description'    => t('Please provide a title for the cancellation button in the footer.'),
       '#default_value'  => theme_get_setting('palm_footer_cancellation_button_link_title'),
-      '#size'           => 50,
+    ];
+
+    $form['palm_settings']['palm_header_promo_button_link'] = [
+        '#type'           => 'textfield',
+        '#title'          => t('URL for the promo button link'),
+        '#description'    => t('Please provide the url of the promo link. Leave empty to disable the promo button.'),
+        '#default_value'  => theme_get_setting('palm_header_promo_button_link'),
+    ];
+    $form['palm_settings']['palm_header_promo_button_link_title'] = [
+        '#type'           => 'textfield',
+        '#title'          => t('title for promo button link'),
+        '#description'    => t('Please provide a title for the promo button in the footer.'),
+        '#default_value'  => theme_get_setting('palm_header_promo_button_link_title'),
     ];
 
     $form['palm_settings']['palm_initial_nodetypes'] = [
