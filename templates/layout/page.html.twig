@@ -85,3 +85,7 @@
     } %}
 
 </div>
+
+{% if true == page.promo_block %}
+  {% include 'themes/contrib/palm/templates/layout/_promo_block.html.twig' %}
+{% endif %}
