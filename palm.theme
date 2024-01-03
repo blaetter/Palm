@@ -893,6 +893,11 @@ function palm_preprocess_node(&$variables)
 
           $variables['#attached']['html_head'][] = [$link, 'swiftype_course'];
         }
+
+        // add robots header to restricted URL
+        if (31575 == $node->id()) {
+          $variables['#attached']['http_header'][] = ['X-Robots-Tag', 'noindex, noarchive, nosnippet'];
+        }
     }
 
     if (isset($node) && 'ausgabe' == $node->bundle()) {
