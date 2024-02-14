@@ -1,14 +1,19 @@
+{% set claim = 'Jetzt die »Blätter« mit Prämie abonnieren oder im Probeabo kennenlernen.' %}
+{% set link = '/shop' %}
+{% set title = '»Blätter«-Abo' %}
+{% set description = "Jetzt die »Blätter« mit Prämie<br />abonnieren oder im Probeabo kennenlernen." %}
+
 <div class="block block--promo">
   <div class="promo--background-wrapper">
     <div class="promo--wrapper">
     <a class="promo-close"><i class="fa fa-times"></i></a>
-      <a href="/abo" title="Jetzt die »Blätter« samt Prämie abonnieren oder verschenken." class="inner grid">
-        <h2 class="grid__item one-third">Aktions-Abo</h2>
-        <p class="grid__item one-third">Jetzt die »Blätter« samt Prämie<br />abonnieren oder verschenken.</p>
+      <a href="{{ link }}" title="{{ claim }}" class="inner grid">
+        <h2 class="grid__item one-third">»Blätter«-Abo</h2>
+        <p class="grid__item one-third">{{ description | raw }}</p>
         <p class="grid__item one-third">&nbsp;</p>
       </a>
     </div>
-    <a href="/abo" title="Jetzt die »Blätter« samt Prämie abonnieren oder verschenken." class="promo-arrow">&nbsp;</a>
+    <a href="{{ link }}" title="{{ claim }}" class="promo-arrow">&nbsp;</a>
   </div>
-  <a href="/abo" title="Jetzt die »Blätter« samt Prämie abonnieren oder verschenken." class="promo-image"><img src="/themes/contrib/palm/images/promo_banner_edition_2401.png" /></a>
+  <a href="{{ link }}" title="{{ claim }}" class="promo-image"><img src="/themes/contrib/palm/images/promo_banner_edition_2401.png" /></a>
 </div>
