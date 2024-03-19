@@ -447,7 +447,7 @@ function palm_preprocess_page(&$variables) {
     // prepare promo-block-setting
     $variables['page']['promo_block'] = true;
 
-    // disable promo-block in certain routes
+    // disable promo-block in certain routes or for logged in users
     if (str_starts_with($route_name, 'user')
       || str_starts_with($route_name, 'view.user')
       || str_starts_with($route_name, 'entity.user')
@@ -456,6 +456,7 @@ function palm_preprocess_page(&$variables) {
       || str_starts_with($route_name, 'search')
       || str_starts_with($route_name, 'view.search')
       || str_starts_with($route_name, 'contact')
+      || \Drupal::currentUser()->isAuthenticated()
     ) {
       $variables['page']['promo_block'] = false;
     }
