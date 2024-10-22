@@ -49,7 +49,8 @@
       </div>
       <div id="popup-buttons" class="eu-cookie-compliance-buttons">
         <button type="button" class="{{ primary_button_class }} button">{{ agree_button }}</button>
-        <button type="button" class="button button--reversed eu-cookie-withdraw-button button">Nur notwendige Cookies akzeptieren</button>
+        <button type="button" class="button eu-cookie-compliance-reject-button">Nur notwendige Cookies akzeptieren</button>
+        <button type="button" class="button eu-cookie-withdraw-button visually-hidden">Zustimmung widerrufen</button>
       </div>
     </div>
     {% if cookie_categories %}
