@@ -445,7 +445,13 @@ function palm_preprocess_page(&$variables) {
     $route_name = \Drupal::routeMatch()->getRouteName();
 
     // prepare promo-block-setting
-    $variables['page']['promo_block'] = true;
+    $variables['page']['promo_block'] = theme_get_setting('palm_promo_banner_state');
+
+    $variables['page']['promo_banner_title'] = theme_get_setting('palm_promo_banner_title');
+    $variables['page']['promo_banner_claim'] = theme_get_setting('palm_promo_banner_claim');
+    $variables['page']['promo_banner_description'] = theme_get_setting('palm_promo_banner_description');
+    $variables['page']['promo_banner_link'] = theme_get_setting('palm_promo_banner_link');
+    $variables['page']['promo_banner_image_url'] = theme_get_setting('palm_promo_banner_image_url');
 
     // disable promo-block in certain routes or for logged in users
     if (str_starts_with($route_name, 'user')

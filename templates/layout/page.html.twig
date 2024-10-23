@@ -87,5 +87,11 @@
 </div>
 
 {% if true == page.promo_block %}
-  {% include 'themes/contrib/palm/templates/layout/_promo_block.html.twig' %}
+  {% include 'themes/contrib/palm/templates/layout/_promo_block.html.twig' with {
+    'promo_banner_title' : page.promo_banner_title,
+    'promo_banner_claim' : page.promo_banner_claim,
+    'promo_banner_description' : page.promo_banner_description,
+    'promo_banner_link' : page.promo_banner_link,
+    'promo_banner_image_url' : page.promo_banner_image_url,
+  } %}
 {% endif %}
