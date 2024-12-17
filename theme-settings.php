@@ -97,6 +97,15 @@ function palm_form_system_theme_settings_alter(
       '#default_value'  => theme_get_setting('palm_promo_banner_state'),
       '#options'        => [0 => t('inactive'), 1 => t('active')],
     ];
+    $form['palm_promo_settings']['palm_promo_banner_theme'] = [
+      '#type'           => 'select',
+      '#title'          => t('Theme for promo banner'),
+      '#description'    => t(
+        'Please provide a theme for the promo banner. This will switch from the usual logo to other ones.'
+      ),
+      '#default_value'  => theme_get_setting('palm_promo_banner_theme'),
+      '#options'        => ['standard' => t('standard'), 'winter' => t('winter')],
+    ];
     $form['palm_promo_settings']['palm_promo_banner_title'] = [
       '#type'           => 'textfield',
       '#title'          => t('title for promo banner'),

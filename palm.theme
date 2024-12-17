@@ -452,6 +452,7 @@ function palm_preprocess_page(&$variables) {
     $variables['page']['promo_banner_description'] = theme_get_setting('palm_promo_banner_description');
     $variables['page']['promo_banner_link'] = theme_get_setting('palm_promo_banner_link');
     $variables['page']['promo_banner_image_url'] = theme_get_setting('palm_promo_banner_image_url');
+    $variables['page']['promo_banner_theme'] = theme_get_setting('palm_promo_banner_theme');
 
     // disable promo-block in certain routes or for logged in users
     if (str_starts_with($route_name, 'user')
