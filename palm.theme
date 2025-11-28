@@ -463,7 +463,7 @@ function palm_preprocess_page(&$variables) {
       || str_starts_with($route_name, 'search')
       || str_starts_with($route_name, 'view.search')
       || str_starts_with($route_name, 'contact')
-      || \Drupal::currentUser()->isAuthenticated()
+      // || \Drupal::currentUser()->isAuthenticated()
     ) {
       $variables['page']['promo_block'] = false;
     }
