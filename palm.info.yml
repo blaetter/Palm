@@ -6,7 +6,7 @@ libraries:
   - palm/global-styling
   - palm/global-scripts
 base theme: classy
-logo: images/logo-blaetter.png
+logo: images/logo_tongue.svg
 version: 1.0.0
 regions:
   header: Header
