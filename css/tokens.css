@@ -1,0 +1,35 @@
+/**
+ * Design tokens of the Blätter layout.
+ *
+ * Values are taken from the Sass settings of the blaetter-theme styleguide
+ * (source-bundle/scss/00-global/01-settings.scss) so new components look like
+ * the existing ones. New components use these custom properties only.
+ */
+:root {
+  /* Base colors */
+  --palm-color-white: #fff;
+  --palm-color-black: #000;
+  --palm-color-red: #e71835;
+  --palm-color-red-light: #ec465d;
+  --palm-color-blue: #086d9a;
+  --palm-color-blue-light: #097eb2;
+  --palm-color-grey: #f2f2f2;
+  --palm-color-grey-dark: #e3e3e3;
+  --palm-color-grey-border: #ccc;
+  --palm-color-grey-text: #808080;
+
+  /* Semantic colors */
+  --palm-color-link: var(--palm-color-blue);
+  --palm-color-action: var(--palm-color-blue);
+  --palm-color-action-hover: var(--palm-color-blue-light);
+  --palm-color-danger: var(--palm-color-red);
+  --palm-color-danger-hover: var(--palm-color-red-light);
+
+  /* Typography */
+  --palm-font-sans: droid-sans, Arial, sans-serif;
+
+  /* Dimensions */
+  --palm-radius: 4px;
+  --palm-space-block-bottom: 1.875rem;
+  --palm-control-min-height: 2.5em;
+}

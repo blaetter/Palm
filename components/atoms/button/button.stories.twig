@@ -1,0 +1,42 @@
+{% stories button with { title: 'Atoms/Button' } %}
+
+  {% story primary with {
+    name: 'Primary',
+    args: { label: 'Probeabo bestellen', url: '#' }
+  } %}
+    {{ include('palm:button', { label: label, url: url }, with_context = false) }}
+  {% endstory %}
+
+  {% story reversed with {
+    name: 'Reversed',
+    args: { label: 'Zur Ausgabe', url: '#' }
+  } %}
+    {{ include('palm:button', { label: label, url: url, variant: 'reversed' }, with_context = false) }}
+  {% endstory %}
+
+  {% story danger with {
+    name: 'Danger',
+    args: { label: 'Abo kündigen' }
+  } %}
+    {{ include('palm:button', { label: label, variant: 'danger' }, with_context = false) }}
+  {% endstory %}
+
+  {% story submit with {
+    name: 'Submit button',
+    args: { label: 'Speichern' }
+  } %}
+    {{ include('palm:button', { label: label, button_type: 'submit' }, with_context = false) }}
+  {% endstory %}
+
+  {% story all with {
+    name: 'All variants',
+    args: {}
+  } %}
+    <p>
+      {{ include('palm:button', { label: 'Primary', url: '#' }, with_context = false) }}
+      {{ include('palm:button', { label: 'Reversed', url: '#', variant: 'reversed' }, with_context = false) }}
+      {{ include('palm:button', { label: 'Danger', variant: 'danger' }, with_context = false) }}
+    </p>
+  {% endstory %}
+
+{% endstories %}

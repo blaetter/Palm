@@ -1,0 +1,60 @@
+/**
+ * Button atom.
+ *
+ * Not in a cascade layer yet: the legacy bundle (palm.css) is unlayered and
+ * would win over any layered rule. Move this into @layer components once the
+ * legacy bundle is loaded into @layer legacy.
+ */
+.palm-button {
+  display: inline-block;
+  box-sizing: border-box;
+  min-height: var(--palm-control-min-height);
+  margin: 0 0 calc(var(--palm-space-block-bottom) / 2);
+  padding: 0.3em 1em;
+  border: 1px solid var(--palm-button-border, var(--palm-button-background));
+  border-radius: var(--palm-radius);
+  background-color: var(--palm-button-background);
+  color: var(--palm-button-color);
+  font: inherit;
+  font-family: var(--palm-font-sans);
+  text-align: center;
+  text-decoration: none;
+  vertical-align: top;
+  cursor: pointer;
+
+  /* primary is the default variant */
+  --palm-button-background: var(--palm-color-action);
+  --palm-button-background-hover: var(--palm-color-action-hover);
+  --palm-button-color: var(--palm-color-white);
+
+  &:hover,
+  &:focus {
+    background-color: var(--palm-button-background-hover);
+    border-color: var(--palm-button-border-hover, var(--palm-button-background-hover));
+    color: var(--palm-button-color);
+    text-decoration: none;
+  }
+
+  &:focus {
+    outline: 1px dotted var(--palm-color-black);
+    outline-offset: 0;
+  }
+
+  @media (max-width: 45rem) {
+    width: 100%;
+    line-height: 2em;
+  }
+}
+
+.palm-button--reversed {
+  --palm-button-background: var(--palm-color-white);
+  --palm-button-background-hover: var(--palm-color-white);
+  --palm-button-color: var(--palm-color-link);
+  --palm-button-border: var(--palm-color-grey-border);
+  --palm-button-border-hover: var(--palm-color-grey-dark);
+}
+
+.palm-button--danger {
+  --palm-button-background: var(--palm-color-danger);
+  --palm-button-background-hover: var(--palm-color-danger-hover);
+}

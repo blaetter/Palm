@@ -1,0 +1,17 @@
+{#
+/**
+ * @file
+ * Button atom: a link when url is set, a <button> element otherwise.
+ *
+ * Usage: {{ include('palm:button', { label: 'to the issue'|t, url: url, variant: 'reversed' }, with_context = false) }}
+ */
+#}
+{% set attributes = attributes.addClass('palm-button', 'palm-button--' ~ (variant|default('primary'))) %}
+{% if title %}
+  {% set attributes = attributes.setAttribute('title', title) %}
+{% endif %}
+{% if url %}
+  <a{{ attributes.setAttribute('href', url) }}>{{ label }}</a>
+{% else %}
+  <button{{ attributes.setAttribute('type', button_type|default('button')) }}>{{ label }}</button>
+{% endif %}

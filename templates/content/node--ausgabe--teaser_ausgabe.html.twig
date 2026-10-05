@@ -98,7 +98,12 @@
     <p class="text--big">
       {{ body }}
     </p>
-    <a class="button button--reversed" href="{{ url }}" title="{{ 'follow this link to view the issue' | t }}">{{ 'to the issue' | t }}</a>
+    {{ include('palm:button', {
+      label: 'to the issue'|t,
+      url: url,
+      title: 'follow this link to view the issue'|t,
+      variant: 'reversed',
+    }, with_context = false) }}
     <a class="button" href="{{ path('entity.node.canonical', {'node': '31204'}) }}" title="{{ 'follow this link to view the test subscription' | t }}">
     {{ 'test subscritption'|t }}</a>
   </div>

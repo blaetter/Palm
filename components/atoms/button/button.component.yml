@@ -1,0 +1,43 @@
+$schema: https://git.drupalcode.org/project/drupal/-/raw/HEAD/core/assets/schemas/v1/metadata.schema.json
+name: Button
+status: experimental
+group: Atoms
+description: Call to action. Renders a link when a URL is given, otherwise a button element.
+# Passed as `variant` (Twig include) or #variant (render array).
+variants:
+  primary:
+    title: Primary
+    description: Main call to action, blue.
+  reversed:
+    title: Reversed
+    description: Secondary action, white with border.
+  danger:
+    title: Danger
+    description: Destructive action, red.
+libraryOverrides:
+  dependencies:
+    - palm/tokens
+props:
+  type: object
+  required:
+    - label
+  properties:
+    label:
+      # strings or translated markup (the |t filter returns an object)
+      type: [string, object]
+      title: Label
+    url:
+      type: string
+      title: URL
+      description: Renders a link (<a>) when set, otherwise a <button>.
+    button_type:
+      type: string
+      title: Button type
+      description: Only used for <button>.
+      enum:
+        - button
+        - submit
+      default: button
+    title:
+      type: [string, object]
+      title: Title attribute

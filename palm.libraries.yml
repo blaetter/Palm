@@ -8,3 +8,9 @@ global-scripts:
   version: 1.x
   js:
     bundle/palm.js: {attributes: {id: 'echo-behavior-js'}}
+# Design tokens (CSS custom properties) used by the components in components/.
+tokens:
+  version: 1.x
+  css:
+    base:
+      css/tokens.css: {}
