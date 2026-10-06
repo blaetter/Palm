@@ -1,0 +1,17 @@
+$schema: https://git.drupalcode.org/project/drupal/-/raw/HEAD/core/assets/schemas/v1/metadata.schema.json
+name: Textarea
+status: experimental
+group: Atoms
+description: >
+  Multi line form field. The textarea template of the theme renders Drupal form elements with it.
+  Base styles come from palm:input.
+libraryOverrides:
+  dependencies:
+    - palm/tokens
+    - core/components.palm--input
+props:
+  type: object
+  properties:
+    value:
+      type: [string, object]
+      title: Value

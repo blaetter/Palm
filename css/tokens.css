@@ -19,6 +19,9 @@
   --palm-color-grey-text: #808080;
 
   /* Semantic colors */
+  --palm-color-text: var(--palm-color-black);
+  --palm-color-focus: #66afe9;
+  --palm-color-error: red;
   --palm-color-link: var(--palm-color-blue);
   --palm-color-action: var(--palm-color-blue);
   --palm-color-action-hover: var(--palm-color-blue-light);
@@ -32,4 +35,9 @@
   --palm-radius: 4px;
   --palm-space-block-bottom: 1.875rem;
   --palm-control-min-height: 2.5em;
+
+  /* Form fields */
+  --palm-field-min-height: 2.5rem;
+  --palm-field-min-height-phone: 3.125rem;
+  --palm-field-padding: 6px;
 }

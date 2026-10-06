@@ -1,0 +1,48 @@
+{% stories input with { title: 'Atoms/Input' } %}
+
+  {% story text with {
+    name: 'Text',
+    args: { placeholder: 'Vor- und Nachname' }
+  } %}
+    {{ include('palm:input', { attributes: create_attribute({ type: 'text', name: 'name', placeholder: placeholder }) }, with_context = false) }}
+  {% endstory %}
+
+  {% story email with {
+    name: 'Email',
+    args: { value: 'leser@example.org' }
+  } %}
+    {{ include('palm:input', { attributes: create_attribute({ type: 'email', name: 'mail', value: value }) }, with_context = false) }}
+  {% endstory %}
+
+  {% story password with {
+    name: 'Password',
+    args: {}
+  } %}
+    {{ include('palm:input', { attributes: create_attribute({ type: 'password', name: 'pass' }) }, with_context = false) }}
+  {% endstory %}
+
+  {% story number with {
+    name: 'Number with a narrow context',
+    args: { value: '1' }
+  } %}
+    <div style="--palm-field-width: 4em;">
+      {{ include('palm:input', { attributes: create_attribute({ type: 'number', name: 'quantity', value: value, min: 0, step: 1 }) }, with_context = false) }}
+    </div>
+  {% endstory %}
+
+  {% story error with {
+    name: 'Validation error',
+    args: { value: 'keine E-Mail-Adresse' }
+  } %}
+    {{ include('palm:input', { attributes: create_attribute({ type: 'email', name: 'mail', value: value, class: ['error'] }) }, with_context = false) }}
+  {% endstory %}
+
+  {% story disabled with {
+    name: 'Disabled and read only',
+    args: {}
+  } %}
+    {{ include('palm:input', { attributes: create_attribute({ type: 'text', name: 'disabled', value: 'deaktiviert', disabled: true }) }, with_context = false) }}
+    {{ include('palm:input', { attributes: create_attribute({ type: 'text', name: 'readonly', value: 'nur lesbar', readonly: true }) }, with_context = false) }}
+  {% endstory %}
+
+{% endstories %}

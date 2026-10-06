@@ -1,0 +1,17 @@
+{% stories textarea with { title: 'Atoms/Textarea' } %}
+
+  {% story default with {
+    name: 'Default',
+    args: { value: '' }
+  } %}
+    {{ include('palm:textarea', { attributes: create_attribute({ name: 'message', rows: 5 }), value: value }, with_context = false) }}
+  {% endstory %}
+
+  {% story error with {
+    name: 'Validation error',
+    args: { value: '' }
+  } %}
+    {{ include('palm:textarea', { attributes: create_attribute({ name: 'message', rows: 5, class: ['error'] }), value: value }, with_context = false) }}
+  {% endstory %}
+
+{% endstories %}

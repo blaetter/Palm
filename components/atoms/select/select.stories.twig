@@ -1,0 +1,35 @@
+{% stories select with { title: 'Atoms/Select' } %}
+
+  {% story default with {
+    name: 'Options',
+    args: {}
+  } %}
+    {{ include('palm:select', {
+      attributes: create_attribute({ name: 'category' }),
+      options: [
+        { type: 'option', value: '', label: '- Bitte wählen -', selected: true },
+        { type: 'option', value: 'abo', label: 'Abonnement', selected: false },
+        { type: 'option', value: 'website', label: 'Website', selected: false },
+      ],
+    }, with_context = false) }}
+  {% endstory %}
+
+  {% story optgroups with {
+    name: 'Option groups',
+    args: {}
+  } %}
+    {{ include('palm:select', {
+      attributes: create_attribute({ name: 'country' }),
+      options: [
+        { type: 'optgroup', label: 'Europa', options: [
+          { value: 'DE', label: 'Deutschland', selected: true },
+          { value: 'AT', label: 'Österreich', selected: false },
+        ] },
+        { type: 'optgroup', label: 'Andere', options: [
+          { value: 'US', label: 'USA', selected: false },
+        ] },
+      ],
+    }, with_context = false) }}
+  {% endstory %}
+
+{% endstories %}

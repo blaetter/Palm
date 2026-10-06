@@ -1,0 +1,22 @@
+$schema: https://git.drupalcode.org/project/drupal/-/raw/HEAD/core/assets/schemas/v1/metadata.schema.json
+name: Select
+status: experimental
+group: Atoms
+description: >
+  Select list. The select template of the theme renders Drupal form elements with it. Base styles
+  come from palm:input.
+libraryOverrides:
+  dependencies:
+    - palm/tokens
+    - core/components.palm--input
+props:
+  type: object
+  required:
+    - options
+  properties:
+    options:
+      type: array
+      title: Options
+      description: >
+        Like the options of Drupal's select template: items with type (option or optgroup), label,
+        value and selected; optgroups have options themselves.

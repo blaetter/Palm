@@ -1,0 +1,20 @@
+$schema: https://git.drupalcode.org/project/drupal/-/raw/HEAD/core/assets/schemas/v1/metadata.schema.json
+name: Input
+status: experimental
+group: Atoms
+description: >
+  Single line form field (text, email, password, number, search, tel, url). The input template of
+  the theme renders Drupal form elements with it and passes their attributes. Its CSS also styles
+  palm:select and palm:textarea. Surrounding markup can adjust it with custom properties (set on
+  the field or a parent): --palm-field-width, --palm-field-max-width, --palm-field-height,
+  --palm-field-border and --palm-field-padding.
+libraryOverrides:
+  dependencies:
+    - palm/tokens
+props:
+  type: object
+  properties: {}
+slots:
+  children:
+    title: Children
+    description: Markup after the field, e.g. from Drupal form element children.

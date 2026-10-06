@@ -1,0 +1,9 @@
+/**
+ * Textarea atom; the base styles come from palm:input.
+ */
+@layer components {
+  .palm-textarea {
+    overflow: auto;
+    line-height: 30px;
+  }
+}
