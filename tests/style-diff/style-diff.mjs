@@ -127,10 +127,34 @@ function snapshotPage(properties) {
     });
 }
 
+// Loads a page and waits until JavaScript, fonts and images are done.
+async function load(page, url) {
+  const response = await page.goto(url, { waitUntil: 'networkidle' });
+  // JavaScript changes the page after loading (active links, cookie banner
+  // sliding in), so wait until fonts and jQuery animations are done.
+  await page.evaluate(() => document.fonts.ready);
+  // Lazy images get their size only when loaded: load all of them.
+  await page.evaluate(() => Promise.all([...document.images].map((img) => {
+    img.loading = 'eager';
+    return img.complete ? null : new Promise((done) => { img.onload = img.onerror = done; setTimeout(done, 5000); });
+  })));
+  await page.waitForFunction(() => !window.jQuery || !window.jQuery(':animated').length, null, { timeout: 10000 });
+  await page.waitForTimeout(500);
+  return response;
+}
+
 async function capture(name, options) {
   const uri = (options.uri || 'https://web.blaetter').replace(/\/$/, '');
   const pagesFile = options.pages || join(here, 'pages.txt');
-  const pages = readFileSync(pagesFile, 'utf8').split('\n').map((l) => l.trim()).filter((l) => l && !l.startsWith('#'));
+  // One path per line, optionally followed by "# <flags>":
+  // anonymous = only without login, login = only with login,
+  // fresh = in a new browser session (empty cart), only without login.
+  const pages = readFileSync(pagesFile, 'utf8').split('\n').map((l) => l.trim())
+    .filter((l) => l && !l.startsWith('#'))
+    .map((l) => {
+      const [path, flags = ''] = l.split(/\s+#\s*/);
+      return { path, flags: new Set(flags.split(/[\s,]+/).filter(Boolean)) };
+    });
   const widths = String(options.widths || '1280,375').split(',').map(Number);
   const target = join(snapshotDir, name);
   rmSync(target, { recursive: true, force: true });
@@ -145,36 +169,41 @@ async function capture(name, options) {
     if (!response.ok()) {
       throw new Error(`Login failed (HTTP ${response.status()}).`);
     }
-    user = { role: options['role-label'] || 'unknown' };
+    user = { role: options['role-label'] || 'unknown', uid: (options['login-url'].match(/\/user\/reset\/(\d+)\//) || [])[1] };
   }
+  const included = ({ path, flags }) => (user
+    ? !flags.has('anonymous') && !flags.has('fresh')
+    : !flags.has('login') && !path.includes('{uid}'));
+  const url = (path) => uri + path.replace('{uid}', user?.uid);
 
   // Warm up Drupal's caches: a page rendered for the first time can differ in
   // details (e.g. the is-active class of links) from cached deliveries.
-  for (const path of pages) {
-    await page.request.get(uri + path);
+  for (const entry of pages.filter((p) => included(p) && !p.flags.has('fresh'))) {
+    await page.request.get(url(entry.path));
   }
 
   for (const width of widths) {
     await page.setViewportSize({ width, height: 900 });
-    for (const [index, path] of pages.entries()) {
-      const response = await page.goto(uri + path, { waitUntil: 'networkidle' });
-      // JavaScript changes the page after loading (active links, cookie banner
-      // sliding in), so wait until fonts and jQuery animations are done.
-      await page.evaluate(() => document.fonts.ready);
-      // Lazy images get their size only when loaded: load all of them.
-      await page.evaluate(() => Promise.all([...document.images].map((img) => {
-        img.loading = 'eager';
-        return img.complete ? null : new Promise((done) => { img.onload = img.onerror = done; setTimeout(done, 5000); });
-      })));
-      await page.waitForFunction(() => !window.jQuery || !window.jQuery(':animated').length, null, { timeout: 10000 });
-      await page.waitForTimeout(500);
-      const elements = await page.evaluate(snapshotPage, PROPERTIES);
+    for (const [index, entry] of pages.entries()) {
+      if (!included(entry)) {
+        continue;
+      }
+      let targetPage = page;
+      if (entry.flags.has('fresh')) {
+        const fresh = await browser.newContext({ ignoreHTTPSErrors: true, viewport: { width, height: 900 } });
+        targetPage = await fresh.newPage();
+      }
+      const response = await load(targetPage, url(entry.path));
+      const elements = await targetPage.evaluate(snapshotPage, PROPERTIES);
+      if (targetPage !== page) {
+        await targetPage.context().close();
+      }
       const file = `${width}-${String(index + 1).padStart(2, '0')}.json`;
-      writeFileSync(join(target, file), JSON.stringify({ path, width, status: response.status(), elements }));
-      console.log(`${name}: ${width}px ${path} (${response.status()}, ${elements.length} elements)`);
+      writeFileSync(join(target, file), JSON.stringify({ path: entry.path, width, status: response.status(), elements }));
+      console.log(`${name}: ${width}px ${entry.path} (${response.status()}, ${elements.length} elements)`);
     }
   }
-  writeFileSync(join(target, 'meta.json'), JSON.stringify({ uri, user, pages, widths, date: new Date().toISOString() }, null, 2));
+  writeFileSync(join(target, 'meta.json'), JSON.stringify({ uri, user, pages: pages.map((p) => p.path), widths, date: new Date().toISOString() }, null, 2));
   await browser.close();
 }
 

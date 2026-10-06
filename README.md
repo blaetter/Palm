@@ -16,7 +16,7 @@ The theme is in transition from a Patternlab based styleguide to single director
 | `css/layers.css` | Order of the cascade layers |
 | `css/tokens.css` | Design tokens as CSS custom properties |
 | `css/drupal-layer.css` | Base CSS of core and modules in the layer `drupal` (generated) |
-| `templates/` | Drupal templates; they pass data to the components |
+| `templates/` | Drupal templates; they pass data to the components (`templates/form/` renders the fields of all Drupal forms with the form atoms) |
 | `scripts/` | Build scripts (`build-drupal-layer.mjs`) |
 | `tests/style-diff/` | Regression test for CSS changes |
 | `.storybook/` | Storybook configuration |
@@ -32,7 +32,12 @@ All CSS of the frontend lives in [cascade layers](https://developer.mozilla.org/
 
 CSS of other modules (system, views, media, nodeshop) is still loaded without a layer; it did not conflict with the theme. If a module stylesheet overrides theme styles, add it to `scripts/build-drupal-layer.mjs` and to `libraries-override`.
 
-Components are configured by their context through custom properties instead of contextual selectors. Example `palm:button`: a parent may set `--palm-button-padding` and `--palm-button-white-space` (inherited), the button itself may get `--palm-button-space-after` (not inherited, see `@property` in `button.css`). Legacy rules in blaetter-theme set these properties where buttons used to be adjusted by context.
+Components are configured by their context through custom properties instead of contextual selectors:
+
+- `palm:button`: a parent may set `--palm-button-padding` and `--palm-button-white-space` (inherited), the button itself may get `--palm-button-space-after` (not inherited, see `@property` in `button.css`).
+- `palm:input`, `palm:select`, `palm:textarea`: the field or a parent may set `--palm-field-width`, `--palm-field-max-width`, `--palm-field-height`, `--palm-field-border` and `--palm-field-padding`.
+
+Legacy rules in blaetter-theme set these properties where buttons and fields used to be adjusted by context (e.g. header, search form, cart quantity).
 
 ## Requirements
 
@@ -81,7 +86,7 @@ Run them in the theme directory; `make help` lists them.
 | `make storybook` | container | Storybook on http://localhost:6006 |
 | `make stories` | host (Drush) | compile `*.stories.twig` to `*.stories.json` |
 | `make drupal-layer` | container | rebuild `css/drupal-layer.css` |
-| `make style-capture NAME=<name> [ROLE=<role>]` | container | capture the computed styles of the test pages |
+| `make style-capture NAME=<name> [ROLE=<role>]` | container (Drush on the host for the test user and the cleanup) | capture the computed styles of the test pages; with `ROLE` as the local test user `styletest` |
 | `make style-compare A=<name> B=<name> [DETAILS=1]` | container | compare two captures |
 | `make shell` | container | shell in the `node` container |
 
@@ -114,7 +119,11 @@ make style-capture NAME=after
 make style-compare A=before B=after
 ```
 
-The test loads the pages of `tests/style-diff/pages.txt` in 1280 and 375 px, waits for JavaScript, fonts and images, and records about 100 CSS properties and the box of every element (including `::before` and `::after`). It reports changed properties and sizes; elements that only moved are counted. `ROLE=onlineabonnent` captures the pages logged in as the newest active user with that role (one-time login link from Drush). Only the resting state is captured, not `:hover` or `:focus`. Captures are stored in `tests/style-diff/snapshots/` (not in git); compare only captures taken with the same environment.
+The test loads the pages of `tests/style-diff/pages.txt` in 1280 and 375 px, waits for JavaScript, fonts and images, and records about 100 CSS properties and the box of every element (including `::before` and `::after`). It reports changed properties and sizes; elements that only moved are counted. `ROLE=onlineabonnent` captures the pages logged in as the local test user `styletest` (mail `styletest@example.invalid`, a test address and exactly that role), which `tests/style-diff/drush/test-user.php` creates or updates; real customer accounts are not used. Only the resting state is captured, not `:hover` or `:focus`.
+
+Page list (`tests/style-diff/pages.txt`): `{uid}` stands for the logged-in user; flags after `#` restrict pages: `anonymous` (only without login), `login` (only with login), `fresh` (new session with an empty cart, only without login).
+
+Cart and checkout: the list adds items to the cart and opens the checkout steps up to the address form (login step, guest, registration, logged-in user). Visiting them creates carts and orders. `make style-capture` stores the highest ids before the capture and afterwards deletes the carts and not completed orders of anonymous users and `styletest` that were created in between (`tests/style-diff/drush/cleanup.php`), together with their items, order products and history. Carts of anonymous visitors of the local site during a capture are removed as well. Never add pages that submit forms; the payment step needs a submitted address form and is checked by hand. Captures are stored in `tests/style-diff/snapshots/` (not in git); compare only captures taken with the same environment.
 
 ### After updates of core, Classy, EU Cookie Compliance or CAPTCHA
 

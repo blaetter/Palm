@@ -1,5 +1,10 @@
 # Pages for the style diff (tests/style-diff/style-diff.mjs), one path per line.
 # They cover the main page types; adjust when templates of other pages change.
+# {uid} is replaced by the id of the logged-in user (ROLE); such pages are
+# skipped without login. Flags after "#": anonymous = only without login,
+# login = only with login, fresh = in a new session with an empty cart (only
+# without login). Cart and checkout pages create carts and orders; the
+# Makefile removes them after the capture. Never add pages that submit forms.
 /
 /ausgabe/2020/januar
 /ausgabe/2020/januar/2020-jahr-des-uebergangs-jahr-der-entscheidung
@@ -7,14 +12,22 @@
 /ausser-der-reihe/ein-stueck-machterhalt
 /autoren/albrecht-von-lucke
 /blog
-/contact/sepa-lastschriftmandat
+/contact/sepa_lastschriftmandat
 /dokumente
 /dokumente/in-der-politik-sind-frauen-weltweit-am-staerksten-unterrepraesentiert
 /dossiers/trumps-welt
-/kombiabo
-/search/bing
+/shop/abonnieren
+/search/node?keys=trump
 /shop
 /user/login
 /user/register
 /warenkorb
 /zurueckgeblaettert
+/contact/feedback
+/user/password
+/warenkorb/add/29381?destination=/warenkorb # anonymous
+/user/{uid}/edit
+/warenkorb/add/29381?destination=/warenkorb/bestellen # anonymous fresh
+/warenkorb/add/29408?destination=/warenkorb/bestellen/customer/guest # anonymous fresh
+/warenkorb/add/29381?destination=/warenkorb/bestellen/customer/register # anonymous fresh
+/warenkorb/add/29408?destination=/warenkorb/bestellen # login
