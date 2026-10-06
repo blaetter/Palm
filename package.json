@@ -4,7 +4,6 @@
   "type": "module",
   "description": "Living styleguide of the Palm theme: Storybook renders the Drupal components (SDC) through the storybook module.",
   "scripts": {
-    "stories": "cd ../../../.. && vendor/bin/drush --uri=https://web.blaetter storybook:generate-all-stories",
     "storybook": "storybook dev --port 6006 --no-open",
     "build-storybook": "storybook build --output-dir storybook-static",
     "drupal-layer": "node scripts/build-drupal-layer.mjs",

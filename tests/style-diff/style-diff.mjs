@@ -6,32 +6,34 @@
  * compares two captures. Take a capture before a change, one after it, and
  * compare them: no differences means the change did not alter the rendering.
  *
- *   npm run style-diff -- capture <name> [options]
- *   npm run style-diff -- compare <before> <after> [--details]
+ * Run it through the Makefile of the theme, it starts the containers:
+ *
+ *   make style-capture NAME=<name> [ROLE=<role>]
+ *   make style-compare A=<before> B=<after> [DETAILS=1]
+ *
+ * In the container: npm run style-diff -- capture <name> [options]
+ *                   npm run style-diff -- compare <before> <after> [--details]
  *
  * Capture options:
  *   --uri <url>       Site to test, default https://web.blaetter
  *   --pages <file>    List of paths, default tests/style-diff/pages.txt
  *   --widths <list>   Viewport widths, default 1280,375
- *   --role <role>     Log in as the first active user with this role (via
- *                     `drush uli`, so Drush must run with PHP 8 from PATH)
+ *   --login-url <url> One-time login link (drush user:login) to capture the
+ *                     pages as that user; the Makefile creates it for ROLE
+ *   --role-label <s>  Role of that user, only stored in meta.json
  *
- * Environment:
- *   STYLE_DIFF_BROWSER  Path to a Chromium based browser; otherwise Chrome or
- *                       Microsoft Edge is used (no browser download needed).
- *   DRUSH               Drush executable, default <project>/vendor/bin/drush
+ * Browser: the Chromium of the Playwright image (container), otherwise
+ * STYLE_DIFF_BROWSER (path to a Chromium based browser), Chrome or Edge.
  *
  * Captures are written to tests/style-diff/snapshots/<name>/ (not in git).
  * Only the resting state is captured, not :hover or :focus.
  */
-import { execFileSync } from 'node:child_process';
 import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
-import { dirname, join, resolve } from 'node:path';
+import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { chromium } from 'playwright-core';
 
 const here = dirname(fileURLToPath(import.meta.url));
-const projectRoot = resolve(here, '../../../../../..');
 const snapshotDir = join(here, 'snapshots');
 
 // Properties that matter for the rendering; layout is covered by the boxes.
@@ -73,6 +75,10 @@ async function launchBrowser() {
   if (process.env.STYLE_DIFF_BROWSER) {
     return chromium.launch({ executablePath: process.env.STYLE_DIFF_BROWSER });
   }
+  // The Playwright image provides the matching Chromium.
+  if (process.env.PLAYWRIGHT_BROWSERS_PATH) {
+    return chromium.launch();
+  }
   for (const channel of ['chrome', 'msedge']) {
     try {
       return await chromium.launch({ channel });
@@ -81,21 +87,6 @@ async function launchBrowser() {
     }
   }
   throw new Error('No browser found: install Chrome or Edge, or set STYLE_DIFF_BROWSER.');
-}
-
-function drush(uri, ...args) {
-  const executable = process.env.DRUSH || join(projectRoot, 'vendor/bin/drush');
-  return execFileSync(executable, [`--uri=${uri}`, ...args], { cwd: projectRoot, encoding: 'utf8' }).trim();
-}
-
-function loginLink(uri, role) {
-  const uid = drush(uri, 'php:eval',
-    `$ids = \\Drupal::entityQuery('user')->accessCheck(FALSE)->condition('roles', '${role.replace(/[^a-z0-9_]/g, '')}')`
-    + `->condition('status', 1)->sort('uid', 'DESC')->range(0, 1)->execute(); echo reset($ids);`);
-  if (!uid) {
-    throw new Error(`No active user with role ${role}.`);
-  }
-  return { uid, link: drush(uri, 'user:login', `--uid=${uid}`, '--no-browser') };
 }
 
 // Runs in the page: computed styles and boxes of all elements in document order.
@@ -149,10 +140,18 @@ async function capture(name, options) {
   const context = await browser.newContext({ ignoreHTTPSErrors: true });
   const page = await context.newPage();
   let user = null;
-  if (options.role) {
-    const login = loginLink(uri, options.role);
-    await page.goto(login.link);
-    user = { role: options.role, uid: login.uid };
+  if (options['login-url']) {
+    const response = await page.goto(options['login-url']);
+    if (!response.ok()) {
+      throw new Error(`Login failed (HTTP ${response.status()}).`);
+    }
+    user = { role: options['role-label'] || 'unknown' };
+  }
+
+  // Warm up Drupal's caches: a page rendered for the first time can differ in
+  // details (e.g. the is-active class of links) from cached deliveries.
+  for (const path of pages) {
+    await page.request.get(uri + path);
   }
 
   for (const width of widths) {
@@ -269,7 +268,7 @@ if (command === 'capture' && names.length === 1) {
 } else if (command === 'compare' && names.length === 2) {
   process.exitCode = compare(names[0], names[1], options);
 } else {
-  console.log('Usage: npm run style-diff -- capture <name> [--role <role>] [--uri <url>] [--pages <file>] [--widths 1280,375]\n'
+  console.log('Usage: npm run style-diff -- capture <name> [--login-url <url>] [--uri <url>] [--pages <file>] [--widths 1280,375]\n'
     + '       npm run style-diff -- compare <before> <after> [--details]');
   process.exitCode = 2;
 }

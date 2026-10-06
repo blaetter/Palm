@@ -1,0 +1,46 @@
+# Containers for everything that uses npm, so no npm package runs on the host.
+# Use the targets of the Makefile (make help); Drush stays on the host.
+#
+# Mounts are kept to the minimum: the theme (read and write) and the contrib
+# modules and themes (read only, for scripts/build-drupal-layer.mjs). The home
+# directory, SSH keys, the Docker socket and web/sites (settings.php) are not
+# available in the containers. node_modules lives in a volume, not on the host.
+# The paths mirror the Drupal web root, so relative paths work as on the host.
+
+x-theme: &theme
+  working_dir: /web/themes/contrib/palm
+  volumes:
+    - ../../../modules/contrib:/web/modules/contrib:ro
+    - ../:/web/themes/contrib:ro
+    - ./:/web/themes/contrib/palm
+    - node_modules:/web/themes/contrib/palm/node_modules
+  environment:
+    npm_config_update_notifier: "false"
+    npm_config_fund: "false"
+    npm_config_audit: "false"
+    STORYBOOK_DISABLE_TELEMETRY: "1"
+
+services:
+  node:
+    <<: *theme
+    image: node:24-bookworm-slim
+    user: node
+
+  storybook:
+    <<: *theme
+    image: node:24-bookworm-slim
+    user: node
+    command: ["npx", "storybook", "dev", "--port", "6006", "--host", "0.0.0.0", "--no-open"]
+    ports:
+      - "127.0.0.1:6006:6006"
+
+  # Same version as playwright-core in package-lock.json, includes Chromium.
+  playwright:
+    <<: *theme
+    image: mcr.microsoft.com/playwright:v1.63.0-noble
+    user: pwuser
+    extra_hosts:
+      - "web.blaetter:host-gateway"
+
+volumes:
+  node_modules:
