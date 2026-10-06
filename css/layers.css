@@ -1,0 +1,9 @@
+/**
+ * Order of the cascade layers, later layers win:
+ * - drupal: base CSS of core, Classy and modules (css/drupal-layer.css)
+ * - legacy: the bundle built by the blaetter-theme styleguide (bundle/palm.css)
+ * - components: single directory components (components/)
+ *
+ * Must be loaded before any other stylesheet that uses a layer.
+ */
+@layer drupal, legacy, components;

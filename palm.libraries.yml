@@ -2,7 +2,13 @@
 global-styling:
   version: 1.x
   css:
+    base:
+      # Declares the cascade layer order, must come first.
+      css/layers.css: { weight: -100 }
+      # Base CSS of core, Classy and modules in the layer drupal (see palm.info.yml).
+      css/drupal-layer.css: { weight: -50 }
     theme:
+      # Built by the blaetter-theme styleguide, in the layer legacy.
       bundle/palm.css: {}
 global-scripts:
   version: 1.x
