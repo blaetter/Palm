@@ -6,12 +6,30 @@
  * Usage: {{ include('palm:button', { label: 'to the issue'|t, url: url, variant: 'reversed' }, with_context = false) }}
  */
 #}
+{% set icon_position = icon_position|default('start') %}
 {% set attributes = attributes.addClass('palm-button', 'palm-button--' ~ (variant|default('primary'))) %}
+{% if icon and icon_position == 'end' %}
+  {% set attributes = attributes.addClass('palm-button--icon-end') %}
+{% endif %}
 {% if title %}
   {% set attributes = attributes.setAttribute('title', title) %}
 {% endif %}
+{% set content %}
+  {%- if icon and icon_position == 'start' -%}
+    <i class="palm-button__icon fa fa-{{ icon }}" aria-hidden="true"></i> {% endif -%}
+  {{ label }}
+  {%- if icon and icon_position == 'end' %} <span class="palm-button__icon-end"><i class="palm-button__icon fa fa-{{ icon }}" aria-hidden="true"></i></span>{% endif -%}
+{% endset %}
 {% if url %}
-  <a{{ attributes.setAttribute('href', url) }}>{{ label }}</a>
+  {% if rel %}
+    {% set attributes = attributes.setAttribute('rel', rel) %}
+  {% endif %}
+  {# Attribute only accepts strings, url may be a \Drupal\Core\Url object. #}
+  {% set href = url.toString is defined ? url.toString() : url %}
+  <a{{ attributes.setAttribute('href', href) }}>{{ content }}</a>
 {% else %}
-  <button{{ attributes.setAttribute('type', button_type|default('button')) }}>{{ label }}</button>
+  {% if variant == 'disabled' %}
+    {% set attributes = attributes.setAttribute('disabled', true) %}
+  {% endif %}
+  <button{{ attributes.setAttribute('type', button_type|default('button')) }}>{{ content }}</button>
 {% endif %}

@@ -2,7 +2,12 @@ $schema: https://git.drupalcode.org/project/drupal/-/raw/HEAD/core/assets/schema
 name: Button
 status: experimental
 group: Atoms
-description: Call to action. Renders a link when a URL is given, otherwise a button element.
+description: >
+  Call to action. Renders a link when a URL is given, otherwise a button element.
+  Surrounding markup can adjust it with custom properties: --palm-button-padding and
+  --palm-button-white-space (set on a parent) and --palm-button-space-after (margin
+  below, set on the button itself, not inherited). Other outer margins are left to
+  the context.
 # Passed as `variant` (Twig include) or #variant (render array).
 variants:
   primary:
@@ -14,6 +19,18 @@ variants:
   danger:
     title: Danger
     description: Destructive action, red.
+  promo:
+    title: Promo
+    description: Promotion, white with red border, red when hovered.
+  ghost:
+    title: Ghost
+    description: Transparent with white border, for dark backgrounds.
+  white:
+    title: White
+    description: White button, for dark backgrounds.
+  disabled:
+    title: Disabled
+    description: Greyed out, not clickable.
 libraryOverrides:
   dependencies:
     - palm/tokens
@@ -27,9 +44,16 @@ props:
       type: [string, object]
       title: Label
     url:
-      type: string
+      type: [string, object]
       title: URL
       description: Renders a link (<a>) when set, otherwise a <button>.
+    title:
+      type: [string, object]
+      title: Title attribute
+    rel:
+      type: string
+      title: Rel attribute
+      description: Only used for links, e.g. nofollow.
     button_type:
       type: string
       title: Button type
@@ -38,6 +62,15 @@ props:
         - button
         - submit
       default: button
-    title:
-      type: [string, object]
-      title: Title attribute
+    icon:
+      type: string
+      title: Icon
+      description: Font Awesome 4 icon name without the fa- prefix, e.g. shopping-cart.
+    icon_position:
+      type: string
+      title: Icon position
+      description: start shows the icon before the label, end at the right edge.
+      enum:
+        - start
+        - end
+      default: start

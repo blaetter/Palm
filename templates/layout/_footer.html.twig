@@ -26,6 +26,6 @@
         {{ footer }}
     {% endif %}
     {% if cancel_link_url %}
-      <p><a class="button" href="{{cancel_link_url}}">{{cancel_link_title}}</a></p>
+      <p>{{ include('palm:button', { label: cancel_link_title, url: cancel_link_url }, with_context = false) }}</p>
     {% endif %}
 </footer>

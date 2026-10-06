@@ -104,8 +104,11 @@
       title: 'follow this link to view the issue'|t,
       variant: 'reversed',
     }, with_context = false) }}
-    <a class="button" href="{{ path('entity.node.canonical', {'node': '31204'}) }}" title="{{ 'follow this link to view the test subscription' | t }}">
-    {{ 'test subscritption'|t }}</a>
+    {{ include('palm:button', {
+      label: 'test subscritption'|t,
+      url: path('entity.node.canonical', {'node': '31204'}),
+      title: 'follow this link to view the test subscription'|t,
+    }, with_context = false) }}
   </div>
 </div>
 

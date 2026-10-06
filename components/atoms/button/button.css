@@ -1,60 +1,140 @@
 /**
  * Button atom.
  *
- * Not in a cascade layer yet: the legacy bundle (palm.css) is unlayered and
- * would win over any layered rule. Move this into @layer components once the
- * legacy bundle is loaded into @layer legacy.
+ * In the layer components, so it wins over the legacy bundle (layer legacy)
+ * and the base CSS (layer drupal) regardless of selector specificity.
+ *
+ * Variants only set the --palm-button-* custom properties. The context may
+ * set --palm-button-padding and --palm-button-white-space on a parent (they
+ * are inherited) and --palm-button-space-after on the button itself (not
+ * inherited, see @property). The component never sets them itself.
  */
-.palm-button {
-  display: inline-block;
-  box-sizing: border-box;
-  min-height: var(--palm-control-min-height);
-  margin: 0 0 calc(var(--palm-space-block-bottom) / 2);
-  padding: 0.3em 1em;
-  border: 1px solid var(--palm-button-border, var(--palm-button-background));
-  border-radius: var(--palm-radius);
-  background-color: var(--palm-button-background);
-  color: var(--palm-button-color);
-  font: inherit;
-  font-family: var(--palm-font-sans);
-  text-align: center;
-  text-decoration: none;
-  vertical-align: top;
-  cursor: pointer;
+/*
+ * Not inherited: a context sets it on the button itself (e.g. last child of a
+ * block), so buttons nested deeper keep their default space below.
+ */
+@property --palm-button-space-after {
+  syntax: '*';
+  inherits: false;
+}
 
-  /* primary is the default variant */
-  --palm-button-background: var(--palm-color-action);
-  --palm-button-background-hover: var(--palm-color-action-hover);
-  --palm-button-color: var(--palm-color-white);
+@layer components {
+  .palm-button {
+    /* primary is the default variant */
+    --palm-button-background: var(--palm-color-action);
+    --palm-button-background-hover: var(--palm-color-action-hover);
+    --palm-button-color: var(--palm-color-white);
+    --palm-button-color-hover: var(--palm-button-color);
 
-  &:hover,
-  &:focus {
-    background-color: var(--palm-button-background-hover);
-    border-color: var(--palm-button-border-hover, var(--palm-button-background-hover));
+    display: inline-block;
+    box-sizing: border-box;
+    min-height: var(--palm-control-min-height);
+    /* Only the space below; other outer spacing belongs to the context. */
+    margin-bottom: var(--palm-button-space-after, calc(var(--palm-space-block-bottom) / 2));
+    padding: var(--palm-button-padding, 0.3em 1em);
+    border: 1px solid var(--palm-button-border, var(--palm-button-background));
+    border-radius: var(--palm-radius);
+    background-color: var(--palm-button-background);
     color: var(--palm-button-color);
+    opacity: var(--palm-button-opacity, 1);
+    font: inherit;
+    font-family: var(--palm-font-sans);
+    font-weight: var(--palm-button-font-weight, inherit);
+    text-align: center;
     text-decoration: none;
+    white-space: var(--palm-button-white-space, inherit);
+    vertical-align: top;
+    cursor: pointer;
+
+    &:hover,
+    &:focus {
+      background-color: var(--palm-button-background-hover);
+      border-color: var(--palm-button-border-hover, var(--palm-button-background-hover));
+      color: var(--palm-button-color-hover);
+      opacity: 1;
+      text-decoration: none;
+    }
+
+    &:focus {
+      outline: 1px dotted var(--palm-button-outline-color, var(--palm-color-black));
+      outline-offset: 0;
+    }
+
+    @media (max-width: 45rem) {
+      width: 100%;
+      line-height: 2em;
+    }
   }
 
-  &:focus {
-    outline: 1px dotted var(--palm-color-black);
-    outline-offset: 0;
+  /* The icon takes the text color, also on hover. */
+  .palm-button__icon {
+    color: inherit;
   }
 
-  @media (max-width: 45rem) {
-    width: 100%;
-    line-height: 2em;
+  /* Icon at the right edge (former .button--buy, label stays centered). */
+  .palm-button--icon-end .palm-button__icon {
+    margin-left: 0.5em;
   }
-}
 
-.palm-button--reversed {
-  --palm-button-background: var(--palm-color-white);
-  --palm-button-background-hover: var(--palm-color-white);
-  --palm-button-color: var(--palm-color-link);
-  --palm-button-border: var(--palm-color-grey-border);
-  --palm-button-border-hover: var(--palm-color-grey-dark);
-}
+  .palm-button__icon-end {
+    float: right;
+    margin-left: 0.75em;
+  }
 
-.palm-button--danger {
-  --palm-button-background: var(--palm-color-danger);
-  --palm-button-background-hover: var(--palm-color-danger-hover);
+  .palm-button--reversed {
+    --palm-button-background: var(--palm-color-white);
+    --palm-button-background-hover: var(--palm-color-white);
+    --palm-button-color: var(--palm-color-link);
+    --palm-button-border: var(--palm-color-grey-border);
+    --palm-button-border-hover: var(--palm-color-grey-dark);
+    --palm-button-font-weight: 400;
+  }
+
+  .palm-button--danger {
+    --palm-button-background: var(--palm-color-danger);
+    --palm-button-background-hover: var(--palm-color-danger-hover);
+    --palm-button-font-weight: 400;
+  }
+
+  .palm-button--promo {
+    --palm-button-background: var(--palm-color-white);
+    --palm-button-background-hover: var(--palm-color-red);
+    --palm-button-color: var(--palm-color-red);
+    --palm-button-color-hover: var(--palm-color-white);
+    --palm-button-border: var(--palm-color-red);
+    --palm-button-border-hover: var(--palm-color-red);
+    --palm-button-font-weight: 400;
+  }
+
+  .palm-button--ghost {
+    --palm-button-background: transparent;
+    --palm-button-background-hover: transparent;
+    --palm-button-border: var(--palm-color-white);
+    --palm-button-border-hover: var(--palm-color-white);
+    --palm-button-opacity: 0.75;
+    --palm-button-outline-color: var(--palm-color-white);
+    --palm-button-font-weight: 400;
+  }
+
+  .palm-button--white {
+    --palm-button-background: var(--palm-color-white);
+    --palm-button-background-hover: var(--palm-color-white);
+    --palm-button-color: var(--palm-color-link);
+    --palm-button-border: var(--palm-color-white);
+    --palm-button-border-hover: var(--palm-color-white);
+    --palm-button-opacity: 0.9;
+    --palm-button-outline-color: var(--palm-color-white);
+    --palm-button-font-weight: 400;
+  }
+
+  .palm-button--disabled {
+    --palm-button-background: var(--palm-color-grey);
+    --palm-button-background-hover: var(--palm-color-grey);
+    --palm-button-color: var(--palm-color-grey-text);
+    --palm-button-border: var(--palm-color-grey-text);
+    --palm-button-border-hover: var(--palm-color-grey-text);
+    --palm-button-font-weight: 400;
+
+    cursor: not-allowed;
+  }
 }

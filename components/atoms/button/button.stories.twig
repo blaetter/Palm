@@ -21,6 +21,44 @@
     {{ include('palm:button', { label: label, variant: 'danger' }, with_context = false) }}
   {% endstory %}
 
+  {% story promo with {
+    name: 'Promo with icon',
+    args: { label: 'Abo', url: '#', icon: 'book' }
+  } %}
+    {{ include('palm:button', { label: label, url: url, icon: icon, variant: 'promo' }, with_context = false) }}
+  {% endstory %}
+
+  {% story buy with {
+    name: 'Buy (icon at the end)',
+    args: { label: 'Druckausgabe kaufen (10.00€)', url: '#', icon: 'shopping-cart' }
+  } %}
+    {{ include('palm:button', { label: label, url: url, icon: icon, icon_position: 'end', rel: 'nofollow' }, with_context = false) }}
+  {% endstory %}
+
+  {% story download with {
+    name: 'Download (reversed, icon at the end)',
+    args: { label: 'ePub herunterladen', url: '#', icon: 'download' }
+  } %}
+    {{ include('palm:button', { label: label, url: url, icon: icon, icon_position: 'end', variant: 'reversed' }, with_context = false) }}
+  {% endstory %}
+
+  {% story on_dark with {
+    name: 'Ghost and white (dark background)',
+    args: {}
+  } %}
+    <div style="background: #086d9a; padding: 1rem;">
+      {{ include('palm:button', { label: 'Ghost', url: '#', variant: 'ghost' }, with_context = false) }}
+      {{ include('palm:button', { label: 'White', url: '#', variant: 'white' }, with_context = false) }}
+    </div>
+  {% endstory %}
+
+  {% story disabled with {
+    name: 'Disabled',
+    args: { label: 'Ausverkauft' }
+  } %}
+    {{ include('palm:button', { label: label, variant: 'disabled' }, with_context = false) }}
+  {% endstory %}
+
   {% story submit with {
     name: 'Submit button',
     args: { label: 'Speichern' }
@@ -36,6 +74,8 @@
       {{ include('palm:button', { label: 'Primary', url: '#' }, with_context = false) }}
       {{ include('palm:button', { label: 'Reversed', url: '#', variant: 'reversed' }, with_context = false) }}
       {{ include('palm:button', { label: 'Danger', variant: 'danger' }, with_context = false) }}
+      {{ include('palm:button', { label: 'Promo', url: '#', variant: 'promo', icon: 'book' }, with_context = false) }}
+      {{ include('palm:button', { label: 'Disabled', variant: 'disabled' }, with_context = false) }}
     </p>
   {% endstory %}
 

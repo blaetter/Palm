@@ -15,9 +15,13 @@
 <div class="meta">
   {#{ content }#}
   {% if header_promo_button_link %}
-  <a href="{{ header_promo_button_link }}" class="button--promo" title="{{ header_promo_button_link_title }}">
-      <i class="fa fa-book" aria-hidden="true"></i> {{ header_promo_button_link_title }}
-  </a>
+  {{ include('palm:button', {
+    label: header_promo_button_link_title,
+    url: header_promo_button_link,
+    title: header_promo_button_link_title,
+    variant: 'promo',
+    icon: 'book',
+  }, with_context = false) }}
   {% endif %}
 
   {% if logged_in %}
