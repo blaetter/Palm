@@ -1,0 +1,20 @@
+# Pages for the style diff (tests/style-diff/style-diff.mjs), one path per line.
+# They cover the main page types; adjust when templates of other pages change.
+/
+/ausgabe/2020/januar
+/ausgabe/2020/januar/2020-jahr-des-uebergangs-jahr-der-entscheidung
+/ausgabe/2020/januar/ein-jahr-der-erkenntnisse
+/ausser-der-reihe/ein-stueck-machterhalt
+/autoren/albrecht-von-lucke
+/blog
+/contact/sepa-lastschriftmandat
+/dokumente
+/dokumente/in-der-politik-sind-frauen-weltweit-am-staerksten-unterrepraesentiert
+/dossiers/trumps-welt
+/kombiabo
+/search/bing
+/shop
+/user/login
+/user/register
+/warenkorb
+/zurueckgeblaettert

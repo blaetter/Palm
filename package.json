@@ -6,10 +6,13 @@
   "scripts": {
     "stories": "cd ../../../.. && vendor/bin/drush --uri=https://web.blaetter storybook:generate-all-stories",
     "storybook": "storybook dev --port 6006 --no-open",
-    "build-storybook": "storybook build --output-dir storybook-static"
+    "build-storybook": "storybook build --output-dir storybook-static",
+    "drupal-layer": "node scripts/build-drupal-layer.mjs",
+    "style-diff": "node tests/style-diff/style-diff.mjs"
   },
   "devDependencies": {
     "@storybook/server-webpack5": "^10.6.1",
+    "playwright-core": "^1.63.0",
     "storybook": "^10.6.1"
   }
 }
