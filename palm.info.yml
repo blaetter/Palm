@@ -7,12 +7,44 @@ libraries:
   - palm/global-scripts
 base theme: classy
 # The CSS of these libraries is loaded from css/drupal-layer.css instead, in the
-# cascade layer drupal (scripts/build-drupal-layer.mjs). Unlayered CSS would win
-# over the layered theme CSS.
+# cascade layer legacy before palm.css (scripts/build-drupal-layer.mjs).
+# Unlayered CSS would win over the layered theme CSS. Libraries with JavaScript
+# or extended by Classy only lose their CSS files; files that Stable replaced
+# are given with their Stable path.
 libraries-override:
   core/normalize: false
   classy/base: false
   classy/messages: false
+  classy/progress:
+    css:
+      component:
+        css/components/progress.css: false
+  classy/user:
+    css:
+      component:
+        css/components/user.css: false
+  system/base: false
+  system/admin: false
+  system/status.report: false
+  core/drupal.item-list: false
+  core/drupal.textarea-resize: false
+  core/drupal.ajax:
+    css:
+      component:
+        /themes/contrib/stable/css/core/components/ajax-progress.module.css: false
+  core/drupal.progress:
+    css:
+      component:
+        /themes/contrib/stable/css/core/components/progress.module.css: false
+  user/drupal.user:
+    css:
+      component:
+        /themes/contrib/stable/css/user/user.module.css: false
+  filter/caption: false
+  media/filter.caption: false
+  media/oembed.formatter: false
+  views/views.module: false
+  nodeshop/nodeshop.styles: false
   eu_cookie_compliance/eu_cookie_compliance_bare:
     css:
       state:

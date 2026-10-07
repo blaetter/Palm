@@ -1,0 +1,9 @@
+{#
+/**
+ * @file
+ * Checkbox atom. Name, value, checked etc. come with the attributes.
+ *
+ * Usage: {{ include('palm:checkbox', { attributes: attributes, children: children }, with_context = false) }}
+ */
+#}
+<input{{ attributes.setAttribute('type', 'checkbox').addClass('palm-checkbox') }} />{{ children }}

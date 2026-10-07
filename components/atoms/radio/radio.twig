@@ -1,0 +1,9 @@
+{#
+/**
+ * @file
+ * Radio atom. Name, value, checked etc. come with the attributes.
+ *
+ * Usage: {{ include('palm:radio', { attributes: attributes, children: children }, with_context = false) }}
+ */
+#}
+<input{{ attributes.setAttribute('type', 'radio').addClass('palm-radio') }} />{{ children }}

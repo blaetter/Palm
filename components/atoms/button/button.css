@@ -1,13 +1,15 @@
 /**
  * Button atom.
  *
- * In the layer components, so it wins over the legacy bundle (layer legacy)
- * and the base CSS (layer drupal) regardless of selector specificity.
+ * In the layer components, so it wins over the legacy bundle and the CSS of
+ * Drupal and modules (layer legacy) regardless of selector specificity.
  *
  * Variants only set the --palm-button-* custom properties. The context may
- * set --palm-button-padding and --palm-button-white-space on a parent (they
- * are inherited) and --palm-button-space-after on the button itself (not
- * inherited, see @property). The component never sets them itself.
+ * set --palm-button-padding, --palm-button-radius and
+ * --palm-button-white-space on the button or a parent (inherited) and
+ * --palm-button-space-after on the button itself (not inherited, see
+ * @property); the component never sets them itself. For the primary variant,
+ * the context may also set --palm-button-font-weight.
  */
 /*
  * Not inherited: a context sets it on the button itself (e.g. last child of a
@@ -33,7 +35,7 @@
     margin-bottom: var(--palm-button-space-after, calc(var(--palm-space-block-bottom) / 2));
     padding: var(--palm-button-padding, 0.3em 1em);
     border: 1px solid var(--palm-button-border, var(--palm-button-background));
-    border-radius: var(--palm-radius);
+    border-radius: var(--palm-button-radius, var(--palm-radius));
     background-color: var(--palm-button-background);
     color: var(--palm-button-color);
     opacity: var(--palm-button-opacity, 1);
@@ -64,6 +66,11 @@
       width: 100%;
       line-height: 2em;
     }
+  }
+
+  /* Form buttons (as_input): keep the browser's white-space of inputs. */
+  input.palm-button {
+    white-space: var(--palm-button-white-space, pre);
   }
 
   /* The icon takes the text color, also on hover. */

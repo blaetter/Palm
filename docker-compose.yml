@@ -1,8 +1,8 @@
 # Containers for everything that uses npm, so no npm package runs on the host.
 # Use the targets of the Makefile (make help); Drush stays on the host.
 #
-# Mounts are kept to the minimum: the theme (read and write) and the contrib
-# modules and themes (read only, for scripts/build-drupal-layer.mjs). The home
+# Mounts are kept to the minimum: the theme (read and write) and Drupal core,
+# the contrib modules and themes (read only, for scripts/build-drupal-layer.mjs). The home
 # directory, SSH keys, the Docker socket and web/sites (settings.php) are not
 # available in the containers. node_modules lives in a volume, not on the host.
 # The paths mirror the Drupal web root, so relative paths work as on the host.
@@ -10,6 +10,7 @@
 x-theme: &theme
   working_dir: /web/themes/contrib/palm
   volumes:
+    - ../../../core:/web/core:ro
     - ../../../modules/contrib:/web/modules/contrib:ro
     - ../:/web/themes/contrib:ro
     - ./:/web/themes/contrib/palm

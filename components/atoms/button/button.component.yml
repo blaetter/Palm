@@ -4,10 +4,10 @@ status: experimental
 group: Atoms
 description: >
   Call to action. Renders a link when a URL is given, otherwise a button element.
-  Surrounding markup can adjust it with custom properties: --palm-button-padding and
-  --palm-button-white-space (set on a parent) and --palm-button-space-after (margin
-  below, set on the button itself, not inherited). Other outer margins are left to
-  the context.
+  Surrounding markup can adjust it with custom properties: --palm-button-padding,
+  --palm-button-radius and --palm-button-white-space (set on the button or a parent) and
+  --palm-button-space-after (margin below, set on the button itself, not inherited). Other
+  outer margins are left to the context.
 # Passed as `variant` (Twig include) or #variant (render array).
 variants:
   primary:
@@ -54,10 +54,17 @@ props:
       type: string
       title: Rel attribute
       description: Only used for links, e.g. nofollow.
+    as_input:
+      type: boolean
+      title: Render as input
+      description: >
+        Renders <input type="submit|button" value="label"> instead of <button>, as Drupal's form
+        buttons do; icons are not shown then. Used by the input template of the theme.
+      default: false
     button_type:
       type: string
       title: Button type
-      description: Only used for <button>.
+      description: Only used for <button> and the input variant.
       enum:
         - button
         - submit

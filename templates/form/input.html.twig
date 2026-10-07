@@ -3,8 +3,13 @@
  * @file
  * Theme override for an input element.
  *
- * Single line text fields use the component palm:input, all other types
- * (checkbox, radio, submit, hidden, …) keep the markup of Classy for now.
+ * - Single line text fields use the component palm:input.
+ * - Checkboxes and radios use palm:checkbox and palm:radio.
+ * - Form buttons (submit, button) use palm:button rendered as <input>; the
+ *   variant follows Drupal's classes button--danger and button--reversed.
+ *   The round remove button of the cart (nodeshop_cart_remove_item) keeps its
+ *   own legacy styling until the cart gets its components.
+ * - All other types (hidden, file, image, …) keep the markup of Classy.
  *
  * Available variables:
  * - attributes: A list of HTML attributes for the input element.
@@ -14,6 +19,20 @@
 {% set type = attributes.type ? attributes.type ~ '' : 'text' %}
 {% if type in ['text', 'email', 'password', 'number', 'search', 'tel', 'url'] %}
   {{- include('palm:input', { attributes: attributes, children: children }, with_context = false) -}}
+{% elseif type == 'checkbox' %}
+  {{- include('palm:checkbox', { attributes: attributes, children: children }, with_context = false) -}}
+{% elseif type == 'radio' %}
+  {{- include('palm:radio', { attributes: attributes, children: children }, with_context = false) -}}
+{% elseif type in ['submit', 'button'] and not attributes.hasClass('nodeshop_cart_remove_item') %}
+  {%- set variant = attributes.hasClass('button--danger') ? 'danger' : (attributes.hasClass('button--reversed') ? 'reversed' : 'primary') -%}
+  {{- include('palm:button', {
+    attributes: attributes,
+    label: attributes.value ~ '',
+    as_input: true,
+    button_type: type,
+    variant: variant,
+  }, with_context = false) -}}
+  {{- children -}}
 {% else %}
   <input{{ attributes }} />{{ children }}
 {% endif %}

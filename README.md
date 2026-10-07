@@ -15,8 +15,8 @@ The theme is in transition from a Patternlab based styleguide to single director
 | `components/` | Single directory components, grouped like atomic design (`atoms/`, …) |
 | `css/layers.css` | Order of the cascade layers |
 | `css/tokens.css` | Design tokens as CSS custom properties |
-| `css/drupal-layer.css` | Base CSS of core and modules in the layer `drupal` (generated) |
-| `templates/` | Drupal templates; they pass data to the components (`templates/form/` renders the fields of all Drupal forms with the form atoms) |
+| `css/drupal-layer.css` | CSS of core, Classy and modules in the layer `legacy` (generated) |
+| `templates/` | Drupal templates; they pass data to the components (`templates/form/` renders the fields and buttons of all Drupal forms with the form atoms and `palm:button`) |
 | `scripts/` | Build scripts (`build-drupal-layer.mjs`) |
 | `tests/style-diff/` | Regression test for CSS changes |
 | `.storybook/` | Storybook configuration |
@@ -26,18 +26,17 @@ The theme is in transition from a Patternlab based styleguide to single director
 
 All CSS of the frontend lives in [cascade layers](https://developer.mozilla.org/en-US/docs/Web/CSS/@layer). Later layers win, regardless of selector specificity:
 
-1. `drupal`: base CSS of core (normalize), Classy, EU Cookie Compliance and CAPTCHA. The original files are removed via `libraries-override` in `palm.info.yml` and loaded from `css/drupal-layer.css`, because CSS outside of any layer always wins over layered CSS.
-2. `legacy`: `bundle/palm.css` (wrapped into the layer by blaetter-theme).
-3. `components`: the CSS of the components in `components/`.
+1. `legacy`: first the CSS of Drupal core, Classy and the modules the frontend loads (`css/drupal-layer.css`), then `bundle/palm.css` (wrapped into the layer by blaetter-theme). Within this layer, specificity and order decide exactly as before the layers, so e.g. a more specific Classy rule still wins over `palm.css`. The original files are removed via `libraries-override` in `palm.info.yml`, because CSS outside of any layer always wins over layered CSS.
+2. `components`: the CSS of the components in `components/`.
 
-CSS of other modules (system, views, media, nodeshop) is still loaded without a layer; it did not conflict with the theme. If a module stylesheet overrides theme styles, add it to `scripts/build-drupal-layer.mjs` and to `libraries-override`.
+Only the tokens (`css/tokens.css`) and `@property` rules are outside of a layer. When a new module brings CSS to the frontend, add it to `scripts/build-drupal-layer.mjs` (in the order Drupal loads it) and to `libraries-override`, otherwise it wins over the theme. Libraries with JavaScript or extended by Classy only lose their CSS files there; files that Stable replaced are given with their Stable path (`/themes/contrib/stable/…`).
 
 Components are configured by their context through custom properties instead of contextual selectors:
 
-- `palm:button`: a parent may set `--palm-button-padding` and `--palm-button-white-space` (inherited), the button itself may get `--palm-button-space-after` (not inherited, see `@property` in `button.css`).
+- `palm:button`: the button or a parent may set `--palm-button-padding`, `--palm-button-radius` and `--palm-button-white-space` (inherited), the button itself may get `--palm-button-space-after` (not inherited, see `@property` in `button.css`); for the primary variant also `--palm-button-font-weight`.
 - `palm:input`, `palm:select`, `palm:textarea`: the field or a parent may set `--palm-field-width`, `--palm-field-max-width`, `--palm-field-height`, `--palm-field-border` and `--palm-field-padding`.
 
-Legacy rules in blaetter-theme set these properties where buttons and fields used to be adjusted by context (e.g. header, search form, cart quantity).
+Legacy rules in blaetter-theme set these properties where buttons and fields used to be adjusted by context (e.g. header, search form, form actions, cart quantity).
 
 ## Requirements
 
@@ -69,7 +68,7 @@ npm and every npm package run only in containers, never on the host. Packages fr
 What the containers see:
 
 - the theme (read and write) at `/web/themes/contrib/palm`,
-- `web/modules/contrib` and `web/themes/contrib` (read only, for `scripts/build-drupal-layer.mjs`),
+- `web/core`, `web/modules/contrib` and `web/themes/contrib` (read only, for `scripts/build-drupal-layer.mjs`),
 - `node_modules` in the Docker volume `palm_node_modules`; the folder on the host is only the empty mount point.
 
 Not available: the home directory, SSH keys, the Docker socket and `web/sites` (`settings.php`). Packages are installed from `package-lock.json` without install scripts. Code in the containers can still change files of the theme, so check `git diff` before committing.
@@ -127,7 +126,7 @@ Cart and checkout: the list adds items to the cart and opens the checkout steps 
 
 ### After updates of core, Classy, EU Cookie Compliance or CAPTCHA
 
-Run `make drupal-layer` and commit `css/drupal-layer.css` if it changed.
+Run `make drupal-layer` and commit `css/drupal-layer.css` if it changed. Check the CSS libraries of the frontend for new module CSS (see CSS architecture).
 
 ### Add an npm package
 

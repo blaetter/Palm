@@ -1,0 +1,15 @@
+{% stories radio with { title: 'Atoms/Radio' } %}
+
+  {% story group with {
+    name: 'Group with labels',
+    args: {}
+  } %}
+    {% for option in [{ value: 'paypal', label: 'PayPal', checked: true }, { value: 'invoice', label: 'Rechnung', checked: false }] %}
+      <div>
+        {{ include('palm:radio', { attributes: create_attribute({ id: 'story-radio-' ~ option.value, name: 'payment', value: option.value, checked: option.checked }) }, with_context = false) }}
+        <label class="option" for="story-radio-{{ option.value }}">{{ option.label }}</label>
+      </div>
+    {% endfor %}
+  {% endstory %}
+
+{% endstories %}

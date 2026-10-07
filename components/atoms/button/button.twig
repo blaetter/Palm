@@ -1,7 +1,8 @@
 {#
 /**
  * @file
- * Button atom: a link when url is set, a <button> element otherwise.
+ * Button atom: a link when url is set, an <input> with as_input (Drupal form
+ * buttons), a <button> element otherwise.
  *
  * Usage: {{ include('palm:button', { label: 'to the issue'|t, url: url, variant: 'reversed' }, with_context = false) }}
  */
@@ -31,5 +32,9 @@
   {% if variant == 'disabled' %}
     {% set attributes = attributes.setAttribute('disabled', true) %}
   {% endif %}
-  <button{{ attributes.setAttribute('type', button_type|default('button')) }}>{{ content }}</button>
+  {% if as_input %}
+    <input{{ attributes.setAttribute('type', button_type|default('submit')).setAttribute('value', label) }} />
+  {% else %}
+    <button{{ attributes.setAttribute('type', button_type|default('button')) }}>{{ content }}</button>
+  {% endif %}
 {% endif %}

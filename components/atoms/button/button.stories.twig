@@ -66,6 +66,16 @@
     {{ include('palm:button', { label: label, button_type: 'submit' }, with_context = false) }}
   {% endstory %}
 
+  {% story form_buttons with {
+    name: 'Form buttons (input)',
+    args: {}
+  } %}
+    <div class="form-actions">
+      {{ include('palm:button', { label: 'Vorschau', as_input: true, variant: 'reversed', attributes: create_attribute({ name: 'op' }) }, with_context = false) }}
+      {{ include('palm:button', { label: 'Nachricht senden', as_input: true, attributes: create_attribute({ name: 'op' }) }, with_context = false) }}
+    </div>
+  {% endstory %}
+
   {% story all with {
     name: 'All variants',
     args: {}

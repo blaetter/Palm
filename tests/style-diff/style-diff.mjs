@@ -2,7 +2,7 @@
  * Style diff: regression test for CSS refactorings.
  *
  * Captures the computed styles and boxes of all elements (including ::before
- * and ::after) of a list of pages of the local site in two viewport widths, and
+ * and ::after) of a list of pages of the local site in several viewport widths, and
  * compares two captures. Take a capture before a change, one after it, and
  * compare them: no differences means the change did not alter the rendering.
  *
@@ -17,7 +17,7 @@
  * Capture options:
  *   --uri <url>       Site to test, default https://web.blaetter
  *   --pages <file>    List of paths, default tests/style-diff/pages.txt
- *   --widths <list>   Viewport widths, default 1280,375
+ *   --widths <list>   Viewport widths, default 375,640,860,1280 (see below)
  *   --login-url <url> One-time login link (drush user:login) to capture the
  *                     pages as that user; the Makefile creates it for ROLE
  *   --role-label <s>  Role of that user, only stored in meta.json
@@ -159,7 +159,12 @@ async function capture(name, options) {
       const [path, flags = ''] = l.split(/\s+#\s*/);
       return { path, flags: new Set(flags.split(/[\s,]+/).filter(Boolean)) };
     });
-  const widths = String(options.widths || '1280,375').split(',').map(Number);
+  // One width per range in which forms, buttons or the base CSS (layer drupal)
+  // change: 600 px (cookie banner), 720 px (phone/desktop for forms, buttons
+  // and the components) and 1000 px (cookie banner buttons). The other
+  // breakpoints (420, 560, 1200, 1420 px) only hold legacy layout rules; add
+  // widths with --widths when a change touches them.
+  const widths = String(options.widths || '375,640,860,1280').split(',').map(Number);
   const target = join(snapshotDir, name);
   rmSync(target, { recursive: true, force: true });
   mkdirSync(target, { recursive: true });
@@ -301,7 +306,7 @@ if (command === 'capture' && names.length === 1) {
 } else if (command === 'compare' && names.length === 2) {
   process.exitCode = compare(names[0], names[1], options);
 } else {
-  console.log('Usage: npm run style-diff -- capture <name> [--login-url <url>] [--uri <url>] [--pages <file>] [--widths 1280,375]\n'
+  console.log('Usage: npm run style-diff -- capture <name> [--login-url <url>] [--uri <url>] [--pages <file>] [--widths 375,640,860,1280]\n'
     + '       npm run style-diff -- compare <before> <after> [--details]');
   process.exitCode = 2;
 }
