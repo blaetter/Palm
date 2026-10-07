@@ -63,7 +63,8 @@ function parseArgs(argv) {
   for (let i = 0; i < argv.length; i++) {
     if (argv[i].startsWith('--')) {
       const key = argv[i].slice(2);
-      options[key] = argv[i + 1] && !argv[i + 1].startsWith('--') ? argv[++i] : true;
+      // An empty string is a value too (e.g. a failed command substitution).
+      options[key] = argv[i + 1] !== undefined && !argv[i + 1].startsWith('--') ? argv[++i] : true;
     } else {
       positional.push(argv[i]);
     }
@@ -144,6 +145,9 @@ async function load(page, url) {
 }
 
 async function capture(name, options) {
+  if ('login-url' in options && !/^https?:\/\//.test(String(options['login-url']))) {
+    throw new Error('--login-url needs the one-time login link (drush user:login), got none.');
+  }
   const uri = (options.uri || 'https://web.blaetter').replace(/\/$/, '');
   const pagesFile = options.pages || join(here, 'pages.txt');
   // One path per line, optionally followed by "# <flags>":

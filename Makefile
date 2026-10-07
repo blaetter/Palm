@@ -38,8 +38,10 @@ drupal-layer:
 
 # With ROLE, the pages are captured as the local test user "styletest" with
 # that role (created or updated by Drush on the host); the container only gets
-# a one-time login link. Carts and orders that the capture creates (cart,
-# checkout) are removed afterwards, also when the capture fails.
+# a one-time login link. The capture stops with a message if the user or the
+# link can not be created. Carts and orders of the test user and the ones that
+# the capture creates (cart, checkout) are removed before and afterwards, also
+# when the capture fails.
 STYLE_DIFF	:= $(CURDIR)/tests/style-diff
 STYLE_MARKS	:= $(STYLE_DIFF)/snapshots/.marks.json
 
@@ -47,10 +49,19 @@ STYLE_MARKS	:= $(STYLE_DIFF)/snapshots/.marks.json
 style-capture:
 	@test -n "$(NAME)" || (echo "NAME is missing, e.g. make style-capture NAME=before"; exit 1)
 	@mkdir -p $(STYLE_DIFF)/snapshots
-	$(DRUSH) php:script $(STYLE_DIFF)/drush/cleanup.php -- mark $(STYLE_MARKS)
+	@login=""; \
+	if [ -n "$(ROLE)" ]; then \
+		uid=$$($(DRUSH) php:script $(STYLE_DIFF)/drush/test-user.php -- $(ROLE)); \
+		case "$$uid" in ''|*[!0-9]*) echo "Could not create the test user with role '$(ROLE)'."; exit 1;; esac; \
+		login=$$($(DRUSH) user:login --no-browser --uid=$$uid | tail -n 1); \
+		case "$$login" in http*) ;; *) echo "Could not create a login link for the test user ($$uid)."; exit 1;; esac; \
+	fi; \
+	$(DRUSH) php:script $(STYLE_DIFF)/drush/cleanup.php -- mark $(STYLE_MARKS) || exit 1; \
 	$(COMPOSE) run --rm playwright npm run style-diff -- capture $(NAME) \
-		$(if $(ROLE),--login-url "$$($(DRUSH) user:login --no-browser --uid=$$($(DRUSH) php:script $(STYLE_DIFF)/drush/test-user.php -- $(ROLE)))" --role-label $(ROLE)); \
-	status=$$?; $(DRUSH) php:script $(STYLE_DIFF)/drush/cleanup.php -- clean $(STYLE_MARKS); exit $$status
+		$${login:+--login-url "$$login" --role-label "$(ROLE)"}; \
+	status=$$?; \
+	$(DRUSH) php:script $(STYLE_DIFF)/drush/cleanup.php -- clean $(STYLE_MARKS); \
+	exit $$status
 
 .PHONY: style-compare
 style-compare:
