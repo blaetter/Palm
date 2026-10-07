@@ -29,7 +29,7 @@ All CSS of the frontend lives in [cascade layers](https://developer.mozilla.org/
 1. `legacy`: first the CSS of Drupal core, Classy and the modules the frontend loads (`css/drupal-layer.css`), then `bundle/palm.css` (wrapped into the layer by blaetter-theme). Within this layer, specificity and order decide exactly as before the layers, so e.g. a more specific Classy rule still wins over `palm.css`. The original files are removed via `libraries-override` in `palm.info.yml`, because CSS outside of any layer always wins over layered CSS.
 2. `components`: the CSS of the components in `components/`.
 
-Only the tokens (`css/tokens.css`) and `@property` rules are outside of a layer. When a new module brings CSS to the frontend, add it to `scripts/build-drupal-layer.mjs` (in the order Drupal loads it) and to `libraries-override`, otherwise it wins over the theme. Libraries with JavaScript or extended by Classy only lose their CSS files there; files that Stable replaced are given with their Stable path (`/themes/contrib/stable/…`).
+Only the tokens (`css/tokens.css`), `@property` rules and the CSS of the admin UI are outside of a layer. Toolbar, contextual links, shortcuts and Devel only load for editors and administrators and only style their own elements; a comparison as administrator showed no differences, so they stay unlayered (they win over the theme, keep that in mind for components near them). When a new module brings CSS to the frontend, add it to `scripts/build-drupal-layer.mjs` (in the order Drupal loads it) and to `libraries-override`, otherwise it wins over the theme. Libraries with JavaScript or extended by Classy only lose their CSS files there; files that Stable replaced are given with their Stable path (`/themes/contrib/stable/…`).
 
 Components are configured by their context through custom properties instead of contextual selectors:
 
@@ -118,7 +118,7 @@ make style-capture NAME=after
 make style-compare A=before B=after
 ```
 
-The test loads the pages of `tests/style-diff/pages.txt` in 1280 and 375 px, waits for JavaScript, fonts and images, and records about 100 CSS properties and the box of every element (including `::before` and `::after`). It reports changed properties and sizes; elements that only moved are counted. `ROLE=onlineabonnent` captures the pages logged in as the local test user `styletest` (mail `styletest@example.invalid`, a test address and exactly that role), which `tests/style-diff/drush/test-user.php` creates or updates; real customer accounts are not used. Only the resting state is captured, not `:hover` or `:focus`.
+The test loads the pages of `tests/style-diff/pages.txt` in 1280 and 375 px, waits for JavaScript, fonts and images, and records about 100 CSS properties and the box of every element (including `::before` and `::after`). It reports changed properties and sizes; elements that only moved are counted. `ROLE=onlineabonnent` (or `ROLE=administrator` to include toolbar, contextual links and tabs) captures the pages logged in as the local test user `styletest` (mail `styletest@example.invalid`, a test address and exactly that role), which `tests/style-diff/drush/test-user.php` creates or updates; real customer accounts are not used. Only the resting state is captured, not `:hover` or `:focus`.
 
 Page list (`tests/style-diff/pages.txt`): `{uid}` stands for the logged-in user; flags after `#` restrict pages: `anonymous` (only without login), `login` (only with login), `fresh` (new session with an empty cart, only without login).
 
