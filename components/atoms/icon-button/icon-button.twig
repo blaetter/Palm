@@ -1,0 +1,25 @@
+{#
+/**
+ * @file
+ * Icon button atom: round button with a symbol or icon only; the label is
+ * given as aria-label and title.
+ *
+ * Usage: {{ include('palm:icon-button', { label: 'remove item from cart'|t, symbol: '×' }, with_context = false) }}
+ */
+#}
+{% set attributes = attributes
+  .addClass('palm-icon-button')
+  .setAttribute('aria-label', label ~ '')
+  .setAttribute('title', label ~ '')
+  .setAttribute('type', button_type|default('button')) %}
+{% if as_input %}
+  <input{{ attributes.setAttribute('value', symbol|default('×')) }} />
+{% else %}
+  <button{{ attributes }}>
+    {%- if icon -%}
+      <i class="fa fa-{{ icon }}" aria-hidden="true"></i>
+    {%- else -%}
+      <span aria-hidden="true">{{ symbol|default('×') }}</span>
+    {%- endif -%}
+  </button>
+{% endif %}

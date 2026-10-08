@@ -17,7 +17,7 @@ The theme is in transition from a Patternlab based styleguide to single director
 | `css/tokens.css` | Design tokens as CSS custom properties |
 | `css/drupal-layer.css` | CSS of core, Classy and modules in the layer `legacy` (generated) |
 | `css/captcha.css` | ALTCHA widget (custom properties, label) and the CAPTCHA box of administrators |
-| `templates/` | Drupal templates; they pass data to the components (`templates/form/` renders the fields and buttons of all Drupal forms with the form atoms and `palm:button`) |
+| `templates/` | Drupal templates; they pass data to the components (`templates/form/` renders the fields and buttons of all Drupal forms with the form atoms, `palm:button` and, for the remove button of the cart, `palm:icon-button`) |
 | `scripts/` | Build scripts (`build-drupal-layer.mjs`) |
 | `tests/style-diff/` | Regression test for CSS changes |
 | `.storybook/` | Storybook configuration |
@@ -36,6 +36,7 @@ Components are configured by their context through custom properties instead of 
 
 - `palm:button`: the button or a parent may set `--palm-button-padding`, `--palm-button-radius`, `--palm-button-display` and `--palm-button-white-space` (inherited), the button itself may get `--palm-button-space-after` (not inherited, see `@property` in `button.css`); for the primary variant also `--palm-button-font-weight`.
 - `palm:input`, `palm:select`, `palm:textarea`: the field or a parent may set `--palm-field-width`, `--palm-field-max-width`, `--palm-field-height`, `--palm-field-border` and `--palm-field-padding`.
+- `palm:icon-button` (round button with a symbol only, e.g. the remove button of the cart): the button or a parent may set `--palm-icon-button-size`, `--palm-icon-button-background`, `--palm-icon-button-background-hover` and `--palm-icon-button-color`; its position belongs to the context.
 - `palm:search-form` (molecule of `palm:input` and `palm:button`): a parent may set `--palm-search-form-height`, `--palm-search-form-color` and `--palm-search-form-font-size`; the molecule configures its field and button through their properties. Drupal's search forms (header block and search page) do not use its template: `palm_form_alter()` gives them the classes of the molecule and attaches its library, so keep the structure of `search-form.twig` and the alter in sync.
 
 Legacy rules in blaetter-theme set these properties where buttons and fields used to be adjusted by context (e.g. header, search form, form actions, cart quantity, cookie banner). Buttons take the font of their context, like the legacy buttons.

@@ -1,0 +1,54 @@
+/**
+ * Icon button atom: round, symbol only.
+ *
+ * In the layer components. The context may set --palm-icon-button-size,
+ * --palm-icon-button-background, --palm-icon-button-background-hover and
+ * --palm-icon-button-color on the button or a parent (inherited). Position and
+ * outer spacing belong to the context.
+ *
+ * Default colors: grey, red when hovered or focused (removing is the typical
+ * use). White on both and both against the page background reach 3:1
+ * (WCAG 1.4.11, non-text contrast).
+ */
+@layer components {
+  .palm-icon-button {
+    display: block;
+    box-sizing: border-box;
+    width: var(--palm-icon-button-size, 24px);
+    height: var(--palm-icon-button-size, 24px);
+    min-height: 0;
+    margin: 0;
+    padding: 0;
+    border: 1px solid var(--palm-icon-button-background, var(--palm-color-grey-text));
+    border-radius: 50%;
+    background: var(--palm-icon-button-background, var(--palm-color-grey-text));
+    color: var(--palm-icon-button-color, var(--palm-color-white));
+    font-family: var(--palm-font-sans);
+    font-size: var(--palm-icon-button-size, 24px);
+    font-weight: 700;
+    /* One pixel less than the size centers × in the circle. */
+    line-height: calc(var(--palm-icon-button-size, 24px) - 1px);
+    text-align: center;
+    text-decoration: none;
+    appearance: none;
+    cursor: pointer;
+
+    &:hover,
+    &:focus {
+      border-color: var(--palm-icon-button-background-hover, var(--palm-color-danger));
+      background: var(--palm-icon-button-background-hover, var(--palm-color-danger));
+      color: var(--palm-icon-button-color, var(--palm-color-white));
+    }
+
+    &:focus {
+      outline: 1px dotted var(--palm-color-black);
+      outline-offset: 1px;
+    }
+  }
+
+  /* Font Awesome icons are smaller than the circle. */
+  .palm-icon-button .fa {
+    font-size: 0.6em;
+    vertical-align: 0.1em;
+  }
+}
