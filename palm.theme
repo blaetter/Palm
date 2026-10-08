@@ -1030,6 +1030,25 @@ function palm_preprocess_links(&$variables) {
   if (isset($variables['links']['node-readmore'])) {
     unset($variables['links']['node-readmore']);
   }
+  // Add-to-cart link of NodeShop below products: palm:button with the icon at
+  // the end, like the buy buttons of issues. NodeShop puts the icon into the
+  // translated title, so the label is the title without markup.
+  if (isset($variables['links']['cartlink']['link']['#url'])) {
+    $link = $variables['links']['cartlink']['link'];
+    $attributes = $link['#options']['attributes'] ?? [];
+    $variables['links']['cartlink']['link'] = [
+      '#type' => 'component',
+      '#component' => 'palm:button',
+      '#props' => [
+        'label' => trim(strip_tags((string) $link['#title'])),
+        'url' => $link['#url'],
+        'title' => (string) ($attributes['title'] ?? ''),
+        'rel' => $attributes['rel'] ?? '',
+        'icon' => 'shopping-cart',
+        'icon_position' => 'end',
+      ],
+    ];
+  }
   if (isset($variables['links']['bonuslink'])) {
     $variables['links']['bonuslink']['link']['#options']['attributes']['class'][] = 'button';
     $variables['links']['bonuslink']['link']['#options']['attributes']['class'][] = 'button--reversed';

@@ -11,6 +11,7 @@ Sections per version: Features, Security, Bugs, Removed, Maintenance (omit empty
 - Buy, download, header promo, footer cancellation and issue teaser buttons use `palm:button`, as well as the buttons of the cookie banner (EU Cookie Compliance) and the consent buttons of embedded media and embed blocks
 - Form field atoms `palm:input` (text, email, password, number, search, tel, url), `palm:select` and `palm:textarea`; all Drupal forms render these fields through the templates in `templates/form/`
 - Form atoms `palm:checkbox` and `palm:radio`; Drupal form buttons (submit, button) use `palm:button` rendered as `<input>`, with the variant taken from `button--danger`/`button--reversed`
+- The add-to-cart link of NodeShop below products (dossiers, subscription teasers) is rendered as `palm:button` with the cart icon at the end (`palm_preprocess_links()`), like the buy buttons of issues; the icon gets its space
 - Atom `palm:icon-button` (round button with a symbol or icon only, label as `aria-label` and tooltip, with stories); the remove button (×) of the cart uses it, screen readers now read its label instead of the symbol; it is darker grey and turns red when hovered or focused, so symbol and button reach the contrast of 3:1 (before about 1.6:1, lighter on hover)
 - Storybook as living styleguide: stories are written in Twig next to the components and rendered by Drupal (`drupal/storybook`)
 - Design tokens as CSS custom properties (`css/tokens.css`)
