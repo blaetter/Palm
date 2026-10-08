@@ -23,9 +23,9 @@
       {{ message }}
     </div>
     <div id="popup-buttons" class="eu-cookie-compliance-buttons">
-      <button type="button" class="hide-popup-button eu-cookie-compliance-hide-button button">{{ hide_button }}</button>
+      {{ include('palm:button', { label: hide_button, attributes: create_attribute({ class: ['hide-popup-button', 'eu-cookie-compliance-hide-button', 'button'] }) }, with_context = false) }}
       {% if find_more_button %}
-        <button type="button" class="find-more-button eu-cookie-compliance-more-button-thank-you button button--reversed" >{{ find_more_button }}</button>
+        {{ include('palm:button', { label: find_more_button, attributes: create_attribute({ class: ['find-more-button', 'eu-cookie-compliance-more-button-thank-you', 'button', 'button--reversed'] }), variant: 'reversed' }, with_context = false) }}
       {% endif %}
     </div>
   </div>

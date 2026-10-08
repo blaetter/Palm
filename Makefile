@@ -39,7 +39,8 @@ drupal-layer:
 # With ROLE, the pages are captured as the local test user "styletest" with
 # that role (created or updated by Drush on the host); the container only gets
 # a one-time login link. The capture stops with a message if the user or the
-# link can not be created. Carts and orders of the test user and the ones that
+# link can not be created. Every capture starts with `drush cache:rebuild`, so
+# no rendered markup or CSS is left over from earlier changes or roles. Carts and orders of the test user and the ones that
 # the capture creates (cart, checkout) are removed before and afterwards, also
 # when the capture fails.
 STYLE_DIFF	:= $(CURDIR)/tests/style-diff
@@ -56,6 +57,7 @@ style-capture:
 		login=$$($(DRUSH) user:login --no-browser --uid=$$uid | tail -n 1); \
 		case "$$login" in http*) ;; *) echo "Could not create a login link for the test user ($$uid)."; exit 1;; esac; \
 	fi; \
+	$(DRUSH) cache:rebuild || exit 1; \
 	$(DRUSH) php:script $(STYLE_DIFF)/drush/cleanup.php -- mark $(STYLE_MARKS) || exit 1; \
 	$(COMPOSE) run --rm playwright npm run style-diff -- capture $(NAME) \
 		$${login:+--login-url "$$login" --role-label "$(ROLE)"}; \

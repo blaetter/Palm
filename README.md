@@ -33,10 +33,14 @@ Only the tokens (`css/tokens.css`), `@property` rules and the CSS of the admin U
 
 Components are configured by their context through custom properties instead of contextual selectors:
 
-- `palm:button`: the button or a parent may set `--palm-button-padding`, `--palm-button-radius` and `--palm-button-white-space` (inherited), the button itself may get `--palm-button-space-after` (not inherited, see `@property` in `button.css`); for the primary variant also `--palm-button-font-weight`.
+- `palm:button`: the button or a parent may set `--palm-button-padding`, `--palm-button-radius`, `--palm-button-display` and `--palm-button-white-space` (inherited), the button itself may get `--palm-button-space-after` (not inherited, see `@property` in `button.css`); for the primary variant also `--palm-button-font-weight`.
 - `palm:input`, `palm:select`, `palm:textarea`: the field or a parent may set `--palm-field-width`, `--palm-field-max-width`, `--palm-field-height`, `--palm-field-border` and `--palm-field-padding`.
 
-Legacy rules in blaetter-theme set these properties where buttons and fields used to be adjusted by context (e.g. header, search form, form actions, cart quantity).
+Legacy rules in blaetter-theme set these properties where buttons and fields used to be adjusted by context (e.g. header, search form, form actions, cart quantity, cookie banner). Buttons take the font of their context, like the legacy buttons.
+
+### Templates of modules
+
+Palm overrides templates of modules and uses components in them: the cookie banner of EU Cookie Compliance (`templates/content/eu_cookie_compliance_*.html.twig`) and the embed block of blaetter_formatters (`templates/content/blaetter_embed_block.html.twig`). After updates of these modules, compare the templates with the module versions. Their JavaScript finds the buttons by classes (`agree-button`, `eu-cookie-compliance-save-preferences-button`, `blaetter-embed-consent`, …), so keep these classes. EU Cookie Compliance renders the banner into a string for `drupalSettings`; therefore `palm.info.yml` attaches the button library to the banner library with `libraries-extend`.
 
 ## Requirements
 
@@ -118,7 +122,7 @@ make style-capture NAME=after
 make style-compare A=before B=after
 ```
 
-The test loads the pages of `tests/style-diff/pages.txt` in 1280 and 375 px, waits for JavaScript, fonts and images, and records about 100 CSS properties and the box of every element (including `::before` and `::after`). It reports changed properties and sizes; elements that only moved are counted. `ROLE=onlineabonnent` (or `ROLE=administrator` to include toolbar, contextual links and tabs) captures the pages logged in as the local test user `styletest` (mail `styletest@example.invalid`, a test address and exactly that role), which `tests/style-diff/drush/test-user.php` creates or updates; real customer accounts are not used. Only the resting state is captured, not `:hover` or `:focus`.
+Each capture starts with `drush cache:rebuild`, so no markup or CSS from earlier changes or roles is left in the caches. The test loads the pages of `tests/style-diff/pages.txt` in 375, 640, 860 and 1280 px (one width per range in which forms, buttons or the CSS of Drupal and modules change: breakpoints at 600, 720 and 1000 px; the other breakpoints only hold layout rules of the legacy styles), waits for JavaScript, fonts and images, and records about 100 CSS properties and the box of every element (including `::before` and `::after`). It reports changed properties and sizes; elements that only moved are counted. `ROLE=onlineabonnent` (or `ROLE=administrator` to include toolbar, contextual links and tabs) captures the pages logged in as the local test user `styletest` (mail `styletest@example.invalid`, a test address and exactly that role), which `tests/style-diff/drush/test-user.php` creates or updates; real customer accounts are not used. Only the resting state is captured, not `:hover` or `:focus`.
 
 Page list (`tests/style-diff/pages.txt`): `{uid}` stands for the logged-in user; flags after `#` restrict pages: `anonymous` (only without login), `login` (only with login), `fresh` (new session with an empty cart, only without login).
 

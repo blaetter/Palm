@@ -5,7 +5,7 @@
  * Drupal and modules (layer legacy) regardless of selector specificity.
  *
  * Variants only set the --palm-button-* custom properties. The context may
- * set --palm-button-padding, --palm-button-radius and
+ * set --palm-button-padding, --palm-button-radius, --palm-button-display and
  * --palm-button-white-space on the button or a parent (inherited) and
  * --palm-button-space-after on the button itself (not inherited, see
  * @property); the component never sets them itself. For the primary variant,
@@ -28,7 +28,7 @@
     --palm-button-color: var(--palm-color-white);
     --palm-button-color-hover: var(--palm-button-color);
 
-    display: inline-block;
+    display: var(--palm-button-display, inline-block);
     box-sizing: border-box;
     min-height: var(--palm-control-min-height);
     /* Only the space below; other outer spacing belongs to the context. */
@@ -39,8 +39,8 @@
     background-color: var(--palm-button-background);
     color: var(--palm-button-color);
     opacity: var(--palm-button-opacity, 1);
+    /* Font from the context, as the legacy buttons (.btn { font: inherit }). */
     font: inherit;
-    font-family: var(--palm-font-sans);
     font-weight: var(--palm-button-font-weight, inherit);
     text-align: center;
     text-decoration: none;

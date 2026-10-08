@@ -8,7 +8,7 @@ Sections per version: Features, Security, Bugs, Removed, Maintenance (omit empty
 
 ### Features
 - Single directory components (SDC) in `components/`, starting with the atom `palm:button` (variants primary, reversed, danger, promo, ghost, white, disabled; optional icon at the start or end)
-- Buy, download, header promo, footer cancellation and issue teaser buttons use `palm:button`
+- Buy, download, header promo, footer cancellation and issue teaser buttons use `palm:button`, as well as the buttons of the cookie banner (EU Cookie Compliance) and the consent buttons of embedded media and embed blocks
 - Form field atoms `palm:input` (text, email, password, number, search, tel, url), `palm:select` and `palm:textarea`; all Drupal forms render these fields through the templates in `templates/form/`
 - Form atoms `palm:checkbox` and `palm:radio`; Drupal form buttons (submit, button) use `palm:button` rendered as `<input>`, with the variant taken from `button--danger`/`button--reversed` (the round remove button of the cart keeps its own styling for now)
 - Storybook as living styleguide: stories are written in Twig next to the components and rendered by Drupal (`drupal/storybook`)
@@ -24,5 +24,6 @@ Sections per version: Features, Security, Bugs, Removed, Maintenance (omit empty
 - Style diff covers form pages (search, contact forms, password reset, cart with an item, own account) and the checkout up to the address form; logged in as the local test user `styletest`; carts and orders of the test user and those created by a capture are removed before and after each capture; the page list supports `{uid}` and the flags `anonymous`, `login` and `fresh`
 - npm runs only in Docker containers (`docker-compose.yml`, `Makefile`) without access to the home directory, SSH keys or `settings.php`; packages are installed from the lockfile without install scripts
 - README with the development workflow
+- Every style diff capture starts with rebuilt caches (`drush cache:rebuild`)
 
 Earlier changes: see the git history.

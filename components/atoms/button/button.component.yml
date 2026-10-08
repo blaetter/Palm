@@ -5,7 +5,8 @@ group: Atoms
 description: >
   Call to action. Renders a link when a URL is given, otherwise a button element.
   Surrounding markup can adjust it with custom properties: --palm-button-padding,
-  --palm-button-radius and --palm-button-white-space (set on the button or a parent) and
+  --palm-button-radius, --palm-button-display and --palm-button-white-space (set on the
+  button or a parent) and
   --palm-button-space-after (margin below, set on the button itself, not inherited). Other
   outer margins are left to the context.
 # Passed as `variant` (Twig include) or #variant (render array).

@@ -53,6 +53,11 @@ libraries-override:
     css:
       theme:
         css/captcha.css: false
+# EU Cookie Compliance renders its banner into a string for drupalSettings, so
+# the libraries of the components in the banner templates do not bubble up.
+libraries-extend:
+  eu_cookie_compliance/eu_cookie_compliance:
+    - core/components.palm--button
 logo: images/logo_tongue.svg
 version: 1.0.0
 regions:

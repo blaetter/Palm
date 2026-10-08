@@ -22,7 +22,7 @@
       {{ message }}
     </div>
     <div id="popup-buttons" class="eu-cookie-compliance-buttons">
-      <button type="button" class="eu-cookie-withdraw-button button">{{ withdraw_action_button_label }}</button>
+      {{ include('palm:button', { label: withdraw_action_button_label, attributes: create_attribute({ class: ['eu-cookie-withdraw-button', 'button'] }) }, with_context = false) }}
     </div>
   </div>
 </div>
