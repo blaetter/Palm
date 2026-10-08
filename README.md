@@ -12,7 +12,7 @@ The theme is in transition from a Patternlab based styleguide to single director
 | Path | Content |
 |---|---|
 | `bundle/` | Legacy CSS/JS and fonts from blaetter-theme (generated, do not edit) |
-| `components/` | Single directory components, grouped like atomic design (`atoms/`, …) |
+| `components/` | Single directory components, grouped like atomic design (`atoms/`, `molecules/`) |
 | `css/layers.css` | Order of the cascade layers |
 | `css/tokens.css` | Design tokens as CSS custom properties |
 | `css/drupal-layer.css` | CSS of core, Classy and modules in the layer `legacy` (generated) |
@@ -36,6 +36,7 @@ Components are configured by their context through custom properties instead of 
 
 - `palm:button`: the button or a parent may set `--palm-button-padding`, `--palm-button-radius`, `--palm-button-display` and `--palm-button-white-space` (inherited), the button itself may get `--palm-button-space-after` (not inherited, see `@property` in `button.css`); for the primary variant also `--palm-button-font-weight`.
 - `palm:input`, `palm:select`, `palm:textarea`: the field or a parent may set `--palm-field-width`, `--palm-field-max-width`, `--palm-field-height`, `--palm-field-border` and `--palm-field-padding`.
+- `palm:search-form` (molecule of `palm:input` and `palm:button`): a parent may set `--palm-search-form-height`, `--palm-search-form-color` and `--palm-search-form-font-size`; the molecule configures its field and button through their properties.
 
 Legacy rules in blaetter-theme set these properties where buttons and fields used to be adjusted by context (e.g. header, search form, form actions, cart quantity, cookie banner). Buttons take the font of their context, like the legacy buttons.
 

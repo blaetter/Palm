@@ -1,0 +1,38 @@
+$schema: https://git.drupalcode.org/project/drupal/-/raw/HEAD/core/assets/schemas/v1/metadata.schema.json
+name: Search form
+status: experimental
+group: Molecules
+description: >
+  Search field with a submit button in one row (palm:input and palm:button), e.g. the header
+  search. Sends the search terms with GET as `keys`. Surrounding markup can adjust it with
+  custom properties: --palm-search-form-height, --palm-search-form-color (border and button)
+  and --palm-search-form-font-size.
+libraryOverrides:
+  dependencies:
+    - palm/tokens
+props:
+  type: object
+  required:
+    - label
+  properties:
+    action:
+      type: string
+      title: Action
+      description: URL the form is sent to, e.g. /search/node.
+      default: /search/node
+    label:
+      type: [string, object]
+      title: Label
+      description: Label of the field, visually hidden; also the placeholder.
+    button_label:
+      type: [string, object]
+      title: Button label
+    input_id:
+      type: string
+      title: Field id
+      description: Id of the field, connects the hidden label.
+      default: search-form-keys
+    value:
+      type: string
+      title: Value
+      description: Search terms shown in the field.

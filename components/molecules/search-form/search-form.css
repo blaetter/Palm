@@ -1,0 +1,44 @@
+/**
+ * Search form molecule: field and button in one row, the button closes the
+ * field on the right.
+ *
+ * In the layer components. The context may set --palm-search-form-height,
+ * --palm-search-form-color and --palm-search-form-font-size (inherited). The
+ * field and the button are configured through their own custom properties.
+ */
+@layer components {
+  .palm-search-form {
+    --palm-field-height: var(--palm-search-form-height, 60px);
+    --palm-field-border: 2px solid var(--palm-search-form-color, var(--palm-color-action));
+    /* Little space on the right, the button follows directly. */
+    --palm-field-padding: 16px 4px 16px 32px;
+    --palm-button-padding: 16px;
+    --palm-button-radius: 0;
+    --palm-button-font-weight: 700;
+
+    display: flex;
+    margin: 0;
+    font-size: var(--palm-search-form-font-size, 20px);
+  }
+
+  /* Two classes: wins over the atoms regardless of the order of their CSS. */
+  .palm-search-form .palm-search-form__field {
+    /* The height includes padding and border, like the button. */
+    box-sizing: border-box;
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .palm-search-form .palm-search-form__submit {
+    --palm-button-background: var(--palm-search-form-color, var(--palm-color-action));
+    --palm-button-space-after: 0;
+
+    flex: 0 0 auto;
+    width: auto;
+    height: var(--palm-search-form-height, 60px);
+    min-height: 0;
+    font-size: 1.125rem;
+    line-height: 1;
+    text-transform: uppercase;
+  }
+}
