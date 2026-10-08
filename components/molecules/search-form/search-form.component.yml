@@ -3,8 +3,9 @@ name: Search form
 status: experimental
 group: Molecules
 description: >
-  Search field with a submit button in one row (palm:input and palm:button), e.g. the header
-  search. Sends the search terms with GET as `keys`. Surrounding markup can adjust it with
+  Search field with a submit button in one row (palm:input and palm:button). Sends the search
+  terms with GET as `keys`. Drupal's search forms (header block, search page) get the same
+  classes in palm_form_alter(), so this CSS styles them too. Surrounding markup can adjust it with
   custom properties: --palm-search-form-height, --palm-search-form-color (border and button)
   and --palm-search-form-font-size.
 libraryOverrides:

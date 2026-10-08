@@ -29,14 +29,5 @@
   {% if label %}
     <h6{{ title_attributes.addClass('aural') }}>{{ label }}</h6>
   {% endif %}
-  {#
-    We use # as action here to prevent bots from submitting this form. Later the action is set via js
-    (search-flyout.js in blaetter-theme finds the form by the class js-search-form).
-  #}
-  {{ include('palm:search-form', {
-    action: '#',
-    label: 'Search this website...'|t,
-    button_label: 'search'|t,
-    input_id: 'search_form_keys',
-    attributes: create_attribute({ class: ['js-search-form'] }),
-  }, with_context = false) }}
+  {# The form is altered in palm_form_alter() (classes of palm:search-form, bot protection). #}
+  {{ content }}

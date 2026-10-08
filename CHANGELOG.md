@@ -16,7 +16,7 @@ Sections per version: Features, Security, Bugs, Removed, Maintenance (omit empty
 - Cascade layers `legacy` and `components`: components win over the legacy styles without specificity fights
 - Styling of the remove button in the cart form (now a submit button instead of a link)
 - The ALTCHA widget looks like a form field (white, square, field border, label in one line; full width on phones) through its custom properties in `css/captcha.css`; the CAPTCHA box administrators see instead (details with links) uses the same box (full width) below a bold label
-- First molecule `palm:search-form` (search field and button in one row, with story); the header search block uses it with `type="search"`, the search link in the header and the opened search form point to `/search/node` instead of the removed Bing search (`search-flyout.js` in blaetter-theme finds the form by `js-search-form`)
+- First molecule `palm:search-form` (search field and button in one row, with stories); the header search (core search block, until now replaced by hard-coded markup) and the search page render Drupal's forms with the classes of the molecule (`palm_form_alter()`), so both look alike; the field is `type="search"`, the header search sends to `/search/node` instead of the removed Bing search and keeps its bot protection (`action="#"` until opened, `search-flyout.js` in blaetter-theme finds the form by `js-search-form`); the search page no longer links to the search help; administrators no longer see the CAPTCHA box ("no challenge enabled") in the header search
 - Descriptions of form fields have a gap to the field above; the CAPTCHA legend is bold like the other labels (blaetter-theme)
 
 ### Maintenance

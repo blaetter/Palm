@@ -3,25 +3,32 @@
  * @file
  * Search form molecule: search field and submit button in one row.
  *
- * Usage: {{ include('palm:search-form', { label: 'Search this website...'|t, button_label: 'search'|t, action: '/search/node' }, with_context = false) }}
+ * Drupal's search forms (header block and search page) do not use this
+ * template; palm_form_alter() gives their elements the same classes, so the
+ * CSS of the molecule styles them as well. Keep the structure in sync:
+ * .palm-search-form > .palm-search-form__field (label, input) + .palm-search-form__submit.
+ *
+ * Usage: {{ include('palm:search-form', { label: 'Search this website...'|t, button_label: 'search'|t }, with_context = false) }}
  */
 #}
 {% set input_id = input_id|default('search-form-keys') %}
 <form{{ attributes.addClass('palm-search-form').setAttribute('action', action|default('/search/node')).setAttribute('method', 'get') }}>
-  <label class="visually-hidden" for="{{ input_id }}">{{ label }}</label>
-  {{ include('palm:input', {
-    attributes: create_attribute({
-      type: 'search',
-      id: input_id,
-      name: 'keys',
-      value: value|default(''),
-      placeholder: label,
-      class: ['palm-search-form__field'],
-    }),
-  }, with_context = false) }}
+  <div class="palm-search-form__field">
+    <label class="visually-hidden" for="{{ input_id }}">{{ label }}</label>
+    {{ include('palm:input', {
+      attributes: create_attribute({
+        type: 'search',
+        id: input_id,
+        name: 'keys',
+        value: value|default(''),
+        placeholder: label,
+      }),
+    }, with_context = false) }}
+  </div>
   {{ include('palm:button', {
     label: button_label|default('search'|t),
     button_type: 'submit',
+    as_input: true,
     attributes: create_attribute({ class: ['palm-search-form__submit'] }),
   }, with_context = false) }}
 </form>

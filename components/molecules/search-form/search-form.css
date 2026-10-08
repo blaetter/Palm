@@ -2,9 +2,12 @@
  * Search form molecule: field and button in one row, the button closes the
  * field on the right.
  *
- * In the layer components. The context may set --palm-search-form-height,
- * --palm-search-form-color and --palm-search-form-font-size (inherited). The
- * field and the button are configured through their own custom properties.
+ * Also styles Drupal's search forms (header block, search page), which get the
+ * same classes in palm_form_alter(); the class palm-search-form may sit on a
+ * container inside the form. In the layer components. The context may set
+ * --palm-search-form-height, --palm-search-form-color and
+ * --palm-search-form-font-size (inherited). The field and the button are
+ * configured through their own custom properties.
  */
 @layer components {
   .palm-search-form {
@@ -21,12 +24,16 @@
     font-size: var(--palm-search-form-font-size, 20px);
   }
 
-  /* Two classes: wins over the atoms regardless of the order of their CSS. */
+  /* Two classes: wins over the atoms and form items regardless of the order of their CSS. */
   .palm-search-form .palm-search-form__field {
-    /* The height includes padding and border, like the button. */
-    box-sizing: border-box;
     flex: 1 1 auto;
     min-width: 0;
+    margin: 0;
+  }
+
+  .palm-search-form .palm-search-form__field .palm-input {
+    /* The height includes padding and border, like the button. */
+    box-sizing: border-box;
   }
 
   .palm-search-form .palm-search-form__submit {
@@ -35,8 +42,10 @@
 
     flex: 0 0 auto;
     width: auto;
+    max-width: none;
     height: var(--palm-search-form-height, 60px);
     min-height: 0;
+    margin: 0;
     font-size: 1.125rem;
     line-height: 1;
     text-transform: uppercase;

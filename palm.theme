@@ -1178,9 +1178,43 @@ function palm_form_alter(&$form, FormStateInterface $form_state, $form_id) {
         $form['actions']['preview']['#weight'] = -10;
     }
 
-    // Search form alter
+    // Search page: the field and button get the classes of palm:search-form.
     if ('search_form' == $form_id) {
+        $form['basic']['#attributes']['class'] = ['palm-search-form'];
+        $form['basic']['keys']['#title_display'] = 'invisible';
         $form['basic']['keys']['#placeholder'] = new Translation('Search this website...');
+        $form['basic']['keys']['#wrapper_attributes']['class'][] = 'palm-search-form__field';
+        $form['basic']['submit']['#value'] = new Translation('search');
+        $form['basic']['submit']['#attributes']['class'][] = 'palm-search-form__submit';
+        $form['#attached']['library'][] = 'core/components.palm--search-form';
+        // No link to the search help page (/search/node/help stays reachable).
+        $form['help_link']['#access'] = FALSE;
+    }
+
+    // Header search (search block): same classes as palm:search-form.
+    if ('search_block_form' == $form_id) {
+        // Bots that submit forms found in the HTML send it to the current
+        // page; search-flyout.js (blaetter-theme) sets the search page as
+        // action when the search is opened and finds the form by js-search-form.
+        $form['#action'] = '#';
+        $form['#attributes']['class'][] = 'js-search-form';
+        $form['#attributes']['class'][] = 'palm-search-form';
+        $form['keys']['#title'] = new Translation('Search this website...');
+        $form['keys']['#placeholder'] = new Translation('Search this website...');
+        $form['keys']['#size'] = NULL;
+        $form['keys']['#wrapper_attributes']['class'][] = 'palm-search-form__field';
+        // The button follows the field directly, without the actions wrapper.
+        $form['submit'] = $form['actions']['submit'];
+        $form['submit']['#value'] = new Translation('search');
+        $form['submit']['#attributes']['class'][] = 'palm-search-form__submit';
+        unset($form['actions']);
+        $form['#attached']['library'][] = 'core/components.palm--search-form';
+        // The CAPTCHA module shows administrators a box with links here (no
+        // CAPTCHA point for this form); it breaks the flyout. A real CAPTCHA
+        // would stay.
+        if (in_array('captcha-admin-links', $form['captcha']['#attributes']['class'] ?? [], TRUE)) {
+            $form['captcha']['#access'] = FALSE;
+        }
     }
 }
 
