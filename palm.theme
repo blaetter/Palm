@@ -1049,9 +1049,22 @@ function palm_preprocess_links(&$variables) {
       ],
     ];
   }
-  if (isset($variables['links']['bonuslink'])) {
-    $variables['links']['bonuslink']['link']['#options']['attributes']['class'][] = 'button';
-    $variables['links']['bonuslink']['link']['#options']['attributes']['class'][] = 'button--reversed';
+  // Link of the bonus feature of NodeShop to choose a bonus: palm:button
+  // (reversed) next to the add-to-cart link.
+  if (isset($variables['links']['bonuslink']['link']['#url'])) {
+    $link = $variables['links']['bonuslink']['link'];
+    $attributes = $link['#options']['attributes'] ?? [];
+    $variables['links']['bonuslink']['link'] = [
+      '#type' => 'component',
+      '#component' => 'palm:button',
+      '#props' => [
+        'label' => trim(strip_tags((string) $link['#title'])),
+        'url' => $link['#url'],
+        'title' => (string) ($attributes['title'] ?? ''),
+        'rel' => $attributes['rel'] ?? '',
+      ],
+      '#variant' => 'reversed',
+    ];
   }
 
 }
