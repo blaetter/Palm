@@ -16,6 +16,7 @@ The theme is in transition from a Patternlab based styleguide to single director
 | `css/layers.css` | Order of the cascade layers |
 | `css/tokens.css` | Design tokens as CSS custom properties |
 | `css/drupal-layer.css` | CSS of core, Classy and modules in the layer `legacy` (generated) |
+| `css/captcha.css` | ALTCHA widget (custom properties, label) and the CAPTCHA box of administrators |
 | `templates/` | Drupal templates; they pass data to the components (`templates/form/` renders the fields and buttons of all Drupal forms with the form atoms and `palm:button`) |
 | `scripts/` | Build scripts (`build-drupal-layer.mjs`) |
 | `tests/style-diff/` | Regression test for CSS changes |
@@ -41,6 +42,8 @@ Legacy rules in blaetter-theme set these properties where buttons and fields use
 ### Templates of modules
 
 Palm overrides templates of modules and uses components in them: the cookie banner of EU Cookie Compliance (`templates/content/eu_cookie_compliance_*.html.twig`) and the embed block of blaetter_formatters (`templates/content/blaetter_embed_block.html.twig`). After updates of these modules, compare the templates with the module versions. Their JavaScript finds the buttons by classes (`agree-button`, `eu-cookie-compliance-save-preferences-button`, `blaetter-embed-consent`, …), so keep these classes. EU Cookie Compliance renders the banner into a string for `drupalSettings`; therefore `palm.info.yml` attaches the button library to the banner library with `libraries-extend`.
+
+The ALTCHA widget of the captcha injects its own CSS outside of any layer, so it wins over the theme. Palm does not override it but sets the custom properties the widget reads (`--altcha-color-base`, `--altcha-color-border`, `--altcha-border-radius`, `--altcha-max-width`, …) and styles its label in `css/captcha.css`. Administrators who skip the CAPTCHA see a box with links instead (`details.captcha-admin-links`), styled in the same file. The CAPTCHA module attaches no library to that box, so `css/captcha.css` is a global library of the theme.
 
 ## Requirements
 

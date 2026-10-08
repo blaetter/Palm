@@ -15,6 +15,8 @@ Sections per version: Features, Security, Bugs, Removed, Maintenance (omit empty
 - Design tokens as CSS custom properties (`css/tokens.css`)
 - Cascade layers `legacy` and `components`: components win over the legacy styles without specificity fights
 - Styling of the remove button in the cart form (now a submit button instead of a link)
+- The ALTCHA widget looks like a form field (white, square, field border, label in one line; full width on phones) through its custom properties in `css/captcha.css`; the CAPTCHA box administrators see instead (details with links) uses the same box (full width) below a bold label
+- Descriptions of form fields have a gap to the field above; the CAPTCHA legend is bold like the other labels (blaetter-theme)
 
 ### Maintenance
 - Compatibility with Drupal 11; the components (SDC variants) are tested with Drupal 11.4 only

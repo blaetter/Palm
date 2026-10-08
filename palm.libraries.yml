@@ -20,3 +20,12 @@ tokens:
   css:
     base:
       css/tokens.css: {}
+# ALTCHA widget and the CAPTCHA box of administrators. Global, because the
+# CAPTCHA module attaches no library in its administration mode.
+captcha:
+  version: 1.x
+  css:
+    component:
+      css/captcha.css: {}
+  dependencies:
+    - palm/tokens

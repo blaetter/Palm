@@ -1,0 +1,68 @@
+/**
+ * Captcha: the ALTCHA widget and the CAPTCHA box administrators see instead.
+ *
+ * The widget injects its own unlayered CSS, which reads the --altcha-* custom
+ * properties; they make the box look like a form field. The widget label is in
+ * the light DOM and would get the bold form labels of the legacy styles.
+ * Administrators with "skip CAPTCHA" get a details element with links
+ * (captcha-admin-links); it uses the same box below a label like summary,
+ * in the full width of the form.
+ */
+@layer components {
+  :root {
+    --palm-captcha-max-width: 20rem;
+  }
+
+  /* Full width of the widget on phones, like the fields and buttons. */
+  @media (max-width: 45rem) {
+    :root {
+      --palm-captcha-max-width: 100%;
+    }
+  }
+
+  altcha-widget {
+    --altcha-color-base: var(--palm-color-white);
+    --altcha-color-border: var(--palm-color-grey-border);
+    --altcha-color-border-focus: var(--palm-color-focus);
+    --altcha-border-radius: 0;
+    --altcha-max-width: var(--palm-captcha-max-width);
+  }
+
+  altcha-widget .altcha-label {
+    display: block;
+    margin: 0;
+    font-weight: 400;
+    line-height: 1.3;
+  }
+
+  .captcha-admin-links > summary {
+    padding: 0;
+    margin-bottom: 0.4em;
+    font-size: inherit;
+    font-weight: 700;
+  }
+
+  .captcha-admin-links > .details-wrapper {
+    display: grid;
+    justify-items: start;
+    gap: 0.4em;
+    padding: 0.7rem;
+    border: 1px solid var(--palm-color-grey-border);
+    background: var(--palm-color-white);
+    line-height: 1.3;
+  }
+
+  .captcha-admin-links .form-item {
+    margin: 0;
+  }
+
+  .captcha-admin-links .form-item label {
+    display: inline;
+    margin: 0;
+    font-weight: 400;
+  }
+
+  .captcha-admin-links .form-item label::after {
+    content: ":";
+  }
+}

@@ -5,6 +5,7 @@ core_version_requirement: ^10 || ^11
 libraries:
   - palm/global-styling
   - palm/global-scripts
+  - palm/captcha
 base theme: classy
 # The CSS of these libraries is loaded from css/drupal-layer.css instead, in the
 # cascade layer legacy before palm.css (scripts/build-drupal-layer.mjs).
