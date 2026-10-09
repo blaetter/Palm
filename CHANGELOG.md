@@ -31,6 +31,7 @@ Sections per version: Features, Security, Bugs, Removed, Maintenance (omit empty
 - Style diff covers form pages (search, contact forms, password reset, cart with an item, own account) and the checkout up to the address form; logged in as the local test user `styletest`; carts and orders of the test user and those created by a capture are removed before and after each capture; the page list supports `{uid}` and the flags `anonymous`, `login` and `fresh`
 - npm runs only in Docker containers (`docker-compose.yml`, `Makefile`) without access to the home directory, SSH keys or `settings.php`; packages are installed from the lockfile without install scripts
 - README with the development workflow
+- `make storybook-start` and `make storybook-stop` run Storybook in the background
 - Every style diff capture starts with rebuilt caches (`drush cache:rebuild`)
 - The style diff compares pages with changed markup: elements are paired by their keys like diff, replaced elements (same tag at the same place) are compared, added and removed elements are listed
 - Style diff pages can run steps before the capture (`click`, `click?`, `snapshot`); the page list captures the opened header search and, as test user, the checkout up to the summary (address, payment by invoice, summary)

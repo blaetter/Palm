@@ -11,7 +11,9 @@ DRUSH	:= ../../../../vendor/bin/drush --uri=https://web.blaetter
 .PHONY: help
 help:
 	@echo "make install          install node modules from package-lock.json (container, without install scripts)"
-	@echo "make storybook        start Storybook on http://localhost:6006 (container)"
+	@echo "make storybook        start Storybook on http://localhost:6006 (container, in the foreground)"
+	@echo "make storybook-start  start Storybook in the background, it keeps running until storybook-stop"
+	@echo "make storybook-stop   stop Storybook started in the background"
 	@echo "make stories          compile *.stories.twig to *.stories.json (Drush on the host)"
 	@echo "make drupal-layer     rebuild css/drupal-layer.css (container)"
 	@echo "make style-capture NAME=<name> [ROLE=<role>]   capture computed styles (container), ROLE as test user styletest"
@@ -27,6 +29,21 @@ install:
 .PHONY: storybook
 storybook:
 	$(COMPOSE) up storybook
+
+# Background variant: waits until Storybook answers (first build takes a while).
+.PHONY: storybook-start
+storybook-start:
+	$(COMPOSE) up -d storybook
+	@echo "Waiting for Storybook on http://localhost:6006 ..."
+	@for i in $$(seq 1 60); do \
+		curl -s -o /dev/null http://127.0.0.1:6006/ && { echo "Storybook runs on http://localhost:6006"; exit 0; }; \
+		sleep 2; \
+	done; \
+	echo "Storybook does not answer yet, see: docker compose logs storybook"; exit 1
+
+.PHONY: storybook-stop
+storybook-stop:
+	$(COMPOSE) stop storybook
 
 .PHONY: stories
 stories:

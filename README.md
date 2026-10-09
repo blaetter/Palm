@@ -92,14 +92,16 @@ Run them in the theme directory; `make help` lists them.
 | Target | Runs | Purpose |
 |---|---|---|
 | `make install` | container | install `node_modules` from `package-lock.json` (first setup, after lockfile changes) |
-| `make storybook` | container | Storybook on http://localhost:6006 |
+| `make storybook` | container | Storybook on http://localhost:6006, in the foreground (stops with the terminal) |
+| `make storybook-start` | container | Storybook in the background; waits until it answers |
+| `make storybook-stop` | container | stop Storybook started with `storybook-start` |
 | `make stories` | host (Drush) | compile `*.stories.twig` to `*.stories.json` |
 | `make drupal-layer` | container | rebuild `css/drupal-layer.css` |
 | `make style-capture NAME=<name> [ROLE=<role>]` | container (Drush on the host for the test user and the cleanup) | capture the computed styles of the test pages; with `ROLE` as the local test user `styletest` |
 | `make style-compare A=<name> B=<name> [DETAILS=1]` | container | compare two captures |
 | `make shell` | container | shell in the `node` container |
 
-First setup: `make install`, then `make stories` and `make storybook`.
+First setup: `make install`, then `make stories` and `make storybook` (or `make storybook-start` to keep it running in the background).
 
 ## Workflows
 
@@ -153,6 +155,7 @@ The project blaetter.web installs Palm with Composer. While a theme branch is no
 
 ## Troubleshooting
 
+- **http://localhost:6006 refuses the connection:** Storybook is not running; start it with `make storybook-start` (it keeps running until `make storybook-stop` or a restart of Docker).
 - **Storybook shows "Failed to fetch":** check `storybook.development` and `cors.config` in `services.yml`, run `drush cr`, and open `https://web.blaetter` once in the browser to accept the local certificate.
 - **`make install` fails with permission errors:** the volume `palm_node_modules` belongs to root; `make install` hands it over first. Remove the volume with `docker volume rm palm_node_modules` to start from scratch.
 - **The style diff cannot reach `web.blaetter`:** the container resolves it to the host (`host-gateway`); MAMP must accept connections from Docker.
