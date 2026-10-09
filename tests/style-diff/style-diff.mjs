@@ -25,6 +25,12 @@
  * Browser: the Chromium of the Playwright image (container), otherwise
  * STYLE_DIFF_BROWSER (path to a Chromium based browser), Chrome or Edge.
  *
+ * Elements are compared by position; when the markup of a page changed, they
+ * are paired by their keys (tag, id, classes) like diff; elements with the
+ * same tag at the same place count as replaced and are compared as well, added
+ * or removed elements are reported on their own, so the rest of the page stays
+ * comparable.
+ *
  * Pages may run steps before they are captured (clicks, e.g. to open the
  * search flyout or to go through the checkout), see pages.txt.
  *
@@ -271,6 +277,88 @@ async function capture(name, options) {
   await browser.close();
 }
 
+// Pairs the elements of two captures by their keys, like diff: the longest
+// common subsequence of keys is compared. Between two such pairs, removed and
+// added elements with the same tag are paired in their order as "replaced"
+// (e.g. a link that got other classes), so their styles are compared as well;
+// the rest counts as removed or added. Equal starts and ends are cut off
+// first, so only the changed part of a page goes through the quadratic search.
+function align(a, b) {
+  let start = 0;
+  while (start < a.length && start < b.length && a[start].key === b[start].key) {
+    start++;
+  }
+  let endA = a.length;
+  let endB = b.length;
+  while (endA > start && endB > start && a[endA - 1].key === b[endB - 1].key) {
+    endA--;
+    endB--;
+  }
+  const pairs = [];
+  for (let i = 0; i < start; i++) {
+    pairs.push([i, i]);
+  }
+  const n = endA - start;
+  const m = endB - start;
+  // lengths[i][j]: longest common subsequence of a[start+i..] and b[start+j..]
+  const lengths = new Uint32Array((n + 1) * (m + 1));
+  for (let i = n - 1; i >= 0; i--) {
+    for (let j = m - 1; j >= 0; j--) {
+      lengths[i * (m + 1) + j] = a[start + i].key === b[start + j].key
+        ? lengths[(i + 1) * (m + 1) + j + 1] + 1
+        : Math.max(lengths[(i + 1) * (m + 1) + j], lengths[i * (m + 1) + j + 1]);
+    }
+  }
+  const removed = [];
+  const added = [];
+  const replaced = [];
+  const tag = (element) => element.key.split(' > ').at(-1).match(/^[a-z0-9-]*/)[0];
+  let gapA = [];
+  let gapB = [];
+  const flush = () => {
+    let k = 0;
+    for (const ib of gapB) {
+      const found = gapA.findIndex((ia, x) => x >= k && tag(a[ia]) === tag(b[ib]));
+      if (found === -1) {
+        added.push(ib);
+        continue;
+      }
+      removed.push(...gapA.slice(k, found));
+      replaced.push([gapA[found], ib]);
+      k = found + 1;
+    }
+    removed.push(...gapA.slice(k));
+    gapA = [];
+    gapB = [];
+  };
+  let i = 0;
+  let j = 0;
+  while (i < n && j < m) {
+    if (a[start + i].key === b[start + j].key) {
+      flush();
+      pairs.push([start + i, start + j]);
+      i++;
+      j++;
+    } else if (lengths[(i + 1) * (m + 1) + j] >= lengths[i * (m + 1) + j + 1]) {
+      gapA.push(start + i++);
+    } else {
+      gapB.push(start + j++);
+    }
+  }
+  while (i < n) {
+    gapA.push(start + i++);
+  }
+  while (j < m) {
+    gapB.push(start + j++);
+  }
+  flush();
+  pairs.push(...replaced);
+  for (let k = 0; k < a.length - endA; k++) {
+    pairs.push([endA + k, endB + k]);
+  }
+  return { pairs, removed, added, replaced: replaced.length };
+}
+
 function compare(beforeName, afterName, options) {
   const dirA = join(snapshotDir, beforeName);
   const dirB = join(snapshotDir, afterName);
@@ -296,15 +384,35 @@ function compare(beforeName, afterName, options) {
       console.log(`${label}: ended on ${a.url} -> ${b.url}`);
       differences++;
     }
-    if (a.elements.length !== b.elements.length) {
-      console.log(`${label}: markup changed (${a.elements.length} -> ${b.elements.length} elements), not comparable`);
-      differences++;
-      continue;
+    const count = (groupKey, example) => {
+      const group = groups.get(groupKey) || { count: 0, examples: [] };
+      group.count++;
+      if (group.examples.length < 3) {
+        group.examples.push(example);
+      }
+      groups.set(groupKey, group);
+    };
+    // Same markup: elements are compared by position. Changed markup: by key,
+    // added and removed elements are reported on their own.
+    const sameMarkup = a.elements.length === b.elements.length
+      && a.elements.every((ea, i) => ea.key === b.elements[i].key);
+    const { pairs, removed, added, replaced } = sameMarkup
+      ? { pairs: a.elements.map((_, i) => [i, i]), removed: [], added: [], replaced: 0 }
+      : align(a.elements, b.elements);
+    // Grouped by element, the pages are the examples.
+    for (const i of removed) {
+      count(`removed: ${a.elements[i].key}`, label);
+      details.push({ label, key: a.elements[i].key, changes: [['element', 'present', 'removed']] });
+    }
+    for (const j of added) {
+      count(`added: ${b.elements[j].key}`, label);
+      details.push({ label, key: b.elements[j].key, changes: [['element', 'none', 'added']] });
     }
     let pageDiffs = 0;
     let moved = 0;
-    a.elements.forEach((ea, i) => {
-      const eb = b.elements[i];
+    pairs.forEach(([ia, ib]) => {
+      const ea = a.elements[ia];
+      const eb = b.elements[ib];
       const changes = [];
       for (const part of ['style', 'before', 'after']) {
         if (!ea[part] !== !eb[part]) {
@@ -323,23 +431,21 @@ function compare(beforeName, afterName, options) {
       } else if (Math.abs(ea.box[0] - eb.box[0]) > 0.5 || Math.abs(ea.box[1] - eb.box[1]) > 0.5) {
         moved++;
       }
+      if (ea.key !== eb.key) {
+        changes.unshift(['replaced', ea.key, eb.key]);
+      }
       for (const [prop, from, to] of changes) {
-        const groupKey = `${prop}: ${from} -> ${to}`;
-        const group = groups.get(groupKey) || { count: 0, examples: [] };
-        group.count++;
-        if (group.examples.length < 3) {
-          group.examples.push(`${label}: ${ea.key}`);
-        }
-        groups.set(groupKey, group);
+        count(`${prop}: ${from} -> ${to}`, prop === 'replaced' ? label : `${label}: ${ea.key}`);
       }
       if (changes.length) {
         pageDiffs++;
         details.push({ label, key: ea.key, changes });
       }
     });
-    if (pageDiffs || moved) {
-      console.log(`${label}: ${pageDiffs} elements changed, ${moved} moved`);
-      differences += pageDiffs + moved;
+    if (pageDiffs || moved || removed.length || added.length) {
+      const markup = sameMarkup ? '' : `markup changed (${replaced} replaced, ${removed.length} removed, ${added.length} added), `;
+      console.log(`${label}: ${markup}${pageDiffs} elements changed, ${moved} moved`);
+      differences += pageDiffs + moved + removed.length + added.length;
     }
   }
 
