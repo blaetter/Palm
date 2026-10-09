@@ -4,7 +4,14 @@
 # skipped without login. Flags after "#": anonymous = only without login,
 # login = only with login, fresh = in a new session with an empty cart (only
 # without login). Cart and checkout pages create carts and orders; the
-# Makefile removes them after the capture. Never add pages that submit forms.
+# Makefile removes them after the capture, except completed orders: never
+# submit the last checkout step.
+#
+# Steps after " | " run before the capture, in this order:
+#   click <selector>   click an element, wait for the page it loads
+#   click? <selector>  the same, skipped when the element is missing
+#   snapshot           capture here as well (otherwise only after the last step)
+# Selectors are CSS selectors and may contain spaces, but not " | ".
 /
 /ausgabe/2020/januar
 /ausgabe/2020/januar/2020-jahr-des-uebergangs-jahr-der-entscheidung
@@ -30,4 +37,9 @@
 /warenkorb/add/29381?destination=/warenkorb/bestellen # anonymous fresh
 /warenkorb/add/29408?destination=/warenkorb/bestellen/customer/guest # anonymous fresh
 /warenkorb/add/29381?destination=/warenkorb/bestellen/customer/register # anonymous fresh
-/warenkorb/add/29408?destination=/warenkorb/bestellen # login
+# Checkout of the test user up to the summary, paying by invoice. An order
+# from the previous width continues where it stopped, so first go back to the
+# address with the reset links of the summary and of the payment step.
+/warenkorb/add/29408?destination=/warenkorb/bestellen # login | click? a[href*="/reset/payment/"] | click? a[href*="/reset/address/"] | snapshot | click #nodeshop-order-address-form [type=submit] | snapshot | click #edit-payment-method-invoice | click #nodeshop-order-payment-form [type=submit]
+# Header search opened
+/ | click .js-search

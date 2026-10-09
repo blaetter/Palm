@@ -31,5 +31,6 @@ Sections per version: Features, Security, Bugs, Removed, Maintenance (omit empty
 - npm runs only in Docker containers (`docker-compose.yml`, `Makefile`) without access to the home directory, SSH keys or `settings.php`; packages are installed from the lockfile without install scripts
 - README with the development workflow
 - Every style diff capture starts with rebuilt caches (`drush cache:rebuild`)
+- Style diff pages can run steps before the capture (`click`, `click?`, `snapshot`); the page list captures the opened header search and, as test user, the checkout up to the summary (address, payment by invoice, summary)
 
 Earlier changes: see the git history.

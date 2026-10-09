@@ -25,6 +25,9 @@
  * Browser: the Chromium of the Playwright image (container), otherwise
  * STYLE_DIFF_BROWSER (path to a Chromium based browser), Chrome or Edge.
  *
+ * Pages may run steps before they are captured (clicks, e.g. to open the
+ * search flyout or to go through the checkout), see pages.txt.
+ *
  * Captures are written to tests/style-diff/snapshots/<name>/ (not in git).
  * Only the resting state is captured, not :hover or :focus.
  */
@@ -131,6 +134,12 @@ function snapshotPage(properties) {
 // Loads a page and waits until JavaScript, fonts and images are done.
 async function load(page, url) {
   const response = await page.goto(url, { waitUntil: 'networkidle' });
+  await settle(page);
+  return response;
+}
+
+// Waits until fonts, images and jQuery animations of the current page are done.
+async function settle(page) {
   // JavaScript changes the page after loading (active links, cookie banner
   // sliding in), so wait until fonts and jQuery animations are done.
   await page.evaluate(() => document.fonts.ready);
@@ -141,7 +150,21 @@ async function load(page, url) {
   })));
   await page.waitForFunction(() => !window.jQuery || !window.jQuery(':animated').length, null, { timeout: 10000 });
   await page.waitForTimeout(500);
-  return response;
+}
+
+// Clicks an element; when the click loads another page (links, form
+// buttons), waits for it. With optional, a missing element is skipped.
+async function click(page, selector, optional) {
+  const element = page.locator(selector).first();
+  if (optional && !(await element.count())) {
+    return;
+  }
+  const navigation = page.waitForEvent('framenavigated', { predicate: (frame) => frame === page.mainFrame(), timeout: 1500 })
+    .then(() => page.waitForLoadState('networkidle'))
+    .catch(() => null);
+  await element.click();
+  await navigation;
+  await settle(page);
 }
 
 async function capture(name, options) {
@@ -150,14 +173,26 @@ async function capture(name, options) {
   }
   const uri = (options.uri || 'https://web.blaetter').replace(/\/$/, '');
   const pagesFile = options.pages || join(here, 'pages.txt');
-  // One path per line, optionally followed by "# <flags>":
+  // One path per line, optionally followed by "# <flags>" and by steps,
+  // each after " | " (see pages.txt):
   // anonymous = only without login, login = only with login,
   // fresh = in a new browser session (empty cart), only without login.
   const pages = readFileSync(pagesFile, 'utf8').split('\n').map((l) => l.trim())
     .filter((l) => l && !l.startsWith('#'))
     .map((l) => {
-      const [path, flags = ''] = l.split(/\s+#\s*/);
-      return { path, flags: new Set(flags.split(/[\s,]+/).filter(Boolean)) };
+      const [head, ...steps] = l.split(/\s+\|\s+/);
+      const [path, flags = ''] = head.split(/\s+#\s*/);
+      return {
+        path,
+        flags: new Set(flags.split(/[\s,]+/).filter(Boolean)),
+        steps: steps.map((step) => {
+          const [, action, selector = ''] = step.match(/^(\S+)\s*(.*)$/);
+          if (!['click', 'click?', 'snapshot'].includes(action)) {
+            throw new Error(`Unknown step "${step}" in ${pagesFile}`);
+          }
+          return { action, selector };
+        }),
+      };
     });
   // One width per range in which forms, buttons or the base CSS (layer drupal)
   // change: 600 px (cookie banner), 720 px (phone/desktop for forms, buttons
@@ -203,13 +238,33 @@ async function capture(name, options) {
         targetPage = await fresh.newPage();
       }
       const response = await load(targetPage, url(entry.path));
-      const elements = await targetPage.evaluate(snapshotPage, PROPERTIES);
+      // Without steps the loaded page is captured; with steps at each
+      // "snapshot" step and after the last step. Further captures of an entry
+      // get a suffix (-2, -3, …); the label names the last click before them.
+      let count = 0;
+      const snapshot = async (done) => {
+        const elements = await targetPage.evaluate(snapshotPage, PROPERTIES);
+        count++;
+        const file = `${width}-${String(index + 1).padStart(2, '0')}${count > 1 ? `-${count}` : ''}.json`;
+        const last = done.filter((step) => step.action !== 'snapshot').at(-1);
+        const label = entry.path + (last ? ` | ${last.action} ${last.selector}` : '');
+        const path = new URL(targetPage.url()).pathname;
+        writeFileSync(join(target, file), JSON.stringify({ path: label, url: path, width, status: response.status(), elements }));
+        console.log(`${name}: ${width}px ${label} (${response.status()}, ${path}, ${elements.length} elements)`);
+      };
+      for (const [i, step] of entry.steps.entries()) {
+        if (step.action === 'snapshot') {
+          await snapshot(entry.steps.slice(0, i));
+        } else {
+          await click(targetPage, step.selector, step.action === 'click?');
+        }
+      }
+      if (!entry.steps.length || entry.steps.at(-1).action !== 'snapshot') {
+        await snapshot(entry.steps);
+      }
       if (targetPage !== page) {
         await targetPage.context().close();
       }
-      const file = `${width}-${String(index + 1).padStart(2, '0')}.json`;
-      writeFileSync(join(target, file), JSON.stringify({ path: entry.path, width, status: response.status(), elements }));
-      console.log(`${name}: ${width}px ${entry.path} (${response.status()}, ${elements.length} elements)`);
     }
   }
   writeFileSync(join(target, 'meta.json'), JSON.stringify({ uri, user, pages: pages.map((p) => p.path), widths, date: new Date().toISOString() }, null, 2));
@@ -223,7 +278,7 @@ function compare(beforeName, afterName, options) {
   const details = [];
   let differences = 0;
 
-  for (const file of readdirSync(dirA).filter((f) => /^\d+-\d+\.json$/.test(f)).sort()) {
+  for (const file of readdirSync(dirA).filter((f) => /^\d+-\d+(-\d+)?\.json$/.test(f)).sort()) {
     const a = JSON.parse(readFileSync(join(dirA, file), 'utf8'));
     if (!existsSync(join(dirB, file))) {
       console.log(`${a.width}px ${a.path}: missing in ${afterName}`);
@@ -234,6 +289,11 @@ function compare(beforeName, afterName, options) {
     const label = `${a.width}px ${a.path}`;
     if (a.status !== b.status) {
       console.log(`${label}: HTTP ${a.status} -> ${b.status}`);
+      differences++;
+    }
+    // After steps, a different page means the steps went another way.
+    if (a.url !== b.url) {
+      console.log(`${label}: ended on ${a.url} -> ${b.url}`);
       differences++;
     }
     if (a.elements.length !== b.elements.length) {
