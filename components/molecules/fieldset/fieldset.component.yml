@@ -1,0 +1,50 @@
+$schema: https://git.drupalcode.org/project/drupal/-/raw/HEAD/core/assets/schemas/v1/metadata.schema.json
+name: Fieldset
+status: experimental
+group: Molecules
+description: >
+  Group of form fields with a legend, e.g. the radios of the payment method. The fieldset template
+  of the theme renders Drupal's fieldsets with it (same structure and classes as Classy). The
+  context may set --palm-fieldset-space-before and --palm-fieldset-space-after on the fieldset
+  itself (not inherited).
+libraryOverrides:
+  dependencies:
+    - palm/tokens
+props:
+  type: object
+  properties:
+    required:
+      type: boolean
+      title: Required
+      default: false
+    legend_attributes:
+      type: Drupal\Core\Template\Attribute
+      title: Legend attributes
+    legend_span_attributes:
+      type: Drupal\Core\Template\Attribute
+      title: Attributes of the span in the legend
+    description_display:
+      type: string
+      title: Description display
+      enum:
+        - before
+        - after
+        - invisible
+        - none
+      default: after
+    description_attributes:
+      type: Drupal\Core\Template\Attribute
+      title: Description attributes
+slots:
+  legend:
+    title: Legend
+  children:
+    title: Fields
+  prefix:
+    title: Prefix
+  suffix:
+    title: Suffix
+  description:
+    title: Description
+  errors:
+    title: Errors

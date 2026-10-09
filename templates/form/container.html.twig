@@ -1,0 +1,27 @@
+{#
+/**
+ * @file
+ * Theme override of a container: the actions of a form (class form-actions)
+ * are rendered with the molecule palm:form-actions, other containers as in
+ * Classy.
+ *
+ * Available variables:
+ * - attributes: HTML attributes for the containing element.
+ * - children: The rendered child elements of the container.
+ * - has_parent: A flag to indicate that the container has one or more parent
+ *   containers.
+ *
+ * @see template_preprocess_container()
+ */
+#}
+{%
+  set classes = [
+    has_parent ? 'js-form-wrapper',
+    has_parent ? 'form-wrapper',
+  ]
+%}
+{% if attributes.hasClass('form-actions') %}
+  {{ include('palm:form-actions', { attributes: attributes.addClass(classes), children: children }, with_context = false) }}
+{% else %}
+  <div{{ attributes.addClass(classes) }}>{{ children }}</div>
+{% endif %}

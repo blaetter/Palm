@@ -17,7 +17,7 @@ The theme is in transition from a Patternlab based styleguide to single director
 | `css/tokens.css` | Design tokens as CSS custom properties |
 | `css/drupal-layer.css` | CSS of core, Classy and modules in the layer `legacy` (generated) |
 | `css/captcha.css` | ALTCHA widget (custom properties, label) and the CAPTCHA box of administrators |
-| `templates/` | Drupal templates; they pass data to the components (`templates/form/` renders the form elements of all Drupal forms with the molecule `palm:form-item` and their fields and buttons with the form atoms, `palm:button` and, for the remove button of the cart, `palm:icon-button`) |
+| `templates/` | Drupal templates; they pass data to the components (`templates/form/` renders the form elements of all Drupal forms with the molecule `palm:form-item`, fieldsets with `palm:fieldset`, the actions bar with `palm:form-actions` and their fields and buttons with the form atoms, `palm:button` and, for the remove button of the cart, `palm:icon-button`) |
 | `scripts/` | Build scripts (`build-drupal-layer.mjs`) |
 | `tests/style-diff/` | Regression test for CSS changes |
 | `.storybook/` | Storybook configuration |
@@ -37,6 +37,7 @@ Components are configured by their context through custom properties instead of 
 - `palm:button`: the button or a parent may set `--palm-button-padding`, `--palm-button-radius`, `--palm-button-display` and `--palm-button-white-space` (inherited), the button itself may get `--palm-button-space-after` (not inherited, see `@property` in `button.css`); for the primary variant also `--palm-button-font-weight`.
 - `palm:input`, `palm:select`, `palm:textarea`: the field or a parent may set `--palm-field-width`, `--palm-field-max-width`, `--palm-field-height`, `--palm-field-border` and `--palm-field-padding`.
 - `palm:form-item` (label, field, description, error message of every Drupal form element; keeps the classes of Classy): it sets the spacing of form items, the labels (bold before the field, normal after checkboxes and radios), description and error message, and handles Drupal's option groups and table rows itself. A context may set `--palm-form-item-space-before` and `--palm-form-item-space-after` on the form item (not inherited), e.g. the first or last child of a box or the password fields.
+- `palm:fieldset` and `palm:form-actions`: the fieldset or bar itself may set `--palm-fieldset-space-before`/`-after` and `--palm-form-actions-space-before`/`-after` (not inherited), e.g. the last child of a box. The actions bar puts its buttons in a row at the right on wide screens and below each other on phones; it sets the spacing of buttons through `--palm-button-space-after`.
 - `palm:icon-button` (round button with a symbol only, e.g. the remove button of the cart): the button or a parent may set `--palm-icon-button-size`, `--palm-icon-button-background`, `--palm-icon-button-background-hover` and `--palm-icon-button-color`; its position belongs to the context.
 - `palm:search-form` (molecule of `palm:input` and `palm:button`): a parent may set `--palm-search-form-height`, `--palm-search-form-color` and `--palm-search-form-font-size`; the molecule configures its field and button through their properties. Drupal's search forms (header block and search page) do not use its template: `palm_form_alter()` gives them the classes of the molecule and attaches its library, so keep the structure of `search-form.twig` and the alter in sync.
 
@@ -114,7 +115,7 @@ First setup: `make install`, then `make stories` and `make storybook` (or `make 
 
 ### Examples in Storybook
 
-Storybook shows the components and, under „Examples“, combinations as the site renders them (`components/examples/`, stories only). „Examples/Forms“ replaces the sample forms of Patternlab: contact form, group (details), radios, required fields and errors, disabled and read only, description before the field. Wrappers that have no component yet (fieldset, details, form actions) are written there as Drupal outputs them. Whole pages are not rebuilt in Storybook; check them on the local site, the pages of `tests/style-diff/pages.txt` cover the main page types.
+Storybook shows the components and, under „Examples“, combinations as the site renders them (`components/examples/`, stories only). „Examples/Forms“ replaces the sample forms of Patternlab: contact form, group (details), radios, required fields and errors, disabled and read only, description before the field. Details have no component yet and are written there as Drupal outputs them. Whole pages are not rebuilt in Storybook; check them on the local site, the pages of `tests/style-diff/pages.txt` cover the main page types.
 
 ### Add or change a component
 

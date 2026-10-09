@@ -1,8 +1,8 @@
 {#
   Form examples: the components combined as Drupal renders the forms of the
   site (contact, registration, checkout). They replace the sample forms of the
-  Patternlab styleguide. Fieldset, details and the actions bar are written as
-  Drupal outputs them until they get components of their own.
+  Patternlab styleguide. Details are written as Drupal outputs them until
+  they get a component of their own.
 #}
 {% stories forms with { title: 'Examples/Forms' } %}
 
@@ -45,10 +45,10 @@
         type: 'checkbox', name: 'copy', label: label_copy, label_display: 'after',
         children: include('palm:checkbox', { attributes: create_attribute({ id: 'ex-copy', name: 'copy', value: 1 }) }, with_context = false),
       }, with_context = false) }}
-      <div class="form-actions js-form-wrapper form-wrapper">
-        {{ include('palm:button', { label: 'Vorschau', as_input: true, button_type: 'submit', variant: 'reversed', attributes: create_attribute({ class: ['button', 'button--reversed'] }) }, with_context = false) }}
+      {% set buttons %}        {{ include('palm:button', { label: 'Vorschau', as_input: true, button_type: 'submit', variant: 'reversed', attributes: create_attribute({ class: ['button', 'button--reversed'] }) }, with_context = false) }}
         {{ include('palm:button', { label: 'Nachricht senden', as_input: true, button_type: 'submit', attributes: create_attribute({ class: ['button', 'button--primary'] }) }, with_context = false) }}
-      </div>
+      {% endset %}
+      {{ include('palm:form-actions', { children: buttons }, with_context = false) }}
     </form>
   {% endstory %}
 
@@ -82,9 +82,7 @@
     args: {}
   } %}
     <form>
-      <fieldset class="fieldgroup form-composite js-form-item form-item js-form-wrapper form-wrapper">
-        <legend><span class="fieldset-legend js-form-required form-required">Zahlungsart</span></legend>
-        <div class="fieldset-wrapper">
+      {% set radios %}
           <div class="form-radios">
             {% for option in [{ value: 'invoice', label: 'Rechnung', checked: true }, { value: 'paypal', label: 'PayPal', checked: false }] %}
               {% set label_option %}<label for="ex-payment-{{ option.value }}" class="option">{{ option.label }}</label>{% endset %}
@@ -94,11 +92,16 @@
               }, with_context = false) }}
             {% endfor %}
           </div>
-        </div>
-      </fieldset>
-      <div class="form-actions js-form-wrapper form-wrapper">
-        {{ include('palm:button', { label: 'Weiter zum Bezahlen', as_input: true, button_type: 'submit', attributes: create_attribute({ class: ['button', 'button--primary'] }) }, with_context = false) }}
-      </div>
+      {% endset %}
+      {{ include('palm:fieldset', {
+        attributes: create_attribute({ class: ['fieldgroup', 'form-composite'] }),
+        legend: 'Zahlungsart',
+        required: true,
+        children: radios,
+      }, with_context = false) }}
+      {% set buttons %}        {{ include('palm:button', { label: 'Weiter zum Bezahlen', as_input: true, button_type: 'submit', attributes: create_attribute({ class: ['button', 'button--primary'] }) }, with_context = false) }}
+      {% endset %}
+      {{ include('palm:form-actions', { children: buttons }, with_context = false) }}
     </form>
   {% endstory %}
 
@@ -145,9 +148,9 @@
         type: 'checkbox', name: 'newsletter', label: label_check, label_display: 'after', disabled: true,
         children: include('palm:checkbox', { attributes: create_attribute({ id: 'ex-disabled-check', name: 'newsletter', value: 1, disabled: true }) }, with_context = false),
       }, with_context = false) }}
-      <div class="form-actions js-form-wrapper form-wrapper">
-        {{ include('palm:button', { label: 'Gutschein einlösen', as_input: true, button_type: 'submit', variant: 'disabled' }, with_context = false) }}
-      </div>
+      {% set buttons %}        {{ include('palm:button', { label: 'Gutschein einlösen', as_input: true, button_type: 'submit', variant: 'disabled' }, with_context = false) }}
+      {% endset %}
+      {{ include('palm:form-actions', { children: buttons }, with_context = false) }}
     </form>
   {% endstory %}
 

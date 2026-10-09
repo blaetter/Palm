@@ -1,0 +1,40 @@
+{#
+/**
+ * @file
+ * Fieldset molecule: group of form fields with a legend.
+ *
+ * Same structure and classes as fieldset.html.twig of Classy, plus the
+ * classes of the molecule.
+ *
+ * Usage: see templates/form/fieldset.html.twig
+ */
+#}
+{% set description_display = description_display|default('after') %}
+{% set legend_span_classes = ['fieldset-legend', 'palm-fieldset__legend', required ? 'js-form-required', required ? 'form-required'] %}
+{% set description_attributes = (description_attributes ?? create_attribute()).addClass('description') %}
+<fieldset{{ attributes.addClass('js-form-item', 'form-item', 'js-form-wrapper', 'form-wrapper', 'palm-fieldset') }}>
+  {# Always wrap fieldset legends in a <span> for CSS positioning. #}
+  <legend{{ legend_attributes ?? create_attribute() }}>
+    <span{{ (legend_span_attributes ?? create_attribute()).addClass(legend_span_classes) }}>{{ legend }}</span>
+  </legend>
+  <div class="fieldset-wrapper">
+    {% if description_display == 'before' and description is not empty %}
+      <div{{ description_attributes }}>{{ description }}</div>
+    {% endif %}
+    {% if errors %}
+      <div class="form-item--error-message">
+        <strong>{{ errors }}</strong>
+      </div>
+    {% endif %}
+    {% if prefix %}
+      <span class="field-prefix">{{ prefix }}</span>
+    {% endif %}
+    {{ children }}
+    {% if suffix %}
+      <span class="field-suffix">{{ suffix }}</span>
+    {% endif %}
+    {% if description_display in ['after', 'invisible'] and description is not empty %}
+      <div{{ description_attributes }}>{{ description }}</div>
+    {% endif %}
+  </div>
+</fieldset>

@@ -1,0 +1,53 @@
+{% stories fieldset with { title: 'Molecules/Fieldset' } %}
+
+  {% story radios with {
+    name: 'Radios with legend',
+    args: { legend: 'Zahlungsart' }
+  } %}
+    <form>
+      {% set radios %}
+        <div class="form-radios">
+          {% for option in [{ value: 'invoice', label: 'Rechnung', checked: true }, { value: 'paypal', label: 'PayPal', checked: false }] %}
+            {% set label_option %}<label for="story-fieldset-{{ option.value }}" class="option">{{ option.label }}</label>{% endset %}
+            {{ include('palm:form-item', {
+              type: 'radio', name: 'payment', label: label_option, label_display: 'after',
+              children: include('palm:radio', { attributes: create_attribute({ id: 'story-fieldset-' ~ option.value, name: 'payment', value: option.value, checked: option.checked }) }, with_context = false),
+            }, with_context = false) }}
+          {% endfor %}
+        </div>
+      {% endset %}
+      {{ include('palm:fieldset', {
+        attributes: create_attribute({ class: ['fieldgroup', 'form-composite'] }),
+        legend: legend,
+        required: true,
+        children: radios,
+      }, with_context = false) }}
+    </form>
+  {% endstory %}
+
+  {% story description with {
+    name: 'With description',
+    args: { legend: 'Newsletter', description: 'Sie können die Newsletter jederzeit abbestellen.' }
+  } %}
+    <form>
+      {% set checkboxes %}
+        <div class="form-checkboxes">
+          {% for option in ['Wöchentlich', 'Neue Ausgabe'] %}
+            {% set label_option %}<label for="story-newsletter-{{ loop.index }}" class="option">{{ option }}</label>{% endset %}
+            {{ include('palm:form-item', {
+              type: 'checkbox', name: 'newsletter', label: label_option, label_display: 'after',
+              children: include('palm:checkbox', { attributes: create_attribute({ id: 'story-newsletter-' ~ loop.index, name: 'newsletter[]', value: loop.index }) }, with_context = false),
+            }, with_context = false) }}
+          {% endfor %}
+        </div>
+      {% endset %}
+      {{ include('palm:fieldset', {
+        attributes: create_attribute({ class: ['fieldgroup', 'form-composite'] }),
+        legend: legend,
+        children: checkboxes,
+        description: description,
+      }, with_context = false) }}
+    </form>
+  {% endstory %}
+
+{% endstories %}

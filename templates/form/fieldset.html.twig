@@ -1,0 +1,38 @@
+{#
+/**
+ * @file
+ * Theme override for a fieldset element: renders it with the molecule
+ * palm:fieldset.
+ *
+ * Available variables:
+ * - attributes: HTML attributes for the fieldset element.
+ * - errors: (optional) Any errors for this fieldset element, may not be set.
+ * - required: Boolean indicating whether the fieldset element is required.
+ * - legend: The legend element containing the following properties:
+ *   - title: Title of the fieldset, intended for use as the text of the legend.
+ *   - attributes: HTML attributes to apply to the legend.
+ * - description: The description element containing the following properties:
+ *   - content: The description content of the fieldset.
+ *   - attributes: HTML attributes to apply to the description container.
+ * - description_display: Description display setting.
+ * - children: The rendered child elements of the fieldset.
+ * - prefix: The content to add before the fieldset children.
+ * - suffix: The content to add after the fieldset children.
+ *
+ * @see template_preprocess_fieldset()
+ */
+#}
+{{ include('palm:fieldset', {
+  attributes: attributes,
+  required: required ? true : false,
+  legend: legend.title,
+  legend_attributes: legend.attributes ?? create_attribute(),
+  legend_span_attributes: legend_span.attributes ?? create_attribute(),
+  description: description.content,
+  description_attributes: description.attributes ?? create_attribute(),
+  description_display: description_display ?: 'after',
+  errors: errors,
+  prefix: prefix,
+  suffix: suffix,
+  children: children,
+}, with_context = false) }}

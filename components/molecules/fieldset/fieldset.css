@@ -1,0 +1,39 @@
+/**
+ * Fieldset molecule: spacing and legend.
+ *
+ * In the layer components. The context may set --palm-fieldset-space-before
+ * and --palm-fieldset-space-after on the fieldset itself (not inherited).
+ * Border and padding are reset by the base styles.
+ */
+@property --palm-fieldset-space-before {
+  syntax: '*';
+  inherits: false;
+}
+
+@property --palm-fieldset-space-after {
+  syntax: '*';
+  inherits: false;
+}
+
+@layer components {
+  .palm-fieldset {
+    margin-top: var(--palm-fieldset-space-before, 16px);
+    margin-bottom: var(--palm-fieldset-space-after, 16px);
+
+    &:first-child {
+      margin-top: var(--palm-fieldset-space-before, 0);
+    }
+
+    &:last-child {
+      margin-bottom: var(--palm-fieldset-space-after, 0);
+    }
+  }
+
+  /* Bold like the labels of the form items. */
+  .palm-fieldset__legend {
+    display: block;
+    margin-top: 0;
+    margin-bottom: 0.4em;
+    font-weight: 700;
+  }
+}

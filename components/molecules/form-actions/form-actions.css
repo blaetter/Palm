@@ -1,0 +1,65 @@
+/**
+ * Form actions molecule.
+ *
+ * In the layer components. The context may set --palm-form-actions-space-before
+ * and --palm-form-actions-space-after on the bar itself (not inherited). The
+ * spacing of buttons is set through --palm-button-space-after, so it does not
+ * depend on the order of the component CSS.
+ */
+@property --palm-form-actions-space-before {
+  syntax: '*';
+  inherits: false;
+}
+
+@property --palm-form-actions-space-after {
+  syntax: '*';
+  inherits: false;
+}
+
+@layer components {
+  .palm-form-actions {
+    margin-top: var(--palm-form-actions-space-before, 16px);
+    margin-bottom: var(--palm-form-actions-space-after, 16px);
+
+    &:first-child {
+      margin-top: var(--palm-form-actions-space-before, 0);
+    }
+
+    /* Clearfix of the legacy styles, kept for floated content. */
+    &::after {
+      content: "";
+      display: table;
+      clear: both;
+    }
+
+    /* Wide screens: buttons in a row at the right. */
+    @media (min-width: 45.001rem) {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+
+      > *,
+      button,
+      .button {
+        --palm-button-space-after: 0;
+
+        width: auto;
+        float: none;
+        margin-bottom: 0;
+        margin-left: 1em;
+      }
+    }
+
+    /* Phones: buttons below each other in the full width. */
+    @media (max-width: 45rem) {
+      display: block;
+
+      > * {
+        --palm-button-space-after: 1em;
+
+        width: 100%;
+        margin-bottom: 1em;
+      }
+    }
+  }
+}
