@@ -1,12 +1,62 @@
 /**
- * Form item molecule.
+ * Form item molecule: spacing, label, description and error message.
  *
- * In the layer components. Only the description and the error message are
- * styled here. Labels and the outer spacing stay with the legacy styles for
- * now: many contexts change them (checkbox and radio groups, tables, inline
- * and prepended labels), and rules in this layer would win over all of them.
+ * In the layer components. The context may set --palm-form-item-space-before
+ * and --palm-form-item-space-after on the form item itself (not inherited, see
+ * @property), e.g. the first or last child of a box. Option groups and table
+ * rows of Drupal are handled here, as Classy's form CSS did.
  */
+/*
+ * Not inherited: a context sets them on the form item itself, so form items
+ * nested deeper (e.g. in a group) keep their own spacing.
+ */
+@property --palm-form-item-space-before {
+  syntax: '*';
+  inherits: false;
+}
+
+@property --palm-form-item-space-after {
+  syntax: '*';
+  inherits: false;
+}
+
 @layer components {
+  .palm-form-item {
+    margin-top: var(--palm-form-item-space-before, 16px);
+    margin-bottom: var(--palm-form-item-space-after, 16px);
+  }
+
+  /* Checkboxes and radios of a group (Drupal's checkboxes and radios elements). */
+  .form-checkboxes > .palm-form-item,
+  .form-radios > .palm-form-item {
+    margin-top: var(--palm-form-item-space-before, 0.4em);
+    margin-bottom: var(--palm-form-item-space-after, 0.4em);
+  }
+
+  .palm-form-item:first-child {
+    margin-top: var(--palm-form-item-space-before, 0);
+  }
+
+  /* Form items in table rows, e.g. the quantity in the cart. */
+  tr.odd .palm-form-item,
+  tr.even .palm-form-item {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  /* Labels before the field are bold, labels after it (checkboxes, radios) normal. */
+  .palm-form-item > label {
+    display: block;
+    margin-top: 0;
+    margin-bottom: 0.4em;
+    font-weight: 700;
+  }
+
+  .palm-form-item > label.option {
+    display: inline;
+    font-weight: 400;
+  }
+
   .palm-form-item__description {
     display: block;
     /* Same gap as below the labels. */

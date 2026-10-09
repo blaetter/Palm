@@ -1,0 +1,169 @@
+{#
+  Form examples: the components combined as Drupal renders the forms of the
+  site (contact, registration, checkout). They replace the sample forms of the
+  Patternlab styleguide. Fieldset, details and the actions bar are written as
+  Drupal outputs them until they get components of their own.
+#}
+{% stories forms with { title: 'Examples/Forms' } %}
+
+  {% story contact with {
+    name: 'Contact form',
+    args: {}
+  } %}
+    {% set label_name %}<label for="ex-name" class="js-form-required form-required">Ihr Name</label>{% endset %}
+    {% set label_mail %}<label for="ex-mail" class="js-form-required form-required">Ihre E-Mail-Adresse</label>{% endset %}
+    {% set label_subject %}<label for="ex-subject">Betreff</label>{% endset %}
+    {% set label_message %}<label for="ex-message" class="js-form-required form-required">Nachricht</label>{% endset %}
+    {% set label_copy %}<label for="ex-copy" class="option">Kopie an mich senden</label>{% endset %}
+    <form>
+      {{ include('palm:form-item', {
+        type: 'textfield', name: 'name', label: label_name,
+        children: include('palm:input', { attributes: create_attribute({ type: 'text', id: 'ex-name', name: 'name', required: true }) }, with_context = false),
+      }, with_context = false) }}
+      {{ include('palm:form-item', {
+        type: 'email', name: 'mail', label: label_mail,
+        children: include('palm:input', { attributes: create_attribute({ type: 'email', id: 'ex-mail', name: 'mail', required: true, 'aria-describedby': 'ex-mail--description' }) }, with_context = false),
+        description: 'Wir verwenden Ihre Adresse nur, um Ihnen zu antworten.',
+        description_attributes: create_attribute({ id: 'ex-mail--description' }),
+      }, with_context = false) }}
+      {{ include('palm:form-item', {
+        type: 'select', name: 'subject', label: label_subject,
+        children: include('palm:select', {
+          attributes: create_attribute({ id: 'ex-subject', name: 'subject' }),
+          options: [
+            { type: 'option', value: '', label: '- Bitte wählen -' },
+            { type: 'option', value: 'abo', label: 'Abonnement' },
+            { type: 'option', value: 'redaktion', label: 'Redaktion' },
+          ],
+        }, with_context = false),
+      }, with_context = false) }}
+      {{ include('palm:form-item', {
+        type: 'textarea', name: 'message', label: label_message,
+        children: include('palm:textarea', { attributes: create_attribute({ id: 'ex-message', name: 'message', rows: 8, required: true, class: ['resize-vertical'] }) }, with_context = false),
+      }, with_context = false) }}
+      {{ include('palm:form-item', {
+        type: 'checkbox', name: 'copy', label: label_copy, label_display: 'after',
+        children: include('palm:checkbox', { attributes: create_attribute({ id: 'ex-copy', name: 'copy', value: 1 }) }, with_context = false),
+      }, with_context = false) }}
+      <div class="form-actions js-form-wrapper form-wrapper">
+        {{ include('palm:button', { label: 'Vorschau', as_input: true, button_type: 'submit', variant: 'reversed', attributes: create_attribute({ class: ['button', 'button--reversed'] }) }, with_context = false) }}
+        {{ include('palm:button', { label: 'Nachricht senden', as_input: true, button_type: 'submit', attributes: create_attribute({ class: ['button', 'button--primary'] }) }, with_context = false) }}
+      </div>
+    </form>
+  {% endstory %}
+
+  {% story details with {
+    name: 'Group (details)',
+    args: {}
+  } %}
+    {% set label_mail %}<label for="ex-account-mail" class="js-form-required form-required">E-Mail-Adresse</label>{% endset %}
+    {% set label_user %}<label for="ex-account-name" class="js-form-required form-required">Benutzername</label>{% endset %}
+    <form>
+      <details class="required-fields field-group-details js-form-wrapper form-wrapper" open>
+        <summary role="button" aria-expanded="true">Nutzerkonto</summary>
+        <div class="details-wrapper">
+          {{ include('palm:form-item', {
+            type: 'email', name: 'mail', label: label_mail,
+            children: include('palm:input', { attributes: create_attribute({ type: 'email', id: 'ex-account-mail', name: 'mail', required: true, 'aria-describedby': 'ex-account-mail--description' }) }, with_context = false),
+            description: 'Die E-Mail-Adresse wird nicht veröffentlicht.',
+            description_attributes: create_attribute({ id: 'ex-account-mail--description' }),
+          }, with_context = false) }}
+          {{ include('palm:form-item', {
+            type: 'textfield', name: 'name', label: label_user,
+            children: include('palm:input', { attributes: create_attribute({ type: 'text', id: 'ex-account-name', name: 'name', required: true }) }, with_context = false),
+          }, with_context = false) }}
+        </div>
+      </details>
+    </form>
+  {% endstory %}
+
+  {% story radios with {
+    name: 'Radios (payment method)',
+    args: {}
+  } %}
+    <form>
+      <fieldset class="fieldgroup form-composite js-form-item form-item js-form-wrapper form-wrapper">
+        <legend><span class="fieldset-legend js-form-required form-required">Zahlungsart</span></legend>
+        <div class="fieldset-wrapper">
+          <div class="form-radios">
+            {% for option in [{ value: 'invoice', label: 'Rechnung', checked: true }, { value: 'paypal', label: 'PayPal', checked: false }] %}
+              {% set label_option %}<label for="ex-payment-{{ option.value }}" class="option">{{ option.label }}</label>{% endset %}
+              {{ include('palm:form-item', {
+                type: 'radio', name: 'payment_method', label: label_option, label_display: 'after',
+                children: include('palm:radio', { attributes: create_attribute({ id: 'ex-payment-' ~ option.value, name: 'payment_method', value: option.value, checked: option.checked }) }, with_context = false),
+              }, with_context = false) }}
+            {% endfor %}
+          </div>
+        </div>
+      </fieldset>
+      <div class="form-actions js-form-wrapper form-wrapper">
+        {{ include('palm:button', { label: 'Weiter zum Bezahlen', as_input: true, button_type: 'submit', attributes: create_attribute({ class: ['button', 'button--primary'] }) }, with_context = false) }}
+      </div>
+    </form>
+  {% endstory %}
+
+  {% story validation with {
+    name: 'Required fields and errors',
+    args: {}
+  } %}
+    {% set label_name %}<label for="ex-error-name" class="js-form-required form-required">Nachname</label>{% endset %}
+    {% set label_iban %}<label for="ex-error-iban" class="js-form-required form-required">IBAN</label>{% endset %}
+    {% set label_consent %}<label for="ex-error-consent" class="option js-form-required form-required">Ich ermächtige den Verlag, Zahlungen per Lastschrift einzuziehen.</label>{% endset %}
+    <form>
+      {{ include('palm:form-item', {
+        type: 'textfield', name: 'last_name', label: label_name, errors: 'Nachname ist ein Pflichtfeld.',
+        children: include('palm:input', { attributes: create_attribute({ type: 'text', id: 'ex-error-name', name: 'last_name', required: true, class: ['error'], 'aria-invalid': 'true' }) }, with_context = false),
+      }, with_context = false) }}
+      {{ include('palm:form-item', {
+        type: 'textfield', name: 'iban', label: label_iban,
+        children: include('palm:input', { attributes: create_attribute({ type: 'text', id: 'ex-error-iban', name: 'iban', required: true, value: 'DE00 0000' }) }, with_context = false),
+      }, with_context = false) }}
+      {{ include('palm:form-item', {
+        type: 'checkbox', name: 'consent', label: label_consent, label_display: 'after',
+        children: include('palm:checkbox', { attributes: create_attribute({ id: 'ex-error-consent', name: 'consent', value: 1, required: true }) }, with_context = false),
+      }, with_context = false) }}
+    </form>
+  {% endstory %}
+
+  {% story states with {
+    name: 'Disabled and read only',
+    args: {}
+  } %}
+    {% set label_disabled %}<label for="ex-disabled">Gutscheincode</label>{% endset %}
+    {% set label_readonly %}<label for="ex-readonly">Kundennummer</label>{% endset %}
+    {% set label_check %}<label for="ex-disabled-check" class="option">Newsletter abonnieren</label>{% endset %}
+    <form>
+      {{ include('palm:form-item', {
+        type: 'textfield', name: 'voucher', label: label_disabled, disabled: true,
+        children: include('palm:input', { attributes: create_attribute({ type: 'text', id: 'ex-disabled', name: 'voucher', disabled: true }) }, with_context = false),
+      }, with_context = false) }}
+      {{ include('palm:form-item', {
+        type: 'textfield', name: 'customer', label: label_readonly,
+        children: include('palm:input', { attributes: create_attribute({ type: 'text', id: 'ex-readonly', name: 'customer', readonly: true, value: '123456' }) }, with_context = false),
+      }, with_context = false) }}
+      {{ include('palm:form-item', {
+        type: 'checkbox', name: 'newsletter', label: label_check, label_display: 'after', disabled: true,
+        children: include('palm:checkbox', { attributes: create_attribute({ id: 'ex-disabled-check', name: 'newsletter', value: 1, disabled: true }) }, with_context = false),
+      }, with_context = false) }}
+      <div class="form-actions js-form-wrapper form-wrapper">
+        {{ include('palm:button', { label: 'Gutschein einlösen', as_input: true, button_type: 'submit', variant: 'disabled' }, with_context = false) }}
+      </div>
+    </form>
+  {% endstory %}
+
+  {% story description_before with {
+    name: 'Description before the field',
+    args: {}
+  } %}
+    {% set label_pass %}<label for="ex-pass" class="js-form-required form-required">Passwort</label>{% endset %}
+    <form>
+      {{ include('palm:form-item', {
+        type: 'password', name: 'pass', label: label_pass, description_display: 'before',
+        description: 'Mindestens 8 Zeichen, mit Zahlen und Sonderzeichen.',
+        description_attributes: create_attribute({ id: 'ex-pass--description' }),
+        children: include('palm:input', { attributes: create_attribute({ type: 'password', id: 'ex-pass', name: 'pass', required: true, 'aria-describedby': 'ex-pass--description' }) }, with_context = false),
+      }, with_context = false) }}
+    </form>
+  {% endstory %}
+
+{% endstories %}

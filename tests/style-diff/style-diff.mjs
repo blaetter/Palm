@@ -228,8 +228,10 @@ async function capture(name, options) {
 
   // Warm up Drupal's caches: a page rendered for the first time can differ in
   // details (e.g. the is-active class of links) from cached deliveries.
+  // The first request after drush cache:rebuild can be slow, so allow more
+  // time than the default 30 seconds.
   for (const entry of pages.filter((p) => included(p) && !p.flags.has('fresh'))) {
-    await page.request.get(url(entry.path));
+    await page.request.get(url(entry.path), { timeout: 120000 });
   }
 
   for (const width of widths) {

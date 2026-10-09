@@ -12,7 +12,7 @@ The theme is in transition from a Patternlab based styleguide to single director
 | Path | Content |
 |---|---|
 | `bundle/` | Legacy CSS/JS and fonts from blaetter-theme (generated, do not edit) |
-| `components/` | Single directory components, grouped like atomic design (`atoms/`, `molecules/`) |
+| `components/` | Single directory components, grouped like atomic design (`atoms/`, `molecules/`); `examples/` only holds stories that combine components as Drupal renders them (e.g. forms) |
 | `css/layers.css` | Order of the cascade layers |
 | `css/tokens.css` | Design tokens as CSS custom properties |
 | `css/drupal-layer.css` | CSS of core, Classy and modules in the layer `legacy` (generated) |
@@ -36,7 +36,7 @@ Components are configured by their context through custom properties instead of 
 
 - `palm:button`: the button or a parent may set `--palm-button-padding`, `--palm-button-radius`, `--palm-button-display` and `--palm-button-white-space` (inherited), the button itself may get `--palm-button-space-after` (not inherited, see `@property` in `button.css`); for the primary variant also `--palm-button-font-weight`.
 - `palm:input`, `palm:select`, `palm:textarea`: the field or a parent may set `--palm-field-width`, `--palm-field-max-width`, `--palm-field-height`, `--palm-field-border` and `--palm-field-padding`.
-- `palm:form-item` (label, field, description, error message of every Drupal form element; keeps the classes of Classy): it only styles the description and the error message. Labels and the outer spacing of form items still come from the legacy styles, because many contexts change them (checkbox and radio groups, tables, inline and prepended labels) and rules in the layer `components` would win over all of them; moving them needs context properties like the atoms have.
+- `palm:form-item` (label, field, description, error message of every Drupal form element; keeps the classes of Classy): it sets the spacing of form items, the labels (bold before the field, normal after checkboxes and radios), description and error message, and handles Drupal's option groups and table rows itself. A context may set `--palm-form-item-space-before` and `--palm-form-item-space-after` on the form item (not inherited), e.g. the first or last child of a box or the password fields.
 - `palm:icon-button` (round button with a symbol only, e.g. the remove button of the cart): the button or a parent may set `--palm-icon-button-size`, `--palm-icon-button-background`, `--palm-icon-button-background-hover` and `--palm-icon-button-color`; its position belongs to the context.
 - `palm:search-form` (molecule of `palm:input` and `palm:button`): a parent may set `--palm-search-form-height`, `--palm-search-form-color` and `--palm-search-form-font-size`; the molecule configures its field and button through their properties. Drupal's search forms (header block and search page) do not use its template: `palm_form_alter()` gives them the classes of the molecule and attaches its library, so keep the structure of `search-form.twig` and the alter in sync.
 
@@ -111,6 +111,10 @@ First setup: `make install`, then `make stories` and `make storybook` (or `make 
 2. Build it in its container: `docker exec -u app layout-www-1 make`.
 3. In the project root: `make palm-update` (copies `layout/export/bundle/` into `bundle/` and rebuilds the cache).
 4. Commit blaetter-theme and the changed `bundle/` here.
+
+### Examples in Storybook
+
+Storybook shows the components and, under „Examples“, combinations as the site renders them (`components/examples/`, stories only). „Examples/Forms“ replaces the sample forms of Patternlab: contact form, group (details), radios, required fields and errors, disabled and read only, description before the field. Wrappers that have no component yet (fieldset, details, form actions) are written there as Drupal outputs them. Whole pages are not rebuilt in Storybook; check them on the local site, the pages of `tests/style-diff/pages.txt` cover the main page types.
 
 ### Add or change a component
 

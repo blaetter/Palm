@@ -13,7 +13,8 @@ Sections per version: Features, Security, Bugs, Removed, Maintenance (omit empty
 - Form atoms `palm:checkbox` and `palm:radio`; Drupal form buttons (submit, button) use `palm:button` rendered as `<input>`, with the variant taken from `button--danger`/`button--reversed`
 - The add-to-cart link of NodeShop below products (dossiers, subscription teasers) is rendered as `palm:button` with the cart icon at the end (`palm_preprocess_links()`), like the buy buttons of issues; the icon gets its space
 - The link to choose a bonus below subscription teasers is rendered as `palm:button` (reversed); on phones it is no longer indented below the add-to-cart button (blaetter-theme)
-- Molecule `palm:form-item` (label, field, description, error message, with stories); all Drupal form elements use it through `templates/form/form-element.html.twig`, with the classes of Classy; it styles description and error message, labels and spacing stay legacy for now
+- Storybook examples „Examples/Forms“ (contact form, details group, radios, required fields and errors, disabled and read only, description before the field) replace the sample forms of Patternlab
+- Molecule `palm:form-item` (label, field, description, error message, with stories); all Drupal form elements use it through `templates/form/form-element.html.twig`, with the classes of Classy; it sets spacing, labels, description and error message of form items (moved from blaetter-theme); contexts adjust the spacing with `--palm-form-item-space-before`/`-after`
 - Atom `palm:icon-button` (round button with a symbol or icon only, label as `aria-label` and tooltip, with stories); the remove button (×) of the cart uses it, screen readers now read its label instead of the symbol; it is darker grey and turns red when hovered or focused, so symbol and button reach the contrast of 3:1 (before about 1.6:1, lighter on hover)
 - Storybook as living styleguide: stories are written in Twig next to the components and rendered by Drupal (`drupal/storybook`)
 - Design tokens as CSS custom properties (`css/tokens.css`)
@@ -31,6 +32,7 @@ Sections per version: Features, Security, Bugs, Removed, Maintenance (omit empty
 - Style diff covers form pages (search, contact forms, password reset, cart with an item, own account) and the checkout up to the address form; logged in as the local test user `styletest`; carts and orders of the test user and those created by a capture are removed before and after each capture; the page list supports `{uid}` and the flags `anonymous`, `login` and `fresh`
 - npm runs only in Docker containers (`docker-compose.yml`, `Makefile`) without access to the home directory, SSH keys or `settings.php`; packages are installed from the lockfile without install scripts
 - README with the development workflow
+- Style diff: warm-up requests may take up to two minutes (the first page after a cache rebuild can be slow)
 - `make storybook-start` and `make storybook-stop` run Storybook in the background
 - Every style diff capture starts with rebuilt caches (`drush cache:rebuild`)
 - The style diff compares pages with changed markup: elements are paired by their keys like diff, replaced elements (same tag at the same place) are compared, added and removed elements are listed
