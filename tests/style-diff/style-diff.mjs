@@ -159,7 +159,9 @@ async function settle(page) {
 }
 
 // Clicks an element; when the click loads another page (links, form
-// buttons), waits for it. With optional, a missing element is skipped.
+// buttons), waits for it. With optional, a missing element is skipped. The
+// click is triggered on the element itself, so overlays like the toolbar
+// tray of administrators on phones do not block it.
 async function click(page, selector, optional) {
   const element = page.locator(selector).first();
   if (optional && !(await element.count())) {
@@ -168,7 +170,7 @@ async function click(page, selector, optional) {
   const navigation = page.waitForEvent('framenavigated', { predicate: (frame) => frame === page.mainFrame(), timeout: 1500 })
     .then(() => page.waitForLoadState('networkidle'))
     .catch(() => null);
-  await element.click();
+  await element.evaluate((el) => el.click());
   await navigation;
   await settle(page);
 }

@@ -1,8 +1,7 @@
 {#
   Form examples: the components combined as Drupal renders the forms of the
   site (contact, registration, checkout). They replace the sample forms of the
-  Patternlab styleguide. Details are written as Drupal outputs them until
-  they get a component of their own.
+  Patternlab styleguide.
 #}
 {% stories forms with { title: 'Examples/Forms' } %}
 
@@ -59,9 +58,7 @@
     {% set label_mail %}<label for="ex-account-mail" class="js-form-required form-required">E-Mail-Adresse</label>{% endset %}
     {% set label_user %}<label for="ex-account-name" class="js-form-required form-required">Benutzername</label>{% endset %}
     <form>
-      <details class="required-fields field-group-details js-form-wrapper form-wrapper" open>
-        <summary role="button" aria-expanded="true">Nutzerkonto</summary>
-        <div class="details-wrapper">
+      {% set fields %}
           {{ include('palm:form-item', {
             type: 'email', name: 'mail', label: label_mail,
             children: include('palm:input', { attributes: create_attribute({ type: 'email', id: 'ex-account-mail', name: 'mail', required: true, 'aria-describedby': 'ex-account-mail--description' }) }, with_context = false),
@@ -72,8 +69,12 @@
             type: 'textfield', name: 'name', label: label_user,
             children: include('palm:input', { attributes: create_attribute({ type: 'text', id: 'ex-account-name', name: 'name', required: true }) }, with_context = false),
           }, with_context = false) }}
-        </div>
-      </details>
+              {% endset %}
+      {{ include('palm:details', {
+        attributes: create_attribute({ open: true, class: ['required-fields', 'field-group-details'] }),
+        title: 'Nutzerkonto',
+        children: fields,
+      }, with_context = false) }}
     </form>
   {% endstory %}
 

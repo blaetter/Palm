@@ -1,0 +1,33 @@
+{#
+/**
+ * @file
+ * Details molecule: collapsible group of form fields.
+ *
+ * Same structure as details.html.twig of Classy, plus the classes of the
+ * molecule.
+ *
+ * Usage: see templates/form/details.html.twig
+ */
+#}
+<details{{ attributes.addClass('palm-details') }}>
+  {%- if title -%}
+    {% set summary_classes = ['palm-details__summary', required ? 'js-form-required', required ? 'form-required'] %}
+    <summary{{ (summary_attributes ?? create_attribute()).addClass(summary_classes) }}>{{ title }}</summary>
+  {%- endif -%}
+  <div class="details-wrapper palm-details__content">
+    {% if errors %}
+      <div class="form-item--error-message">
+        <strong>{{ errors }}</strong>
+      </div>
+    {% endif %}
+    {%- if description -%}
+      <div class="details-description">{{ description }}</div>
+    {%- endif -%}
+    {%- if children -%}
+      {{ children }}
+    {%- endif -%}
+    {%- if value -%}
+      {{ value }}
+    {%- endif -%}
+  </div>
+</details>

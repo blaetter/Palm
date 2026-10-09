@@ -1,0 +1,48 @@
+/**
+ * Details molecule: box with a border, or a section directly in a form.
+ *
+ * In the layer components. The selectors keep the specificity of one class,
+ * so contexts like the CAPTCHA box of administrators (css/captcha.css) still
+ * adjust summary and content. The context may set --palm-details-space-before
+ * and --palm-details-space-after on the element itself (not inherited).
+ */
+@property --palm-details-space-before {
+  syntax: '*';
+  inherits: false;
+}
+
+@property --palm-details-space-after {
+  syntax: '*';
+  inherits: false;
+}
+
+@layer components {
+  .palm-details {
+    margin-top: var(--palm-details-space-before, 1em);
+    margin-bottom: var(--palm-details-space-after, 1em);
+    border: 1px solid var(--palm-color-grey-border);
+  }
+
+  .palm-details__summary {
+    padding: 0.2em 0;
+    cursor: pointer;
+  }
+
+  .palm-details__content {
+    padding: 0.5em 1.5em;
+  }
+
+  /* Directly in a form: a section with a large summary, without border. */
+  :where(form) > .palm-details {
+    border: 0;
+  }
+
+  :where(form > .palm-details) > .palm-details__summary {
+    font-size: 1.5em;
+  }
+
+  :where(form > .palm-details) > .palm-details__content {
+    box-sizing: border-box;
+    padding: 0;
+  }
+}
