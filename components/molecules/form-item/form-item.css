@@ -1,0 +1,24 @@
+/**
+ * Form item molecule.
+ *
+ * In the layer components. Only the description and the error message are
+ * styled here. Labels and the outer spacing stay with the legacy styles for
+ * now: many contexts change them (checkbox and radio groups, tables, inline
+ * and prepended labels), and rules in this layer would win over all of them.
+ */
+@layer components {
+  .palm-form-item__description {
+    display: block;
+    /* Same gap as below the labels. */
+    margin-top: 0.4em;
+    margin-bottom: 0;
+    color: var(--palm-color-grey-text);
+    font-size: 0.75rem;
+  }
+
+  .palm-form-item__error {
+    margin-top: 0.4em;
+    color: var(--palm-color-error);
+    font-size: 0.75rem;
+  }
+}

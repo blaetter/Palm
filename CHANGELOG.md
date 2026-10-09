@@ -13,6 +13,7 @@ Sections per version: Features, Security, Bugs, Removed, Maintenance (omit empty
 - Form atoms `palm:checkbox` and `palm:radio`; Drupal form buttons (submit, button) use `palm:button` rendered as `<input>`, with the variant taken from `button--danger`/`button--reversed`
 - The add-to-cart link of NodeShop below products (dossiers, subscription teasers) is rendered as `palm:button` with the cart icon at the end (`palm_preprocess_links()`), like the buy buttons of issues; the icon gets its space
 - The link to choose a bonus below subscription teasers is rendered as `palm:button` (reversed); on phones it is no longer indented below the add-to-cart button (blaetter-theme)
+- Molecule `palm:form-item` (label, field, description, error message, with stories); all Drupal form elements use it through `templates/form/form-element.html.twig`, with the classes of Classy; it styles description and error message, labels and spacing stay legacy for now
 - Atom `palm:icon-button` (round button with a symbol or icon only, label as `aria-label` and tooltip, with stories); the remove button (×) of the cart uses it, screen readers now read its label instead of the symbol; it is darker grey and turns red when hovered or focused, so symbol and button reach the contrast of 3:1 (before about 1.6:1, lighter on hover)
 - Storybook as living styleguide: stories are written in Twig next to the components and rendered by Drupal (`drupal/storybook`)
 - Design tokens as CSS custom properties (`css/tokens.css`)

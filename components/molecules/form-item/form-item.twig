@@ -1,0 +1,61 @@
+{#
+/**
+ * @file
+ * Form item molecule: label, field, description and error message.
+ *
+ * Same structure and classes as form-element.html.twig of Classy, plus the
+ * classes of the molecule.
+ *
+ * Usage: see templates/form/form-element.html.twig
+ */
+#}
+{% set label_display = label_display|default('before') %}
+{% set description_display = description_display|default('after') %}
+{%
+  set classes = [
+    'palm-form-item',
+    'js-form-item',
+    'form-item',
+    type ? 'js-form-type-' ~ type|clean_class,
+    type ? 'form-type-' ~ type|clean_class,
+    name ? 'js-form-item-' ~ name|clean_class,
+    name ? 'form-item-' ~ name|clean_class,
+    label_display not in ['after', 'before'] ? 'form-no-label',
+    disabled ? 'form-disabled',
+    errors ? 'form-item--error',
+  ]
+%}
+{% set description_attributes = (description_attributes ?? create_attribute()).addClass('description', 'palm-form-item__description') %}
+{% if description_display == 'invisible' %}
+  {% set description_attributes = description_attributes.addClass('visually-hidden') %}
+{% endif %}
+<div{{ attributes.addClass(classes) }}>
+  {% if label_display in ['before', 'invisible'] %}
+    {{ label }}
+  {% endif %}
+  {% if prefix is not empty %}
+    <span class="field-prefix">{{ prefix }}</span>
+  {% endif %}
+  {% if description_display == 'before' and description is not empty %}
+    <div{{ description_attributes }}>
+      {{ description }}
+    </div>
+  {% endif %}
+  {{ children }}
+  {% if suffix is not empty %}
+    <span class="field-suffix">{{ suffix }}</span>
+  {% endif %}
+  {% if label_display == 'after' %}
+    {{ label }}
+  {% endif %}
+  {% if errors %}
+    <div class="form-item--error-message palm-form-item__error">
+      <strong>{{ errors }}</strong>
+    </div>
+  {% endif %}
+  {% if description_display in ['after', 'invisible'] and description is not empty %}
+    <div{{ description_attributes }}>
+      {{ description }}
+    </div>
+  {% endif %}
+</div>

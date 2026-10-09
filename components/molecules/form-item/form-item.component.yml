@@ -1,0 +1,65 @@
+$schema: https://git.drupalcode.org/project/drupal/-/raw/HEAD/core/assets/schemas/v1/metadata.schema.json
+name: Form item
+status: experimental
+group: Molecules
+description: >
+  Wrapper of a form field: label, field, description and error message. The form element template
+  of the theme renders every Drupal form element with it; the field itself is one of the form
+  atoms. Labels before the field are bold, labels after it (checkboxes, radios) are normal text.
+  Keeps the classes of Classy (js-form-item, form-item, form-type-…), which scripts rely on.
+libraryOverrides:
+  dependencies:
+    - palm/tokens
+props:
+  type: object
+  properties:
+    type:
+      type: string
+      title: Type
+      description: Form element type, e.g. textfield, email, checkbox (for the classes).
+    name:
+      type: string
+      title: Name
+      description: Name of the element (for the classes).
+    label_display:
+      type: string
+      title: Label display
+      enum:
+        - before
+        - after
+        - invisible
+        - none
+      default: before
+    description_display:
+      type: string
+      title: Description display
+      enum:
+        - before
+        - after
+        - invisible
+        - none
+      default: after
+    description_attributes:
+      type: Drupal\Core\Template\Attribute
+      title: Description attributes
+      description: Attributes of the description; Drupal sets its id for aria-describedby of the field.
+    disabled:
+      type: boolean
+      title: Disabled
+      default: false
+slots:
+  label:
+    title: Label
+    description: The rendered label (form element label template).
+  children:
+    title: Field
+    description: The form field, usually a form atom.
+  prefix:
+    title: Prefix
+  suffix:
+    title: Suffix
+  description:
+    title: Description
+  errors:
+    title: Errors
+    description: Error message of the field (only with the Inline Form Errors module).
