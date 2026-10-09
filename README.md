@@ -44,6 +44,10 @@ Components are configured by their context through custom properties instead of 
 
 Legacy rules in blaetter-theme set these properties where buttons and fields used to be adjusted by context (e.g. header, search form, form actions, cart quantity, cookie banner). Buttons take the font of their context, like the legacy buttons.
 
+### Links as buttons in forms
+
+Links with the class `button` in the actions of any form are rendered as `palm:button` at the end of `palm_form_alter()`; the variant follows `button--danger--reversed`, `button--danger` and `button--reversed`. They have to be link elements (`#type => link`); links that a module renders to markup itself are not found. A `#process` callback copies the id that the form builder assigns while it builds the form (e.g. `edit-delete`).
+
 ### Templates of modules
 
 Palm overrides templates of modules and uses components in them: the cookie banner of EU Cookie Compliance (`templates/content/eu_cookie_compliance_*.html.twig`) and the embed block of blaetter_formatters (`templates/content/blaetter_embed_block.html.twig`). The add-to-cart link and the link to choose a bonus that NodeShop adds to the links of products are replaced by `palm:button` in `palm_preprocess_links()`. After updates of these modules, compare the templates with the module versions. Their JavaScript finds the buttons by classes (`agree-button`, `eu-cookie-compliance-save-preferences-button`, `blaetter-embed-consent`, …), so keep these classes. EU Cookie Compliance renders the banner into a string for `drupalSettings`; therefore `palm.info.yml` attaches the button library to the banner library with `libraries-extend`.

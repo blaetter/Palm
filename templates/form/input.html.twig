@@ -6,7 +6,8 @@
  * - Single line text fields use the component palm:input.
  * - Checkboxes and radios use palm:checkbox and palm:radio.
  * - Form buttons (submit, button) use palm:button rendered as <input>; the
- *   variant follows Drupal's classes button--danger and button--reversed.
+ *   variant follows the classes button--danger--reversed, button--danger and
+ *   button--reversed.
  *   The round remove button of the cart (nodeshop_cart_remove_item) uses
  *   palm:icon-button; its title becomes the label for screen readers.
  * - All other types (hidden, file, image, …) keep the markup of Classy.
@@ -33,7 +34,7 @@
   }, with_context = false) -}}
   {{- children -}}
 {% elseif type in ['submit', 'button'] %}
-  {%- set variant = attributes.hasClass('button--danger') ? 'danger' : (attributes.hasClass('button--reversed') ? 'reversed' : 'primary') -%}
+  {%- set variant = attributes.hasClass('button--danger--reversed') ? 'danger-reversed' : (attributes.hasClass('button--danger') ? 'danger' : (attributes.hasClass('button--reversed') ? 'reversed' : 'primary')) -%}
   {{- include('palm:button', {
     attributes: attributes,
     label: attributes.value ~ '',

@@ -21,6 +21,13 @@
     {{ include('palm:button', { label: label, variant: 'danger' }, with_context = false) }}
   {% endstory %}
 
+  {% story danger_reversed with {
+    name: 'Danger reversed',
+    args: { label: 'Konto löschen', url: '#' }
+  } %}
+    {{ include('palm:button', { label: label, url: url, variant: 'danger-reversed' }, with_context = false) }}
+  {% endstory %}
+
   {% story promo with {
     name: 'Promo with icon',
     args: { label: 'Abo', url: '#', icon: 'book' }
@@ -84,6 +91,7 @@
       {{ include('palm:button', { label: 'Primary', url: '#' }, with_context = false) }}
       {{ include('palm:button', { label: 'Reversed', url: '#', variant: 'reversed' }, with_context = false) }}
       {{ include('palm:button', { label: 'Danger', variant: 'danger' }, with_context = false) }}
+      {{ include('palm:button', { label: 'Danger reversed', variant: 'danger-reversed' }, with_context = false) }}
       {{ include('palm:button', { label: 'Promo', url: '#', variant: 'promo', icon: 'book' }, with_context = false) }}
       {{ include('palm:button', { label: 'Disabled', variant: 'disabled' }, with_context = false) }}
     </p>

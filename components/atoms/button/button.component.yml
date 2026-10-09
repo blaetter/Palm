@@ -20,6 +20,9 @@ variants:
   danger:
     title: Danger
     description: Destructive action, red.
+  danger-reversed:
+    title: Danger reversed
+    description: Destructive action as secondary choice, white with red border and text.
   promo:
     title: Promo
     description: Promotion, white with red border, red when hovered.

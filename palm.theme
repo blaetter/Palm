@@ -4,7 +4,9 @@ use Drupal\block\Entity\Block;
 use Drupal\node\Entity\Node;
 use Drupal\Core\Field\EntityReferenceFieldItemList;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Render\Element;
 use Drupal\Core\Render\Markup;
+use Drupal\Core\Template\Attribute;
 use Drupal\Core\StringTranslation\TranslatableMarkup as Translation;
 use Drupal\Core\Url;
 use Drupal\nodeshop\NodeShop;
@@ -1248,6 +1250,77 @@ function palm_form_alter(&$form, FormStateInterface $form_state, $form_id) {
             $form['captcha']['#access'] = FALSE;
         }
     }
+
+    // Last, after the alters above have set their classes: links with the
+    // class button in the actions of any form (e.g. checkout and back links of
+    // NodeShop, cancel account of core) become palm:button.
+    if (isset($form['actions']) && is_array($form['actions'])) {
+        foreach (Element::children($form['actions']) as $key) {
+            $form['actions'][$key] = _palm_button_link($form['actions'][$key]);
+        }
+    }
+}
+
+/**
+ * Renders a link element with the class button as palm:button.
+ *
+ * The variant follows the classes button--danger--reversed, button--danger
+ * and button--reversed; other
+ * classes and attributes are kept. Other elements are returned unchanged.
+ *
+ * @param array $element
+ *   A render element.
+ *
+ * @return array
+ *   The palm:button component or the unchanged element.
+ */
+function _palm_button_link(array $element): array {
+    $classes = $element['#attributes']['class'] ?? [];
+    if (is_string($classes)) {
+        $classes = preg_split('/\s+/', trim($classes));
+    }
+    if (($element['#type'] ?? '') !== 'link' || !in_array('button', $classes, TRUE) || empty($element['#url'])) {
+        return $element;
+    }
+    $variant = 'primary';
+    foreach (['danger-reversed', 'danger', 'reversed'] as $candidate) {
+        if (in_array('button--' . str_replace('-', '--', $candidate), $classes, TRUE)) {
+            $variant = $candidate;
+            break;
+        }
+    }
+    $attributes = $element['#attributes'];
+    $attributes['class'] = array_values(array_diff($classes, ['button', 'button--primary', 'button--reversed', 'button--danger', 'button--danger--reversed']));
+    $button = [
+        '#type' => 'component',
+        '#component' => 'palm:button',
+        '#variant' => $variant,
+        '#props' => [
+            'label' => $element['#title'],
+            'url' => $element['#url'],
+            'attributes' => new Attribute($attributes),
+        ],
+        // The form builder assigns the id of the link only while it builds the form.
+        '#process' => ['_palm_button_link_id'],
+    ];
+    // Only copy what was set: an added #weight changes the order of the siblings.
+    foreach (['#weight', '#access'] as $property) {
+        if (isset($element[$property])) {
+            $button[$property] = $element[$property];
+        }
+    }
+    return $button;
+}
+
+/**
+ * Form #process callback: gives a button link from _palm_button_link() the id
+ * that the form builder assigned (e.g. edit-delete), as a link element has.
+ */
+function _palm_button_link_id(array $element): array {
+    if (!empty($element['#id'])) {
+        $element['#attributes']['id'] = $element['#id'];
+    }
+    return $element;
 }
 
 /**

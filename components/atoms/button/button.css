@@ -103,6 +103,15 @@
     --palm-button-font-weight: 400;
   }
 
+  .palm-button--danger-reversed {
+    --palm-button-background: var(--palm-color-white);
+    --palm-button-background-hover: var(--palm-color-red-pale);
+    --palm-button-color: var(--palm-color-danger);
+    --palm-button-border: var(--palm-color-danger);
+    --palm-button-border-hover: var(--palm-color-danger-hover);
+    --palm-button-font-weight: 400;
+  }
+
   .palm-button--promo {
     --palm-button-background: var(--palm-color-white);
     --palm-button-background-hover: var(--palm-color-red);
