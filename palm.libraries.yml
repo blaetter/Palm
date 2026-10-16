@@ -2,9 +2,30 @@
 global-styling:
   version: 1.x
   css:
+    base:
+      # Declares the cascade layer order, must come first.
+      css/layers.css: { weight: -100 }
+      # CSS of core, Classy and modules in the layer legacy, before palm.css (see palm.info.yml).
+      css/drupal-layer.css: { weight: -50 }
     theme:
+      # Built by the blaetter-theme styleguide, in the layer legacy.
       bundle/palm.css: {}
 global-scripts:
   version: 1.x
   js:
     bundle/palm.js: {attributes: {id: 'echo-behavior-js'}}
+# Design tokens (CSS custom properties) used by the components in components/.
+tokens:
+  version: 1.x
+  css:
+    base:
+      css/tokens.css: {}
+# ALTCHA widget and the CAPTCHA box of administrators. Global, because the
+# CAPTCHA module attaches no library in its administration mode.
+captcha:
+  version: 1.x
+  css:
+    component:
+      css/captcha.css: {}
+  dependencies:
+    - palm/tokens

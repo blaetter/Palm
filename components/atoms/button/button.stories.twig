@@ -1,0 +1,100 @@
+{% stories button with { title: 'Atoms/Button' } %}
+
+  {% story primary with {
+    name: 'Primary',
+    args: { label: 'Probeabo bestellen', url: '#' }
+  } %}
+    {{ include('palm:button', { label: label, url: url }, with_context = false) }}
+  {% endstory %}
+
+  {% story reversed with {
+    name: 'Reversed',
+    args: { label: 'Zur Ausgabe', url: '#' }
+  } %}
+    {{ include('palm:button', { label: label, url: url, variant: 'reversed' }, with_context = false) }}
+  {% endstory %}
+
+  {% story danger with {
+    name: 'Danger',
+    args: { label: 'Abo kündigen' }
+  } %}
+    {{ include('palm:button', { label: label, variant: 'danger' }, with_context = false) }}
+  {% endstory %}
+
+  {% story danger_reversed with {
+    name: 'Danger reversed',
+    args: { label: 'Konto löschen', url: '#' }
+  } %}
+    {{ include('palm:button', { label: label, url: url, variant: 'danger-reversed' }, with_context = false) }}
+  {% endstory %}
+
+  {% story promo with {
+    name: 'Promo with icon',
+    args: { label: 'Abo', url: '#', icon: 'book' }
+  } %}
+    {{ include('palm:button', { label: label, url: url, icon: icon, variant: 'promo' }, with_context = false) }}
+  {% endstory %}
+
+  {% story buy with {
+    name: 'Buy (icon at the end)',
+    args: { label: 'Druckausgabe kaufen (10.00€)', url: '#', icon: 'shopping-cart' }
+  } %}
+    {{ include('palm:button', { label: label, url: url, icon: icon, icon_position: 'end', rel: 'nofollow' }, with_context = false) }}
+  {% endstory %}
+
+  {% story download with {
+    name: 'Download (reversed, icon at the end)',
+    args: { label: 'ePub herunterladen', url: '#', icon: 'download' }
+  } %}
+    {{ include('palm:button', { label: label, url: url, icon: icon, icon_position: 'end', variant: 'reversed' }, with_context = false) }}
+  {% endstory %}
+
+  {% story on_dark with {
+    name: 'Ghost and white (dark background)',
+    args: {}
+  } %}
+    <div style="background: #086d9a; padding: 1rem;">
+      {{ include('palm:button', { label: 'Ghost', url: '#', variant: 'ghost' }, with_context = false) }}
+      {{ include('palm:button', { label: 'White', url: '#', variant: 'white' }, with_context = false) }}
+    </div>
+  {% endstory %}
+
+  {% story disabled with {
+    name: 'Disabled',
+    args: { label: 'Ausverkauft' }
+  } %}
+    {{ include('palm:button', { label: label, variant: 'disabled' }, with_context = false) }}
+  {% endstory %}
+
+  {% story submit with {
+    name: 'Submit button',
+    args: { label: 'Speichern' }
+  } %}
+    {{ include('palm:button', { label: label, button_type: 'submit' }, with_context = false) }}
+  {% endstory %}
+
+  {% story form_buttons with {
+    name: 'Form buttons (input)',
+    args: {}
+  } %}
+    <div class="form-actions">
+      {{ include('palm:button', { label: 'Vorschau', as_input: true, variant: 'reversed', attributes: create_attribute({ name: 'op' }) }, with_context = false) }}
+      {{ include('palm:button', { label: 'Nachricht senden', as_input: true, attributes: create_attribute({ name: 'op' }) }, with_context = false) }}
+    </div>
+  {% endstory %}
+
+  {% story all with {
+    name: 'All variants',
+    args: {}
+  } %}
+    <p>
+      {{ include('palm:button', { label: 'Primary', url: '#' }, with_context = false) }}
+      {{ include('palm:button', { label: 'Reversed', url: '#', variant: 'reversed' }, with_context = false) }}
+      {{ include('palm:button', { label: 'Danger', variant: 'danger' }, with_context = false) }}
+      {{ include('palm:button', { label: 'Danger reversed', variant: 'danger-reversed' }, with_context = false) }}
+      {{ include('palm:button', { label: 'Promo', url: '#', variant: 'promo', icon: 'book' }, with_context = false) }}
+      {{ include('palm:button', { label: 'Disabled', variant: 'disabled' }, with_context = false) }}
+    </p>
+  {% endstory %}
+
+{% endstories %}

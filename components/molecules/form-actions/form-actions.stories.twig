@@ -1,0 +1,25 @@
+{% stories form_actions with { title: 'Molecules/Form actions' } %}
+
+  {% story two_buttons with {
+    name: 'Two buttons',
+    args: {}
+  } %}
+    <form>
+      {% set buttons %}
+        {{ include('palm:button', { label: 'Vorschau', as_input: true, button_type: 'submit', variant: 'reversed' }, with_context = false) }}
+        {{ include('palm:button', { label: 'Nachricht senden', as_input: true, button_type: 'submit' }, with_context = false) }}
+      {% endset %}
+      {{ include('palm:form-actions', { children: buttons }, with_context = false) }}
+    </form>
+  {% endstory %}
+
+  {% story link with {
+    name: 'Link as button',
+    args: {}
+  } %}
+    {{ include('palm:form-actions', {
+      children: include('palm:button', { label: 'Als Gast bestellen', url: '#' }, with_context = false),
+    }, with_context = false) }}
+  {% endstory %}
+
+{% endstories %}

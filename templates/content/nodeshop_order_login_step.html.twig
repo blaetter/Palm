@@ -33,11 +33,15 @@
       <div class="block--white">
         <p><strong>{{ 'I do not have an account and want to register.'|t }}</strong></p>
         <p>{{ 'With an account you\'re able to always access your orders. If you want to purchase online products, creating an account is nesseccary.'|t }}</p>
-        <p class="form-actions"><a href="{{ path('nodeshop.processCustomer', {'customer_action': 'register'}) }}" class="button">Registrieren</a></p>
+        {{ include('palm:form-actions', {
+          children: include('palm:button', { label: 'Registrieren', url: path('nodeshop.processCustomer', {'customer_action': 'register'}) }, with_context = false),
+        }, with_context = false) }}
       {% if not force_account %}
         <p><strong>{{ 'I do not want to register.'|t }}</strong></p>
         <p>{{ 'If you only want to purchase print products, you do not need an account.'|t }}</p>
-        <p class="form-actions"><a href="{{ path('nodeshop.processCustomer', {'customer_action': 'guest'}) }}" class="button">{{ 'Checkout as guest'|t }}</a></p>
+        {{ include('palm:form-actions', {
+          children: include('palm:button', { label: 'Checkout as guest'|t, url: path('nodeshop.processCustomer', {'customer_action': 'guest'}) }, with_context = false),
+        }, with_context = false) }}
       {% endif %}
       </div>
     </div>

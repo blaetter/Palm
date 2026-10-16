@@ -12,9 +12,12 @@
  */
 #}
 
-<a class="button button--reversed button--buy" href="{{ download_url }}" rel="nofollow" title="{{ title }}">
-    {{ label }}
-    <span class="right">
-        <i class="fa fa-download" aria-hidden="true"></i>
-    </span>
-</a>
+{{ include('palm:button', {
+  label: label,
+  url: download_url,
+  title: title,
+  rel: 'nofollow',
+  variant: 'reversed',
+  icon: 'download',
+  icon_position: 'end',
+}, with_context = false) }}

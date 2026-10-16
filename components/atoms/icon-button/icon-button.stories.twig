@@ -1,0 +1,33 @@
+{% stories icon_button with { title: 'Atoms/Icon button' } %}
+
+  {% story remove with {
+    name: 'Remove',
+    args: { label: 'Artikel aus dem Warenkorb entfernen', symbol: '×' }
+  } %}
+    {{ include('palm:icon-button', { label: label, symbol: symbol }, with_context = false) }}
+  {% endstory %}
+
+  {% story input with {
+    name: 'As form button',
+    args: { label: 'Artikel aus dem Warenkorb entfernen', symbol: '×' }
+  } %}
+    {{ include('palm:icon-button', { label: label, symbol: symbol, as_input: true, button_type: 'submit' }, with_context = false) }}
+  {% endstory %}
+
+  {% story icon with {
+    name: 'Font Awesome icon',
+    args: { label: 'Schließen', icon: 'times' }
+  } %}
+    {{ include('palm:icon-button', { label: label, icon: icon }, with_context = false) }}
+  {% endstory %}
+
+  {% story context with {
+    name: 'Larger, dark context',
+    args: { label: 'Hinweis schließen', symbol: '×' }
+  } %}
+    <div style="--palm-icon-button-size: 36px; --palm-icon-button-background: #086d9a; --palm-icon-button-background-hover: #097eb2;">
+      {{ include('palm:icon-button', { label: label, symbol: symbol }, with_context = false) }}
+    </div>
+  {% endstory %}
+
+{% endstories %}

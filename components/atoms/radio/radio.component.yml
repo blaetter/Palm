@@ -1,0 +1,18 @@
+$schema: https://git.drupalcode.org/project/drupal/-/raw/HEAD/core/assets/schemas/v1/metadata.schema.json
+name: Radio
+status: experimental
+group: Atoms
+description: >
+  Radio button. The input template of the theme renders Drupal radios with it and passes their
+  attributes; the label comes from Drupal's form element. Styles come from palm:checkbox.
+libraryOverrides:
+  dependencies:
+    - palm/tokens
+    - core/components.palm--checkbox
+props:
+  type: object
+  properties: {}
+slots:
+  children:
+    title: Children
+    description: Markup after the field, e.g. from Drupal form element children.

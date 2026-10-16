@@ -1,0 +1,19 @@
+{% stories checkbox with { title: 'Atoms/Checkbox' } %}
+
+  {% story default with {
+    name: 'With label',
+    args: { label: 'Abweichende Lieferadresse' }
+  } %}
+    {{ include('palm:checkbox', { attributes: create_attribute({ id: 'story-checkbox', name: 'delivery', value: '1' }) }, with_context = false) }}
+    <label class="option" for="story-checkbox">{{ label }}</label>
+  {% endstory %}
+
+  {% story checked with {
+    name: 'Checked and disabled',
+    args: {}
+  } %}
+    {{ include('palm:checkbox', { attributes: create_attribute({ name: 'checked', value: '1', checked: true }) }, with_context = false) }}
+    {{ include('palm:checkbox', { attributes: create_attribute({ name: 'disabled', value: '1', disabled: true }) }, with_context = false) }}
+  {% endstory %}
+
+{% endstories %}

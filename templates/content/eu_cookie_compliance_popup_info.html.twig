@@ -48,9 +48,9 @@
         {{ message }}
       </div>
       <div id="popup-buttons" class="eu-cookie-compliance-buttons">
-        <button type="button" class="{{ primary_button_class }} button">{{ agree_button }}</button>
-        <button type="button" class="button eu-cookie-compliance-reject-button">Nur notwendige Cookies akzeptieren</button>
-        <button type="button" class="button eu-cookie-withdraw-button visually-hidden">Zustimmung widerrufen</button>
+        {{ include('palm:button', { label: agree_button, attributes: create_attribute({ class: primary_button_class|split(' ')|merge(['button']) }) }, with_context = false) }}
+        {{ include('palm:button', { label: 'Nur notwendige Cookies akzeptieren', attributes: create_attribute({ class: ['button', 'eu-cookie-compliance-reject-button'] }) }, with_context = false) }}
+        {{ include('palm:button', { label: 'Zustimmung widerrufen', attributes: create_attribute({ class: ['button', 'eu-cookie-withdraw-button', 'visually-hidden'] }) }, with_context = false) }}
       </div>
     </div>
     {% if cookie_categories %}
@@ -69,7 +69,7 @@
       </div>
       {% if save_preferences_button_label %}
       <div class="eu-cookie-compliance-categories-buttons eu-cookie-compliance-buttons">
-        <button type="button" class="eu-cookie-compliance-save-preferences-button button button--reversed">{{ save_preferences_button_label }}</button>
+        {{ include('palm:button', { label: save_preferences_button_label, attributes: create_attribute({ class: ['eu-cookie-compliance-save-preferences-button', 'button', 'button--reversed'] }), variant: 'reversed' }, with_context = false) }}
       </div>
       {% endif %}
     </div>

@@ -1,0 +1,34 @@
+$schema: https://git.drupalcode.org/project/drupal/-/raw/HEAD/core/assets/schemas/v1/metadata.schema.json
+name: Details
+status: experimental
+group: Molecules
+description: >
+  Collapsible group of form fields (HTML details). Directly in a form it is a section with a large
+  summary and without border (e.g. "Nutzerkonto" of the registration); nested it is a box with a
+  border. The details template of the theme renders Drupal's details elements with it (same
+  structure as Classy). The context may set --palm-details-space-before and
+  --palm-details-space-after on the element itself (not inherited).
+libraryOverrides:
+  dependencies:
+    - palm/tokens
+props:
+  type: object
+  properties:
+    required:
+      type: boolean
+      title: Required
+      default: false
+    summary_attributes:
+      type: Drupal\Core\Template\Attribute
+      title: Summary attributes
+slots:
+  title:
+    title: Summary
+  children:
+    title: Content
+  description:
+    title: Description
+  errors:
+    title: Errors
+  value:
+    title: Value

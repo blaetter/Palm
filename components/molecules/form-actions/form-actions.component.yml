@@ -1,0 +1,19 @@
+$schema: https://git.drupalcode.org/project/drupal/-/raw/HEAD/core/assets/schemas/v1/metadata.schema.json
+name: Form actions
+status: experimental
+group: Molecules
+description: >
+  Bar of the form buttons: on wide screens in a row at the right, on phones below each other in the
+  full width. The container template of the theme renders Drupal's actions element with it. The
+  context may set --palm-form-actions-space-before and --palm-form-actions-space-after on the bar
+  itself (not inherited).
+libraryOverrides:
+  dependencies:
+    - palm/tokens
+props:
+  type: object
+  properties: {}
+slots:
+  children:
+    title: Buttons
+    description: The buttons (palm:button) and other elements of the bar.

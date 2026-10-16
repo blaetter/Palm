@@ -4,7 +4,9 @@ use Drupal\block\Entity\Block;
 use Drupal\node\Entity\Node;
 use Drupal\Core\Field\EntityReferenceFieldItemList;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Render\Element;
 use Drupal\Core\Render\Markup;
+use Drupal\Core\Template\Attribute;
 use Drupal\Core\StringTranslation\TranslatableMarkup as Translation;
 use Drupal\Core\Url;
 use Drupal\nodeshop\NodeShop;
@@ -1030,9 +1032,41 @@ function palm_preprocess_links(&$variables) {
   if (isset($variables['links']['node-readmore'])) {
     unset($variables['links']['node-readmore']);
   }
-  if (isset($variables['links']['bonuslink'])) {
-    $variables['links']['bonuslink']['link']['#options']['attributes']['class'][] = 'button';
-    $variables['links']['bonuslink']['link']['#options']['attributes']['class'][] = 'button--reversed';
+  // Add-to-cart link of NodeShop below products: palm:button with the icon at
+  // the end, like the buy buttons of issues. NodeShop puts the icon into the
+  // translated title, so the label is the title without markup.
+  if (isset($variables['links']['cartlink']['link']['#url'])) {
+    $link = $variables['links']['cartlink']['link'];
+    $attributes = $link['#options']['attributes'] ?? [];
+    $variables['links']['cartlink']['link'] = [
+      '#type' => 'component',
+      '#component' => 'palm:button',
+      '#props' => [
+        'label' => trim(strip_tags((string) $link['#title'])),
+        'url' => $link['#url'],
+        'title' => (string) ($attributes['title'] ?? ''),
+        'rel' => $attributes['rel'] ?? '',
+        'icon' => 'shopping-cart',
+        'icon_position' => 'end',
+      ],
+    ];
+  }
+  // Link of the bonus feature of NodeShop to choose a bonus: palm:button
+  // (reversed) next to the add-to-cart link.
+  if (isset($variables['links']['bonuslink']['link']['#url'])) {
+    $link = $variables['links']['bonuslink']['link'];
+    $attributes = $link['#options']['attributes'] ?? [];
+    $variables['links']['bonuslink']['link'] = [
+      '#type' => 'component',
+      '#component' => 'palm:button',
+      '#props' => [
+        'label' => trim(strip_tags((string) $link['#title'])),
+        'url' => $link['#url'],
+        'title' => (string) ($attributes['title'] ?? ''),
+        'rel' => $attributes['rel'] ?? '',
+      ],
+      '#variant' => 'reversed',
+    ];
   }
 
 }
@@ -1178,10 +1212,115 @@ function palm_form_alter(&$form, FormStateInterface $form_state, $form_id) {
         $form['actions']['preview']['#weight'] = -10;
     }
 
-    // Search form alter
+    // Search page: the field and button get the classes of palm:search-form.
     if ('search_form' == $form_id) {
+        $form['basic']['#attributes']['class'] = ['palm-search-form'];
+        $form['basic']['keys']['#title_display'] = 'invisible';
         $form['basic']['keys']['#placeholder'] = new Translation('Search this website...');
+        $form['basic']['keys']['#wrapper_attributes']['class'][] = 'palm-search-form__field';
+        $form['basic']['submit']['#value'] = new Translation('search');
+        $form['basic']['submit']['#attributes']['class'][] = 'palm-search-form__submit';
+        $form['#attached']['library'][] = 'core/components.palm--search-form';
+        // No link to the search help page (/search/node/help stays reachable).
+        $form['help_link']['#access'] = FALSE;
     }
+
+    // Header search (search block): same classes as palm:search-form.
+    if ('search_block_form' == $form_id) {
+        // Bots that submit forms found in the HTML send it to the current
+        // page; search-flyout.js (blaetter-theme) sets the search page as
+        // action when the search is opened and finds the form by js-search-form.
+        $form['#action'] = '#';
+        $form['#attributes']['class'][] = 'js-search-form';
+        $form['#attributes']['class'][] = 'palm-search-form';
+        $form['keys']['#title'] = new Translation('Search this website...');
+        $form['keys']['#placeholder'] = new Translation('Search this website...');
+        $form['keys']['#size'] = NULL;
+        $form['keys']['#wrapper_attributes']['class'][] = 'palm-search-form__field';
+        // The button follows the field directly, without the actions wrapper.
+        $form['submit'] = $form['actions']['submit'];
+        $form['submit']['#value'] = new Translation('search');
+        $form['submit']['#attributes']['class'][] = 'palm-search-form__submit';
+        unset($form['actions']);
+        $form['#attached']['library'][] = 'core/components.palm--search-form';
+        // The CAPTCHA module shows administrators a box with links here (no
+        // CAPTCHA point for this form); it breaks the flyout. A real CAPTCHA
+        // would stay.
+        if (in_array('captcha-admin-links', $form['captcha']['#attributes']['class'] ?? [], TRUE)) {
+            $form['captcha']['#access'] = FALSE;
+        }
+    }
+
+    // Last, after the alters above have set their classes: links with the
+    // class button in the actions of any form (e.g. checkout and back links of
+    // NodeShop, cancel account of core) become palm:button.
+    if (isset($form['actions']) && is_array($form['actions'])) {
+        foreach (Element::children($form['actions']) as $key) {
+            $form['actions'][$key] = _palm_button_link($form['actions'][$key]);
+        }
+    }
+}
+
+/**
+ * Renders a link element with the class button as palm:button.
+ *
+ * The variant follows the classes button--danger--reversed, button--danger
+ * and button--reversed; other
+ * classes and attributes are kept. Other elements are returned unchanged.
+ *
+ * @param array $element
+ *   A render element.
+ *
+ * @return array
+ *   The palm:button component or the unchanged element.
+ */
+function _palm_button_link(array $element): array {
+    $classes = $element['#attributes']['class'] ?? [];
+    if (is_string($classes)) {
+        $classes = preg_split('/\s+/', trim($classes));
+    }
+    if (($element['#type'] ?? '') !== 'link' || !in_array('button', $classes, TRUE) || empty($element['#url'])) {
+        return $element;
+    }
+    $variant = 'primary';
+    foreach (['danger-reversed', 'danger', 'reversed'] as $candidate) {
+        if (in_array('button--' . str_replace('-', '--', $candidate), $classes, TRUE)) {
+            $variant = $candidate;
+            break;
+        }
+    }
+    $attributes = $element['#attributes'];
+    $attributes['class'] = array_values(array_diff($classes, ['button', 'button--primary', 'button--reversed', 'button--danger', 'button--danger--reversed']));
+    $button = [
+        '#type' => 'component',
+        '#component' => 'palm:button',
+        '#variant' => $variant,
+        '#props' => [
+            'label' => $element['#title'],
+            'url' => $element['#url'],
+            'attributes' => new Attribute($attributes),
+        ],
+        // The form builder assigns the id of the link only while it builds the form.
+        '#process' => ['_palm_button_link_id'],
+    ];
+    // Only copy what was set: an added #weight changes the order of the siblings.
+    foreach (['#weight', '#access'] as $property) {
+        if (isset($element[$property])) {
+            $button[$property] = $element[$property];
+        }
+    }
+    return $button;
+}
+
+/**
+ * Form #process callback: gives a button link from _palm_button_link() the id
+ * that the form builder assigned (e.g. edit-delete), as a link element has.
+ */
+function _palm_button_link_id(array $element): array {
+    if (!empty($element['#id'])) {
+        $element['#attributes']['id'] = $element['#id'];
+    }
+    return $element;
 }
 
 /**

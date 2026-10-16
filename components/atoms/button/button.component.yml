@@ -1,0 +1,87 @@
+$schema: https://git.drupalcode.org/project/drupal/-/raw/HEAD/core/assets/schemas/v1/metadata.schema.json
+name: Button
+status: experimental
+group: Atoms
+description: >
+  Call to action. Renders a link when a URL is given, otherwise a button element.
+  Surrounding markup can adjust it with custom properties: --palm-button-padding,
+  --palm-button-radius, --palm-button-display and --palm-button-white-space (set on the
+  button or a parent) and
+  --palm-button-space-after (margin below, set on the button itself, not inherited). Other
+  outer margins are left to the context.
+# Passed as `variant` (Twig include) or #variant (render array).
+variants:
+  primary:
+    title: Primary
+    description: Main call to action, blue.
+  reversed:
+    title: Reversed
+    description: Secondary action, white with border.
+  danger:
+    title: Danger
+    description: Destructive action, red.
+  danger-reversed:
+    title: Danger reversed
+    description: Destructive action as secondary choice, white with red border and text.
+  promo:
+    title: Promo
+    description: Promotion, white with red border, red when hovered.
+  ghost:
+    title: Ghost
+    description: Transparent with white border, for dark backgrounds.
+  white:
+    title: White
+    description: White button, for dark backgrounds.
+  disabled:
+    title: Disabled
+    description: Greyed out, not clickable.
+libraryOverrides:
+  dependencies:
+    - palm/tokens
+props:
+  type: object
+  required:
+    - label
+  properties:
+    label:
+      # strings or translated markup (the |t filter returns an object)
+      type: [string, object]
+      title: Label
+    url:
+      type: [string, object]
+      title: URL
+      description: Renders a link (<a>) when set, otherwise a <button>.
+    title:
+      type: [string, object]
+      title: Title attribute
+    rel:
+      type: string
+      title: Rel attribute
+      description: Only used for links, e.g. nofollow.
+    as_input:
+      type: boolean
+      title: Render as input
+      description: >
+        Renders <input type="submit|button" value="label"> instead of <button>, as Drupal's form
+        buttons do; icons are not shown then. Used by the input template of the theme.
+      default: false
+    button_type:
+      type: string
+      title: Button type
+      description: Only used for <button> and the input variant.
+      enum:
+        - button
+        - submit
+      default: button
+    icon:
+      type: string
+      title: Icon
+      description: Font Awesome 4 icon name without the fa- prefix, e.g. shopping-cart.
+    icon_position:
+      type: string
+      title: Icon position
+      description: start shows the icon before the label, end at the right edge.
+      enum:
+        - start
+        - end
+      default: start

@@ -1,0 +1,9 @@
+{#
+/**
+ * @file
+ * Input atom: single line form field. Type, name, value etc. come with the attributes.
+ *
+ * Usage: {{ include('palm:input', { attributes: attributes, children: children }, with_context = false) }}
+ */
+#}
+<input{{ attributes.addClass('palm-input') }} />{{ children }}

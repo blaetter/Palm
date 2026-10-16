@@ -1,0 +1,57 @@
+/**
+ * Input atom, also the base of the select and textarea atoms.
+ *
+ * In the layer components. The context may set --palm-field-width,
+ * --palm-field-max-width, --palm-field-height, --palm-field-border and the
+ * token --palm-field-padding on the field or a parent (inherited).
+ */
+@layer components {
+  .palm-input,
+  .palm-select,
+  .palm-textarea {
+    width: var(--palm-field-width, 100%);
+    max-width: var(--palm-field-max-width, none);
+    height: var(--palm-field-height, auto);
+    min-height: var(--palm-field-min-height);
+    padding: var(--palm-field-padding);
+    border: var(--palm-field-border, 1px solid var(--palm-color-grey-border));
+    border-radius: 0;
+    background-color: var(--palm-color-white);
+    background-image: none;
+    color: var(--palm-color-text);
+    font-family: var(--palm-font-sans);
+    font-size: 1em;
+    line-height: 1rem;
+    transition: border-color 0.16s ease-in-out 0s, box-shadow 0.16s ease-in-out 0s;
+
+    &:focus {
+      border-color: var(--palm-color-focus);
+      box-shadow: 0 1px 1px rgb(0 0 0 / 7.5%) inset, 0 0 8px rgb(102 175 233 / 60%);
+      outline: 0 none;
+    }
+
+    /* Drupal marks fields with validation errors with the class error. */
+    &.error {
+      border: 2px solid var(--palm-color-error);
+    }
+
+    &[disabled],
+    &[readonly] {
+      background-color: var(--palm-color-grey);
+      color: var(--palm-color-grey-text);
+      opacity: 1;
+    }
+
+    &[disabled] {
+      cursor: not-allowed;
+    }
+
+    &[readonly] {
+      cursor: default;
+    }
+
+    @media (max-width: 45rem) {
+      min-height: var(--palm-field-min-height-phone);
+    }
+  }
+}

@@ -69,7 +69,7 @@
       <strong>Hint:</strong> You need to have JavaScript enabled in order to access this content.
     {% endtrans %}
       </p>
-      <button class="button blaetter-embed-consent">{{ 'Click here to accept and view the content.' |t }}</button>
+      {{ include('palm:button', { label: 'Click here to accept and view the content.'|t, attributes: create_attribute({ class: ['button', 'blaetter-embed-consent'] }) }, with_context = false) }}
     </div>
   {% else %}
     <iframe

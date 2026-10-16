@@ -1,0 +1,52 @@
+{% stories form_item with { title: 'Molecules/Form item' } %}
+
+  {% story text with {
+    name: 'Text field with description',
+    args: { label: 'E-Mail-Adresse', description: 'Die E-Mail-Adresse wird nicht veröffentlicht.' }
+  } %}
+    {% set label_markup %}<label for="story-mail" class="js-form-required form-required">{{ label }}</label>{% endset %}
+    <form>
+      {{ include('palm:form-item', {
+        type: 'email',
+        name: 'mail',
+        label: label_markup,
+        children: include('palm:input', { attributes: create_attribute({ type: 'email', id: 'story-mail', name: 'mail', required: true, 'aria-describedby': 'story-mail--description' }) }, with_context = false),
+        description: description,
+        description_attributes: create_attribute({ id: 'story-mail--description' }),
+      }, with_context = false) }}
+    </form>
+  {% endstory %}
+
+  {% story checkbox with {
+    name: 'Checkbox, label after the field',
+    args: { label: 'Kopie an mich senden' }
+  } %}
+    {% set label_markup %}<label for="story-copy" class="option">{{ label }}</label>{% endset %}
+    <form>
+      {{ include('palm:form-item', {
+        type: 'checkbox',
+        name: 'copy',
+        label_display: 'after',
+        label: label_markup,
+        children: include('palm:checkbox', { attributes: create_attribute({ id: 'story-copy', name: 'copy', value: 1 }) }, with_context = false),
+      }, with_context = false) }}
+    </form>
+  {% endstory %}
+
+  {% story error with {
+    name: 'With error message',
+    args: { label: 'Name', error: 'Bitte geben Sie Ihren Namen an.' }
+  } %}
+    {% set label_markup %}<label for="story-name" class="js-form-required form-required">{{ label }}</label>{% endset %}
+    <form>
+      {{ include('palm:form-item', {
+        type: 'textfield',
+        name: 'name',
+        label: label_markup,
+        children: include('palm:input', { attributes: create_attribute({ type: 'text', id: 'story-name', name: 'name', class: ['error'] }) }, with_context = false),
+        errors: error,
+      }, with_context = false) }}
+    </form>
+  {% endstory %}
+
+{% endstories %}

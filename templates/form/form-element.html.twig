@@ -1,0 +1,44 @@
+{#
+/**
+ * @file
+ * Theme override for a form element: renders it with the molecule
+ * palm:form-item (label, field, description, error message).
+ *
+ * Available variables:
+ * - attributes: HTML attributes for the containing element.
+ * - errors: (optional) Any errors for this form element, may not be set.
+ * - prefix: (optional) The form element prefix, may not be set.
+ * - suffix: (optional) The form element suffix, may not be set.
+ * - required: The required marker, or empty if the associated form element is
+ *   not required.
+ * - type: The type of the element.
+ * - name: The name of the element.
+ * - label: A rendered label element.
+ * - label_display: Label display setting: before, after, invisible or none.
+ * - description: (optional) A list of description properties containing:
+ *    - content: A description of the form element, may not be set.
+ *    - attributes: (optional) A list of HTML attributes to apply to the
+ *      description content wrapper. Will only be set when description is set.
+ * - description_display: Description display setting: before, after or
+ *   invisible.
+ * - disabled: True if the element is disabled.
+ *
+ * @see template_preprocess_form_element()
+ */
+#}
+{# Without a display setting Classy prints neither label nor description: none. #}
+{{ include('palm:form-item', {
+  attributes: attributes,
+  type: type ~ '',
+  name: name ~ '',
+  label: label,
+  label_display: label_display ?: 'none',
+  prefix: prefix,
+  suffix: suffix,
+  children: children,
+  description: description.content,
+  description_attributes: description.attributes ?? create_attribute(),
+  description_display: description_display ?: 'none',
+  disabled: disabled == 'disabled',
+  errors: errors,
+}, with_context = false) }}

@@ -13,12 +13,12 @@
  */
 #}
 
-<a class="button button--buy" href="{{
-    path('nodeshop.addToCart',
-    {'node': product_node_id },
-    {'query': [
-    {'destination': destination}
-    ]}
-) }}" rel="nofollow" title="{{ title }}">
-    {{ label }} ({{ product_price }}€) <span class="right"><i class="fa fa-shopping-cart" aria-hidden="true"></i></span>
-</a>
+{% set buy_label %}{{ label }} ({{ product_price }}€){% endset %}
+{{ include('palm:button', {
+  label: buy_label,
+  url: path('nodeshop.addToCart', {'node': product_node_id}, {'query': [{'destination': destination}]}),
+  title: title,
+  rel: 'nofollow',
+  icon: 'shopping-cart',
+  icon_position: 'end',
+}, with_context = false) }}

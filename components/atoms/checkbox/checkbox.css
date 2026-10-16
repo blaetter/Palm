@@ -1,0 +1,21 @@
+/**
+ * Checkbox atom, also the styles of the radio atom.
+ *
+ * The browser draws the control; only its box in the line is set here.
+ */
+@layer components {
+  .palm-checkbox,
+  .palm-radio {
+    width: auto;
+    height: auto;
+    min-height: auto;
+    margin: 0 0.3em;
+    padding: 0;
+    line-height: normal;
+
+    &:focus {
+      outline: thin dotted;
+      outline-offset: -2px;
+    }
+  }
+}

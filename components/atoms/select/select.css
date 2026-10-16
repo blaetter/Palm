@@ -1,0 +1,8 @@
+/**
+ * Select atom; the base styles come from palm:input.
+ */
+@layer components {
+  .palm-select > option {
+    padding: var(--palm-field-padding);
+  }
+}

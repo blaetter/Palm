@@ -1,0 +1,19 @@
+/**
+ * Textarea atom; the base styles come from palm:input.
+ */
+@layer components {
+  .palm-textarea {
+    overflow: auto;
+    line-height: 30px;
+  }
+
+  /* Same as core's resize.module.css for resizable textareas. */
+  .palm-textarea.resize-vertical {
+    min-height: 2em;
+  }
+
+  .palm-textarea.resize-horizontal,
+  .palm-textarea.resize-both {
+    max-width: 100%;
+  }
+}

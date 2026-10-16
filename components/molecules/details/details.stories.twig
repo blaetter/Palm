@@ -1,0 +1,39 @@
+{% stories details with { title: 'Molecules/Details' } %}
+
+  {% story section with {
+    name: 'Section in a form',
+    args: { title: 'Nutzerkonto' }
+  } %}
+    {% set label_mail %}<label for="story-details-mail" class="js-form-required form-required">E-Mail-Adresse</label>{% endset %}
+    <form>
+      {{ include('palm:details', {
+        attributes: create_attribute({ open: true }),
+        title: title,
+        children: include('palm:form-item', {
+          type: 'email', name: 'mail', label: label_mail,
+          children: include('palm:input', { attributes: create_attribute({ type: 'email', id: 'story-details-mail', name: 'mail', required: true }) }, with_context = false),
+        }, with_context = false),
+      }, with_context = false) }}
+    </form>
+  {% endstory %}
+
+  {% story box with {
+    name: 'Box (nested)',
+    args: { title: 'Erweiterte Suche', description: 'Grenzt die Suche auf Inhaltstypen ein.' }
+  } %}
+    {% set label_type %}<label for="story-details-type" class="option">Nur Artikel</label>{% endset %}
+    <form>
+      <div>
+        {{ include('palm:details', {
+          title: title,
+          description: description,
+          children: include('palm:form-item', {
+            type: 'checkbox', name: 'type', label: label_type, label_display: 'after',
+            children: include('palm:checkbox', { attributes: create_attribute({ id: 'story-details-type', name: 'type', value: 1 }) }, with_context = false),
+          }, with_context = false),
+        }, with_context = false) }}
+      </div>
+    </form>
+  {% endstory %}
+
+{% endstories %}

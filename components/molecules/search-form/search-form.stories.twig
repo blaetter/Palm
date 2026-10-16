@@ -1,0 +1,28 @@
+{% stories search_form with { title: 'Molecules/Search form' } %}
+
+  {% story header with {
+    name: 'Header search',
+    args: { label: 'Webseite durchsuchen', button_label: 'Suchen' }
+  } %}
+    <div style="padding: 40px; background: #f2f2f2;">
+      {{ include('palm:search-form', { label: label, button_label: button_label, input_id: 'story-search-header' }, with_context = false) }}
+    </div>
+  {% endstory %}
+
+  {% story value with {
+    name: 'With search terms',
+    args: { label: 'Webseite durchsuchen', button_label: 'Suchen', value: 'Klimapolitik' }
+  } %}
+    {{ include('palm:search-form', { label: label, button_label: button_label, value: value, input_id: 'story-search-value' }, with_context = false) }}
+  {% endstory %}
+
+  {% story narrow with {
+    name: 'Smaller context',
+    args: { label: 'Webseite durchsuchen', button_label: 'Suchen' }
+  } %}
+    <div style="--palm-search-form-height: 40px; --palm-search-form-font-size: 16px; max-width: 24rem;">
+      {{ include('palm:search-form', { label: label, button_label: button_label, input_id: 'story-search-narrow' }, with_context = false) }}
+    </div>
+  {% endstory %}
+
+{% endstories %}

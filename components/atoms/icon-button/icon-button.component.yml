@@ -1,0 +1,49 @@
+$schema: https://git.drupalcode.org/project/drupal/-/raw/HEAD/core/assets/schemas/v1/metadata.schema.json
+name: Icon button
+status: experimental
+group: Atoms
+description: >
+  Round button that only shows a symbol, e.g. × to remove an item. The label is not visible but
+  read by screen readers (aria-label) and shown as tooltip (title). Surrounding markup can adjust
+  it with custom properties (set on the button or a parent): --palm-icon-button-size,
+  --palm-icon-button-background, --palm-icon-button-background-hover and
+  --palm-icon-button-color. Default: grey, red when hovered or focused (contrast of at least
+  3:1). Its position belongs to the context.
+libraryOverrides:
+  dependencies:
+    - palm/tokens
+props:
+  type: object
+  required:
+    - label
+  properties:
+    label:
+      # strings or translated markup (the |t filter returns an object)
+      type: [string, object]
+      title: Label
+      description: What the button does, for screen readers and as tooltip.
+    symbol:
+      type: string
+      title: Symbol
+      description: Character shown in the button.
+      default: ×
+    icon:
+      type: string
+      title: Icon
+      description: >
+        Font Awesome 4 icon name without the fa- prefix, shown instead of the symbol; not
+        possible with as_input.
+    as_input:
+      type: boolean
+      title: Render as input
+      description: >
+        Renders <input type="submit|button" value="symbol"> instead of <button>, as Drupal's form
+        buttons do. Used by the input template of the theme.
+      default: false
+    button_type:
+      type: string
+      title: Button type
+      enum:
+        - button
+        - submit
+      default: button
