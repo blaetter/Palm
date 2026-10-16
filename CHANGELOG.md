@@ -4,7 +4,7 @@ All notable changes to this theme, grouped by topic. New entries go into the "Un
 
 Sections per version: Features, Security, Bugs, Removed, Maintenance (omit empty sections).
 
-## Unreleased (branch `20261005_rewrite`)
+## Unreleased
 
 ### Features
 - Single directory components (SDC) in `components/`, starting with the atom `palm:button` (variants primary, reversed, danger, danger-reversed, promo, ghost, white, disabled; optional icon at the start or end)
