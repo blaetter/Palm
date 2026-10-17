@@ -1,6 +1,7 @@
 <?php
 
 use Drupal\block\Entity\Block;
+use Drupal\Component\Utility\Html;
 use Drupal\node\Entity\Node;
 use Drupal\Core\Field\EntityReferenceFieldItemList;
 use Drupal\Core\Form\FormStateInterface;
@@ -848,23 +849,36 @@ function palm_preprocess_node(&$variables)
           $node_teaser = $node->body->view('teaser');
         }
 
+        // Keep the paragraphs of the teaser, but drop the indentation and the
+        // line breaks of the html source.
+        $teaser_text = Html::decodeEntities(strip_tags($renderer->render($node_teaser)));
+        $paragraphs = preg_split('/\R\s*\R/u', trim($teaser_text));
+        $paragraphs = array_map(fn($p) => trim(preg_replace('/\s+/u', ' ', $p)), $paragraphs);
+        $teaser_text = implode("\r\n\r\n", array_filter($paragraphs));
+
+        $mail_body = (string) new Translation(
+            'Hello,%0D%0A%0D%0AI found this interesting article on the website www.blaetter.de:%0D%0A%0D%0A@title%0D%0A%0D%0A@teaser%0D%0A%0D%0A@link%0D%0A',
+            [
+                '@title' => rawurlencode($node_title),
+                '@teaser' => rawurlencode($teaser_text),
+                '@link' => $node_url,
+            ]
+        );
+        // Crawlers treat a line break directly after the link as part of the URL.
+        $mail_body = preg_replace('/(%0D%0A)+$/', '', $mail_body);
+
+        $mail_subject = Html::decodeEntities((string) new Translation(
+            'Read @blaetter: @title',
+            [
+                '@title' => $node_title
+            ]
+        ));
+
         $variables['social'] = [
             '#theme' => 'palm_social_links',
             '#link_facebook' => true, // is set from node_title and node_url in the template
             '#link_twitter' => new Translation('Read on @blaetter: @title', ['@title' => $node_title]),
-            '#link_mail' => 'mailto:?subject=' . new Translation(
-                'Read @blaetter: @title',
-                [
-                    '@title' => $node_title
-                ]
-            ) . '&body=' . new Translation(
-                'Hello,%0D%0A%0D%0AI found this interesting article on the website www.blaetter.de:%0D%0A%0D%0A@title%0D%0A%0D%0A@teaser%0D%0A%0D%0A@link%0D%0A',
-                [
-                    '@title' => $node_title,
-                    '@teaser' => strip_tags($renderer->render($node_teaser)),
-                    '@link' => $node_url,
-                ]
-            ),
+            '#link_mail' => 'mailto:?subject=' . rawurlencode($mail_subject) . '&body=' . $mail_body,
             '#node_url' => $node_url,
             '#node_title' => $node_title,
         ];
