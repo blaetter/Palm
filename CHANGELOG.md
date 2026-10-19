@@ -28,6 +28,7 @@ Sections per version: Features, Security, Bugs, Removed, Maintenance (omit empty
 - Descriptions of form fields have a gap to the field above; the CAPTCHA legend is bold like the other labels (blaetter-theme)
 
 ### Bugs
+- Dossiers without dossier term (e.g. unpublished dossiers in progress) failed with "Call to a member function label() on null" in `palm_preprocess_page()`; the page heading shows „Dossier“ without title then. Products without rubric and issues without edition or year are guarded the same way
 - The share via mail link no longer ends with a line break after the article URL; crawlers took the encoded line break (`%0D%0A`) as part of the URL and caused 404 errors. Title, subject and teaser are URL-encoded, the teaser keeps its paragraphs but no longer contains the indentation and line breaks of the html source
 
 ### Maintenance

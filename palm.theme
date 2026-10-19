@@ -536,7 +536,8 @@ function palm_preprocess_page(&$variables) {
         if ('dossier' == $node->getType()) {
             $dossier_name = '';
             if ($node->hasField('field_dossier') && $node->get('field_dossier') instanceof EntityReferenceFieldItemList) {
-                $dossier_name = $node->get('field_dossier')->entity->label();
+                // The dossier term may be missing, e.g. for unpublished dossiers in progress.
+                $dossier_name = $node->get('field_dossier')->entity?->label() ?? '';
                 $variables['page']['hero']['category_title'] = [
                     '#theme' => 'palm_heading_pagecategory',
                     '#category_prefix' => new Translation('Dossier'),
@@ -554,7 +555,7 @@ function palm_preprocess_page(&$variables) {
         ) {
             $rubric_name = '';
             if ($node->hasField('field_rubrik') && $node->get('field_rubrik') instanceof EntityReferenceFieldItemList) {
-              $rubric_name = $node->get('field_rubrik')->entity->label();
+              $rubric_name = $node->get('field_rubrik')->entity?->label() ?? '';
             }
             $variables['page']['hero']['category_title'] = [
                 '#theme' => 'palm_heading_pagecategory',
@@ -1354,8 +1355,8 @@ function _palm_get_issue($node) {
           && $book->get('field_jahr') instanceof EntityReferenceFieldItemList
         ) {
             // get the edition
-            $edition = $book->get('field_ausgabe')->entity->label();
-            $year = $book->get('field_jahr')->entity->label();
+            $edition = $book->get('field_ausgabe')->entity?->label() ?? '';
+            $year = $book->get('field_jahr')->entity?->label() ?? '';
         }
         return [
             'nid' => $book->id(),
