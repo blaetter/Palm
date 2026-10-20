@@ -1242,10 +1242,9 @@ function palm_form_alter(&$form, FormStateInterface $form_state, $form_id) {
 
     // Header search (search block): same classes as palm:search-form.
     if ('search_block_form' == $form_id) {
-        // Bots that submit forms found in the HTML send it to the current
-        // page; search-flyout.js (blaetter-theme) sets the search page as
-        // action when the search is opened and finds the form by js-search-form.
-        $form['#action'] = '#';
+        // The form sends to the search page (core sets the action), so it
+        // also works without JavaScript; search-flyout.js (blaetter-theme)
+        // finds it by js-search-form.
         $form['#attributes']['class'][] = 'js-search-form';
         $form['#attributes']['class'][] = 'palm-search-form';
         $form['keys']['#title'] = new Translation('Search this website...');

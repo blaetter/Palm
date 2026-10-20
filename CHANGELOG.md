@@ -28,6 +28,7 @@ Sections per version: Features, Security, Bugs, Removed, Maintenance (omit empty
 - Descriptions of form fields have a gap to the field above; the CAPTCHA legend is bold like the other labels (blaetter-theme)
 
 ### Bugs
+- The header search sent the search to the current page, when its action was not switched by JavaScript (e.g. with script blockers), so users stayed on the home page; the form sends to `/search/node` from the start (the bot protection with `action="#"` from the time of the Bing search is removed, `search-flyout.js` in blaetter-theme no longer switches the action)
 - Dossiers without dossier term (e.g. unpublished dossiers in progress) failed with "Call to a member function label() on null" in `palm_preprocess_page()`; the page heading shows „Dossier“ without title then. Products without rubric and issues without edition or year are guarded the same way
 - The share via mail link no longer ends with a line break after the article URL; crawlers took the encoded line break (`%0D%0A`) as part of the URL and caused 404 errors. Title, subject and teaser are URL-encoded, the teaser keeps its paragraphs but no longer contains the indentation and line breaks of the html source
 
