@@ -81,13 +81,13 @@ function palm_preprocess_page_title(&$variables) {
 
     // Prototype of the search with Search API: heading like the existing search page ("Suche nach Klima").
     if ('view.search_prototype.page_1' === \Drupal::routeMatch()->getRouteName()) {
-        $keys = trim((string) \Drupal::request()->query->get('keys', ''));
+        $keys = palm_search_prototype_keys();
         $variables['title'] = '' !== $keys ? t('Search for @keywords', ['@keywords' => $keys]) : t('Search');
         $variables['title_attributes']['class'][] = $custom_headline_class;
     }
     // Page with all authors matching the search term: like the author index.
     if ('view.search_prototype_authors.page_1' === \Drupal::routeMatch()->getRouteName()) {
-        $keys = trim((string) \Drupal::request()->query->get('keys', ''));
+        $keys = palm_search_prototype_keys();
         $variables['title_prefix'] = 'Blätter';
         $variables['title'] = 'Autor:innen zu »' . $keys . '«';
         $variables['title_attributes']['class'][] = $custom_headline_class;
@@ -1185,7 +1185,7 @@ function palm_preprocess_views_view_unformatted(&$variables) {
  *   Number of texts, keyed by term id.
  */
 function palm_search_prototype_author_counts(array $tids): array {
-    $keys = trim((string) \Drupal::request()->query->get('keys', ''));
+    $keys = palm_search_prototype_keys();
     $index = \Drupal\search_api\Entity\Index::load('prototype_content');
     if (!$tids || mb_strlen($keys) < 3 || !$index) {
         return [];
@@ -1219,13 +1219,43 @@ function palm_search_prototype_author_counts(array $tids): array {
 function palm_preprocess_views_view(&$variables) {
     //kint($variables);
 
+    // Prototype of the search with Search API: below the heading of the
+    // results, a hint names a shortened search term, or says that the term
+    // has no words the search uses (only very common or short words; the
+    // search_prototype module then returns no results).
+    if ('search_prototype' === $variables['view']->id() && isset($variables['header']['heading'])) {
+        $keys = palm_search_prototype_keys();
+        $hint = NULL;
+        if ('' !== $keys && 0 === palm_search_prototype_counting_words($keys)) {
+            $hint = 'Ihr Suchbegriff enthält nur sehr häufige oder zu kurze Wörter. Bitte suchen Sie nach einem genaueren Begriff.';
+        }
+        elseif (palm_search_prototype_keys_shortened()) {
+            $hint = 'Ihr Suchbegriff war zu lang. Gesucht wurde nach den ersten fünf Wörtern: »' . Html::escape($keys) . '«';
+        }
+        if ($hint) {
+            $header = [];
+            foreach ($variables['header'] as $key => $item) {
+                $header[$key] = $item;
+                if ('heading' === $key) {
+                    $header['hint'] = [
+                        '#type' => 'html_tag',
+                        '#tag' => 'p',
+                        '#attributes' => ['class' => ['search-prototype-hint']],
+                        '#value' => $hint,
+                    ];
+                }
+            }
+            $variables['header'] = $header;
+        }
+    }
+
     // Prototype of the search with Search API: styles of the author cards on
     // the search page and on the page with all matching authors, which links
     // back to the results.
     if ('search_prototype_authors' === $variables['view']->id()) {
         $variables['#attached']['library'][] = 'palm/search-prototype';
         if ('page_1' === $variables['view']->current_display) {
-            $keys = trim((string) \Drupal::request()->query->get('keys', ''));
+            $keys = palm_search_prototype_keys();
             $variables['header'] = [
                 'back' => [
                     '#type' => 'link',
@@ -1247,7 +1277,7 @@ function palm_preprocess_views_view(&$variables) {
         $variables['pager'] = [];
     }
     if ('search_prototype_authors' === $variables['view']->id() && isset($variables['more']['#url'])) {
-        $keys = trim((string) \Drupal::request()->query->get('keys', ''));
+        $keys = palm_search_prototype_keys();
         $variables['more']['#url'] = \Drupal\Core\Url::fromRoute('view.search_prototype_authors.page_1', [], ['query' => ['keys' => $keys]]);
         $variables['more']['#title'] = strtr((string) $variables['more']['#title'], [
             '@count' => $variables['view']->total_rows,
@@ -1467,6 +1497,13 @@ function palm_form_alter(&$form, FormStateInterface $form_state, $form_id) {
         $form['search']['keys']['#placeholder'] = new Translation('Search this website...');
         $form['search']['keys']['#wrapper_attributes']['class'][] = 'palm-search-form__field';
         $form['search']['keys']['#type'] = 'search';
+        // At most 64 characters and 5 counting words
+        // (palm_search_prototype_keys()): the browser stops typing after 64
+        // characters, longer terms are shortened instead of failing the form
+        // (Drupal would report an error above 128 characters).
+        $form['search']['keys']['#maxlength'] = NULL;
+        $form['search']['keys']['#attributes']['maxlength'] = PALM_SEARCH_PROTOTYPE_MAX_KEYS;
+        $form['search']['keys']['#element_validate'][] = 'palm_search_prototype_keys_limit';
         $form['search']['submit'] = $form['actions']['submit'];
         $form['search']['submit']['#value'] = new Translation('search');
         $form['search']['submit']['#attributes']['class'][] = 'palm-search-form__submit';
@@ -1671,7 +1708,7 @@ function palm_debug($data, $keysonly = false)
  * e.g. the search field of the page with a too short word.
  */
 function palm_search_prototype_authors_keys(array $element, FormStateInterface $form_state) {
-    $term = trim(preg_replace('/[^\p{L}\p{N} -]+/u', ' ', (string) $element['#value']));
+    $term = trim(preg_replace('/[^\p{L}\p{N} -]+/u', ' ', palm_search_prototype_keys((string) $element['#value'])));
     $term = preg_replace('/\s+/u', ' ', $term);
     $view = $form_state->get('view');
     if (mb_strlen($term) < 3) {
@@ -1681,4 +1718,105 @@ function palm_search_prototype_authors_keys(array $element, FormStateInterface $
     $pattern = '(^|[[:space:]-])' . str_replace('-', '[-]', $term);
     $form_state->setValueForElement($element, $pattern);
     $view->exposed_data = ['keys' => $pattern] + $view->exposed_data;
+}
+
+/**
+ * Maximum length of the search term of the search prototype.
+ *
+ * Longer terms are cut (more words make the search much slower: 10 words
+ * took about 3 s). The endpoint of the search_prototype module uses the same
+ * limits (FacetAutocomplete::MAX_KEYS_LENGTH, MAX_WORDS).
+ */
+const PALM_SEARCH_PROTOTYPE_MAX_KEYS = 64;
+
+/**
+ * Maximum number of counting words of the search term of the search prototype.
+ *
+ * Words count with at least 3 letters or digits (shorter ones are ignored by
+ * the search, minimum word size of the tokenizer) unless they are stopwords
+ * of the index; a word with hyphens counts once per part, as the search
+ * splits it.
+ */
+const PALM_SEARCH_PROTOTYPE_MAX_WORDS = 5;
+
+/**
+ * Returns the search term of the search prototype within its limits.
+ *
+ * @param string|null $keys
+ *   The term; the one of the URL (keys) if NULL.
+ *
+ * @return string
+ *   The term with single spaces, at most 64 characters (cut before the word
+ *   that does not fit) and up to the fifth counting word.
+ */
+function palm_search_prototype_keys(?string $keys = NULL): string {
+    $keys ??= (string) \Drupal::request()->query->get('keys', '');
+    $keys = trim(preg_replace('/\s+/u', ' ', $keys));
+    if (mb_strlen($keys) > PALM_SEARCH_PROTOTYPE_MAX_KEYS) {
+        // Cut before the word that does not fit, if there is a space.
+        $cut = mb_substr($keys, 0, PALM_SEARCH_PROTOTYPE_MAX_KEYS + 1);
+        $space = mb_strrpos($cut, ' ');
+        $keys = trim($space ? mb_substr($cut, 0, $space) : mb_substr($keys, 0, PALM_SEARCH_PROTOTYPE_MAX_KEYS));
+    }
+    $kept = [];
+    $count = 0;
+    foreach ($keys === '' ? [] : explode(' ', $keys) as $word) {
+        $counting = palm_search_prototype_counting_words($word);
+        if ($kept && $count + $counting > PALM_SEARCH_PROTOTYPE_MAX_WORDS) {
+            break;
+        }
+        $count += $counting;
+        $kept[] = $word;
+    }
+    return implode(' ', $kept);
+}
+
+/**
+ * Counts the words of a search term that the search uses.
+ *
+ * At least 3 letters or digits and no stopword of the index; a word with
+ * hyphens counts once per part.
+ */
+function palm_search_prototype_counting_words(string $keys): int {
+    $stopwords = palm_search_prototype_stopwords();
+    $parts = preg_split('/[^\p{L}\p{N}]+/u', $keys, -1, PREG_SPLIT_NO_EMPTY);
+    return count(array_filter($parts, fn($part) => mb_strlen($part) >= 3 && !isset($stopwords[mb_strtolower($part)])));
+}
+
+/**
+ * Returns the stopwords of the index of the search prototype.
+ *
+ * They do not count for the word limit (the search leaves them out).
+ *
+ * @return array
+ *   The stopwords as keys.
+ */
+function palm_search_prototype_stopwords(): array {
+    static $stopwords;
+    if (!isset($stopwords)) {
+        $stopwords = [];
+        $index = class_exists('Drupal\search_api\Entity\Index') ? \Drupal\search_api\Entity\Index::load('prototype_content') : NULL;
+        if ($index && $index->isValidProcessor('stopwords')) {
+            $stopwords = array_flip($index->getProcessor('stopwords')->getConfiguration()['stopwords'] ?? []);
+        }
+    }
+    return $stopwords;
+}
+
+/**
+ * Whether the search term of the URL was shortened for the search prototype.
+ */
+function palm_search_prototype_keys_shortened(): bool {
+    $keys = trim(preg_replace('/\s+/u', ' ', (string) \Drupal::request()->query->get('keys', '')));
+    return $keys !== palm_search_prototype_keys($keys);
+}
+
+/**
+ * Element validation: shortens the search term of the search prototype.
+ */
+function palm_search_prototype_keys_limit(array $element, FormStateInterface $form_state) {
+    $keys = palm_search_prototype_keys((string) $element['#value']);
+    if ($keys !== (string) $element['#value']) {
+        $form_state->setValueForElement($element, $keys);
+    }
 }
