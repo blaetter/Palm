@@ -1223,11 +1223,21 @@ function palm_preprocess_views_view(&$variables) {
     // results, a hint names a shortened search term, or says that the term
     // has no words the search uses (only very common or short words; the
     // search_prototype module then returns no results).
+    // Without a search term the page shows only the search field (the
+    // search_prototype module does not search then): no heading, number of
+    // results, author cards or text for no results.
+    if ('search_prototype' === $variables['view']->id() && '' === palm_search_prototype_keys()) {
+        $variables['header'] = [];
+        $variables['pager'] = [];
+        $variables['empty'] = [];
+    }
     if ('search_prototype' === $variables['view']->id() && isset($variables['header']['heading'])) {
         $keys = palm_search_prototype_keys();
         $hint = NULL;
         if ('' !== $keys && 0 === palm_search_prototype_counting_words($keys)) {
             $hint = 'Ihr Suchbegriff enthält nur sehr häufige oder zu kurze Wörter. Bitte suchen Sie nach einem genaueren Begriff.';
+            // The hint replaces the text for no results.
+            $variables['empty'] = [];
         }
         elseif (palm_search_prototype_keys_shortened()) {
             $hint = 'Ihr Suchbegriff war zu lang. Gesucht wurde nach den ersten fünf Wörtern: »' . Html::escape($keys) . '«';
@@ -1527,6 +1537,9 @@ function palm_form_alter(&$form, FormStateInterface $form_state, $form_id) {
             $form['filters'] = [
                 '#type' => 'container',
                 '#attributes' => ['class' => ['search-prototype-filters']],
+                // Nothing to filter or sort without a search term or with only
+                // very common or short words (the search does not run then).
+                '#access' => palm_search_prototype_counting_words(palm_search_prototype_keys()) > 0,
                 '#weight' => $form['sort_by']['#weight'] ?? 0,
                 'title' => [
                     '#markup' => '<h2 class="heading--sectiontitle-marginal search-prototype-filters__title"><span class="text">Filtern und Sortieren</span></h2>',
@@ -1700,7 +1713,7 @@ function palm_debug($data, $keysonly = false)
  *
  * Only letters, digits, spaces and hyphens of the term are kept (no regular
  * expression from the URL). With less than three characters, including an
- * empty search field, the view does not run.
+ * empty search field, or only stopwords, the view does not run.
  *
  * The value also goes directly to the view: Views takes the values of an
  * exposed form only on submission, and Drupal skips the submission of every
@@ -1711,7 +1724,9 @@ function palm_search_prototype_authors_keys(array $element, FormStateInterface $
     $term = trim(preg_replace('/[^\p{L}\p{N} -]+/u', ' ', palm_search_prototype_keys((string) $element['#value'])));
     $term = preg_replace('/\s+/u', ' ', $term);
     $view = $form_state->get('view');
-    if (mb_strlen($term) < 3) {
+    // No cards without a term the search uses (less than 3 characters or
+    // only stopwords): the search does not run, they would show 0 articles.
+    if (mb_strlen($term) < 3 || 0 === palm_search_prototype_counting_words($term)) {
         $view->build_info['abort'] = TRUE;
         return;
     }
