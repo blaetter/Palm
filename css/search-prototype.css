@@ -1,0 +1,220 @@
+/**
+ * Prototype of the search with Search API and facets (/suche-prototyp, only loaded there).
+ *
+ * The page uses the grid of the other pages: from 1420px (where the legacy grid shows its side columns, e.g. the
+ * tabs of editors on articles) the sorting and the facets stand in the left column next to the results. Below, the
+ * page has one column and they stay as select lists between the search field and the results.
+ *
+ * The sorting and the facet blocks belong to the content column (so they keep this order on narrow screens) and are
+ * moved into the empty left column: it is half as wide as the content column plus its gutter (two-tenths vs.
+ * six-tenths, both with a gutter of 1.25rem on the left).
+ */
+/* Select lists of the sorting and the facets and the autocomplete of the authors (search_prototype module,
+   accessible-autocomplete, also for the topics) look the same when closed. Outside of the cascade layers: the styles of the library and
+   of the legacy bundle are not in a layer and would win over the layer components. Closed: white field with grey border, 40px high, text in
+   Droid Sans, own arrow instead of the one of the browser. */
+.path-suche-prototyp {
+  --search-prototype-arrow: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%23000' stroke-width='2'/%3E%3C/svg%3E");
+  --search-prototype-arrow-up: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath d='M1 7l5-5 5 5' fill='none' stroke='%23000' stroke-width='2'/%3E%3C/svg%3E");
+}
+
+.path-suche-prototyp .search-prototype-sort select,
+.path-suche-prototyp .block-facet--dropdown select,
+.path-suche-prototyp .search-prototype-facet-autocomplete .autocomplete__input {
+  box-sizing: border-box;
+  width: 100%;
+  height: 40px;
+  margin: 0;
+  padding: 6px 2.25rem 6px 6px;
+  border: 1px solid #ccc;
+  border-radius: 0;
+  background: #fff var(--search-prototype-arrow) no-repeat right 0.75rem center / 0.75rem auto;
+  color: #000;
+  font-family: droid-sans, Arial, sans-serif;
+  font-size: 18px;
+  line-height: normal;
+  appearance: none;
+}
+
+/* Without a chosen entry the field shows "Alle Autor:innen" or "Alle Themen" like the select lists. */
+.path-suche-prototyp .search-prototype-facet-autocomplete .autocomplete__input::placeholder {
+  color: #000;
+  opacity: 1;
+}
+
+/* Focused, the field shows a lighter hint ("Name eingeben …", contrast 4.5:1 on white). */
+.path-suche-prototyp .search-prototype-facet-autocomplete .autocomplete__input:focus::placeholder {
+  color: #767676;
+}
+
+.path-suche-prototyp .search-prototype-facet-autocomplete .autocomplete__input--focused {
+  outline: 2px solid #086d9a;
+  outline-offset: 0;
+  box-shadow: none;
+}
+
+/* Open, the arrow points up; a click on it (or into the field) closes the list. */
+.path-suche-prototyp .search-prototype-facet-autocomplete .autocomplete__input[aria-expanded="true"] {
+  background-image: var(--search-prototype-arrow-up);
+}
+
+/* The field has the arrow as background, like the select lists. */
+.path-suche-prototyp .search-prototype-facet-autocomplete .autocomplete__dropdown-arrow-down {
+  display: none;
+}
+
+.path-suche-prototyp .search-prototype-facet-autocomplete .autocomplete__wrapper {
+  position: relative;
+}
+
+.path-suche-prototyp .search-prototype-facet-autocomplete .autocomplete__menu {
+  max-height: 22rem;
+  border: 1px solid #ccc;
+  border-top: 0;
+  font-family: droid-sans, Arial, sans-serif;
+  font-size: 16px;
+}
+
+/* The entries are told apart by the alternating background of the library, without its grey lines between them. */
+.path-suche-prototyp .search-prototype-facet-autocomplete .autocomplete__option {
+  padding: 0.4rem 0.5rem;
+  border: 0;
+}
+
+.path-suche-prototyp .search-prototype-facet-autocomplete .autocomplete__option--focused,
+.path-suche-prototyp .search-prototype-facet-autocomplete .autocomplete__option:hover {
+  background-color: #086d9a;
+  color: #fff;
+}
+
+.search-prototype-facet-autocomplete__count {
+  color: #666;
+}
+
+.autocomplete__option--focused .search-prototype-facet-autocomplete__count,
+.autocomplete__option:hover .search-prototype-facet-autocomplete__count {
+  color: inherit;
+}
+
+@layer components {
+  /* Heading "Filtern und Sortieren" (section title of the side columns) and the sorting, full width (not inline
+     like the fields of Views) below the search field and above the facets, which have no gap between them on
+     narrow screens. */
+  .path-suche-prototyp .search-prototype-filters {
+    clear: both;
+    margin-top: 1.5rem;
+  }
+
+  .path-suche-prototyp .search-prototype-sort {
+    float: none;
+    width: 100%;
+    margin-right: 0;
+    --palm-form-item-space-before: 0;
+    --palm-form-item-space-after: 0;
+  }
+
+  .path-suche-prototyp #views-exposed-form-search-prototype-page-1 {
+    margin-bottom: 0;
+  }
+
+  /* Cards of authors above the results and on their own page (view search_prototype_authors, the profile teasers
+     of the editorial team page): space to the search field and to the results. */
+  .path-suche-prototyp .view-search-prototype-authors {
+    margin-top: 2rem;
+    margin-bottom: 2.5rem;
+  }
+
+  /* Initials in place of a missing portrait: the same circle as the portrait of the profile teaser (47% wide). */
+  .teaser--profile__initials {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 47%;
+    aspect-ratio: 1;
+    margin: 0 auto;
+    border-radius: 100%;
+    background-color: #e5e5e5;
+    color: #666;
+    font-family: droid-sans, Arial, sans-serif;
+    font-size: 2.25rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+  }
+
+  .search-prototype-back {
+    margin-bottom: 1rem;
+  }
+
+  @media (min-width: 88.75rem) {
+    /* Height of heading and sorting in the left column: heading 18px with padding (0.8em above, 0.7em below),
+       its line (4px) and its gap (1.25rem, heading--sectiontitle-marginal), then the sorting (40px). */
+    .path-suche-prototyp {
+      --search-prototype-filters-height: calc(18px * 2.5 + 4px + 1.25rem + 40px);
+    }
+
+    /* Heading and sorting start next to the search field and take no space in the content column, so the results
+       follow the search field like on the existing search page. */
+    .path-suche-prototyp #views-exposed-form-search-prototype-page-1 .form--inline {
+      position: relative;
+    }
+
+    .path-suche-prototyp .search-prototype-filters {
+      position: absolute;
+      top: 0;
+      left: calc((100% + 1.25rem) / -3);
+      width: calc((100% + 1.25rem) / 3 - 1.25rem);
+      margin-top: 0;
+    }
+
+    /* The results are blocks of the legacy styles (.block), whose clearfix would push them below the floated facets
+       (e.g. the number of results with block--spacer, the first teaser); their own formatting context keeps them
+       next to the facets. */
+    .path-suche-prototyp .view-search-prototype {
+      display: flow-root;
+    }
+
+    .path-suche-prototyp .block-facet--dropdown {
+      float: left;
+      clear: left;
+      width: calc((100% + 1.25rem) / 3 - 1.25rem);
+      margin-left: calc((100% + 1.25rem) / -3);
+      margin-bottom: 0.5rem;
+    }
+
+    /* With JavaScript the filters stand in the left column of the grid (search-prototype.js) and stay in view
+       below the fixed header (57px high when scrolled, moved down by the toolbar of logged in users, whose height
+       Drupal sets as --drupal-displace-offset-top) while the results scroll; the column spans the height of the
+       results. */
+    .path-suche-prototyp.search-prototype-has-aside main .grid > .grid__item.two-tenths:first-child {
+      align-self: stretch;
+    }
+
+    .path-suche-prototyp .search-prototype-aside {
+      position: sticky;
+      top: calc(var(--drupal-displace-offset-top, 0px) + 57px + 1.25rem);
+    }
+
+    .path-suche-prototyp .search-prototype-aside .search-prototype-filters {
+      position: static;
+      width: auto;
+    }
+
+    .path-suche-prototyp .search-prototype-aside .block-facet--dropdown,
+    .path-suche-prototyp .search-prototype-aside #block-palm-facet-authors {
+      float: none;
+      width: auto;
+      margin-top: 0;
+      margin-left: 0;
+    }
+
+    .path-suche-prototyp .search-prototype-aside .search-prototype-sort {
+      margin-bottom: 0.5rem;
+    }
+
+    /* The facets follow the sorting with the same gap as between them; they start below the search row (60px
+       high), the heading and the sorting reach further down (see --search-prototype-filters-height). */
+    .path-suche-prototyp #block-palm-facet-authors {
+      margin-top: calc(var(--search-prototype-filters-height) + 0.5rem - 60px);
+    }
+  }
+}

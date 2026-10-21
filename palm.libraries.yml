@@ -20,6 +20,17 @@ tokens:
   css:
     base:
       css/tokens.css: {}
+# Prototype of the search with Search API and facets, attached on /suche-prototyp.
+search-prototype:
+  version: 1.x
+  css:
+    component:
+      css/search-prototype.css: {}
+  js:
+    js/search-prototype.js: {}
+  dependencies:
+    - core/drupal
+    - core/once
 # ALTCHA widget and the CAPTCHA box of administrators. Global, because the
 # CAPTCHA module attaches no library in its administration mode.
 captcha:

@@ -19,18 +19,30 @@
   *   - id: The ID of the taxonomy term.
   *   - bundle: Machine name of the current vocabulary.
   * - view_mode: View mode, e.g. 'full', 'teaser', etc.
+  * - initials: Initials in place of a missing portrait (only for the author
+  *   cards of the search prototype, see palm_preprocess_taxonomy_term()).
+  * - search_count_label: Number of texts found for the search term, in place
+  *   of the short bio (author cards of the search prototype).
   *
   * @see template_preprocess_taxonomy_term()
   */
 #}
 <article class="block teaser teaser--profile">
     <div class="image">
-        {{ content.field_image }}
+        {% if initials %}
+            <span class="teaser--profile__initials" aria-hidden="true">{{ initials }}</span>
+        {% else %}
+            {{ content.field_image }}
+        {% endif %}
     </div>
     <div class="inner">
         <h3 class="heading"><a href="{{ url }}">{{ name }}</a></h3>
         <p class="text">
-            {{ content|without('field_image') }}
+            {% if search_count_label %}
+                {{ search_count_label }}
+            {% else %}
+                {{ content|without('field_image') }}
+            {% endif %}
         </p>
     </div>
 </article>
