@@ -113,9 +113,9 @@ First setup: `make install`, then `make stories` and `make storybook` (or `make 
 
 ### Change legacy styles
 
-1. Edit the Sass in blaetter-theme (`source-bundle/scss/`), the project has it in `layout/`.
-2. Build it in its container: `docker exec -u app layout-www-1 make`.
-3. In the project root: `make palm-update` (copies `layout/export/bundle/` into `bundle/` and rebuilds the cache).
+1. Edit the Sass in blaetter-theme (`source-bundle/scss/`), a separate checkout next to the project (`../blaetter-theme`, no longer a submodule `layout/`).
+2. Build it in its container, in the blaetter-theme directory: `docker compose up -d`, then `docker compose exec -u app www make`.
+3. In the project root: `make palm-update` (copies `../blaetter-theme/export/bundle/` into `bundle/` and rebuilds the cache).
 4. Commit blaetter-theme and the changed `bundle/` here.
 
 ### Examples in Storybook
