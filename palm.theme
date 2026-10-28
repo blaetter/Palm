@@ -392,6 +392,25 @@ function palm_preprocess_menu(&$variables)
     if ('navigation' == $variables['menu_name']) {
         $variables['current_path'] = \Drupal::request()->getRequestUri();
     }
+    if ('user-menu-anonymous' == $variables['menu_name']) {
+        palm_add_login_destination($variables);
+    }
+}
+
+/**
+ * Adds the page to return to after the login as 'login_destination'.
+ *
+ * On a page that is denied (403) or not found (404), core renders the error page for the original URL and passes
+ * that URL as 'destination'; path('<current>') would be the route of the error page (/system/403) instead.
+ *
+ * @param array $variables
+ *   The variables of the template.
+ */
+function palm_add_login_destination(array &$variables)
+{
+    $variables['login_destination'] = \Drupal::service('redirect.destination')->get();
+    $variables['#cache']['contexts'][] = 'url.path';
+    $variables['#cache']['contexts'][] = 'url.query_args';
 }
 
 /**
@@ -683,6 +702,7 @@ function palm_preprocess_page(&$variables) {
  */
 function palm_preprocess_region (&$variables) {
     if ('navigation' == $variables['region']) {
+        palm_add_login_destination($variables);
         // add promo button link and title if exists
         $header_promo_button_link = theme_get_setting('palm_header_promo_button_link');
         if (!empty($header_promo_button_link)) {
