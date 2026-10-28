@@ -36,13 +36,18 @@
 </div>
 #}
 
-{% set embed_name = media.get('name').value %}
+{#
+  getString() instead of .value: for an empty field, .value calls getValue() of the field list and returns an empty
+  array, which breaks the concatenation of the styles below ("Array to string conversion"). getString() returns an
+  empty string then, also with strict_variables.
+#}
+{% set embed_name = media.get('name').getString() %}
 
-{% set embed_provider = media.get('field_provider').value %}
-{% set embed_provider_slug = media.get('field_provider').value |lower | replace({" ": "_", "." : "_"}) %}
-{% set embed_privacy = media.get('field_privacy').value %}
-{% set embed_styles = media.get('field_additional_styles').value %}
-{% set embed_url = media.get('field_media_generic_iframe').value %}
+{% set embed_provider = media.get('field_provider').getString() %}
+{% set embed_provider_slug = embed_provider|lower|replace({" ": "_", "." : "_"}) %}
+{% set embed_privacy = media.get('field_privacy').getString() %}
+{% set embed_styles = media.get('field_additional_styles').getString() %}
+{% set embed_url = media.get('field_media_generic_iframe').getString() %}
 
 {% if 'detektor_fm' == embed_provider_slug %}
   {% set embed_styles = 'height:230px;' ~ embed_styles %}
