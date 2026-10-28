@@ -26,21 +26,21 @@
   We call a macro which calls itself to render the full tree.
   @see http://twig.sensiolabs.org/doc/tags/macro.html
 #}
-{{ menus.menu_links(items, attributes, 0) }}
+{{ menus.menu_links(items, attributes, 0, login_destination) }}
 
-{% macro menu_links(items, attributes, menu_level) %}
+{% macro menu_links(items, attributes, menu_level, login_destination) %}
   {% import _self as menus %}
   {% if items %}
   <div class="meta">
     {% for item in items %}
         {% if 'login' in item.url|render %}
           {% set url = item.url|render ~ '?destination=' ~ login_destination|url_encode %}
-          {% set rel = ' rel="nofollow"' %}
+          {% set rel = 'nofollow' %}
         {% else %}
           {% set url = item.url %}
           {% set rel = '' %}
         {% endif %}
-        <a href="{{ url }}" {{ item.attributes|without('href') }}{{ rel }}>
+        <a href="{{ url }}"{{ item.attributes|without('href') }}{% if rel %} rel="{{ rel }}"{% endif %}>
             {% if (item.url.toString ends with 'login') %}
                 <i class="fa fa-user" area-hidden="true"></i>
             {% elseif (item.url.toString ends with 'register') %}
