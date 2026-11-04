@@ -10,6 +10,9 @@
  *   the results. The sorting stays part of the search form through its form
  *   attribute. Without JavaScript they stay in the content column and are
  *   moved into the left column by CSS (without staying in view).
+ * - For logged in users BigPipe delivers the facets after the page, also after
+ *   this script. They therefore move in a box together with their placeholders,
+ *   so a facet that arrives late takes its place in the box.
  */
 (function (Drupal, once) {
   'use strict';
@@ -42,9 +45,16 @@
         filters.querySelectorAll('select').forEach(function (select) {
           select.setAttribute('form', form.id);
         });
-        var facets = Array.prototype.slice.call(document.querySelectorAll('.block-facet--dropdown'));
+        var facets = document.querySelectorAll('.block-facet--dropdown, [data-big-pipe-placeholder-id*="palm_facet_"]');
+        var box = document.createElement('div');
+        if (facets.length) {
+          facets[0].parentNode.insertBefore(box, facets[0]);
+          facets.forEach(function (facet) {
+            box.appendChild(facet);
+          });
+        }
         // Where the parts stand in the content column.
-        var places = [filters].concat(facets).map(function (element) {
+        var places = [filters, box].map(function (element) {
           return { element: element, parent: element.parentNode, next: element.nextSibling };
         });
         var aside = document.createElement('div');

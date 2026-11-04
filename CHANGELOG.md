@@ -30,6 +30,7 @@ Sections per version: Features, Security, Bugs, Removed, Maintenance (omit empty
 - The section title of the side columns (`heading--sectiontitle-marginal`) has the default text colour and a grey underline instead of red ones, like the other section titles (blaetter-theme). It was made for a right column with teasers (region `sidebar_right`), which has no blocks on live
 
 ### Bugs
+- Search prototype: for logged in users a facet delivered late by BigPipe stayed in the content column and covered the other filters; the facets now move in a box together with their placeholders (`js/search-prototype.js`).
 - Embeds of detektor.fm without additional styles caused the warning "Array to string conversion" and got the styles `height:230px;Array`: the fields of the generic iframe media are read with `getString()`, as `.value` returns an empty array for an empty field
 - The login link of the menu for anonymous users had an empty destination, as the macro that renders the links does not see the variables of the template; the destination is passed to it now. Its rel="nofollow" was escaped into the attribute list instead of being an attribute
 - The login links in the header and in the menu for anonymous users led back to /system/403 after the login when they were followed on a page that is denied or not found; they take the original URL now, which core passes to the error page as destination (`palm_add_login_destination()`)
