@@ -79,15 +79,15 @@ function palm_preprocess_page_title(&$variables) {
 
     $custom_headline_class = 'heading--pagecategory';
 
-    // Prototype of the search with Search API: heading like the existing search page ("Suche nach Klima").
-    if ('view.search_prototype.page_1' === \Drupal::routeMatch()->getRouteName()) {
-        $keys = palm_search_prototype_keys();
+    // Search with Search API: heading like the existing search page ("Suche nach Klima").
+    if ('view.blaetter_search.page_1' === \Drupal::routeMatch()->getRouteName()) {
+        $keys = palm_blaetter_search_keys();
         $variables['title'] = '' !== $keys ? t('Search for @keywords', ['@keywords' => $keys]) : t('Search');
         $variables['title_attributes']['class'][] = $custom_headline_class;
     }
     // Page with all authors matching the search term: like the author index.
-    if ('view.search_prototype_authors.page_1' === \Drupal::routeMatch()->getRouteName()) {
-        $keys = palm_search_prototype_keys();
+    if ('view.blaetter_search_authors.page_1' === \Drupal::routeMatch()->getRouteName()) {
+        $keys = palm_blaetter_search_keys();
         $variables['title_prefix'] = 'Blätter';
         $variables['title'] = 'Autor:innen zu »' . $keys . '«';
         $variables['title_attributes']['class'][] = $custom_headline_class;
@@ -467,7 +467,7 @@ function palm_theme_suggestions_field_alter(array &$suggestions, array $variable
 }
 
 function palm_theme_suggestions_taxonomy_term_alter(&$suggestions, $vars, $hook) {
-  // Prototype of the search with Search API: the author cards are the profile
+  // Search with Search API: the author cards are the profile
   // teasers of the editorial team page without the short bio (own view mode,
   // same template).
   if ('teaser_autor_compact' === $vars['elements']['#view_mode']) {
@@ -486,10 +486,10 @@ function palm_preprocess_page(&$variables) {
     // get route name of current request
     $route_name = \Drupal::routeMatch()->getRouteName();
 
-    // Prototype of the search with Search API and facets: facets on the left from 1000px.
-    if (in_array($route_name, ['view.search_prototype.page_1', 'view.search_prototype_authors.page_1'], TRUE)) {
-        $variables['#attached']['library'][] = 'palm/search-prototype';
-        // The title stands in the hero (block palm_search_prototype_title), like on the existing search page.
+    // Search with Search API and facets: facets on the left from 1000px.
+    if (in_array($route_name, ['view.blaetter_search.page_1', 'view.blaetter_search_authors.page_1'], TRUE)) {
+        $variables['#attached']['library'][] = 'palm/blaetter-search';
+        // The title stands in the hero (block palm_blaetter_search_title), like on the existing search page.
         unset($variables['page']['content']['palm_page_title']);
         // No breadcrumb, like on the existing search page.
         unset($variables['page']['hero']['breadcrumbs']);
@@ -513,6 +513,7 @@ function palm_preprocess_page(&$variables) {
       || str_starts_with($route_name, 'view.nodeshop')
       || str_starts_with($route_name, 'search')
       || str_starts_with($route_name, 'view.search')
+      || str_starts_with($route_name, 'view.blaetter_search')
       || str_starts_with($route_name, 'contact')
       // || \Drupal::currentUser()->isAuthenticated()
     ) {
@@ -752,10 +753,10 @@ function palm_preprocess_region (&$variables) {
  */
 function palm_preprocess_node(&$variables)
 {
-    // Dossiers in the results of the search prototype (marked in
+    // Dossiers in the results of the search (marked in
     // palm_preprocess_views_view_unformatted()): a result, not an offer, so
     // without the add-to-cart link of NodeShop, and marked as dossier.
-    if (!empty($variables['elements']['#search_prototype_result'])) {
+    if (!empty($variables['elements']['#blaetter_search_result'])) {
         unset($variables['content']['links']);
         if (is_array($variables['label'])) {
             $variables['label']['#prefix'] = 'Dossier: ';
@@ -1103,7 +1104,7 @@ function palm_preprocess_search_result(&$variables) {
 /**
  * Implements hook_preprocess_taxonomy_term().
  *
- * Prototype of the search with Search API: the author cards (view mode
+ * Search with Search API: the author cards (view mode
  * teaser_autor_compact) show the initials of the first and the last part of
  * the name in place of a missing portrait, and the number of texts of the
  * author found for the search term in place of the short bio (see
@@ -1111,8 +1112,8 @@ function palm_preprocess_search_result(&$variables) {
  */
 function palm_preprocess_taxonomy_term(&$variables) {
     $term = $variables['term'];
-    if (isset($variables['elements']['#search_prototype_count'])) {
-        $count = $variables['elements']['#search_prototype_count'];
+    if (isset($variables['elements']['#blaetter_search_count'])) {
+        $count = $variables['elements']['#blaetter_search_count'];
         $variables['search_count_label'] = $count . ' Artikel';
     }
     if ('teaser_autor_compact' === $variables['view_mode'] && $term->hasField('field_image') && $term->get('field_image')->isEmpty()) {
@@ -1124,12 +1125,12 @@ function palm_preprocess_taxonomy_term(&$variables) {
 /**
  * Implements hook_preprocess_views_view_grid().
  *
- * Prototype of the search with Search API: passes the number of texts found
+ * Search with Search API: passes the number of texts found
  * for the search term to each author card. The cards are rendered for every
  * search (the number depends on the term), so they are not render cached.
  */
 function palm_preprocess_views_view_grid(&$variables) {
-    if ('search_prototype_authors' !== $variables['view']->id()) {
+    if ('blaetter_search_authors' !== $variables['view']->id()) {
         return;
     }
     $builds = [];
@@ -1140,10 +1141,10 @@ function palm_preprocess_views_view_grid(&$variables) {
             }
         }
     }
-    $counts = palm_search_prototype_author_counts(array_keys($builds));
+    $counts = palm_blaetter_search_author_counts(array_keys($builds));
     foreach ($builds as $tid => [$r, $c]) {
         $build = &$variables['items'][$r]['content'][$c]['content'];
-        $build['#search_prototype_count'] = $counts[$tid] ?? 0;
+        $build['#blaetter_search_count'] = $counts[$tid] ?? 0;
         unset($build['#cache']['keys']);
         $build['#cache']['contexts'][] = 'url.query_args:keys';
         $build['#cache']['tags'][] = 'node_list';
@@ -1154,35 +1155,35 @@ function palm_preprocess_views_view_grid(&$variables) {
 /**
  * Implements hook_preprocess_views_view_unformatted().
  *
- * Prototype of the search with Search API: the list of all authors matching
+ * Search with Search API: the list of all authors matching
  * the search term names the number of their articles found for it, like the
  * author index names the number of all their articles.
  */
 function palm_preprocess_views_view_unformatted(&$variables) {
     $view = $variables['view'];
-    // Results of the search prototype: dossiers are marked for
+    // Results of the search: dossiers are marked for
     // palm_preprocess_node() (no add-to-cart link, "Dossier: " before the
     // title); their own render cache key keeps them apart from the same
     // teasers on /dossiers, which keep the link.
-    if ('search_prototype' === $view->id()) {
+    if ('blaetter_search' === $view->id()) {
         foreach ($variables['rows'] as $i => $row) {
             if (isset($row['content']['#node']) && 'dossier' === $row['content']['#node']->bundle()) {
-                $variables['rows'][$i]['content']['#search_prototype_result'] = TRUE;
+                $variables['rows'][$i]['content']['#blaetter_search_result'] = TRUE;
                 if (isset($variables['rows'][$i]['content']['#cache']['keys'])) {
-                    $variables['rows'][$i]['content']['#cache']['keys'][] = 'search_prototype';
+                    $variables['rows'][$i]['content']['#cache']['keys'][] = 'blaetter_search';
                 }
             }
         }
         return;
     }
-    if ('search_prototype_authors' !== $view->id() || 'page_1' !== $view->current_display) {
+    if ('blaetter_search_authors' !== $view->id() || 'page_1' !== $view->current_display) {
         return;
     }
     $tids = [];
     foreach ($variables['rows'] as $i => $row) {
         $tids[$i] = (int) $view->result[$i]->tid;
     }
-    $counts = palm_search_prototype_author_counts(array_values($tids));
+    $counts = palm_blaetter_search_author_counts(array_values($tids));
     foreach ($tids as $i => $tid) {
         $variables['rows'][$i]['content'] = [
             'name' => $variables['rows'][$i]['content'],
@@ -1194,7 +1195,7 @@ function palm_preprocess_views_view_unformatted(&$variables) {
 /**
  * Counts the texts of the given authors found for the search term.
  *
- * One query on the index of the search prototype with the term of the page
+ * One query on the index of the search with the term of the page
  * (like its fulltext filter: parse mode "terms", all words), grouped by the
  * authors (facets of the database backend). Cached until the index changes.
  *
@@ -1204,16 +1205,16 @@ function palm_preprocess_views_view_unformatted(&$variables) {
  * @return int[]
  *   Number of texts, keyed by term id.
  */
-function palm_search_prototype_author_counts(array $tids): array {
-    $keys = palm_search_prototype_keys();
-    $index = \Drupal\search_api\Entity\Index::load('prototype_content');
+function palm_blaetter_search_author_counts(array $tids): array {
+    $keys = palm_blaetter_search_keys();
+    $index = \Drupal\search_api\Entity\Index::load('blaetter_content');
     if (!$tids || mb_strlen($keys) < 3 || !$index) {
         return [];
     }
-    // Cached like the results of the search page (Search API tag-based cache
-    // of the view): until the index changes.
+    // Cached until the index changes. The results of the search page are not
+    // cached by their view (search_api_none), only as whole pages.
     sort($tids);
-    $cid = 'palm:search_prototype_author_counts:' . hash('sha256', serialize([mb_strtolower($keys), $tids]));
+    $cid = 'palm:blaetter_search_author_counts:' . hash('sha256', serialize([mb_strtolower($keys), $tids]));
     $cache = \Drupal::cache('data');
     if ($cached = $cache->get($cid)) {
         return $cached->data;
@@ -1223,7 +1224,7 @@ function palm_search_prototype_author_counts(array $tids): array {
     $query->keys($keys);
     $query->addCondition('authors', array_values($tids), 'IN');
     $query->range(0, 0);
-    $query->setSearchId('search_prototype_author_counts');
+    $query->setSearchId('blaetter_search_author_counts');
     $query->setOption('search_api_facets', [
         'authors' => ['field' => 'authors', 'limit' => 0, 'operator' => 'and', 'min_count' => 1, 'missing' => FALSE],
     ]);
@@ -1239,27 +1240,27 @@ function palm_search_prototype_author_counts(array $tids): array {
 function palm_preprocess_views_view(&$variables) {
     //kint($variables);
 
-    // Prototype of the search with Search API: below the heading of the
+    // Search with Search API: below the heading of the
     // results, a hint names a shortened search term, or says that the term
     // has no words the search uses (only very common or short words; the
-    // search_prototype module then returns no results).
+    // blaetter_search module then returns no results).
     // Without a search term the page shows only the search field (the
-    // search_prototype module does not search then): no heading, number of
+    // blaetter_search module does not search then): no heading, number of
     // results, author cards or text for no results.
-    if ('search_prototype' === $variables['view']->id() && '' === palm_search_prototype_keys()) {
+    if ('blaetter_search' === $variables['view']->id() && '' === palm_blaetter_search_keys()) {
         $variables['header'] = [];
         $variables['pager'] = [];
         $variables['empty'] = [];
     }
-    if ('search_prototype' === $variables['view']->id() && isset($variables['header']['heading'])) {
-        $keys = palm_search_prototype_keys();
+    if ('blaetter_search' === $variables['view']->id() && isset($variables['header']['heading'])) {
+        $keys = palm_blaetter_search_keys();
         $hint = NULL;
-        if ('' !== $keys && 0 === palm_search_prototype_counting_words($keys)) {
+        if ('' !== $keys && 0 === palm_blaetter_search_counting_words($keys)) {
             $hint = 'Ihr Suchbegriff enthält nur sehr häufige oder zu kurze Wörter. Bitte suchen Sie nach einem genaueren Begriff.';
             // The hint replaces the text for no results.
             $variables['empty'] = [];
         }
-        elseif (palm_search_prototype_keys_shortened()) {
+        elseif (palm_blaetter_search_keys_shortened()) {
             $hint = 'Ihr Suchbegriff war zu lang. Gesucht wurde nach den ersten fünf Wörtern: »' . Html::escape($keys) . '«';
         }
         if ($hint) {
@@ -1270,7 +1271,7 @@ function palm_preprocess_views_view(&$variables) {
                     $header['hint'] = [
                         '#type' => 'html_tag',
                         '#tag' => 'p',
-                        '#attributes' => ['class' => ['search-prototype-hint']],
+                        '#attributes' => ['class' => ['blaetter-search-hint']],
                         '#value' => $hint,
                     ];
                 }
@@ -1279,36 +1280,36 @@ function palm_preprocess_views_view(&$variables) {
         }
     }
 
-    // Prototype of the search with Search API: styles of the author cards on
+    // Search with Search API: styles of the author cards on
     // the search page and on the page with all matching authors, which links
     // back to the results.
-    if ('search_prototype_authors' === $variables['view']->id()) {
-        $variables['#attached']['library'][] = 'palm/search-prototype';
+    if ('blaetter_search_authors' === $variables['view']->id()) {
+        $variables['#attached']['library'][] = 'palm/blaetter-search';
         if ('page_1' === $variables['view']->current_display) {
-            $keys = palm_search_prototype_keys();
+            $keys = palm_blaetter_search_keys();
             $variables['header'] = [
                 'back' => [
                     '#type' => 'link',
                     '#title' => 'Zurück zu den Suchergebnissen für »' . $keys . '«',
-                    '#url' => \Drupal\Core\Url::fromRoute('view.search_prototype.page_1', [], ['query' => ['keys' => $keys]]),
-                    '#prefix' => '<p class="search-prototype-back">',
+                    '#url' => \Drupal\Core\Url::fromRoute('view.blaetter_search.page_1', [], ['query' => ['keys' => $keys]]),
+                    '#prefix' => '<p class="blaetter-search-back">',
                     '#suffix' => '</p>',
                 ],
             ] + ($variables['header'] ?? []);
         }
     }
 
-    // Prototype of the search with Search API: the author cards above the
+    // Search with Search API: the author cards above the
     // results have a pager only to count all matches. The link below them
     // names their number and keeps the search term (Views would add the
     // regular expression of the filter instead, see
-    // palm_search_prototype_authors_keys()).
-    if ('search_prototype_authors' === $variables['view']->id() && 'block_1' === $variables['view']->current_display) {
+    // palm_blaetter_search_authors_keys()).
+    if ('blaetter_search_authors' === $variables['view']->id() && 'block_1' === $variables['view']->current_display) {
         $variables['pager'] = [];
     }
-    if ('search_prototype_authors' === $variables['view']->id() && isset($variables['more']['#url'])) {
-        $keys = palm_search_prototype_keys();
-        $variables['more']['#url'] = \Drupal\Core\Url::fromRoute('view.search_prototype_authors.page_1', [], ['query' => ['keys' => $keys]]);
+    if ('blaetter_search_authors' === $variables['view']->id() && isset($variables['more']['#url'])) {
+        $keys = palm_blaetter_search_keys();
+        $variables['more']['#url'] = \Drupal\Core\Url::fromRoute('view.blaetter_search_authors.page_1', [], ['query' => ['keys' => $keys]]);
         $variables['more']['#title'] = strtr((string) $variables['more']['#title'], [
             '@count' => $variables['view']->total_rows,
             '@keys' => $keys,
@@ -1514,9 +1515,9 @@ function palm_form_alter(&$form, FormStateInterface $form_state, $form_id) {
         $form['help_link']['#access'] = FALSE;
     }
 
-    // Prototype of the search with Search API: the search field of the view
+    // Search with Search API: the search field of the view
     // looks like the one of the existing search page (palm:search-form).
-    if ('views_exposed_form' == $form_id && 'views-exposed-form-search-prototype-page-1' === ($form['#id'] ?? '')) {
+    if ('views_exposed_form' == $form_id && 'views-exposed-form-blaetter-search-page-1' === ($form['#id'] ?? '')) {
         $form['search'] = [
             '#type' => 'container',
             '#attributes' => ['class' => ['palm-search-form']],
@@ -1527,13 +1528,6 @@ function palm_form_alter(&$form, FormStateInterface $form_state, $form_id) {
         $form['search']['keys']['#placeholder'] = new Translation('Search this website...');
         $form['search']['keys']['#wrapper_attributes']['class'][] = 'palm-search-form__field';
         $form['search']['keys']['#type'] = 'search';
-        // At most 64 characters and 5 counting words
-        // (palm_search_prototype_keys()): the browser stops typing after 64
-        // characters, longer terms are shortened instead of failing the form
-        // (Drupal would report an error above 128 characters).
-        $form['search']['keys']['#maxlength'] = NULL;
-        $form['search']['keys']['#attributes']['maxlength'] = PALM_SEARCH_PROTOTYPE_MAX_KEYS;
-        $form['search']['keys']['#element_validate'][] = 'palm_search_prototype_keys_limit';
         $form['search']['submit'] = $form['actions']['submit'];
         $form['search']['submit']['#value'] = new Translation('search');
         $form['search']['submit']['#attributes']['class'][] = 'palm-search-form__submit';
@@ -1545,24 +1539,24 @@ function palm_form_alter(&$form, FormStateInterface $form_state, $form_id) {
         }
         $form['#attached']['library'][] = 'core/components.palm--search-form';
         // The sorting belongs to the facets: like them a select list without
-        // label, below the heading of the filters (search-prototype.css moves
-        // both into the left column, search-prototype.js applies the sorting
+        // label, below the heading of the filters (blaetter-search.css moves
+        // both into the left column, blaetter-search.js applies the sorting
         // on change).
         if (isset($form['sort_by'])) {
             $form['sort_by']['#title_display'] = 'invisible';
-            $form['sort_by']['#wrapper_attributes']['class'][] = 'search-prototype-sort';
+            $form['sort_by']['#wrapper_attributes']['class'][] = 'blaetter-search-sort';
             // Heading above the sorting and the facets: the section title of
             // the side columns (heading--sectiontitle-marginal, see
             // block--sidebar-right.html.twig).
             $form['filters'] = [
                 '#type' => 'container',
-                '#attributes' => ['class' => ['search-prototype-filters']],
+                '#attributes' => ['class' => ['blaetter-search-filters']],
                 // Nothing to filter or sort without a search term or with only
                 // very common or short words (the search does not run then).
-                '#access' => palm_search_prototype_counting_words(palm_search_prototype_keys()) > 0,
+                '#access' => palm_blaetter_search_counting_words(palm_blaetter_search_keys()) > 0,
                 '#weight' => $form['sort_by']['#weight'] ?? 0,
                 'title' => [
-                    '#markup' => '<h2 class="heading--sectiontitle-marginal search-prototype-filters__title"><span class="text">Filtern und Sortieren</span></h2>',
+                    '#markup' => '<h2 class="heading--sectiontitle-marginal blaetter-search-filters__title"><span class="text">Filtern und Sortieren</span></h2>',
                 ],
                 'sort_by' => $form['sort_by'],
             ];
@@ -1575,12 +1569,12 @@ function palm_form_alter(&$form, FormStateInterface $form_state, $form_id) {
         }
     }
 
-    // Prototype of the search with Search API: the cards of authors above the
-    // results and the page with all of them (view search_prototype_authors)
+    // Search with Search API: the cards of authors above the
+    // results and the page with all of them (view blaetter_search_authors)
     // read the search term of the page. It has to start a part of the name, so the filter gets a regular
     // expression instead of the term.
-    if ('views_exposed_form' == $form_id && str_starts_with($form['#id'] ?? '', 'views-exposed-form-search-prototype-authors-')) {
-        $form['keys']['#element_validate'][] = 'palm_search_prototype_authors_keys';
+    if ('views_exposed_form' == $form_id && str_starts_with($form['#id'] ?? '', 'views-exposed-form-blaetter-search-authors-')) {
+        $form['keys']['#element_validate'][] = 'palm_blaetter_search_authors_keys';
     }
 
     // Header search (search block): same classes as palm:search-form.
@@ -1728,8 +1722,7 @@ function palm_debug($data, $keysonly = false)
 }
 
 /**
- * Element validation: regular expression for the author cards of the search
- * prototype.
+ * Element validation: regular expression for the author cards of the search.
  *
  * Only letters, digits, spaces and hyphens of the term are kept (no regular
  * expression from the URL). With less than three characters, including an
@@ -1740,13 +1733,13 @@ function palm_debug($data, $keysonly = false)
  * form of the request once one of them has an error (FormState::$anyErrors),
  * e.g. the search field of the page with a too short word.
  */
-function palm_search_prototype_authors_keys(array $element, FormStateInterface $form_state) {
-    $term = trim(preg_replace('/[^\p{L}\p{N} -]+/u', ' ', palm_search_prototype_keys((string) $element['#value'])));
+function palm_blaetter_search_authors_keys(array $element, FormStateInterface $form_state) {
+    $term = trim(preg_replace('/[^\p{L}\p{N} -]+/u', ' ', palm_blaetter_search_keys((string) $element['#value'])));
     $term = preg_replace('/\s+/u', ' ', $term);
     $view = $form_state->get('view');
     // No cards without a term the search uses (less than 3 characters or
     // only stopwords): the search does not run, they would show 0 articles.
-    if (mb_strlen($term) < 3 || 0 === palm_search_prototype_counting_words($term)) {
+    if (mb_strlen($term) < 3 || 0 === palm_blaetter_search_counting_words($term)) {
         $view->build_info['abort'] = TRUE;
         return;
     }
@@ -1756,102 +1749,29 @@ function palm_search_prototype_authors_keys(array $element, FormStateInterface $
 }
 
 /**
- * Maximum length of the search term of the search prototype.
- *
- * Longer terms are cut (more words make the search much slower: 10 words
- * took about 3 s). The endpoint of the search_prototype module uses the same
- * limits (FacetAutocomplete::MAX_KEYS_LENGTH, MAX_WORDS).
- */
-const PALM_SEARCH_PROTOTYPE_MAX_KEYS = 64;
-
-/**
- * Maximum number of counting words of the search term of the search prototype.
- *
- * Words count with at least 3 letters or digits (shorter ones are ignored by
- * the search, minimum word size of the tokenizer) unless they are stopwords
- * of the index; a word with hyphens counts once per part, as the search
- * splits it.
- */
-const PALM_SEARCH_PROTOTYPE_MAX_WORDS = 5;
-
-/**
- * Returns the search term of the search prototype within its limits.
+ * Returns the search term of the search within its limits.
  *
  * @param string|null $keys
  *   The term; the one of the URL (keys) if NULL.
  *
  * @return string
- *   The term with single spaces, at most 64 characters (cut before the word
- *   that does not fit) and up to the fifth counting word.
+ *   The term shortened by the module blaetter_search.
  */
-function palm_search_prototype_keys(?string $keys = NULL): string {
-    $keys ??= (string) \Drupal::request()->query->get('keys', '');
-    $keys = trim(preg_replace('/\s+/u', ' ', $keys));
-    if (mb_strlen($keys) > PALM_SEARCH_PROTOTYPE_MAX_KEYS) {
-        // Cut before the word that does not fit, if there is a space.
-        $cut = mb_substr($keys, 0, PALM_SEARCH_PROTOTYPE_MAX_KEYS + 1);
-        $space = mb_strrpos($cut, ' ');
-        $keys = trim($space ? mb_substr($cut, 0, $space) : mb_substr($keys, 0, PALM_SEARCH_PROTOTYPE_MAX_KEYS));
-    }
-    $kept = [];
-    $count = 0;
-    foreach ($keys === '' ? [] : explode(' ', $keys) as $word) {
-        $counting = palm_search_prototype_counting_words($word);
-        if ($kept && $count + $counting > PALM_SEARCH_PROTOTYPE_MAX_WORDS) {
-            break;
-        }
-        $count += $counting;
-        $kept[] = $word;
-    }
-    return implode(' ', $kept);
+function palm_blaetter_search_keys(?string $keys = NULL): string {
+    return \Drupal\blaetter_search\SearchLimits::keys($keys ?? (string) \Drupal::request()->query->get('keys', ''));
 }
 
 /**
  * Counts the words of a search term that the search uses.
- *
- * At least 3 letters or digits and no stopword of the index; a word with
- * hyphens counts once per part.
  */
-function palm_search_prototype_counting_words(string $keys): int {
-    $stopwords = palm_search_prototype_stopwords();
-    $parts = preg_split('/[^\p{L}\p{N}]+/u', $keys, -1, PREG_SPLIT_NO_EMPTY);
-    return count(array_filter($parts, fn($part) => mb_strlen($part) >= 3 && !isset($stopwords[mb_strtolower($part)])));
+function palm_blaetter_search_counting_words(string $keys): int {
+    return \Drupal\blaetter_search\SearchLimits::countingWords($keys);
 }
 
 /**
- * Returns the stopwords of the index of the search prototype.
- *
- * They do not count for the word limit (the search leaves them out).
- *
- * @return array
- *   The stopwords as keys.
+ * Whether the search term of the URL was shortened for the search.
  */
-function palm_search_prototype_stopwords(): array {
-    static $stopwords;
-    if (!isset($stopwords)) {
-        $stopwords = [];
-        $index = class_exists('Drupal\search_api\Entity\Index') ? \Drupal\search_api\Entity\Index::load('prototype_content') : NULL;
-        if ($index && $index->isValidProcessor('stopwords')) {
-            $stopwords = array_flip($index->getProcessor('stopwords')->getConfiguration()['stopwords'] ?? []);
-        }
-    }
-    return $stopwords;
-}
-
-/**
- * Whether the search term of the URL was shortened for the search prototype.
- */
-function palm_search_prototype_keys_shortened(): bool {
+function palm_blaetter_search_keys_shortened(): bool {
     $keys = trim(preg_replace('/\s+/u', ' ', (string) \Drupal::request()->query->get('keys', '')));
-    return $keys !== palm_search_prototype_keys($keys);
-}
-
-/**
- * Element validation: shortens the search term of the search prototype.
- */
-function palm_search_prototype_keys_limit(array $element, FormStateInterface $form_state) {
-    $keys = palm_search_prototype_keys((string) $element['#value']);
-    if ($keys !== (string) $element['#value']) {
-        $form_state->setValueForElement($element, $keys);
-    }
+    return $keys !== palm_blaetter_search_keys($keys);
 }
