@@ -7,6 +7,8 @@ Sections per version: Features, Security, Bugs, Removed, Maintenance (omit empty
 ## Unreleased
 
 ### Features
+- Drupal's status messages in the colours of blaetter-design instead of Classy's (`css/messages.css`, library `palm/messages`): white box with black text, framed in the colour of the kind with a broad rule and the icon at the left in green (status), #A35A00 (warning, new token) or the logo red (error)
+- Colours consolidated with blaetter-design (WCAG 2.2 AA): grey text #6B6B6B instead of #808080 (3.9:1), borders of fields, checkboxes and light buttons #808080 instead of #CCCCCC (1.6:1), focus as 2 px frame in the link blue instead of #66AFE9 with a glow (2.3:1), errors in the logo red instead of `red`, red buttons turn darker on hover (#C8102E, white text 5.9:1), the light delete button fills red on hover, messages on #F2F2F2 with a coloured rule at the left, links on dark ground #5DB4E3; components, search CSS and stories use only `--palm-color-*`; `make tokens-check` also fails on colour values in `css/` and `components/` (`scripts/tokens-check.sh`)
 - The red is the red of the logo, `#E51736` (was `#E71835`), in the components and, through blaetter-theme, in `bundle/palm.css`
 - Base colours and fonts come from the repository blaetter-design: `css/blaetter-tokens.css` is a copy of its `dist/tokens.css` (`make tokens` updates it, `make tokens-check` compares it and fails when `css/tokens.css` redefines a base colour)
 - Search prototype: timeline of the years as filter (`css/search-prototype.css`, the behaviour is in the module `search_prototype`), after the display of the offline archive

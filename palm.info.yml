@@ -6,6 +6,7 @@ libraries:
   - palm/global-styling
   - palm/global-scripts
   - palm/captcha
+  - palm/messages
 base theme: classy
 # The CSS of these libraries is loaded from css/drupal-layer.css instead, in the
 # cascade layer legacy before palm.css (scripts/build-drupal-layer.mjs).

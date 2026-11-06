@@ -17,9 +17,10 @@ The theme is in transition from a Patternlab based styleguide to single director
 | `css/blaetter-tokens.css` | Base colours and fonts, a copy of `dist/tokens.css` of [blaetter-design](https://github.com/blaetter/blaetter-design) (do not edit; `make tokens`, `make tokens-check`) |
 | `css/tokens.css` | Design tokens as CSS custom properties: semantic colours, dimensions, form fields |
 | `css/drupal-layer.css` | CSS of core, Classy and modules in the layer `legacy` (generated) |
+| `css/messages.css` | Drupal's status messages (Classy markup) in the colours of blaetter-design |
 | `css/captcha.css` | ALTCHA widget (custom properties, label) and the CAPTCHA box of administrators |
 | `templates/` | Drupal templates; they pass data to the components (`templates/form/` renders the form elements of all Drupal forms with the molecule `palm:form-item`, fieldsets with `palm:fieldset`, details with `palm:details`, the actions bar with `palm:form-actions` and their fields and buttons with the form atoms, `palm:button` and, for the remove button of the cart, `palm:icon-button`) |
-| `scripts/` | Build scripts (`build-drupal-layer.mjs`) |
+| `scripts/` | Build scripts (`build-drupal-layer.mjs`) and the colour check (`tokens-check.sh`) |
 | `tests/style-diff/` | Regression test for CSS changes |
 | `.storybook/` | Storybook configuration |
 | `docker-compose.yml`, `Makefile` | Development environment, see below |
@@ -107,6 +108,8 @@ Run them in the theme directory; `make help` lists them.
 | `make style-capture NAME=<name> [ROLE=<role>]` | container (Drush on the host for the test user and the cleanup) | capture the computed styles of the test pages; with `ROLE` as the local test user `styletest` |
 | `make style-compare A=<name> B=<name> [DETAILS=1]` | container | compare two captures |
 | `make shell` | container | shell in the `node` container |
+| `make tokens [DESIGN_DIR=<path>]` | host | copy `dist/tokens.css` of blaetter-design to `css/blaetter-tokens.css` |
+| `make tokens-check [DESIGN_DIR=<path>]` | host | fail when the copy differs from blaetter-design, `css/tokens.css` redefines one of its colours, or `css/` and `components/` set colour values of their own |
 
 First setup: `make install`, then `make stories` and `make storybook` (or `make storybook-start` to keep it running in the background).
 
@@ -118,6 +121,10 @@ First setup: `make install`, then `make stories` and `make storybook` (or `make 
 2. Build it in its container, in the blaetter-theme directory: `docker compose up -d`, then `docker compose exec -u app www make`.
 3. In the project root: `make palm-update` (copies `../blaetter-theme/export/bundle/` into `bundle/` and rebuilds the cache).
 4. Commit blaetter-theme and the changed `bundle/` here.
+
+### Colours
+
+All colours come from blaetter-design (`tokens.json` there is the only source). `css/blaetter-tokens.css` brings the base colours as `--palm-color-*`; `css/tokens.css` adds semantic names (`text`, `link`, `action`, `danger`, `error` …) that point to them. CSS and stories in `css/` and `components/` use only these custom properties, never colour values; `make tokens-check` enforces it. Grey text is `--palm-color-muted` (#6B6B6B); `--palm-color-grey-text` (#808080) is for borders of fields and buttons only. Focus is a 2 px frame in `--palm-color-focus`. The legacy styles in `bundle/palm.css` take the same colours from blaetter-theme, checked there by `make colors-check`.
 
 ### Examples in Storybook
 
