@@ -4,7 +4,7 @@
     name: 'Header search',
     args: { label: 'Webseite durchsuchen', button_label: 'Suchen' }
   } %}
-    <div style="padding: 40px; background: #f2f2f2;">
+    <div style="padding: 40px; background: var(--palm-color-grey);">
       {{ include('palm:search-form', { label: label, button_label: button_label, input_id: 'story-search-header' }, with_context = false) }}
     </div>
   {% endstory %}

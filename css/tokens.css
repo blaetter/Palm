@@ -1,23 +1,23 @@
 /**
  * Design tokens of the Blätter layout.
  *
- * The base colours (--palm-color-white, -black, -red, -red-light, -red-pale,
- * -blue, -blue-light, -grey, -grey-dark, -grey-border, -grey-text) come from
- * css/blaetter-tokens.css, a copy of dist/tokens.css of the repository
+ * The base colours (--palm-color-white, -black, -red, -red-light, -red-dark,
+ * -blue, -blue-light, -blue-on-dark, -focus, -muted, -grey, -grey-dark,
+ * -grey-border, -grey-text, -success) come from css/blaetter-tokens.css, a copy of dist/tokens.css of the repository
  * blaetter-design (`make tokens` updates it, `make tokens-check` compares).
  * This file adds the semantic colours and the other tokens of the theme.
  * New components use these custom properties only.
  */
 :root {
-  /* Semantic colors */
+  /* Semantic colors. Grey text is --palm-color-muted; --palm-color-grey-text
+     (#808080) is for borders of fields and buttons only, never for text. */
   --palm-color-text: var(--palm-color-black);
-  --palm-color-focus: #66afe9;
-  --palm-color-error: red;
+  --palm-color-error: var(--palm-color-red);
   --palm-color-link: var(--palm-color-blue);
   --palm-color-action: var(--palm-color-blue);
   --palm-color-action-hover: var(--palm-color-blue-light);
   --palm-color-danger: var(--palm-color-red);
-  --palm-color-danger-hover: var(--palm-color-red-light);
+  --palm-color-danger-hover: var(--palm-color-red-dark);
 
   /* Typography */
   --palm-font-sans: droid-sans, Arial, sans-serif;

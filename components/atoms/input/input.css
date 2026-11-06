@@ -14,7 +14,7 @@
     height: var(--palm-field-height, auto);
     min-height: var(--palm-field-min-height);
     padding: var(--palm-field-padding);
-    border: var(--palm-field-border, 1px solid var(--palm-color-grey-border));
+    border: var(--palm-field-border, 1px solid var(--palm-color-grey-text));
     border-radius: 0;
     background-color: var(--palm-color-white);
     background-image: none;
@@ -26,7 +26,7 @@
 
     &:focus {
       border-color: var(--palm-color-focus);
-      box-shadow: 0 1px 1px rgb(0 0 0 / 7.5%) inset, 0 0 8px rgb(102 175 233 / 60%);
+      box-shadow: 0 0 0 1px var(--palm-color-focus); /* 2 px frame with the border, no glow */
       outline: 0 none;
     }
 
@@ -38,7 +38,7 @@
     &[disabled],
     &[readonly] {
       background-color: var(--palm-color-grey);
-      color: var(--palm-color-grey-text);
+      color: var(--palm-color-muted);
       opacity: 1;
     }
 

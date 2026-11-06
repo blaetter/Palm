@@ -25,7 +25,7 @@
     name: 'Larger, dark context',
     args: { label: 'Hinweis schließen', symbol: '×' }
   } %}
-    <div style="--palm-icon-button-size: 36px; --palm-icon-button-background: #086d9a; --palm-icon-button-background-hover: #097eb2;">
+    <div style="--palm-icon-button-size: 36px; --palm-icon-button-background: var(--palm-color-blue); --palm-icon-button-background-hover: var(--palm-color-blue-light);">
       {{ include('palm:icon-button', { label: label, symbol: symbol }, with_context = false) }}
     </div>
   {% endstory %}

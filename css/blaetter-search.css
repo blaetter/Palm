@@ -26,10 +26,10 @@
   height: 40px;
   margin: 0;
   padding: 6px 2.25rem 6px 6px;
-  border: 1px solid #ccc;
+  border: 1px solid var(--palm-color-grey-text);
   border-radius: 0;
-  background: #fff var(--blaetter-search-arrow) no-repeat right 0.75rem center / 0.75rem auto;
-  color: #000;
+  background: var(--palm-color-white) var(--blaetter-search-arrow) no-repeat right 0.75rem center / 0.75rem auto;
+  color: var(--palm-color-text);
   font-family: droid-sans, Arial, sans-serif;
   font-size: 18px;
   line-height: normal;
@@ -38,17 +38,17 @@
 
 /* Without a chosen entry the field shows "Alle Autor:innen" or "Alle Themen" like the select lists. */
 .path-suche .blaetter-search-facet-autocomplete .autocomplete__input::placeholder {
-  color: #000;
+  color: var(--palm-color-text);
   opacity: 1;
 }
 
-/* Focused, the field shows a lighter hint ("Name eingeben …", contrast 4.5:1 on white). */
+/* Focused, the field shows a lighter hint ("Name eingeben …", contrast 5.3:1 on white). */
 .path-suche .blaetter-search-facet-autocomplete .autocomplete__input:focus::placeholder {
-  color: #767676;
+  color: var(--palm-color-muted);
 }
 
 .path-suche .blaetter-search-facet-autocomplete .autocomplete__input--focused {
-  outline: 2px solid #086d9a;
+  outline: 2px solid var(--palm-color-focus);
   outline-offset: 0;
   box-shadow: none;
 }
@@ -69,7 +69,7 @@
 
 .path-suche .blaetter-search-facet-autocomplete .autocomplete__menu {
   max-height: 22rem;
-  border: 1px solid #ccc;
+  border: 1px solid var(--palm-color-grey-text);
   border-top: 0;
   font-family: droid-sans, Arial, sans-serif;
   font-size: 16px;
@@ -83,12 +83,12 @@
 
 .path-suche .blaetter-search-facet-autocomplete .autocomplete__option--focused,
 .path-suche .blaetter-search-facet-autocomplete .autocomplete__option:hover {
-  background-color: #086d9a;
-  color: #fff;
+  background-color: var(--palm-color-link);
+  color: var(--palm-color-white);
 }
 
 .blaetter-search-facet-autocomplete__count {
-  color: #666;
+  color: var(--palm-color-muted);
 }
 
 .autocomplete__option--focused .blaetter-search-facet-autocomplete__count,
@@ -141,8 +141,8 @@
     aspect-ratio: 1;
     margin: 0 auto;
     border-radius: 100%;
-    background-color: #e5e5e5;
-    color: #666;
+    background-color: var(--palm-color-grey);
+    color: var(--palm-color-muted);
     font-family: droid-sans, Arial, sans-serif;
     font-size: 2.25rem;
     font-weight: 700;
@@ -162,7 +162,7 @@
   }
 
   .year-timeline__summary {
-    color: #666;
+    color: var(--palm-color-muted);
     font-weight: 400;
   }
 
@@ -249,7 +249,7 @@
     position: relative;
     height: 1.4em;
     margin: 2px 0 6px;
-    color: #666;
+    color: var(--palm-color-muted);
     font-size: 13px;
   }
 

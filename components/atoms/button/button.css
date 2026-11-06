@@ -92,8 +92,8 @@
     --palm-button-background: var(--palm-color-white);
     --palm-button-background-hover: var(--palm-color-white);
     --palm-button-color: var(--palm-color-link);
-    --palm-button-border: var(--palm-color-grey-border);
-    --palm-button-border-hover: var(--palm-color-grey-dark);
+    --palm-button-border: var(--palm-color-grey-text);
+    --palm-button-border-hover: var(--palm-color-grey-text);
     --palm-button-font-weight: 400;
   }
 
@@ -105,10 +105,11 @@
 
   .palm-button--danger-reversed {
     --palm-button-background: var(--palm-color-white);
-    --palm-button-background-hover: var(--palm-color-red-pale);
+    --palm-button-background-hover: var(--palm-color-danger);
     --palm-button-color: var(--palm-color-danger);
+    --palm-button-color-hover: var(--palm-color-white);
     --palm-button-border: var(--palm-color-danger);
-    --palm-button-border-hover: var(--palm-color-danger-hover);
+    --palm-button-border-hover: var(--palm-color-danger);
     --palm-button-font-weight: 400;
   }
 
@@ -146,7 +147,7 @@
   .palm-button--disabled {
     --palm-button-background: var(--palm-color-grey);
     --palm-button-background-hover: var(--palm-color-grey);
-    --palm-button-color: var(--palm-color-grey-text);
+    --palm-button-color: var(--palm-color-muted);
     --palm-button-border: var(--palm-color-grey-text);
     --palm-button-border-hover: var(--palm-color-grey-text);
     --palm-button-font-weight: 400;

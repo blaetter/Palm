@@ -33,6 +33,7 @@ blaetter-search:
   dependencies:
     - core/drupal
     - core/once
+    - palm/tokens
 # ALTCHA widget and the CAPTCHA box of administrators. Global, because the
 # CAPTCHA module attaches no library in its administration mode.
 captcha:

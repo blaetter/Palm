@@ -62,7 +62,7 @@
     /* Same gap as below the labels. */
     margin-top: 0.4em;
     margin-bottom: 0;
-    color: var(--palm-color-grey-text);
+    color: var(--palm-color-muted);
     font-size: 0.75rem;
   }
 
