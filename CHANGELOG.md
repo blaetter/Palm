@@ -7,6 +7,8 @@ Sections per version: Features, Security, Bugs, Removed, Maintenance (omit empty
 ## Unreleased
 
 ### Features
+- The red is the red of the logo, `#E51736` (was `#E71835`), in the components and, through blaetter-theme, in `bundle/palm.css`
+- Base colours and fonts come from the repository blaetter-design: `css/blaetter-tokens.css` is a copy of its `dist/tokens.css` (`make tokens` updates it, `make tokens-check` compares it and fails when `css/tokens.css` redefines a base colour)
 - Search prototype: timeline of the years as filter (`css/search-prototype.css`, the behaviour is in the module `search_prototype`), after the display of the offline archive
 - Single directory components (SDC) in `components/`, starting with the atom `palm:button` (variants primary, reversed, danger, danger-reversed, promo, ghost, white, disabled; optional icon at the start or end)
 - Buy, download, header promo, footer cancellation and issue teaser buttons use `palm:button`, as well as the buttons of the cookie banner (EU Cookie Compliance) and the consent buttons of embedded media and embed blocks

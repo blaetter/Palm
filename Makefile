@@ -19,6 +19,8 @@ help:
 	@echo "make style-capture NAME=<name> [ROLE=<role>]   capture computed styles (container), ROLE as test user styletest"
 	@echo "make style-compare A=<name> B=<name> [DETAILS=1] compare two captures (container)"
 	@echo "make shell            shell in the node container, e.g. for npm install <package>"
+	@echo "make tokens           copy dist/tokens.css of blaetter-design to css/blaetter-tokens.css [DESIGN_DIR=<path>]"
+	@echo "make tokens-check     fail if css/blaetter-tokens.css differs from blaetter-design [DESIGN_DIR=<path>]"
 
 # The node_modules volume is created owned by root, so hand it over first.
 .PHONY: install
@@ -90,3 +92,23 @@ style-compare:
 .PHONY: shell
 shell:
 	$(COMPOSE) run --rm node bash
+
+# Base colours and fonts come from the repository blaetter-design (tokens.json
+# is the only source). css/blaetter-tokens.css is a verbatim copy of its
+# dist/tokens.css; the default path assumes blaetter-design next to the
+# project checkout that holds this theme.
+DESIGN_DIR	?= ../../../../../blaetter-design
+BASE_COLORS	:= white|black|red|red-light|red-pale|blue|blue-light|grey|grey-dark|grey-border|grey-text
+
+.PHONY: tokens
+tokens:
+	@test -f $(DESIGN_DIR)/dist/tokens.css || { echo "$(DESIGN_DIR)/dist/tokens.css not found, set DESIGN_DIR"; exit 1; }
+	cp $(DESIGN_DIR)/dist/tokens.css css/blaetter-tokens.css
+
+.PHONY: tokens-check
+tokens-check:
+	@test -f $(DESIGN_DIR)/dist/tokens.css || { echo "$(DESIGN_DIR)/dist/tokens.css not found, set DESIGN_DIR"; exit 1; }
+	@cmp -s $(DESIGN_DIR)/dist/tokens.css css/blaetter-tokens.css \
+		|| { echo "css/blaetter-tokens.css differs from $(DESIGN_DIR)/dist/tokens.css: make tokens"; exit 1; }
+	@if grep -nE -- '--palm-color-($(BASE_COLORS)):' css/tokens.css; then echo "css/tokens.css must not redefine the base colours of css/blaetter-tokens.css"; exit 1; fi
+	@echo "css/blaetter-tokens.css matches $(DESIGN_DIR)/dist/tokens.css"

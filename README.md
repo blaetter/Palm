@@ -14,7 +14,8 @@ The theme is in transition from a Patternlab based styleguide to single director
 | `bundle/` | Legacy CSS/JS and fonts from blaetter-theme (generated, do not edit) |
 | `components/` | Single directory components, grouped like atomic design (`atoms/`, `molecules/`); `examples/` only holds stories that combine components as Drupal renders them (e.g. forms) |
 | `css/layers.css` | Order of the cascade layers |
-| `css/tokens.css` | Design tokens as CSS custom properties |
+| `css/blaetter-tokens.css` | Base colours and fonts, a copy of `dist/tokens.css` of [blaetter-design](https://github.com/blaetter/blaetter-design) (do not edit; `make tokens`, `make tokens-check`) |
+| `css/tokens.css` | Design tokens as CSS custom properties: semantic colours, dimensions, form fields |
 | `css/drupal-layer.css` | CSS of core, Classy and modules in the layer `legacy` (generated) |
 | `css/captcha.css` | ALTCHA widget (custom properties, label) and the CAPTCHA box of administrators |
 | `templates/` | Drupal templates; they pass data to the components (`templates/form/` renders the form elements of all Drupal forms with the molecule `palm:form-item`, fieldsets with `palm:fieldset`, details with `palm:details`, the actions bar with `palm:form-actions` and their fields and buttons with the form atoms, `palm:button` and, for the remove button of the cart, `palm:icon-button`) |
@@ -30,7 +31,7 @@ All CSS of the frontend lives in [cascade layers](https://developer.mozilla.org/
 1. `legacy`: first the CSS of Drupal core, Classy and the modules the frontend loads (`css/drupal-layer.css`), then `bundle/palm.css` (wrapped into the layer by blaetter-theme). Within this layer, specificity and order decide exactly as before the layers, so e.g. a more specific Classy rule still wins over `palm.css`. The original files are removed via `libraries-override` in `palm.info.yml`, because CSS outside of any layer always wins over layered CSS.
 2. `components`: the CSS of the components in `components/`.
 
-Only the tokens (`css/tokens.css`), `@property` rules and the CSS of the admin UI are outside of a layer. Toolbar, contextual links, shortcuts and Devel only load for editors and administrators and only style their own elements; a comparison as administrator showed no differences, so they stay unlayered (they win over the theme, keep that in mind for components near them). When a new module brings CSS to the frontend, add it to `scripts/build-drupal-layer.mjs` (in the order Drupal loads it) and to `libraries-override`, otherwise it wins over the theme. Libraries with JavaScript or extended by Classy only lose their CSS files there; files that Stable replaced are given with their Stable path (`/themes/contrib/stable/…`).
+Only the tokens (`css/blaetter-tokens.css`, `css/tokens.css`), `@property` rules and the CSS of the admin UI are outside of a layer. Toolbar, contextual links, shortcuts and Devel only load for editors and administrators and only style their own elements; a comparison as administrator showed no differences, so they stay unlayered (they win over the theme, keep that in mind for components near them). When a new module brings CSS to the frontend, add it to `scripts/build-drupal-layer.mjs` (in the order Drupal loads it) and to `libraries-override`, otherwise it wins over the theme. Libraries with JavaScript or extended by Classy only lose their CSS files there; files that Stable replaced are given with their Stable path (`/themes/contrib/stable/…`).
 
 Components are configured by their context through custom properties instead of contextual selectors:
 
@@ -125,7 +126,7 @@ Storybook shows the components and, under „Examples“, combinations as the si
 ### Add or change a component
 
 1. Create `components/<group>/<name>/` with `<name>.component.yml` (schema of the props, variants), `<name>.twig`, `<name>.css` (inside `@layer components { … }`) and `<name>.stories.twig`.
-2. Use only design tokens from `css/tokens.css`; add missing ones there.
+2. Use only design tokens from `css/tokens.css` and `css/blaetter-tokens.css`; add missing ones to `css/tokens.css`, new base colours to `tokens.json` of blaetter-design (then `make tokens`).
 3. `make stories`, then check it in Storybook (`make storybook`).
 4. Use it in templates with `{{ include('palm:<name>', { … }, with_context = false) }}`.
 5. Check the pages with the style diff (next section), also logged in if the template has content for users.

@@ -1,24 +1,14 @@
 /**
  * Design tokens of the Blätter layout.
  *
- * Values are taken from the Sass settings of the blaetter-theme styleguide
- * (source-bundle/scss/00-global/01-settings.scss) so new components look like
- * the existing ones. New components use these custom properties only.
+ * The base colours (--palm-color-white, -black, -red, -red-light, -red-pale,
+ * -blue, -blue-light, -grey, -grey-dark, -grey-border, -grey-text) come from
+ * css/blaetter-tokens.css, a copy of dist/tokens.css of the repository
+ * blaetter-design (`make tokens` updates it, `make tokens-check` compares).
+ * This file adds the semantic colours and the other tokens of the theme.
+ * New components use these custom properties only.
  */
 :root {
-  /* Base colors */
-  --palm-color-white: #fff;
-  --palm-color-black: #000;
-  --palm-color-red: #e71835;
-  --palm-color-red-light: #ec465d;
-  --palm-color-red-pale: #fad1d7;
-  --palm-color-blue: #086d9a;
-  --palm-color-blue-light: #097eb2;
-  --palm-color-grey: #f2f2f2;
-  --palm-color-grey-dark: #e3e3e3;
-  --palm-color-grey-border: #ccc;
-  --palm-color-grey-text: #808080;
-
   /* Semantic colors */
   --palm-color-text: var(--palm-color-black);
   --palm-color-focus: #66afe9;
