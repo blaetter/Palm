@@ -34,6 +34,14 @@ blaetter-search:
     - core/drupal
     - core/once
     - palm/tokens
+# Drupal's status messages in the colours of blaetter-design (instead of Classy's).
+messages:
+  version: 1.x
+  css:
+    component:
+      css/messages.css: {}
+  dependencies:
+    - palm/tokens
 # ALTCHA widget and the CAPTCHA box of administrators. Global, because the
 # CAPTCHA module attaches no library in its administration mode.
 captcha:

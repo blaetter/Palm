@@ -17,6 +17,7 @@ The theme is in transition from a Patternlab based styleguide to single director
 | `css/blaetter-tokens.css` | Base colours and fonts, a copy of `dist/tokens.css` of [blaetter-design](https://github.com/blaetter/blaetter-design) (do not edit; `make tokens`, `make tokens-check`) |
 | `css/tokens.css` | Design tokens as CSS custom properties: semantic colours, dimensions, form fields |
 | `css/drupal-layer.css` | CSS of core, Classy and modules in the layer `legacy` (generated) |
+| `css/messages.css` | Drupal's status messages (Classy markup) in the colours of blaetter-design |
 | `css/captcha.css` | ALTCHA widget (custom properties, label) and the CAPTCHA box of administrators |
 | `templates/` | Drupal templates; they pass data to the components (`templates/form/` renders the form elements of all Drupal forms with the molecule `palm:form-item`, fieldsets with `palm:fieldset`, details with `palm:details`, the actions bar with `palm:form-actions` and their fields and buttons with the form atoms, `palm:button` and, for the remove button of the cart, `palm:icon-button`) |
 | `scripts/` | Build scripts (`build-drupal-layer.mjs`) and the colour check (`tokens-check.sh`) |

@@ -1,0 +1,54 @@
+/**
+ * Drupal's status messages (status-messages.html.twig of Classy: .messages,
+ * .messages--status, --warning, --error), in the colours of blaetter-design:
+ * a white box framed in the colour of the kind, with a broad rule at the left
+ * and the icon in that colour; the text stays black. White, because the page
+ * around it is grey (--palm-color-grey). Replaces the colours of Classy (css/drupal-layer.css),
+ * which are no tokens. The icons are Classy's, drawn as masks in the token colour.
+ *
+ * In the layer components, so it wins over the legacy layer.
+ */
+@layer components {
+  .messages {
+    --palm-messages-color: var(--palm-color-grey-text);
+
+    position: relative;
+    padding: 15px 20px 15px 45px;
+    border: 1px solid var(--palm-messages-color);
+    border-left-width: 5px;
+    border-radius: 0;
+    background: var(--palm-color-white);
+    box-shadow: none;
+    color: var(--palm-color-text);
+
+    &::before {
+      position: absolute;
+      top: 18px;
+      left: 15px;
+      width: 16px;
+      height: 16px;
+      background-color: var(--palm-messages-color);
+      content: "";
+      mask: var(--palm-messages-icon) no-repeat center / contain;
+    }
+  }
+
+  .messages--status {
+    --palm-messages-color: var(--palm-color-success);
+    --palm-messages-icon: url(/themes/contrib/classy/images/icons/73b355/check.svg);
+  }
+
+  .messages--warning {
+    --palm-messages-color: var(--palm-color-warning);
+    --palm-messages-icon: url(/themes/contrib/classy/images/icons/e29700/warning.svg);
+  }
+
+  .messages--error {
+    --palm-messages-color: var(--palm-color-red);
+    --palm-messages-icon: url(/themes/contrib/classy/images/icons/e32700/error.svg);
+
+    & p.error {
+      color: var(--palm-color-text);
+    }
+  }
+}
