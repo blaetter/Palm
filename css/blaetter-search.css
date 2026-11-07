@@ -7,7 +7,10 @@
  *
  * The sorting and the facet blocks belong to the content column (so they keep this order on narrow screens) and are
  * moved into the empty left column: it is half as wide as the content column plus its gutter (two-tenths vs.
- * six-tenths, both with a gutter of 1.25rem on the left).
+ * six-tenths, both with a gutter of 1.25rem on the left, --palm-space-l).
+ *
+ * Spacing uses the scale of blaetter-design (--palm-space-*); the fields keep --palm-field-padding. Fixed values are
+ * sizes, not spacing: the room for the arrow of the fields (2.25rem) and the heights in the left column.
  */
 /* Select lists of the sorting and the facets and the autocomplete of the authors (blaetter_search module,
    accessible-autocomplete, also for the topics) look the same when closed. Outside of the cascade layers: the styles of the library and
@@ -25,10 +28,10 @@
   width: 100%;
   height: 40px;
   margin: 0;
-  padding: 6px 2.25rem 6px 6px;
+  padding: var(--palm-field-padding) 2.25rem var(--palm-field-padding) var(--palm-field-padding);
   border: 1px solid var(--palm-color-grey-text);
   border-radius: 0;
-  background: var(--palm-color-white) var(--blaetter-search-arrow) no-repeat right 0.75rem center / 0.75rem auto;
+  background: var(--palm-color-white) var(--blaetter-search-arrow) no-repeat right var(--palm-space-s) center / 0.75rem auto;
   color: var(--palm-color-text);
   font-family: droid-sans, Arial, sans-serif;
   font-size: 18px;
@@ -77,7 +80,7 @@
 
 /* The entries are told apart by the alternating background of the library, without its grey lines between them. */
 .path-suche .blaetter-search-facet-autocomplete .autocomplete__option {
-  padding: 0.4rem 0.5rem;
+  padding: var(--palm-space-xs);
   border: 0;
 }
 
@@ -110,20 +113,20 @@
      between them at every width (in the left column from 1420px as well as below the search field). */
   .path-suche .blaetter-search-filters {
     clear: both;
-    margin-top: 1.5rem;
+    margin-top: var(--palm-space-xl);
   }
 
   .path-suche .blaetter-search-sort {
     float: none;
     width: 100%;
     margin-right: 0;
-    margin-bottom: 0.5rem;
+    margin-bottom: var(--palm-space-xs);
     --palm-form-item-space-before: 0;
     --palm-form-item-space-after: 0;
   }
 
   .path-suche .block-facet--dropdown {
-    margin-bottom: 0.5rem;
+    margin-bottom: var(--palm-space-xs);
   }
 
   .path-suche #views-exposed-form-blaetter-search-page-1 {
@@ -133,8 +136,8 @@
   /* Cards of authors above the results and on their own page (view blaetter_search_authors, the profile teasers
      of the editorial team page): space to the search field and to the results. */
   .path-suche .view-blaetter-search-authors {
-    margin-top: 2rem;
-    margin-bottom: 2.5rem;
+    margin-top: var(--palm-space-2xl);
+    margin-bottom: var(--palm-space-3xl);
   }
 
   /* Initials in place of a missing portrait: the same circle as the portrait of the profile teaser (47% wide). */
@@ -159,7 +162,7 @@
      page it stands in a white box with the border of the select lists, like the other filters (the archive shows it
      on a white page). */
   .year-timeline {
-    padding: 0.5rem 0.75rem 0.25rem;
+    padding: var(--palm-space-xs) var(--palm-space-s) var(--palm-space-2xs);
     border: 1px solid var(--palm-color-grey-text);
     background: var(--palm-color-white);
     font-family: droid-sans, Arial, sans-serif;
@@ -167,7 +170,7 @@
   }
 
   .year-timeline__title {
-    margin: 0 0 0.375rem;
+    margin: 0 0 var(--palm-space-2xs);
     font-weight: 700;
   }
 
@@ -179,7 +182,7 @@
   .year-timeline__more,
   .year-timeline__reset {
     display: block;
-    padding: 2px 0;
+    padding: var(--palm-space-2xs) 0;
     border: 0;
     background: transparent;
     color: var(--palm-color-link);
@@ -230,8 +233,8 @@
     position: absolute;
     bottom: 100%;
     z-index: 2;
-    margin-bottom: 4px;
-    padding: 2px 8px;
+    margin-bottom: var(--palm-space-2xs);
+    padding: var(--palm-space-2xs) var(--palm-space-xs);
     background: var(--palm-color-black);
     color: var(--palm-color-white);
     font-size: 13px;
@@ -258,7 +261,7 @@
   .year-timeline__axis {
     position: relative;
     height: 1.4em;
-    margin: 2px 0 6px;
+    margin: var(--palm-space-2xs) 0 var(--palm-space-xs);
     color: var(--palm-color-muted);
     font-size: 13px;
   }
@@ -283,8 +286,8 @@
   .year-timeline__detail {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 0.5rem;
-    margin: 0.25rem 0 0.5rem;
+    gap: var(--palm-space-xs);
+    margin: var(--palm-space-2xs) 0 var(--palm-space-xs);
     --palm-button-space-after: 0;
   }
 
@@ -304,7 +307,7 @@
   }
 
   .blaetter-search-back {
-    margin-bottom: 1rem;
+    margin-bottom: var(--palm-space-m);
   }
 
   /* Phones: the filters folded into one line (blaetter-search.js, only with JavaScript), after the archive. Closed:
@@ -312,7 +315,7 @@
      the filters with gaps below it in a box with a blue border, then "Treffer zeigen" and "Filter zurücksetzen". */
   .blaetter-search-compact {
     clear: both;
-    margin-top: 1.5rem;
+    margin-top: var(--palm-space-xl);
     font-family: droid-sans, Arial, sans-serif;
   }
 
@@ -320,11 +323,11 @@
     position: relative;
     display: flex;
     align-items: center;
-    gap: 0.75rem;
+    gap: var(--palm-space-s);
     min-height: 40px;
-    padding: 6px 2.25rem 6px 10px;
+    padding: var(--palm-field-padding) 2.25rem var(--palm-field-padding) var(--palm-space-s);
     border: 1px solid var(--palm-color-grey-text);
-    background: var(--palm-color-white) var(--blaetter-search-arrow) no-repeat right 0.75rem center / 0.75rem auto;
+    background: var(--palm-color-white) var(--blaetter-search-arrow) no-repeat right var(--palm-space-s) center / 0.75rem auto;
     color: var(--palm-color-text);
     font-size: 16px;
     line-height: 1.3;
@@ -371,7 +374,7 @@
   }
 
   .blaetter-search-compact__body {
-    padding: 0.75rem;
+    padding: var(--palm-space-s);
     border: 1px solid var(--palm-color-link);
     border-top: 0;
     background: var(--palm-color-white);
@@ -388,7 +391,7 @@
 
   .blaetter-search-compact .blaetter-search-sort,
   .blaetter-search-compact .block-facet--dropdown {
-    margin-bottom: 0.75rem;
+    margin-bottom: var(--palm-space-s);
   }
 
   /* The timeline needs no box of its own inside the box. */
@@ -400,9 +403,9 @@
 
   .blaetter-search-compact__actions {
     display: grid;
-    gap: 0.5rem;
+    gap: var(--palm-space-xs);
     justify-items: center;
-    margin-top: 0.25rem;
+    margin-top: var(--palm-space-2xs);
     --palm-button-space-after: 0;
   }
 
@@ -422,7 +425,7 @@
     /* Height of heading and sorting in the left column: heading 18px with padding (0.8em above, 0.7em below),
        its line (4px) and its gap (1.25rem, heading--sectiontitle-marginal), then the sorting (40px). */
     .path-suche {
-      --blaetter-search-filters-height: calc(18px * 2.5 + 4px + 1.25rem + 40px);
+      --blaetter-search-filters-height: calc(18px * 2.5 + 4px + var(--palm-space-l) + 40px);
     }
 
     /* Heading and sorting start next to the search field and take no space in the content column, so the results
@@ -434,8 +437,8 @@
     .path-suche .blaetter-search-filters {
       position: absolute;
       top: 0;
-      left: calc((100% + 1.25rem) / -3);
-      width: calc((100% + 1.25rem) / 3 - 1.25rem);
+      left: calc((100% + var(--palm-space-l)) / -3);
+      width: calc((100% + var(--palm-space-l)) / 3 - var(--palm-space-l));
       margin-top: 0;
     }
 
@@ -449,9 +452,9 @@
     .path-suche .block-facet--dropdown {
       float: left;
       clear: left;
-      width: calc((100% + 1.25rem) / 3 - 1.25rem);
-      margin-left: calc((100% + 1.25rem) / -3);
-      margin-bottom: 0.5rem;
+      width: calc((100% + var(--palm-space-l)) / 3 - var(--palm-space-l));
+      margin-left: calc((100% + var(--palm-space-l)) / -3);
+      margin-bottom: var(--palm-space-xs);
     }
 
     /* With JavaScript the filters stand in the left column of the grid (blaetter-search.js) and stay in view
@@ -464,7 +467,7 @@
 
     .path-suche .blaetter-search-aside {
       position: sticky;
-      top: calc(var(--drupal-displace-offset-top, 0px) + 57px + 1.25rem);
+      top: calc(var(--drupal-displace-offset-top, 0px) + 57px + var(--palm-space-l));
     }
 
     .path-suche .blaetter-search-aside .blaetter-search-filters {
@@ -481,13 +484,13 @@
     }
 
     .path-suche .blaetter-search-aside .blaetter-search-sort {
-      margin-bottom: 0.5rem;
+      margin-bottom: var(--palm-space-xs);
     }
 
     /* The facets follow the sorting with the same gap as between them; they start below the search row (60px
        high), the heading and the sorting reach further down (see --blaetter-search-filters-height). */
     .path-suche #block-palm-facet-authors {
-      margin-top: calc(var(--blaetter-search-filters-height) + 0.5rem - 60px);
+      margin-top: calc(var(--blaetter-search-filters-height) + var(--palm-space-xs) - 60px);
     }
   }
 }
