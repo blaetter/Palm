@@ -177,14 +177,107 @@
     font-size: 15px;
   }
 
+  /* "Wann" as heading (room on the right for the "i"), below it the selection and its matches, then the links. */
   .year-timeline__title {
-    margin: 0 0 var(--palm-space-2xs);
+    margin: 0;
+    padding-right: 1.75rem;
     font-weight: 700;
   }
 
   .year-timeline__summary {
+    margin: 0 0 var(--palm-space-2xs);
     color: var(--palm-color-muted);
     font-weight: 400;
+  }
+
+  /* The line breaks between the ranges only, never within "2010–2012" or "18 Treffer". */
+  .year-timeline__nowrap {
+    white-space: nowrap;
+  }
+
+  /* "i" in the top right corner of the box: hints for the mouse and the keyboard in a layer above the bars, like the
+     info of the archive. */
+  .year-timeline {
+    position: relative;
+  }
+
+  .year-timeline__info {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    width: 1.25rem;
+    height: 1.25rem;
+    position: absolute;
+    top: var(--palm-space-xs);
+    right: var(--palm-space-s);
+    padding: 0;
+    border: 1px solid var(--palm-color-link);
+    border-radius: 50%;
+    background: var(--palm-color-white);
+    color: var(--palm-color-link);
+    font: inherit;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1;
+    cursor: pointer;
+  }
+
+  .year-timeline__info:hover,
+  .year-timeline__info[aria-expanded="true"] {
+    background: var(--palm-color-link);
+    color: var(--palm-color-white);
+  }
+
+  .year-timeline__info:focus-visible,
+  .year-timeline__help:focus-visible {
+    outline: 2px solid var(--palm-color-focus);
+    outline-offset: 2px;
+  }
+
+  .year-timeline__help {
+    position: absolute;
+    top: 2rem;
+    right: calc(-1 * var(--palm-space-s));
+    left: calc(-1 * var(--palm-space-s));
+    z-index: 3;
+    max-width: 34em;
+    padding: var(--palm-space-s) var(--palm-space-m);
+    border: 1px solid var(--palm-color-grey-border);
+    background: var(--palm-color-white);
+    box-shadow: 0 4px 14px color-mix(in srgb, var(--palm-color-black) 15%, transparent);
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  .year-timeline__help[hidden] {
+    display: none;
+  }
+
+  .year-timeline__help-title {
+    margin: 0 0 var(--palm-space-xs);
+    font-weight: 700;
+  }
+
+  .year-timeline__help-list {
+    margin: 0 0 var(--palm-space-s);
+    padding-left: 1.2em;
+  }
+
+  .year-timeline__help-list li {
+    margin-bottom: var(--palm-space-2xs);
+  }
+
+  /* "Schließen" is a palm:button (reversed); only its distance. */
+  .year-timeline__help-close {
+    --palm-button-space-after: 0;
+  }
+
+  /* "Jahre wählen" and "Zurücksetzen" side by side below the bars, above the select lists of "Jahre wählen". */
+  .year-timeline__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 var(--palm-space-m);
   }
 
   .year-timeline__more,
@@ -291,6 +384,17 @@
     transform: translateX(-50%);
   }
 
+  /* "Alle Ergebnisse liegen zwischen 2001 und 2020": the bars span only the years with matches. */
+  .year-timeline__span {
+    margin: 0 0 var(--palm-space-xs);
+    color: var(--palm-color-muted);
+    font-size: 13px;
+  }
+
+  .year-timeline__span[hidden] {
+    display: none;
+  }
+
   .year-timeline__detail {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -305,6 +409,13 @@
 
   .year-timeline__detail[hidden] {
     display: none;
+  }
+
+  /* The dotted outline of the legacy styles only for the keyboard (blue frame below), not after a click. */
+  .year-timeline__more:focus:not(:focus-visible),
+  .year-timeline__reset:focus:not(:focus-visible),
+  .year-timeline__info:focus:not(:focus-visible) {
+    outline: 0;
   }
 
   .year-timeline__more:focus-visible,
@@ -504,11 +615,16 @@
     margin-bottom: var(--palm-space-s);
   }
 
-  /* The timeline needs no box of its own inside the box. */
+  /* The timeline needs no box of its own inside the box; its "i" moves into the corner. */
   .blaetter-search-compact .year-timeline {
     margin-top: 0;
     padding: 0;
     border: 0;
+  }
+
+  .blaetter-search-compact .year-timeline__info {
+    top: 0;
+    right: 0;
   }
 
   .blaetter-search-compact__actions {

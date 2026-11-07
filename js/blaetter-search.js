@@ -255,6 +255,10 @@
       reset.hidden = count === 0;
     };
 
+    // The timeline draws its bars again when its width changes (joined to five
+    // or ten years in narrow places): the small copy follows.
+    box.addEventListener('blaetter-search-timeline-drawn', refresh);
+
     return { details: details, body: body, actions: actions, refresh: refresh };
   }
 })(Drupal, once);

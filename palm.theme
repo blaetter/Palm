@@ -1159,7 +1159,11 @@ function palm_preprocess_facets_item_list(&$variables) {
         return \Drupal\Core\Url::fromRoute('<current>', [], ['query' => $query]);
     };
     if ($active) {
-        $variables['nojs_reset'] = ['url' => $url_with($others), 'label' => $all];
+        // The years are a period, like "Zeitraum zurücksetzen" of the timeline.
+        $variables['nojs_reset'] = [
+            'url' => $url_with($others),
+            'label' => 'search_year' === $facet->id() ? 'Zeitraum zurücksetzen' : $all,
+        ];
     }
 
     // Years: a range is one filter, the module only marks its years as active,
