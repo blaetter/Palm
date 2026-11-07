@@ -303,6 +303,117 @@
     margin-bottom: 1rem;
   }
 
+  /* Phones: the filters folded into one line (blaetter-search.js, only with JavaScript), after the archive. Closed:
+     white field with the border of the select lists, a small timeline, "Filter (n)" and the active filters; opened:
+     the filters with gaps below it in a box with a blue border, then "Treffer zeigen" and "Filter zurücksetzen". */
+  .blaetter-search-compact {
+    clear: both;
+    margin-top: 1.5rem;
+    font-family: droid-sans, Arial, sans-serif;
+  }
+
+  .blaetter-search-compact__summary {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    min-height: 40px;
+    padding: 6px 2.25rem 6px 10px;
+    border: 1px solid var(--palm-color-grey-text);
+    background: var(--palm-color-white) var(--blaetter-search-arrow) no-repeat right 0.75rem center / 0.75rem auto;
+    color: var(--palm-color-text);
+    font-size: 16px;
+    line-height: 1.3;
+    list-style: none;
+    cursor: pointer;
+  }
+
+  .blaetter-search-compact__summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .blaetter-search-compact[open] > .blaetter-search-compact__summary {
+    border-color: var(--palm-color-link);
+    background-image: var(--blaetter-search-arrow-up);
+  }
+
+  .blaetter-search-compact__summary:focus-visible {
+    outline: 2px solid var(--palm-color-focus);
+    outline-offset: 2px;
+  }
+
+  .blaetter-search-compact__mini {
+    flex: 0 0 64px;
+  }
+
+  .blaetter-search-compact__mini:empty {
+    display: none;
+  }
+
+  .blaetter-search-compact__bars {
+    position: relative;
+    height: 18px;
+    border-bottom: 1px solid var(--palm-color-grey-border);
+  }
+
+  .blaetter-search-compact__text {
+    min-width: 0;
+  }
+
+  .blaetter-search-compact__active {
+    display: block;
+    color: var(--palm-color-muted);
+    font-size: 14px;
+  }
+
+  .blaetter-search-compact__body {
+    padding: 0.75rem;
+    border: 1px solid var(--palm-color-link);
+    border-top: 0;
+    background: var(--palm-color-white);
+  }
+
+  /* The summary names the filters, so their heading goes; the filters get gaps between them. */
+  .blaetter-search-compact .blaetter-search-filters {
+    margin-top: 0;
+  }
+
+  .blaetter-search-compact .blaetter-search-filters__title {
+    display: none;
+  }
+
+  .blaetter-search-compact .blaetter-search-sort,
+  .blaetter-search-compact .block-facet--dropdown {
+    margin-bottom: 0.75rem;
+  }
+
+  /* The timeline needs no box of its own inside the box. */
+  .blaetter-search-compact .year-timeline {
+    margin-top: 0;
+    padding: 0;
+    border: 0;
+  }
+
+  .blaetter-search-compact__actions {
+    display: grid;
+    gap: 0.5rem;
+    justify-items: center;
+    margin-top: 0.25rem;
+    --palm-button-space-after: 0;
+  }
+
+  .blaetter-search-compact__show {
+    width: 100%;
+  }
+
+  .blaetter-search-compact__reset {
+    font-size: 14px;
+  }
+
+  .blaetter-search-compact__reset[hidden] {
+    display: none;
+  }
+
   @media (min-width: 88.75rem) {
     /* Height of heading and sorting in the left column: heading 18px with padding (0.8em above, 0.7em below),
        its line (4px) and its gap (1.25rem, heading--sectiontitle-marginal), then the sorting (40px). */
