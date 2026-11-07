@@ -106,8 +106,8 @@
 
 @layer components {
   /* Heading "Filtern und Sortieren" (section title of the side columns) and the sorting, full width (not inline
-     like the fields of Views) below the search field and above the facets, which have no gap between them on
-     narrow screens. */
+     like the fields of Views) below the search field and above the facets. Sorting and facets keep a small gap
+     between them at every width (in the left column from 1420px as well as below the search field). */
   .path-suche .blaetter-search-filters {
     clear: both;
     margin-top: 1.5rem;
@@ -117,8 +117,13 @@
     float: none;
     width: 100%;
     margin-right: 0;
+    margin-bottom: 0.5rem;
     --palm-form-item-space-before: 0;
     --palm-form-item-space-after: 0;
+  }
+
+  .path-suche .block-facet--dropdown {
+    margin-bottom: 0.5rem;
   }
 
   .path-suche #views-exposed-form-blaetter-search-page-1 {
@@ -154,7 +159,6 @@
      page it stands in a white box with the border of the select lists, like the other filters (the archive shows it
      on a white page). */
   .year-timeline {
-    margin-top: 0.5rem;
     padding: 0.5rem 0.75rem 0.25rem;
     border: 1px solid var(--palm-color-grey-text);
     background: var(--palm-color-white);

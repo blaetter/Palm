@@ -1,7 +1,7 @@
 #!/bin/sh
 # Checks the colours of the theme against blaetter-design (see README, "Colours"):
 # 1. css/blaetter-tokens.css is a verbatim copy of dist/tokens.css of blaetter-design,
-# 2. css/tokens.css does not redefine a --palm-color-* name of that copy,
+# 2. css/tokens.css does not redefine a --palm-color-* or --palm-space-* name of that copy,
 # 3. the theme's own CSS and stories set no colour values (hex, rgb, hsl, colour
 #    keywords) outside comments; they use the custom properties instead.
 # css/drupal-layer.css (generated from core) and bundle/ (built by blaetter-theme,
@@ -23,9 +23,9 @@ else
     status=1
 fi
 
-names=$(grep -oE -- '--palm-color-[a-z-]+:' css/blaetter-tokens.css | tr -d ':' | sort -u | paste -sd'|' -)
+names=$(grep -oE -- '--palm-(color|space)-[a-z0-9-]+:' css/blaetter-tokens.css | tr -d ':' | sort -u | paste -sd'|' -)
 if grep -nE -- "($names):" css/tokens.css; then
-    echo "FAIL css/tokens.css redefines colours of css/blaetter-tokens.css (above)"
+    echo "FAIL css/tokens.css redefines tokens of css/blaetter-tokens.css (above)"
     status=1
 else
     echo "ok   css/tokens.css adds only its own tokens"

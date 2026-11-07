@@ -5,6 +5,7 @@
  * -blue, -blue-light, -blue-on-dark, -focus, -muted, -grey, -grey-dark,
  * -grey-border, -grey-text, -success) come from css/blaetter-tokens.css, a copy of dist/tokens.css of the repository
  * blaetter-design (`make tokens` updates it, `make tokens-check` compares).
+ * The spacing scale (--palm-space-2xs … -3xl, -block-bottom) comes from there as well.
  * This file adds the semantic colours and the other tokens of the theme.
  * New components use these custom properties only.
  */
@@ -24,7 +25,6 @@
 
   /* Dimensions */
   --palm-radius: 4px;
-  --palm-space-block-bottom: 1.875rem;
   --palm-control-min-height: 2.5em;
 
   /* Form fields */

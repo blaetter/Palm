@@ -36,6 +36,7 @@ Sections per version: Features, Security, Bugs, Removed, Maintenance (omit empty
 - The section title of the side columns (`heading--sectiontitle-marginal`) has the default text colour and a grey underline instead of red ones, like the other section titles (blaetter-theme). It was made for a right column with teasers (region `sidebar_right`), which has no blocks on live
 
 ### Bugs
+- Search: below the search field (up to 1420px) the sorting and the facets stood without a gap between them; they keep the small gap of the left column at every width now (`css/blaetter-search.css`)
 - Search prototype: for logged in users a facet delivered late by BigPipe stayed in the content column and covered the other filters; the facets now move in a box together with their placeholders (`js/search-prototype.js`).
 - Embeds of detektor.fm without additional styles caused the warning "Array to string conversion" and got the styles `height:230px;Array`: the fields of the generic iframe media are read with `getString()`, as `.value` returns an empty array for an empty field
 - The login link of the menu for anonymous users had an empty destination, as the macro that renders the links does not see the variables of the template; the destination is passed to it now. Its rel="nofollow" was escaped into the attribute list instead of being an attribute
@@ -45,6 +46,7 @@ Sections per version: Features, Security, Bugs, Removed, Maintenance (omit empty
 - The share via mail link no longer ends with a line break after the article URL; crawlers took the encoded line break (`%0D%0A`) as part of the URL and caused 404 errors. Title, subject and teaser are URL-encoded, the teaser keeps its paragraphs but no longer contains the indentation and line breaks of the html source
 
 ### Maintenance
+- Spacing scale and breakpoints from blaetter-design: `css/blaetter-tokens.css` brings `--palm-space-*` (2xs … 3xl, block-bottom) and `--blaetter-media-*`; `--palm-space-block-bottom` is no longer defined in `css/tokens.css`, `make tokens-check` also fails when `css/tokens.css` redefines a spacing; README section "Spacing and breakpoints"
 - The styles and the script of the search are named `blaetter-search` instead of `search-prototype`, for the module `blaetter_search` on `/suche` that replaces the prototype; the page uses the same names. Its routes stay excluded from the promo banner. The limits of the search term are now the ones of the module (`SearchLimits`).
 - README: blaetter-theme is a separate checkout next to the project (`../blaetter-theme`) instead of the submodule `layout/`, built with `docker compose exec -u app www make`
 - Compatibility with Drupal 11; the components (SDC variants) are tested with Drupal 11.4 only

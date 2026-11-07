@@ -14,7 +14,7 @@ The theme is in transition from a Patternlab based styleguide to single director
 | `bundle/` | Legacy CSS/JS and fonts from blaetter-theme (generated, do not edit) |
 | `components/` | Single directory components, grouped like atomic design (`atoms/`, `molecules/`); `examples/` only holds stories that combine components as Drupal renders them (e.g. forms) |
 | `css/layers.css` | Order of the cascade layers |
-| `css/blaetter-tokens.css` | Base colours and fonts, a copy of `dist/tokens.css` of [blaetter-design](https://github.com/blaetter/blaetter-design) (do not edit; `make tokens`, `make tokens-check`) |
+| `css/blaetter-tokens.css` | Base colours, fonts, spacing scale and breakpoints, a copy of `dist/tokens.css` of [blaetter-design](https://github.com/blaetter/blaetter-design) (do not edit; `make tokens`, `make tokens-check`) |
 | `css/tokens.css` | Design tokens as CSS custom properties: semantic colours, dimensions, form fields |
 | `css/drupal-layer.css` | CSS of core, Classy and modules in the layer `legacy` (generated) |
 | `css/messages.css` | Drupal's status messages (Classy markup) in the colours of blaetter-design |
@@ -109,7 +109,7 @@ Run them in the theme directory; `make help` lists them.
 | `make style-compare A=<name> B=<name> [DETAILS=1]` | container | compare two captures |
 | `make shell` | container | shell in the `node` container |
 | `make tokens [DESIGN_DIR=<path>]` | host | copy `dist/tokens.css` of blaetter-design to `css/blaetter-tokens.css` |
-| `make tokens-check [DESIGN_DIR=<path>]` | host | fail when the copy differs from blaetter-design, `css/tokens.css` redefines one of its colours, or `css/` and `components/` set colour values of their own |
+| `make tokens-check [DESIGN_DIR=<path>]` | host | fail when the copy differs from blaetter-design, `css/tokens.css` redefines one of its colours or spacings, or `css/` and `components/` set colour values of their own |
 
 First setup: `make install`, then `make stories` and `make storybook` (or `make storybook-start` to keep it running in the background).
 
@@ -125,6 +125,11 @@ First setup: `make install`, then `make stories` and `make storybook` (or `make 
 ### Colours
 
 All colours come from blaetter-design (`tokens.json` there is the only source). `css/blaetter-tokens.css` brings the base colours as `--palm-color-*`; `css/tokens.css` adds semantic names (`text`, `link`, `action`, `danger`, `error` …) that point to them. CSS and stories in `css/` and `components/` use only these custom properties, never colour values; `make tokens-check` enforces it. Grey text is `--palm-color-muted` (#6B6B6B); `--palm-color-grey-text` (#808080) is for borders of fields and buttons only. Focus is a 2 px frame in `--palm-color-focus`. The legacy styles in `bundle/palm.css` take the same colours from blaetter-theme, checked there by `make colors-check`.
+
+
+### Spacing and breakpoints
+
+Spacing comes from the scale of blaetter-design (4 px steps): `--palm-space-2xs` 4 px, `-xs` 8, `-s` 12, `-m` 16, `-l` 20, `-xl` 24, `-2xl` 32, `-3xl` 40, plus `--palm-space-block-bottom` 30 px below blocks. New CSS uses these instead of fixed values. Breakpoints are the three of blaetter-design: `(max-width: 45rem)` for phones (`(min-width: 45.001rem)` above), `(min-width: 75rem)` and `(min-width: 88.75rem)`. Media queries cannot read custom properties, so CSS writes them out; scripts read `--blaetter-media-*` (see `js/blaetter-search.js`).
 
 ### Examples in Storybook
 
