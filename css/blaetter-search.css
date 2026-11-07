@@ -39,6 +39,14 @@
   appearance: none;
 }
 
+/* Phones: as high as the other form fields of the theme (the sorting is a palm:select). */
+@media (max-width: 45rem) {
+  .path-suche .block-facet--dropdown select,
+  .path-suche .blaetter-search-facet-autocomplete .autocomplete__input {
+    min-height: var(--palm-field-min-height-phone);
+  }
+}
+
 /* Without a chosen entry the field shows "Alle Autor:innen" or "Alle Themen" like the select lists. */
 .path-suche .blaetter-search-facet-autocomplete .autocomplete__input::placeholder {
   color: var(--palm-color-text);
@@ -310,12 +318,114 @@
     margin-bottom: var(--palm-space-m);
   }
 
+  /* Facets without JavaScript (facets-item-list--dropdown.html.twig): a closed line like the select lists that names
+     the facet and its active entries; opened, the links in columns in a white box (years narrow, names wider). With
+     JavaScript the line goes and the facet stands open (blaetter-search.js). */
+  /* Without the margins and the grey border the legacy styles give every details element, so the facets keep the gap
+     of the blocks like the sorting. */
+  .blaetter-search-facet {
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+
+  /* As high as the select lists (40px), without the line height of the page. */
+  .blaetter-search-facet__summary {
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    min-height: 40px;
+    line-height: 1.2;
+    padding: var(--palm-field-padding) 2.25rem var(--palm-field-padding) var(--palm-field-padding);
+    border: 1px solid var(--palm-color-grey-text);
+    background: var(--palm-color-white) var(--blaetter-search-arrow) no-repeat right var(--palm-space-s) center / 0.75rem auto;
+    color: var(--palm-color-text);
+    font-family: droid-sans, Arial, sans-serif;
+    font-size: 18px;
+    list-style: none;
+    cursor: pointer;
+  }
+
+  .blaetter-search-facet__summary::-webkit-details-marker {
+    display: none;
+  }
+
+  @media (max-width: 45rem) {
+    .blaetter-search-facet__summary,
+    .blaetter-search-compact__summary {
+      min-height: var(--palm-field-min-height-phone);
+    }
+  }
+
+  .blaetter-search-facet[open] > .blaetter-search-facet__summary {
+    background-image: var(--blaetter-search-arrow-up);
+  }
+
+  .blaetter-search-facet__summary:focus-visible {
+    outline: 2px solid var(--palm-color-focus);
+    outline-offset: 2px;
+  }
+
+  .blaetter-search-facet.is-enhanced > .blaetter-search-facet__summary {
+    display: none;
+  }
+
+  .blaetter-search-facet:not(.is-enhanced) > .item-list__dropdown {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr));
+    gap: var(--palm-space-2xs) var(--palm-space-s);
+    margin: 0;
+    padding: var(--palm-space-s);
+    border: 1px solid var(--palm-color-grey-text);
+    border-top: 0;
+    background: var(--palm-color-white);
+    font-family: droid-sans, Arial, sans-serif;
+    font-size: 15px;
+    list-style: none;
+  }
+
+  #block-palm-facet-year .blaetter-search-facet:not(.is-enhanced) > .item-list__dropdown {
+    grid-template-columns: repeat(auto-fill, minmax(5.5rem, 1fr));
+  }
+
+  /* "Alle Jahre" etc. above the links, in the same box. */
+  .blaetter-search-facet__all {
+    margin: 0;
+    padding: var(--palm-space-s) var(--palm-space-s) 0;
+    border: 1px solid var(--palm-color-grey-text);
+    border-top: 0;
+    border-bottom: 0;
+    background: var(--palm-color-white);
+    font-family: droid-sans, Arial, sans-serif;
+    font-size: 15px;
+  }
+
+  .blaetter-search-facet__all + .item-list__dropdown {
+    padding-top: var(--palm-space-xs);
+  }
+
+  .blaetter-search-facet.is-enhanced > .blaetter-search-facet__all {
+    display: none;
+  }
+
+  .blaetter-search-facet:not(.is-enhanced) .facet-item {
+    margin: 0;
+    padding: 0;
+  }
+
+  .blaetter-search-facet:not(.is-enhanced) .facet-item__count {
+    color: var(--palm-color-muted);
+  }
+
   /* Phones: the filters folded into one line (blaetter-search.js, only with JavaScript), after the archive. Closed:
      white field with the border of the select lists, a small timeline, "Filter (n)" and the active filters; opened:
      the filters with gaps below it in a box with a blue border, then "Treffer zeigen" and "Filter zurücksetzen". */
   .blaetter-search-compact {
     clear: both;
-    margin-top: var(--palm-space-xl);
+    /* Without the margin below and the grey border of details in the legacy styles. */
+    margin: var(--palm-space-xl) 0 0;
+    padding: 0;
+    border: 0;
     font-family: droid-sans, Arial, sans-serif;
   }
 

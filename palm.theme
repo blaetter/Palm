@@ -1102,6 +1102,92 @@ function palm_preprocess_search_result(&$variables) {
 }
 
 /**
+ * Implements hook_preprocess_HOOK() for facets_item_list.
+ *
+ * Search with Search API: without JavaScript every facet with the dropdown
+ * widget folds into a details element (facets-item-list--dropdown.html.twig).
+ * Its summary names the facet like the select lists ("Alle Autor:innen"), or
+ * the facet and its active entries ("Autor:innen: William Pfaff").
+ */
+function palm_preprocess_facets_item_list(&$variables) {
+    $facet = $variables['facet'] ?? NULL;
+    if (!$facet || 'dropdown' !== ($facet->getWidget()['type'] ?? '')) {
+        return;
+    }
+    $all = (string) ($facet->getWidget()['config']['default_option_label'] ?? $facet->label());
+    $active = [];
+    foreach ($variables['items'] ?? [] as $item) {
+        if (in_array('is-active', (array) ($item['value']['#attributes']['class'] ?? []), TRUE)) {
+            $active[] = (string) ($item['value']['#title']['#value'] ?? '');
+        }
+    }
+    // A range of years marks every year in it as active: name the ranges
+    // ("2001–2009") instead of each year.
+    if ('search_year' === $facet->id() && $active && !array_filter($active, fn ($year) => !ctype_digit($year))) {
+        $years = array_map('intval', $active);
+        sort($years);
+        $ranges = [];
+        foreach ($years as $year) {
+            $last = array_key_last($ranges);
+            if (NULL !== $last && $ranges[$last][1] + 1 === $year) {
+                $ranges[$last][1] = $year;
+            }
+            else {
+                $ranges[] = [$year, $year];
+            }
+        }
+        $active = array_map(fn ($range) => $range[0] === $range[1] ? (string) $range[0] : $range[0] . '–' . $range[1], $ranges);
+    }
+    $variables['nojs_summary'] = $active
+        ? preg_replace('/^Alle\s+/u', '', $all) . ': ' . implode(', ', $active)
+        : $all;
+
+    // The address without the filters of this facet (and without the page):
+    // the link "Alle Jahre" etc. above the list once something is chosen.
+    $alias = $facet->getUrlAlias();
+    $query = \Drupal::request()->query->all();
+    unset($query['page']);
+    $others = array_values(array_filter(
+        is_array($query['f'] ?? NULL) ? $query['f'] : [],
+        fn ($filter) => is_string($filter) && !str_starts_with($filter, $alias . ':')
+    ));
+    $url_with = function (array $filters) use ($query) {
+        $query['f'] = $filters;
+        if (!$filters) {
+            unset($query['f']);
+        }
+        return \Drupal\Core\Url::fromRoute('<current>', [], ['query' => $query]);
+    };
+    if ($active) {
+        $variables['nojs_reset'] = ['url' => $url_with($others), 'label' => $all];
+    }
+
+    // Years: a range is one filter, the module only marks its years as active,
+    // and their links would remove a single year that is not in the address.
+    // Without JavaScript a click on a year shows that year alone (in place of
+    // other years or ranges), a click on the chosen single year removes it.
+    // The timeline builds its own addresses and does not use these links.
+    if ('search_year' === $facet->id()) {
+        $count = 0;
+        foreach ($variables['items'] ?? [] as $item) {
+            $count += in_array('is-active', (array) ($item['value']['#attributes']['class'] ?? []), TRUE) ? 1 : 0;
+        }
+        foreach ($variables['items'] ?? [] as $key => $item) {
+            $year = (string) ($item['value']['#title']['#value'] ?? '');
+            if (!ctype_digit($year) || !isset($item['value']['#url'])) {
+                continue;
+            }
+            $chosen = 1 === $count && in_array('is-active', (array) ($item['value']['#attributes']['class'] ?? []), TRUE);
+            $variables['items'][$key]['value']['#url'] = $url_with($chosen ? $others : [...$others, $alias . ':' . $year]);
+            // Within a range a click narrows instead of removing: no "(-)".
+            if ($count > 1) {
+                $variables['items'][$key]['value']['#title']['#is_active'] = FALSE;
+            }
+        }
+    }
+}
+
+/**
  * Implements hook_preprocess_taxonomy_term().
  *
  * Search with Search API: the author cards (view mode

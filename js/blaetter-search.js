@@ -69,6 +69,19 @@
     }
   };
 
+  // Without JavaScript every facet is a closed details element with a summary
+  // (facets-item-list--dropdown.html.twig). With it the facet stands open
+  // without the summary: the select list, the autocomplete or the timeline of
+  // the other scripts replace the links inside it.
+  Drupal.behaviors.palmBlaetterSearchFacetsOpen = {
+    attach: function (context) {
+      once('palm-blaetter-search-facet', 'details.blaetter-search-facet', context).forEach(function (details) {
+        details.open = true;
+        details.classList.add('is-enhanced');
+      });
+    }
+  };
+
   Drupal.behaviors.palmBlaetterSearchFilters = {
     attach: function (context) {
       once('palm-blaetter-search-filters', '.blaetter-search-filters', context).forEach(function (filters) {

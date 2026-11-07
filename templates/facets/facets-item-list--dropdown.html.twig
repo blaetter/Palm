@@ -1,0 +1,42 @@
+{#
+/**
+ * @file
+ * Facets with the dropdown widget (search, blaetter_search), after the template of the facets module.
+ *
+ * Without JavaScript the list of links folds into a details element: its summary names the facet and its active
+ * entries (nojs_summary, palm_preprocess_facets_item_list()), opened it shows the links in columns. With JavaScript
+ * blaetter-search.js opens it and hides the summary, and the scripts of the facets and blaetter_search modules turn
+ * the list into a select list, the autocomplete or the timeline as before.
+ *
+ * Available variables:
+ * - facet: The facet.
+ * - items: The links of the facet.
+ * - empty: Content to show when there are no links.
+ * - attributes: HTML attributes of the list.
+ * - list_type: The type of list ("ul").
+ * - nojs_summary: Name and active entries of the facet, e.g. "Autor:innen: William Pfaff".
+ * - nojs_reset: Link without the filters of this facet ("Alle Autor:innen"), once something is chosen.
+ */
+#}
+<div class="facets-widget-dropdown">
+  {%- set attributes = attributes.addClass('item-list__dropdown') %}
+  {% if items or empty %}
+    <details class="blaetter-search-facet">
+      <summary class="blaetter-search-facet__summary">{{ nojs_summary }}</summary>
+      {#- Outside of the list, so the facets module does not turn it into an option. -#}
+      {%- if nojs_reset -%}
+        <p class="blaetter-search-facet__all"><a href="{{ nojs_reset.url }}" rel="nofollow">{{ nojs_reset.label }}</a></p>
+      {%- endif -%}
+      {%- if items -%}
+        <{{ list_type }}{{ attributes }}>
+          {%- for item in items -%}
+            <li{{ item.attributes }}>{{ item.value }}</li>
+          {%- endfor -%}
+        </{{ list_type }}>
+      {%- else -%}
+        {{- empty -}}
+      {%- endif -%}
+    </details>
+  {% endif %}
+  <label id="facet_{{ facet.id }}_label">{{ 'Facet'|t }} {{ facet.label }}</label>
+</div>
