@@ -150,14 +150,20 @@
   }
 
   /* Timeline of the years (blaetter_search module, js/year-timeline.js), the display of the offline archive: bars of
-     the matches per year in the colour of links, grey outside of the selection, black under the mouse. */
+     the matches per year in the colour of links, grey outside of the selection, black under the mouse. On the grey
+     page it stands in a white box with the border of the select lists, like the other filters (the archive shows it
+     on a white page). */
   .year-timeline {
+    margin-top: 0.5rem;
+    padding: 0.5rem 0.75rem 0.25rem;
+    border: 1px solid var(--palm-color-grey-text);
+    background: var(--palm-color-white);
     font-family: droid-sans, Arial, sans-serif;
     font-size: 15px;
   }
 
   .year-timeline__title {
-    margin: 0.75rem 0 0.375rem;
+    margin: 0 0 0.375rem;
     font-weight: 700;
   }
 
