@@ -1,0 +1,53 @@
+/**
+ * Contextual links (pencil buttons of editors and administrators).
+ *
+ * Core puts the trigger into the top right corner of its region, where it
+ * covers controls of the block (summaries of details, the info button of the
+ * year timeline). Palm moves it out of the content:
+ *
+ * - Hover (desktop, edit mode off): the trigger sits above the top right
+ *   corner of the region, directly on its edge. It stays a child of the
+ *   region, so moving the mouse from the block to the trigger keeps it open.
+ *   Above the header (z-index 1000 in the legacy styles), which would cover
+ *   the trigger of a block directly below it; only the trigger of the hovered
+ *   block is visible in this mode.
+ * - Edit mode of the toolbar (all triggers at once; the only mode on touch
+ *   devices, which have no hover): outside triggers would cover the block
+ *   above, so every region with a visible trigger gets a row of its own
+ *   above its content.
+ *
+ * Unlayered like the CSS of the contextual module itself (see README, CSS
+ * architecture), attached via libraries-extend; the selectors are more
+ * specific than core's.
+ */
+.contextual-region > .contextual {
+  z-index: 1001;
+  top: 0;
+  transform: translateY(-100%);
+}
+
+.contextual-region > .contextual .trigger,
+.contextual-region > .contextual .contextual-links {
+  right: 0;
+}
+
+[dir="rtl"] .contextual-region > .contextual .trigger,
+[dir="rtl"] .contextual-region > .contextual .contextual-links {
+  left: 0;
+}
+
+/* Edit mode: a row for the trigger inside the region. */
+body:has(.contextual-toolbar-tab .is-active) .contextual-region:has(> .contextual .trigger:not(.visually-hidden)) {
+  padding-top: var(--palm-space-2xl);
+}
+
+/* Back to core's stacking, otherwise all triggers would show through the fixed header while scrolling. */
+body:has(.contextual-toolbar-tab .is-active) .contextual-region > .contextual {
+  z-index: 500;
+  top: var(--palm-space-2xs);
+  transform: none;
+}
+
+body:has(.contextual-toolbar-tab .is-active) .contextual-region > .contextual.open {
+  z-index: 501;
+}

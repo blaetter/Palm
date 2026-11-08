@@ -60,6 +60,8 @@ libraries-override:
 libraries-extend:
   eu_cookie_compliance/eu_cookie_compliance:
     - core/components.palm--button
+  contextual/drupal.contextual-links:
+    - palm/contextual
 logo: images/logo_tongue.svg
 version: 1.0.0
 regions:

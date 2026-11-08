@@ -51,3 +51,11 @@ captcha:
       css/captcha.css: {}
   dependencies:
     - palm/tokens
+# Contextual links of editors: triggers outside of the blocks (css/contextual.css).
+contextual:
+  version: 1.x
+  css:
+    theme:
+      css/contextual.css: {}
+  dependencies:
+    - palm/tokens
