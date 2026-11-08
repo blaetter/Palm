@@ -229,29 +229,39 @@
     color: var(--palm-color-white);
   }
 
-  .year-timeline__info:focus-visible,
-  .year-timeline__help:focus-visible {
+  .year-timeline__info:focus-visible {
     outline: 2px solid var(--palm-color-focus);
     outline-offset: 2px;
   }
 
+  /* The title only takes the focus when the dialog opens (year-timeline.js); it is no control. */
+  .year-timeline__help-title:focus {
+    outline: none;
+  }
+
+  /* Modal dialog of year-timeline.js (top layer, above the sticky filter column and the header): centred by the
+     browser, at most as high as the window, scrolls itself when the window is lower. */
   .year-timeline__help {
-    position: absolute;
-    top: 2rem;
-    right: calc(-1 * var(--palm-space-s));
-    left: calc(-1 * var(--palm-space-s));
-    z-index: 3;
-    max-width: 34em;
-    padding: var(--palm-space-s) var(--palm-space-m);
+    box-sizing: border-box;
+    width: min(34em, 100% - 2 * var(--palm-space-m));
+    max-width: none;
+    max-height: calc(100dvh - 2 * var(--palm-space-xl));
+    padding: 0;
+    overflow-y: auto;
     border: 1px solid var(--palm-color-grey-border);
     background: var(--palm-color-white);
+    color: var(--palm-color-text);
     box-shadow: 0 4px 14px color-mix(in srgb, var(--palm-color-black) 15%, transparent);
     font-size: 14px;
     line-height: 1.5;
   }
 
-  .year-timeline__help[hidden] {
-    display: none;
+  .year-timeline__help::backdrop {
+    background: color-mix(in srgb, var(--palm-color-black) 40%, transparent);
+  }
+
+  .year-timeline__help-body {
+    padding: var(--palm-space-s) var(--palm-space-m);
   }
 
   .year-timeline__help-title {
@@ -686,14 +696,19 @@
     /* With JavaScript the filters stand in the left column of the grid (blaetter-search.js) and stay in view
        below the fixed header (57px high when scrolled, moved down by the toolbar of logged in users, whose height
        Drupal sets as --drupal-displace-offset-top) while the results scroll; the column spans the height of the
-       results. */
+       results. When the column is higher than the window (small windows, opened "Jahre wählen", logged in with
+       the toolbar), it scrolls with the page until its end is in view and stays there: blaetter-search.js
+       measures its height as --blaetter-search-aside-height. */
     .path-suche.blaetter-search-has-aside main .grid > .grid__item.two-tenths:first-child {
       align-self: stretch;
     }
 
     .path-suche .blaetter-search-aside {
       position: sticky;
-      top: calc(var(--drupal-displace-offset-top, 0px) + 57px + var(--palm-space-l));
+      top: min(
+        var(--drupal-displace-offset-top, 0px) + 57px + var(--palm-space-l),
+        100dvh - var(--blaetter-search-aside-height, 0px) - var(--palm-space-l)
+      );
     }
 
     .path-suche .blaetter-search-aside .blaetter-search-filters {

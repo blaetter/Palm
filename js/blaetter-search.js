@@ -107,6 +107,13 @@
         });
         var aside = document.createElement('div');
         aside.className = 'blaetter-search-aside';
+        // Its height for the sticky position (css/blaetter-search.css): a
+        // column higher than the window stays in view with its end.
+        if (window.ResizeObserver) {
+          new ResizeObserver(function () {
+            aside.style.setProperty('--blaetter-search-aside-height', aside.offsetHeight + 'px');
+          }).observe(aside);
+        }
         var compact = buildCompact(box);
 
         var place = function () {
