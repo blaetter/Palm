@@ -1,14 +1,32 @@
-<div class="block block--promo">
+{#
+/**
+ * @file
+ * Promo banner at the bottom of every page (theme settings, palm_preprocess_page()).
+ *
+ * The colours come from the settings as custom properties, the graphic in the title (none, palm, palm in a snow
+ * globe) is drawn in them (css/promo.css). With data-promo-close="day" logged in users who close the banner do not
+ * see it again that day or until anything of it changes (data-promo-key, js/promo.js); with "page" it only goes
+ * away on the current page.
+ *
+ * One link for keyboards and screen readers: the arrow and the image lead to the same page, they are hidden from
+ * both. The title is no heading (role="none"), so the banner adds no heading to every page; the element stays an h2
+ * for the legacy styles.
+ */
+#}
+{{ attach_library('palm/promo') }}
+<div class="block block--promo block--promo--graphic-{{ promo_banner_theme }}" data-promo-key="{{ promo_banner_key }}" data-promo-close="{{ promo_banner_close }}" style="--palm-promo-background: {{ promo_banner_background }}; --palm-promo-text: {{ promo_banner_text_color }};">
   <div class="promo--background-wrapper">
     <div class="promo--wrapper">
-    <a class="promo-close"><i class="fa fa-times"></i></a>
+      <button type="button" class="block--promo__close" aria-label="{{ 'Close'|t }}"><i class="fa fa-times" aria-hidden="true"></i></button>
       <a href="{{ promo_banner_link }}" title="{{ promo_banner_claim }}" class="inner grid">
-        <h2 class="grid__item one-third {{ promo_banner_theme }}">{{ promo_banner_title }}</h2>
-        <p class="grid__item one-third">{{ promo_banner_description | raw }}</p>
+        <h2 role="none" class="grid__item one-third block--promo__title">{{ promo_banner_title }}</h2>
+        <p class="grid__item one-third">{{ promo_banner_description }}</p>
         <p class="grid__item one-third">&nbsp;</p>
       </a>
     </div>
-    <a href="{{ promo_banner_link }}" title="{{ promo_banner_claim }}" class="promo-arrow">&nbsp;</a>
+    <a href="{{ promo_banner_link }}" class="promo-arrow" tabindex="-1" aria-hidden="true">&nbsp;</a>
   </div>
-  <a href="{{ promo_banner_link }}" title="{{ promo_banner_claim }}" class="promo-image"><img src="{{ promo_banner_image_url }}" /></a>
+  {% if promo_banner_image_url %}
+    <a href="{{ promo_banner_link }}" class="promo-image" tabindex="-1" aria-hidden="true"><img src="{{ promo_banner_image_url }}" alt="" /></a>
+  {% endif %}
 </div>

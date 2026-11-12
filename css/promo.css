@@ -1,0 +1,106 @@
+/**
+ * Promo banner at the bottom of the page (templates/layout/_promo_block.html.twig).
+ *
+ * The legacy styles (blaetter-theme) draw it in red and white; here the colours of the theme settings take over,
+ * passed by the template as --palm-promo-background and --palm-promo-text.
+ *
+ * - The arrow at the right is a CSS triangle in the background colour, attached directly to the bar (the legacy
+ *   image stood at the right edge of a wider margin and left a gap of about 3px).
+ * - The graphic in the title is a luminance mask (images/promo-palm-mask.svg, images/promo-palm-snow-mask.svg: white
+ *   parts in the text colour, the red parts of the logos in the background colour), so it fits every colour. Same
+ *   place and size as the legacy background images.
+ */
+@layer components {
+  .block--promo .promo--background-wrapper {
+    background-image: none;
+  }
+
+  .block--promo .promo--wrapper {
+    position: relative;
+    background: var(--palm-promo-background);
+  }
+
+  /* Proportions of the legacy arrow image (37.65 x 138.5). */
+  .block--promo .promo--wrapper::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 100%;
+    height: 100%;
+    aspect-ratio: 37.65 / 138.5;
+    background: var(--palm-promo-background);
+    clip-path: polygon(0 0, 100% 50%, 0 100%);
+    pointer-events: none;
+  }
+
+  .block--promo .promo--wrapper .inner,
+  .block--promo .promo--wrapper .inner h2,
+  .block--promo .promo--wrapper .inner p {
+    color: var(--palm-promo-text);
+  }
+
+  .block--promo .promo--wrapper .inner .block--promo__title {
+    position: relative;
+    background-image: none;
+  }
+
+  .block--promo--graphic-standard .block--promo__title::after,
+  .block--promo--graphic-winter .block--promo__title::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: var(--palm-promo-text);
+    mask: url("../images/promo-palm-mask.svg") right 10px / 73.701px 85.068px no-repeat luminance;
+    pointer-events: none;
+  }
+
+  .block--promo--graphic-winter .block--promo__title::after {
+    mask: url("../images/promo-palm-snow-mask.svg") right top / contain no-repeat luminance;
+  }
+
+  /* The palm is centred vertically in the bar (120px, 100px up to 45rem; the title box is shorter and starts at the
+     top of the bar). Up to 45rem the title box is narrow, so the palm is a bit smaller (75% of the bar). Below 35rem
+     title and description stand one above the other: there it fits into the title box (75px), centred. */
+  .block--promo--graphic-standard .block--promo__title::after {
+    bottom: auto;
+    height: 120px;
+    mask-position: right center;
+  }
+
+  @media (max-width: 45rem) {
+    .block--promo--graphic-standard .block--promo__title::after {
+      height: 100px;
+      mask-size: auto 75%;
+    }
+  }
+
+  @media (max-width: 35rem) {
+    .block--promo--graphic-standard .block--promo__title::after {
+      bottom: 0;
+      height: auto;
+      mask-size: contain;
+    }
+  }
+
+  /* Close: a button (was a link without href, so not reachable with the keyboard), where the legacy link was. */
+  .block--promo__close {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    margin: 0;
+    padding: var(--palm-space-2xs);
+    border: 0;
+    background: none;
+    color: var(--palm-promo-text);
+    font-size: 1rem;
+    line-height: 1;
+    cursor: pointer;
+  }
+
+  .block--promo__close:focus-visible,
+  .block--promo .promo--wrapper .inner:focus-visible {
+    outline: 2px solid var(--palm-promo-text);
+    outline-offset: -4px;
+  }
+}

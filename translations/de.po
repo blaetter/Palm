@@ -1,0 +1,147 @@
+# German translation of the Palm theme (texts of the theme settings for the editors).
+msgid ""
+msgstr ""
+"Project-Id-Version: palm\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: de\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "Administrate settings for the palm theme"
+msgstr "Einstellungen des Themes Palm"
+
+msgid "footer settings"
+msgstr "Einstellungen für den Seitenfuß"
+
+msgid "Administrate settings for the footer."
+msgstr "Einstellungen für den Fuß der Seite."
+
+msgid "title for footer link"
+msgstr "Linktext für den Link im Seitenfuß"
+
+msgid "Please provide a title for the link at the bottom of the page around \"Karl Barth\"."
+msgstr "Linktext für den Link im Fuß der Seite (bisher „Karl Barth“)."
+
+msgid "URL for the cancellation button link"
+msgstr "URL für den Kündigungs-Button"
+
+msgid "Please provide the url of the cancellation form."
+msgstr "Adresse des Kündigungsformulars."
+
+msgid "title for cancellation button link"
+msgstr "Beschriftung des Kündigungs-Buttons"
+
+msgid "Please provide a title for the cancellation button in the footer."
+msgstr "Beschriftung des Kündigungs-Buttons im Seitenfuß."
+
+msgid "promo settings"
+msgstr "Werbung: Button und Banner"
+
+msgid "Administrate settings promo elements such as the promo button or the promo banner."
+msgstr "Einstellungen für den Werbe-Button im Seitenkopf und das Werbebanner am Fuß jeder Seite."
+
+msgid "URL for the promo button link"
+msgstr "URL des Werbe-Buttons"
+
+msgid "Please provide the url of the promo link. Leave empty to disable the promo button."
+msgstr "Adresse, auf die der Werbe-Button führt. Leer lassen, um den Button auszublenden."
+
+msgid "title for promo button link"
+msgstr "Beschriftung des Werbe-Buttons"
+
+msgid "Please provide a title for the promo button in the footer."
+msgstr "Beschriftung des Werbe-Buttons im Seitenkopf."
+
+msgid "State for promo banner"
+msgstr "Werbebanner"
+
+msgid "Please provide a state for the promo banner."
+msgstr "Aktiv: Das Banner erscheint am Fuß jeder Seite (außer Konto, Shop, Kiosk, Suche, Kontakt und Fehlerseiten)."
+
+msgid "inactive"
+msgstr "inaktiv"
+
+msgid "Graphic of the promo banner"
+msgstr "Grafik im Werbebanner"
+
+msgid "Shown at the right of the title, drawn in the text colour of the banner."
+msgstr "Steht rechts neben dem Titel und erscheint in der Schriftfarbe des Banners."
+
+msgid "no graphic"
+msgstr "keine Grafik"
+
+msgid "palm"
+msgstr "Palme"
+
+msgid "palm in a snow globe"
+msgstr "Palme in der Schneekugel"
+
+msgid "title for promo banner"
+msgstr "Titel des Werbebanners"
+
+msgid "Please provide a title for the promo banner."
+msgstr "Großer Titel links im Banner."
+
+msgid "Claim for promo banner"
+msgstr "Claim des Werbebanners"
+
+msgid "Please provide a claim for the promo banner."
+msgstr "Erscheint als Tooltip über dem Link des Banners."
+
+msgid "Description for promo banner"
+msgstr "Text des Werbebanners"
+
+msgid "Please provide a description for the promo banner."
+msgstr "Fetter Text neben dem Titel; einfache Auszeichnung wie <br> für einen Zeilenumbruch ist erlaubt."
+
+msgid "Link for promo banner"
+msgstr "Link des Werbebanners"
+
+msgid "Please provide a link for the promo banner. It should be either a full URL or relative starting with a /."
+msgstr "Ziel des Banners: eine vollständige URL oder ein Pfad, der mit / beginnt."
+
+msgid "Image url for promo banner"
+msgstr "Bild des Werbebanners"
+
+msgid "Please provide a url for the promo banner image. It should be relative starting with a /."
+msgstr "Pfad zu einem Bild, das rechts aus dem Banner herausragt (nur auf breiten Bildschirmen), beginnend mit /. Leer lassen für kein Bild."
+
+msgid "Background colour of the promo banner"
+msgstr "Hintergrundfarbe des Werbebanners"
+
+msgid "Text colour of the promo banner"
+msgstr "Schriftfarbe des Werbebanners"
+
+msgid "Please choose a colour in the format #rrggbb."
+msgstr "Bitte eine Farbe im Format #rrggbb wählen."
+
+msgid "The colours of the promo banner have a contrast of @ratio:1, less than the 4.5:1 its text needs (WCAG 2.2 AA)."
+msgstr "Die Farben des Werbebanners haben einen Kontrast von @ratio : 1, weniger als die 4,5 : 1, die sein Text braucht (WCAG 2.2 AA). Gespeichert wurde trotzdem."
+
+msgid "Colours of the design system"
+msgstr "Farben des Designsystems"
+
+msgid "Good: enough for the title and the text (WCAG 2.2 AA, at least 4.5:1)."
+msgstr "Gut: reicht für Titel und Text (WCAG 2.2 AA, mindestens 4,5 : 1)."
+
+msgid "Too low for the text, only enough for the large title (at least 3:1). Saving shows a warning."
+msgstr "Zu wenig für den Text, reicht nur für den großen Titel (mindestens 3 : 1). Beim Speichern erscheint eine Warnung."
+
+msgid "Too low: hard to read for many people. Saving shows a warning."
+msgstr "Zu wenig: für viele Menschen schwer lesbar. Beim Speichern erscheint eine Warnung."
+
+msgid "Contrast @ratio:1."
+msgstr "Kontrast @ratio : 1."
+
+msgid "Closing the promo banner"
+msgstr "Schließen des Werbebanners"
+
+msgid "Only on the current page: it shows again on every page"
+msgstr "Nur auf der aktuellen Seite: Es erscheint auf jeder Seite wieder"
+
+msgid "Logged in users: gone for the rest of the day (anonymous users: only on the current page)"
+msgstr "Angemeldete: für den Rest des Tages weg (nicht Angemeldete: nur auf der aktuellen Seite)"
+
+msgid "With the second option the banner shows again the next day and as soon as anything of it is changed here."
+msgstr "Bei der zweiten Option erscheint das Banner am nächsten Tag wieder und sofort, sobald hier etwas daran geändert wird."

@@ -59,3 +59,31 @@ contextual:
       css/contextual.css: {}
   dependencies:
     - palm/tokens
+# Promo banner: colours of the theme settings, closing it (kept for logged in users that day). In the head, so a
+# closed banner does not flash (js/promo.js).
+promo:
+  version: 1.x
+  header: true
+  css:
+    component:
+      css/promo.css: {}
+  js:
+    js/promo.js: {}
+  dependencies:
+    - core/drupal
+    - core/drupalSettings
+    - core/once
+    - palm/tokens
+# Colour fields of the promo banner in the theme settings (admin theme): swatches, live preview and contrast.
+promo-settings:
+  version: 1.x
+  css:
+    theme:
+      css/promo-settings.css: {}
+  js:
+    js/promo-settings.js: {}
+  dependencies:
+    - core/drupal
+    - core/drupalSettings
+    - core/once
+    - palm/tokens

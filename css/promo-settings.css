@@ -1,0 +1,158 @@
+/**
+ * Theme settings: swatches and live preview of the promo banner colours (js/promo-settings.js), in the admin theme.
+ */
+.palm-promo-settings {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  gap: var(--palm-space-m) var(--palm-space-2xl);
+  align-items: start;
+}
+
+.palm-promo-settings__swatches {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--palm-space-2xs);
+  margin-top: var(--palm-space-xs);
+}
+
+.palm-promo-settings__swatch {
+  width: 1.75rem;
+  height: 1.75rem;
+  padding: 0;
+  border: 1px solid var(--palm-color-grey-text);
+  border-radius: 0;
+  cursor: pointer;
+}
+
+.palm-promo-settings__swatch:focus-visible {
+  outline: 2px solid var(--palm-color-focus);
+  outline-offset: 2px;
+}
+
+.palm-promo-settings__preview {
+  grid-column: 1 / -1;
+}
+
+.palm-promo-settings__label {
+  margin: 0 0 var(--palm-space-xs);
+  font-weight: 700;
+}
+
+/* The banner as on a desktop of 1280px (measured on the page: bar 1244 x 120px, arrow, title and description boxes of
+   373px with 20px padding, Playfair 40/60px and Droid Sans 18/30px in bold), in proportion to the width of the
+   preview: --u is one pixel of that desktop (container units, no transform, so the masks scale in every browser).
+   The fonts come from the legacy bundle (palm_promo_preview_fonts() in theme-settings.php). */
+.palm-promo-settings__frame {
+  position: relative;
+  overflow: hidden;
+  container-type: inline-size;
+  max-width: 1280px;
+}
+
+.palm-promo-settings__image {
+  position: absolute;
+  right: calc(100cqw * 128 / 1280);
+  bottom: calc(100cqw * -41 / 1280);
+  z-index: 1;
+  width: calc(100cqw * 256 / 1280);
+  height: auto;
+}
+
+.palm-promo-settings__image[hidden] {
+  display: none;
+}
+
+.palm-promo-settings__banner {
+  --u: calc(100cqw / 1280);
+  position: relative;
+  display: flex;
+  /* Title and description keep the height of their content (100px), as on the page; the snow globe fills that. */
+  align-items: flex-start;
+  box-sizing: border-box;
+  width: calc(1244 * var(--u));
+  height: calc(120 * var(--u));
+  background: var(--palm-promo-background);
+  color: var(--palm-promo-text);
+}
+
+.palm-promo-settings__banner::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 100%;
+  height: 100%;
+  aspect-ratio: 37.65 / 138.5;
+  background: var(--palm-promo-background);
+  clip-path: polygon(0 0, 100% 50%, 0 100%);
+}
+
+/* The close icon of Font Awesome 4 (fa-times), as on the page. */
+.palm-promo-settings__close {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: calc(4 * var(--u));
+  font: normal normal normal calc(16 * var(--u)) / 1 FontAwesome;
+}
+
+.palm-promo-settings__close::before {
+  content: "\f00d";
+}
+
+.palm-promo-settings__title,
+.palm-promo-settings__text {
+  box-sizing: border-box;
+  width: calc(373 * var(--u));
+  min-width: calc(360 * var(--u));
+  padding: calc(20 * var(--u));
+  font-weight: 700;
+}
+
+.palm-promo-settings__title {
+  position: relative;
+  font-family: playfair, var(--blaetter-font-display);
+  font-size: calc(40 * var(--u));
+  line-height: calc(60 * var(--u));
+}
+
+.palm-promo-settings__text {
+  font-family: droid-sans, var(--blaetter-font-sans);
+  font-size: calc(18 * var(--u));
+  line-height: calc(30 * var(--u));
+  white-space: pre;
+}
+
+/* The graphic: the same masks, places and sizes as css/promo.css. */
+.palm-promo-settings__banner[data-graphic="standard"] .palm-promo-settings__title::after,
+.palm-promo-settings__banner[data-graphic="winter"] .palm-promo-settings__title::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--palm-promo-text);
+  mask: url("../images/promo-palm-mask.svg") right calc(10 * var(--u)) / calc(73.701 * var(--u)) calc(85.068 * var(--u)) no-repeat luminance;
+}
+
+.palm-promo-settings__banner[data-graphic="winter"] .palm-promo-settings__title::after {
+  mask: url("../images/promo-palm-snow-mask.svg") right top / contain no-repeat luminance;
+}
+
+/* The palm centred vertically in the bar, as on the page. */
+.palm-promo-settings__banner[data-graphic="standard"] .palm-promo-settings__title::after {
+  bottom: auto;
+  height: calc(120 * var(--u));
+  mask-position: right center;
+}
+
+.palm-promo-settings__result {
+  margin: var(--palm-space-xs) 0 0;
+  padding-left: var(--palm-space-xs);
+  border-left: 4px solid var(--palm-color-success);
+}
+
+.palm-promo-settings__result[data-level="warning"] {
+  border-left-color: var(--palm-color-warning);
+}
+
+.palm-promo-settings__result[data-level="error"] {
+  border-left-color: var(--palm-color-red);
+}

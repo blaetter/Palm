@@ -2,6 +2,7 @@
 
 use Drupal\block\Entity\Block;
 use Drupal\Component\Utility\Html;
+use Drupal\Component\Utility\Xss;
 use Drupal\node\Entity\Node;
 use Drupal\Core\Field\EntityReferenceFieldItemList;
 use Drupal\Core\Form\FormStateInterface;
@@ -12,6 +13,48 @@ use Drupal\Core\StringTranslation\TranslatableMarkup as Translation;
 use Drupal\Core\Url;
 use Drupal\nodeshop\NodeShop;
 use Drupal\taxonomy\Entity\Term;
+
+/**
+ * Default colours of the promo banner: white on the red of the logo (4.66:1), as before the colours were configurable.
+ */
+const PALM_PROMO_BACKGROUND = '#e51736';
+const PALM_PROMO_TEXT_COLOR = '#ffffff';
+
+/**
+ * Colours of blaetter-design offered as swatches in the settings of the promo banner.
+ *
+ * Read from the copy of the tokens (css/blaetter-tokens.css), so they follow blaetter-design.
+ *
+ * @return array
+ *   Hex colours keyed by their token name, e.g. 'red' => '#e51736'.
+ */
+function palm_promo_swatches(): array
+{
+    $css = @file_get_contents(__DIR__ . '/css/blaetter-tokens.css') ?: '';
+    preg_match_all('/--blaetter-color-([a-z-]+):\s*(#[0-9a-f]{6});/i', $css, $matches, PREG_SET_ORDER);
+    $tokens = [];
+    foreach ($matches as [, $name, $value]) {
+        $tokens[$name] ??= strtolower($value);
+    }
+    $names = ['red', 'red-dark', 'text', 'page', 'link', 'surface', 'marker'];
+    return array_intersect_key($tokens, array_flip($names));
+}
+
+/**
+ * Contrast ratio of two hex colours after WCAG 2.2.
+ */
+function palm_contrast_ratio(string $a, string $b): float
+{
+    $luminance = function (string $hex): float {
+        $channels = array_map(function ($i) use ($hex) {
+            $c = hexdec(substr($hex, $i, 2)) / 255;
+            return $c <= 0.04045 ? $c / 12.92 : (($c + 0.055) / 1.055) ** 2.4;
+        }, [1, 3, 5]);
+        return 0.2126 * $channels[0] + 0.7152 * $channels[1] + 0.0722 * $channels[2];
+    };
+    $values = [$luminance($a), $luminance($b)];
+    return (max($values) + 0.05) / (min($values) + 0.05);
+}
 
 function palm_theme() {
   return [
@@ -500,10 +543,29 @@ function palm_preprocess_page(&$variables) {
 
     $variables['page']['promo_banner_title'] = theme_get_setting('palm_promo_banner_title');
     $variables['page']['promo_banner_claim'] = theme_get_setting('palm_promo_banner_claim');
-    $variables['page']['promo_banner_description'] = theme_get_setting('palm_promo_banner_description');
     $variables['page']['promo_banner_link'] = theme_get_setting('palm_promo_banner_link');
     $variables['page']['promo_banner_image_url'] = theme_get_setting('palm_promo_banner_image_url');
-    $variables['page']['promo_banner_theme'] = theme_get_setting('palm_promo_banner_theme');
+    $background = theme_get_setting('palm_promo_banner_background');
+    $text_color = theme_get_setting('palm_promo_banner_text_color');
+    $variables['page']['promo_banner_background'] = preg_match('/^#[0-9a-f]{6}$/', (string) $background) ? $background : PALM_PROMO_BACKGROUND;
+    $variables['page']['promo_banner_text_color'] = preg_match('/^#[0-9a-f]{6}$/', (string) $text_color) ? $text_color : PALM_PROMO_TEXT_COLOR;
+    // The graphic in the title (setting "theme" for historical reasons): none, the palm (standard) or the palm in a
+    // snow globe (winter); drawn in the colours of the banner (css/promo.css).
+    $graphic = theme_get_setting('palm_promo_banner_theme');
+    $variables['page']['promo_banner_theme'] = in_array($graphic, ['none', 'standard', 'winter'], true) ? $graphic : 'standard';
+    // Only simple markup in the description, e.g. the line break of "Das große »Blätter«-Paket <br>inkl. Buch".
+    $variables['page']['promo_banner_description'] = Markup::create(Xss::filter(
+        (string) theme_get_setting('palm_promo_banner_description'),
+        ['br', 'strong', 'em', 'b', 'i']
+    ));
+    // What the close button does: only on the current page, or for logged in users for the rest of the day.
+    $variables['page']['promo_banner_close'] = theme_get_setting('palm_promo_banner_close') === 'page' ? 'page' : 'day';
+    // Identifies the banner: logged in users who closed it see it again the next day or as soon as anything of it
+    // changes, e.g. a colour (js/promo.js).
+    $variables['page']['promo_banner_key'] = hash('crc32b', implode('|', array_map(
+        fn ($key) => (string) theme_get_setting('palm_promo_banner_' . $key),
+        ['title', 'claim', 'description', 'link', 'image_url', 'theme', 'background', 'text_color']
+    )));
 
     // disable promo-block in certain routes or for logged in users
     if (str_starts_with($route_name, 'user')

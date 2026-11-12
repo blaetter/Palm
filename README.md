@@ -126,6 +126,8 @@ First setup: `make install`, then `make stories` and `make storybook` (or `make 
 
 All colours come from blaetter-design (`tokens.json` there is the only source). `css/blaetter-tokens.css` brings the base colours as `--palm-color-*`; `css/tokens.css` adds semantic names (`text`, `link`, `action`, `danger`, `error` …) that point to them. CSS and stories in `css/` and `components/` use only these custom properties, never colour values; `make tokens-check` enforces it. Grey text is `--palm-color-muted` (#6B6B6B); `--palm-color-grey-text` (#808080) is for borders of fields and buttons only. Focus is a 2 px frame in `--palm-color-focus`. The legacy styles in `bundle/palm.css` take the same colours from blaetter-theme, checked there by `make colors-check`.
 
+The only colours editors choose are those of the promo banner (theme settings): they reach the page as `--palm-promo-background` and `--palm-promo-text` (`css/promo.css`); the settings form offers the colours of `css/blaetter-tokens.css` as swatches and shows the contrast live (`js/promo-settings.js`; the same formula warns on saving, `palm_contrast_ratio()` in `palm.theme`). Its graphics (palm, palm in a snow globe) are luminance masks made from the red and white logos (red turned black), so they take both colours; a new graphic needs such a mask as well.
+
 
 ### Spacing and breakpoints
 
@@ -175,6 +177,8 @@ Commit `package.json` and `package-lock.json` and check the new entries of the l
 ## Deployment
 
 The project blaetter.web installs Palm with Composer. While a theme branch is not merged, the project requires it as `drupal/palm:dev-<branch>`; after merging into `master` it goes back to `dev-master`. Live only needs the files of the repository: `bundle/`, `css/`, `components/` and `templates/` are committed, `node_modules`, Storybook and the style diff are only for development. `drupal/storybook` must not be enabled on live.
+
+The German texts of the theme settings are in `translations/de.po` (interface translation project `palm`). After a deployment that changes them, import them on the server: `vendor/bin/drush locale:import de $PWD/web/themes/contrib/palm/translations/de.po --type=not-customized --override=not-customized` (from the project root; texts changed in the interface stay).
 
 ## Troubleshooting
 
