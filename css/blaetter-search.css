@@ -320,6 +320,11 @@
     user-select: none;
   }
 
+  /* While the page loads the chosen years, the bars show them and no longer react to the pointer. */
+  .year-timeline.is-loading .year-timeline__bars {
+    cursor: progress;
+  }
+
   .year-timeline__bar {
     position: absolute;
     bottom: 0;
